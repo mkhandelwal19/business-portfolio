@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="ember" data-layout="editorial">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Restaurant &amp; Café Template — Mayank Khandelwal</title>
+<meta name="description" content="A website template designed for restaurants, cafés, cloud kitchens & bakeries. Menus, bookings, ordering, and story — built to convert." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<link rel="stylesheet" href="shared.css?v=4" />
+<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+</head>
+<body>
+<nav class="pnav">
+  <a class="logo" href="../index.html">Mayank<em>.</em></a>
+  <a class="back" href="../index.html#work"><i class="fa-solid fa-arrow-left"></i> All Templates</a>
+</nav>
+
+<!-- ====================== HERO ====================== -->
+<section class="p-hero">
+  <canvas id="p-hero-canvas"></canvas>
+  <div class="p-hero-inner">
+    <div class="p-tag reveal"><i class="fa-solid fa-utensils"></i> Category · Restaurant &amp; Café</div>
+    <h1 class="reveal">A website that makes people <em>hungry</em> before they arrive.</h1>
+    <p class="p-hero-sub reveal">Built for thali houses, cafés, cloud kitchens, patisseries and cloud kitchens. Table bookings, a live menu, ordering on WhatsApp, a story-first hero and Google-Maps-ready structure — all mobile-first.</p>
+    <div class="p-meta reveal">
+      <div class="p-meta-item"><span class="k">Best for</span><span class="v">Restaurants · Cafés · Bakeries</span></div>
+      <div class="p-meta-item"><span class="k">Pages</span><span class="v">Home · Menu · Story · Book</span></div>
+      <div class="p-meta-item"><span class="k">Delivery</span><span class="v">10–14 days</span></div>
+      <div class="p-meta-item"><span class="k">From</span><span class="v">₹ 45,000</span></div>
+    </div>
+    <div class="p-ctas reveal">
+      <a href="../index.html#contact" class="btn btn-primary">Start with this template <i class="fa-solid fa-arrow-right"></i></a>
+      <a href="#preview" class="btn btn-ghost">See full preview</a>
+    </div>
+  </div>
+
+  <!-- Hero imagery — rich SVG scene of a plated thali with steam -->
+  <div class="p-visual reveal">
+    <div class="hero-art">
+      <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <radialGradient id="r-bg" cx="50%" cy="40%" r="75%">
+            <stop offset="0%" stop-color="#3a1a0d"/>
+            <stop offset="60%" stop-color="#1a0a06"/>
+            <stop offset="100%" stop-color="#0a0402"/>
+          </radialGradient>
+          <radialGradient id="r-plate" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#F0D9B5"/>
+            <stop offset="70%" stop-color="#C9A07A"/>
+            <stop offset="100%" stop-color="#7A5838"/>
+          </radialGradient>
+          <radialGradient id="r-rice" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#F5ECD4"/>
+            <stop offset="100%" stop-color="#C9A87E"/>
+          </radialGradient>
+          <radialGradient id="r-curry" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#F2A557"/>
+            <stop offset="100%" stop-color="#8A3D0E"/>
+          </radialGradient>
+          <radialGradient id="r-dal" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#F5D88F"/>
+            <stop offset="100%" stop-color="#A06E1A"/>
+          </radialGradient>
+          <radialGradient id="r-veg" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#9FB55C"/>
+            <stop offset="100%" stop-color="#4F6A20"/>
+          </radialGradient>
+          <filter id="soft"><feGaussianBlur stdDeviation="0.8"/></filter>
+        </defs>
+        <rect width="600" height="600" fill="url(#r-bg)"/>
+        <!-- wood grain rings -->
+        <g stroke="#3a1a0d" stroke-width="0.6" fill="none" opacity="0.5">
+          <ellipse cx="300" cy="340" rx="280" ry="120"/>
+          <ellipse cx="300" cy="340" rx="240" ry="100"/>
+          <ellipse cx="300" cy="340" rx="200" ry="80"/>
+        </g>
+        <!-- steam -->
+        <g fill="#F4EFE6" opacity="0.08">
+          <path d="M 220 80 Q 210 120 230 160 Q 250 200 230 240 Q 210 280 230 320" stroke="#F4EFE6" stroke-width="18" fill="none" stroke-linecap="round"/>
+          <path d="M 280 60 Q 290 100 280 140 Q 270 180 290 220 Q 310 260 290 300" stroke="#F4EFE6" stroke-width="20" fill="none" stroke-linecap="round"/>
+          <path d="M 360 80 Q 370 120 350 160 Q 330 200 360 240" stroke="#F4EFE6" stroke-width="16" fill="none" stroke-linecap="round"/>
+        </g>
+        <!-- plate shadow -->
+        <ellipse cx="300" cy="430" rx="220" ry="30" fill="#000" opacity="0.4" filter="url(#soft)"/>
+        <!-- plate -->
+        <ellipse cx="300" cy="400" rx="210" ry="90" fill="url(#r-plate)"/>
+        <ellipse cx="300" cy="395" rx="195" ry="78" fill="none" stroke="#8A6B4A" stroke-width="1.5"/>
+        <ellipse cx="300" cy="390" rx="175" ry="65" fill="none" stroke="#C9A07A" stroke-width="0.8" opacity="0.5"/>
+        <!-- rice mound (center) -->
+        <ellipse cx="300" cy="380" rx="60" ry="22" fill="url(#r-rice)"/>
+        <g fill="#F5ECD4" opacity="0.7">
+          <ellipse cx="275" cy="375" rx="2.5" ry="1" transform="rotate(30 275 375)"/>
+          <ellipse cx="295" cy="370" rx="2.5" ry="1" transform="rotate(-20 295 370)"/>
+          <ellipse cx="315" cy="378" rx="2.5" ry="1" transform="rotate(45 315 378)"/>
+          <ellipse cx="325" cy="372" rx="2.5" ry="1" transform="rotate(-10 325 372)"/>
+          <ellipse cx="285" cy="385" rx="2.5" ry="1" transform="rotate(20 285 385)"/>
+          <ellipse cx="305" cy="388" rx="2.5" ry="1" transform="rotate(-30 305 388)"/>
+        </g>
+        <!-- katori bowls -->
+        <g>
+          <!-- left curry -->
+          <ellipse cx="180" cy="400" rx="42" ry="16" fill="#2a1810"/>
+          <ellipse cx="180" cy="396" rx="40" ry="14" fill="url(#r-curry)"/>
+          <ellipse cx="178" cy="394" rx="16" ry="4" fill="#F5C99C" opacity="0.5"/>
+          <!-- right dal -->
+          <ellipse cx="420" cy="400" rx="42" ry="16" fill="#2a1810"/>
+          <ellipse cx="420" cy="396" rx="40" ry="14" fill="url(#r-dal)"/>
+          <ellipse cx="418" cy="394" rx="16" ry="4" fill="#F5E4A8" opacity="0.5"/>
+          <!-- top veg -->
+          <ellipse cx="300" cy="310" rx="38" ry="14" fill="#2a1810"/>
+          <ellipse cx="300" cy="307" rx="36" ry="12" fill="url(#r-veg)"/>
+          <circle cx="290" cy="305" r="2" fill="#D98C3C"/>
+          <circle cx="305" cy="307" r="2" fill="#D98C3C"/>
+          <circle cx="312" cy="304" r="1.5" fill="#F2A557"/>
+        </g>
+        <!-- decorative dots -->
+        <g fill="#D9823C" opacity="0.8">
+          <circle cx="60" cy="100" r="1.5"/>
+          <circle cx="540" cy="140" r="1.5"/>
+          <circle cx="80" cy="520" r="2"/>
+          <circle cx="530" cy="490" r="1.5"/>
+        </g>
+        <!-- orbit -->
+        <g stroke="#D9823C" stroke-width="0.4" fill="none" opacity="0.3">
+          <ellipse cx="300" cy="400" rx="260" ry="110"/>
+        </g>
+      </svg>
+      <div class="float-chip" style="top:22px; right:22px;"><i class="fa-solid fa-fire"></i> Today's Thali</div>
+      <div class="float-chip" style="bottom:22px; left:22px; animation-delay:1s;"><i class="fa-solid fa-calendar-check"></i> 48 tables booked this week</div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== WHAT THE SITE INCLUDES ====================== -->
+<section class="section" id="preview">
+  <div class="wrap">
+    <div class="eyebrow reveal">01 — What's in the Template</div>
+    <h2 class="reveal">Everything a food business <em>actually</em> needs.</h2>
+    <div class="features">
+      <div class="feature reveal"><i class="fa-solid fa-calendar-check"></i><h4>Live Table Booking</h4><p>Slot picker synced to your kitchen planner. Confirmation on WhatsApp. Cancellation handled gracefully.</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-utensils"></i><h4>Daily Menu Board</h4><p>Chef sends one WhatsApp photo; the site updates. No CMS training needed.</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-map-pin"></i><h4>Google Maps &amp; GBP</h4><p>Structured data so you rank for "best thali near me" in your locality.</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-mug-hot"></i><h4>Story-First Hero</h4><p>Slow-scroll film of your kitchen. Heritage, ingredients, chef's hands.</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-truck"></i><h4>Direct Order</h4><p>Skip Zomato's 25% cut on your best customers. WhatsApp or Razorpay checkout.</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-star"></i><h4>Review Capture</h4><p>Auto-nudges happy diners to leave a Google review. Rating climbs week-over-week.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== PREVIEW MOCKUP ====================== -->
+<section class="section">
+  <div class="wrap">
+    <div class="eyebrow reveal">02 — Live Preview</div>
+    <h2 class="reveal">A walk-through of the <em>desktop</em> experience.</h2>
+
+    <div class="site-preview reveal">
+      <div class="site-chrome">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="url">yourrestaurant.in / — Home</div>
+      </div>
+      <div class="site-body">
+        <!-- Hero strip -->
+        <div style="padding:64px 48px 48px; background:radial-gradient(circle at 70% 30%, rgba(217,130,60,0.35), transparent 55%), linear-gradient(160deg, #1a0f0a, #0f0604)">
+          <div style="font-family:var(--f-mono); font-size:10px; letter-spacing:0.26em; color:var(--gold); margin-bottom:16px">SINCE 1968 · GARIAHAT</div>
+          <div style="font-family:var(--f-serif); font-size:46px; font-weight:500; line-height:1.05; max-width:14ch; margin-bottom:14px">Bengali thali, cooked slow.</div>
+          <div style="color:var(--ivory-dim); font-size:14px; max-width:48ch; margin-bottom:24px">Four generations of recipes. A changing board of eleven seasonal items. Lunch served 12–3, always.</div>
+          <div style="display:flex; gap:10px">
+            <div class="ui-chip solid">Book a table</div>
+            <div class="ui-chip">Today's menu →</div>
+          </div>
+        </div>
+
+        <!-- Menu board -->
+        <div style="padding:40px 48px; border-top:1px solid var(--line-soft)">
+          <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:22px">
+            <div>
+              <div class="eyebrow">Today's Board</div>
+              <div style="font-family:var(--f-serif); font-size:28px; font-weight:500">Friday · 25 April</div>
+            </div>
+            <div class="ui-chip muted">Updated 11:42 AM</div>
+          </div>
+          <div class="ui-list">
+            <div class="ui-item"><div><div class="t">Shorshe Ilish</div><div class="s">Mustard hilsa · Bengal mustard oil</div></div><div class="r">₹ 420</div></div>
+            <div class="ui-item"><div><div class="t">Kosha Mangsho Thali</div><div class="s">11 items · gobindobhog rice</div></div><div class="r">₹ 380</div></div>
+            <div class="ui-item"><div><div class="t">Panchmishali Torkari</div><div class="s">Five-vegetable special · vegan</div></div><div class="r">₹ 240</div></div>
+            <div class="ui-item"><div><div class="t">Mishti Doi (serve 2)</div><div class="s">Clay pot · Bhowanipore dairy</div></div><div class="r">₹ 120</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- component demos -->
+    <div class="demo-row cols-3">
+      <div class="demo-card reveal">
+        <div class="demo-head"><i class="fa-solid fa-calendar"></i> Booking widget</div>
+        <div class="demo-body">
+          <div class="ui-title">Pick a slot</div>
+          <div class="ui-sub">Sat · 26 Apr · 2 guests</div>
+          <div class="cal-grid" style="margin-top:14px">
+            <div class="cal-day">M</div><div class="cal-day">T</div><div class="cal-day">W</div><div class="cal-day">T</div><div class="cal-day">F</div><div class="cal-day">S</div><div class="cal-day">S</div>
+            <div class="cal-day">21</div><div class="cal-day dot">22</div><div class="cal-day">23</div><div class="cal-day dot">24</div><div class="cal-day">25</div><div class="cal-day active">26</div><div class="cal-day">27</div>
+          </div>
+          <div style="display:flex; gap:8px; margin-top:14px; flex-wrap:wrap">
+            <div class="ui-chip">12:30</div><div class="ui-chip solid">1:00</div><div class="ui-chip">1:30</div><div class="ui-chip">8:00</div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-card reveal" data-delay="1">
+        <div class="demo-head"><i class="fa-solid fa-camera"></i> Dish card</div>
+        <div class="demo-body">
+          <div class="photo-card" style="aspect-ratio:1/1; margin-bottom:14px">
+            <svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <radialGradient id="dc1" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#F2A557"/><stop offset="100%" stop-color="#6A2A0A"/>
+                </radialGradient>
+              </defs>
+              <rect width="200" height="200" fill="#1a0f0a"/>
+              <circle cx="100" cy="110" r="70" fill="#3a1a0d"/>
+              <circle cx="100" cy="105" r="60" fill="url(#dc1)"/>
+              <g fill="#8a3d0e" opacity="0.6">
+                <circle cx="85" cy="95" r="4"/><circle cx="115" cy="100" r="4"/><circle cx="100" cy="120" r="4"/>
+              </g>
+              <g fill="#F4EFE6" opacity="0.3"><circle cx="92" cy="92" r="1"/><circle cx="108" cy="98" r="1"/></g>
+            </svg>
+          </div>
+          <div class="ui-title" style="font-size:18px">Kosha Mangsho</div>
+          <div class="ui-sub">Slow-cooked mutton · 4 hrs</div>
+          <div style="display:flex; justify-content:space-between; align-items:center">
+            <div class="ui-price">₹ 380</div>
+            <div class="ui-chip solid">Order</div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-card reveal" data-delay="2">
+        <div class="demo-head"><i class="fa-brands fa-whatsapp"></i> WhatsApp order</div>
+        <div class="demo-body">
+          <div style="display:flex; flex-direction:column; gap:10px">
+            <div style="padding:12px 14px; background:rgba(37,211,102,0.1); border:1px solid rgba(37,211,102,0.3); border-radius:12px; border-bottom-left-radius:3px; font-size:13px">Hi Aangan! I'd like to pre-order lunch for 4.</div>
+            <div style="padding:12px 14px; background:rgba(20,28,52,0.5); border:1px solid var(--line-soft); border-radius:12px; border-bottom-right-radius:3px; font-size:13px; color:var(--ivory-dim); align-self:flex-end; max-width:90%">Done! Today's thali × 4 = ₹ 1520. Pay on arrival or UPI?</div>
+            <div style="padding:12px 14px; background:rgba(37,211,102,0.1); border:1px solid rgba(37,211,102,0.3); border-radius:12px; border-bottom-left-radius:3px; font-size:13px; align-self:flex-start">UPI — sending now.</div>
+          </div>
+          <div class="ui-chip solid" style="margin-top:14px">Pay via UPI</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== MOBILE ====================== -->
+<section class="section">
+  <div class="wrap">
+    <div class="eyebrow reveal">03 — Mobile First</div>
+    <h2 class="reveal">Because 85% of diners browse on <em>their phone</em>.</h2>
+    <div class="split">
+      <div class="split-text reveal">
+        <h3>Fast enough for <em>Gariahat 4G</em>.</h3>
+        <p>Every page under 2s on a real mid-range phone in a bandwidth-starved neighbourhood. No bloated sliders, no ad tags, no cookie popups fighting for space.</p>
+        <ul>
+          <li>Booking in 3 taps · no login</li>
+          <li>Menu loads offline on the second visit</li>
+          <li>Call button pinned to the thumb rail</li>
+          <li>Maps deeplink to Google or OlaCabs</li>
+        </ul>
+      </div>
+      <div class="reveal" data-delay="1">
+        <div class="phone-shell">
+          <div class="phone-scr">
+            <svg viewBox="0 0 270 570" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <linearGradient id="pm-bg" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stop-color="#1a0f0a"/><stop offset="100%" stop-color="#0a0604"/>
+                </linearGradient>
+                <radialGradient id="pm-hero" cx="70%" cy="30%" r="60%">
+                  <stop offset="0%" stop-color="#D9823C" stop-opacity="0.5"/><stop offset="100%" stop-color="#D9823C" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <rect width="270" height="570" fill="url(#pm-bg)"/>
+              <rect width="270" height="240" fill="url(#pm-hero)"/>
+              <!-- status bar -->
+              <g fill="#F4EFE6" opacity="0.7"><text x="20" y="30" font-family="sans-serif" font-size="11" font-weight="600">9:41</text></g>
+              <g fill="#F4EFE6" opacity="0.6"><rect x="230" y="22" width="22" height="11" rx="2" stroke="#F4EFE6" fill="none" stroke-width="0.8"/></g>
+              <!-- logo bar -->
+              <text x="20" y="70" fill="#D9823C" font-family="serif" font-style="italic" font-size="15">Aangan.</text>
+              <!-- hero text -->
+              <text x="20" y="130" fill="#F4EFE6" font-family="serif" font-size="22" font-weight="500">Bengali</text>
+              <text x="20" y="156" fill="#F4EFE6" font-family="serif" font-size="22" font-style="italic">thali,</text>
+              <text x="20" y="182" fill="#F4EFE6" font-family="serif" font-size="22">cooked slow.</text>
+              <text x="20" y="210" fill="#C8C3BA" font-family="sans-serif" font-size="9">Since 1968 · Gariahat · Open 12–3</text>
+              <!-- CTA button -->
+              <rect x="20" y="235" width="130" height="36" rx="18" fill="#D9823C"/>
+              <text x="42" y="258" fill="#0a0604" font-family="sans-serif" font-size="11" font-weight="600">Book a table →</text>
+              <!-- menu heading -->
+              <text x="20" y="310" fill="#D9823C" font-family="monospace" font-size="8" letter-spacing="2">TODAY · 25 APR</text>
+              <!-- menu items -->
+              <g>
+                <rect x="16" y="322" width="238" height="46" rx="10" fill="#1f0f08" stroke="#2a1810" stroke-width="0.5"/>
+                <circle cx="38" cy="345" r="14" fill="#D9823C" opacity="0.4"/>
+                <text x="62" y="340" fill="#F4EFE6" font-family="sans-serif" font-size="11" font-weight="500">Shorshe Ilish</text>
+                <text x="62" y="355" fill="#8A8578" font-family="sans-serif" font-size="9">Mustard hilsa</text>
+                <text x="228" y="350" fill="#D9823C" font-family="serif" font-size="13" text-anchor="end">₹ 420</text>
+
+                <rect x="16" y="376" width="238" height="46" rx="10" fill="#1f0f08" stroke="#2a1810" stroke-width="0.5"/>
+                <circle cx="38" cy="399" r="14" fill="#A06218" opacity="0.5"/>
+                <text x="62" y="394" fill="#F4EFE6" font-family="sans-serif" font-size="11" font-weight="500">Kosha Mangsho</text>
+                <text x="62" y="409" fill="#8A8578" font-family="sans-serif" font-size="9">Slow-cooked mutton</text>
+                <text x="228" y="404" fill="#D9823C" font-family="serif" font-size="13" text-anchor="end">₹ 380</text>
+
+                <rect x="16" y="430" width="238" height="46" rx="10" fill="#1f0f08" stroke="#2a1810" stroke-width="0.5"/>
+                <circle cx="38" cy="453" r="14" fill="#4F6A20" opacity="0.6"/>
+                <text x="62" y="448" fill="#F4EFE6" font-family="sans-serif" font-size="11" font-weight="500">Panchmishali</text>
+                <text x="62" y="463" fill="#8A8578" font-family="sans-serif" font-size="9">Five-veg torkari</text>
+                <text x="228" y="458" fill="#D9823C" font-family="serif" font-size="13" text-anchor="end">₹ 240</text>
+              </g>
+              <!-- bottom nav -->
+              <rect x="0" y="525" width="270" height="45" fill="#1f0f08"/>
+              <g fill="#D9823C"><circle cx="50" cy="548" r="3"/></g>
+              <g fill="#8A8578" opacity="0.7">
+                <text x="40" y="560" font-family="sans-serif" font-size="8">Home</text>
+                <text x="105" y="560" font-family="sans-serif" font-size="8">Menu</text>
+                <text x="165" y="560" font-family="sans-serif" font-size="8">Book</text>
+                <text x="230" y="560" font-family="sans-serif" font-size="8">Call</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== COLOR VARIANTS ====================== -->
+<section class="section">
+  <div class="wrap">
+    <div class="eyebrow reveal">04 — Yours to customise</div>
+    <h2 class="reveal">Bring your <em>own</em> palette and photography.</h2>
+    <div class="demo-row cols-3">
+      <div class="demo-card reveal">
+        <div class="demo-head">Warm Ember</div>
+        <div class="demo-body" style="background:linear-gradient(160deg, #1a0f0a, #0a0604); height:180px; position:relative">
+          <div style="position:absolute; top:16px; left:16px; color:#D9823C; font-family:monospace; font-size:9px; letter-spacing:2px">THALI · SINCE 1968</div>
+          <div style="position:absolute; bottom:16px; left:16px; right:16px; font-family:var(--f-serif); font-size:22px; line-height:1.1">Bengali thali</div>
+        </div>
+        <div class="demo-body">
+          <div class="swatches">
+            <div class="swatch" style="background:#D9823C"></div>
+            <div class="swatch" style="background:#F0A96B"></div>
+            <div class="swatch" style="background:#1a0f0a"></div>
+            <div class="swatch" style="background:#F4EFE6"></div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-card reveal" data-delay="1">
+        <div class="demo-head">Cardamom Green</div>
+        <div class="demo-body" style="background:linear-gradient(160deg, #0f1a10, #05100a); height:180px; position:relative">
+          <div style="position:absolute; top:16px; left:16px; color:#A8C79B; font-family:monospace; font-size:9px; letter-spacing:2px">SOUTH · SINCE 1982</div>
+          <div style="position:absolute; bottom:16px; left:16px; right:16px; font-family:var(--f-serif); font-size:22px; line-height:1.1">Filter coffee, served strong</div>
+        </div>
+        <div class="demo-body">
+          <div class="swatches">
+            <div class="swatch" style="background:#A8C79B"></div>
+            <div class="swatch" style="background:#C8DEBD"></div>
+            <div class="swatch" style="background:#0f1a10"></div>
+            <div class="swatch" style="background:#F4EFE6"></div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-card reveal" data-delay="2">
+        <div class="demo-head">Saffron &amp; Cream</div>
+        <div class="demo-body" style="background:linear-gradient(160deg, #1A0E04, #1f1f0f); height:180px; position:relative">
+          <div style="position:absolute; top:16px; left:16px; color:#E8A13E; font-family:monospace; font-size:9px; letter-spacing:2px">BIRYANI · EST 1954</div>
+          <div style="position:absolute; bottom:16px; left:16px; right:16px; font-family:var(--f-serif); font-size:22px; line-height:1.1">Dum, the Hyderabad way</div>
+        </div>
+        <div class="demo-body">
+          <div class="swatches">
+            <div class="swatch" style="background:#E8A13E"></div>
+            <div class="swatch" style="background:#F5C76F"></div>
+            <div class="swatch" style="background:#1A0E04"></div>
+            <div class="swatch" style="background:#F4EFE6"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== PROCESS ====================== -->
+<section class="section">
+  <div class="wrap">
+    <div class="eyebrow reveal">05 — How we'd build yours</div>
+    <h2 class="reveal">From <em>first chai</em> to launch, in 10 days.</h2>
+    <div class="process">
+      <div class="step reveal"><div class="step-num">01</div><h4>Listening</h4><p>An hour in your shop. No questionnaires — we talk about what makes your food your food.</p></div>
+      <div class="step reveal"><div class="step-num">02</div><h4>Design</h4><p>Two home-page directions, shown side-by-side. One round of WhatsApp edits.</p></div>
+      <div class="step reveal"><div class="step-num">03</div><h4>Build</h4><p>Mobile-first, 95+ Lighthouse, booking engine, GST-compliant invoices.</p></div>
+      <div class="step reveal"><div class="step-num">04</div><h4>Handover</h4><p>A 30-min call. 30 free days of edits. A WhatsApp channel to me, forever.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== CTA ====================== -->
+<section class="section">
+  <div class="wrap">
+    <div class="template-cta reveal">
+      <div>
+        <div class="eyebrow">Start with this template</div>
+        <h3>Let's build your <em>restaurant's</em> site.</h3>
+        <p>A short chat — over chai, or WhatsApp — and we're off. Most food-business sites ship in 10–14 days.</p>
+      </div>
+      <div class="p-ctas">
+        <a href="https://wa.me/919830000000" class="btn btn-primary" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> WhatsApp Me</a>
+        <a href="../index.html#contact" class="btn btn-ghost">Send an Enquiry</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<a class="next-case reveal" href="healthcare.html">
+  <div>
+    <div class="eyebrow" style="margin-bottom:8px">Next Template</div>
+    <h3>Healthcare — <em>Hospitals &amp; Clinics</em></h3>
+    <p>Appointments, doctor profiles, patient portal.</p>
+  </div>
+  <div class="btn btn-primary">Continue <i class="fa-solid fa-arrow-right"></i></div>
+</a>
+
+<div class="p-foot">
+  <div>© 2026 Mayank Khandelwal · Category Template · Restaurant &amp; Café</div>
+  <div><a href="../index.html">Back to all templates</a></div>
+</div>
+
+<a href="https://wa.me/919830000000" target="_blank" rel="noopener" class="wa-float" aria-label="WhatsApp">
+  <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<script src="shared.js"></script>
+</body>
+</html>
+

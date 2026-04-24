@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="plum" data-layout="editorial">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>E-commerce Template — Online Store · Mayank Khandelwal</title>
+<meta name="description" content="An e-commerce website template for Indian SMBs. Razorpay, UPI, GST invoices, live catalog, WhatsApp support." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<link rel="stylesheet" href="shared.css?v=4" />
+<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+</head>
+<body>
+<nav class="pnav">
+  <a class="logo" href="../index.html">Mayank<em>.</em></a>
+  <a class="back" href="../index.html#work"><i class="fa-solid fa-arrow-left"></i> All Templates</a>
+</nav>
+
+<section class="p-hero">
+  <canvas id="p-hero-canvas"></canvas>
+  <div class="p-hero-inner">
+    <div class="p-tag reveal"><i class="fa-solid fa-bag-shopping"></i> Category · E-commerce</div>
+    <h1 class="reveal">An online store built for <em>Indian</em> buyers.</h1>
+    <p class="p-hero-sub reveal">For D2C brands, handloom, cosmetics, packaged food, home goods. UPI-first checkout, Razorpay &amp; COD, GST-compliant invoices, Shiprocket integration, and a catalog that loads on 4G.</p>
+    <div class="p-meta reveal">
+      <div class="p-meta-item"><span class="k">Best for</span><span class="v">D2C · Retail · Handloom</span></div>
+      <div class="p-meta-item"><span class="k">Pages</span><span class="v">Home · Shop · Product · Checkout</span></div>
+      <div class="p-meta-item"><span class="k">Delivery</span><span class="v">16–21 days</span></div>
+      <div class="p-meta-item"><span class="k">From</span><span class="v">₹ 85,000</span></div>
+    </div>
+    <div class="p-ctas reveal">
+      <a href="../index.html#contact" class="btn btn-primary">Start with this template <i class="fa-solid fa-arrow-right"></i></a>
+      <a href="#preview" class="btn btn-ghost">See full preview</a>
+    </div>
+  </div>
+
+  <div class="p-visual reveal">
+    <div class="hero-art">
+      <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id="e-bg" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#1F1530"/><stop offset="100%" stop-color="#0a0614"/></linearGradient>
+          <linearGradient id="e-box" x1="0" x2="1" y1="0" y2="1"><stop offset="0%" stop-color="#E8C977"/><stop offset="100%" stop-color="#8E7430"/></linearGradient>
+          <linearGradient id="e-box2" x1="0" x2="1" y1="0" y2="1"><stop offset="0%" stop-color="#C9A84C"/><stop offset="100%" stop-color="#6B5320"/></linearGradient>
+        </defs>
+        <rect width="600" height="600" fill="url(#e-bg)"/>
+        <!-- grid floor -->
+        <g stroke="#C9A84C" stroke-width="0.4" opacity="0.2">
+          <line x1="0" y1="420" x2="600" y2="420"/>
+          <line x1="0" y1="460" x2="600" y2="460"/>
+          <line x1="0" y1="500" x2="600" y2="500"/>
+          <line x1="100" y1="400" x2="50" y2="560"/>
+          <line x1="200" y1="400" x2="170" y2="560"/>
+          <line x1="300" y1="400" x2="300" y2="560"/>
+          <line x1="400" y1="400" x2="430" y2="560"/>
+          <line x1="500" y1="400" x2="550" y2="560"/>
+        </g>
+
+        <!-- Shopping bag large (isometric-ish) -->
+        <g transform="translate(300 310)">
+          <!-- body -->
+          <path d="M -100 -60 L 100 -60 L 110 120 L -110 120 Z" fill="url(#e-box)" opacity="0.9"/>
+          <path d="M -100 -60 L 100 -60 L 110 120 L -110 120 Z" fill="none" stroke="#E8C977" stroke-width="1"/>
+          <!-- top band -->
+          <rect x="-100" y="-60" width="200" height="16" fill="#0a0614" opacity="0.6"/>
+          <!-- handles -->
+          <path d="M -60 -60 C -60 -110 -20 -110 -20 -60" fill="none" stroke="#E8C977" stroke-width="4"/>
+          <path d="M 20 -60 C 20 -110 60 -110 60 -60" fill="none" stroke="#E8C977" stroke-width="4"/>
+          <!-- logo -->
+          <text x="0" y="50" fill="#1F1530" font-family="serif" font-style="italic" font-size="38" text-anchor="middle">Shop.</text>
+          <text x="0" y="85" fill="#1F1530" font-family="monospace" font-size="9" letter-spacing="3" text-anchor="middle" opacity="0.7">SINCE 2026</text>
+        </g>
+
+        <!-- small boxes -->
+        <g transform="translate(110 380)">
+          <rect x="0" y="0" width="80" height="80" fill="url(#e-box2)"/>
+          <rect x="0" y="0" width="80" height="10" fill="#0a0614" opacity="0.5"/>
+          <line x1="40" y1="0" x2="40" y2="80" stroke="#8E7430" stroke-width="1"/>
+          <line x1="0" y1="40" x2="80" y2="40" stroke="#8E7430" stroke-width="1"/>
+        </g>
+        <g transform="translate(440 400)">
+          <rect x="0" y="0" width="60" height="60" fill="#C9A84C" opacity="0.7"/>
+          <rect x="0" y="0" width="60" height="8" fill="#0a0614" opacity="0.5"/>
+        </g>
+
+        <!-- price tags floating -->
+        <g transform="translate(80 130)">
+          <path d="M 0 0 L 60 0 L 80 20 L 60 40 L 0 40 Z" fill="#E8C977"/>
+          <circle cx="70" cy="20" r="3" fill="#1F1530"/>
+          <text x="30" y="27" fill="#1F1530" font-family="monospace" font-size="12" text-anchor="middle" font-weight="600">₹499</text>
+        </g>
+        <g transform="translate(460 100)">
+          <path d="M 20 0 L 80 0 L 80 40 L 20 40 L 0 20 Z" fill="#C9A84C"/>
+          <circle cx="12" cy="20" r="3" fill="#1F1530"/>
+          <text x="50" y="27" fill="#1F1530" font-family="monospace" font-size="12" text-anchor="middle" font-weight="600">SALE</text>
+        </g>
+
+        <!-- decorative -->
+        <g fill="#E8C977" opacity="0.7">
+          <circle cx="60" cy="80" r="1.5"/><circle cx="540" cy="200" r="1.5"/><circle cx="550" cy="540" r="2"/>
+        </g>
+      </svg>
+      <div class="float-chip" style="top:22px; right:22px;"><i class="fa-solid fa-indian-rupee-sign"></i> UPI-first checkout</div>
+      <div class="float-chip" style="bottom:22px; left:22px; animation-delay:1s;"><i class="fa-solid fa-truck-fast"></i> 18k pin codes · Shiprocket</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="preview">
+  <div class="wrap">
+    <div class="eyebrow reveal">01 — What's in the Template</div>
+    <h2 class="reveal">A store your <em>customers</em> finish checkout on.</h2>
+    <div class="features">
+      <div class="feature reveal"><i class="fa-solid fa-indian-rupee-sign"></i><h4>UPI-First Checkout</h4><p>UPI + Razorpay + COD, in that order. One-page, two-tap, address autocomplete by pincode.</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-boxes-stacked"></i><h4>Live Catalog</h4><p>Edit prices &amp; stock from your phone. Variants, photos, descriptions — no spreadsheets.</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-file-invoice-dollar"></i><h4>GST Invoices</h4><p>HSN codes, IGST/CGST split, auto-emailed. Export for your CA every month in one click.</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-truck"></i><h4>Shiprocket Ready</h4><p>Orders push to Shiprocket / Delhivery. Tracking page auto-generated per order.</p></div>
+      <div class="feature reveal"><i class="fa-brands fa-whatsapp"></i><h4>WhatsApp Support</h4><p>A support widget that opens a real chat — not a ticket. Automated "where's my order" replies.</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-gauge-high"></i><h4>Fast on 4G</h4><p>Images auto-compressed. Product pages under 1.5s. No cart abandonment to blame on us.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="eyebrow reveal">02 — Live Preview</div>
+    <h2 class="reveal">A walk-through of the <em>shop grid</em>.</h2>
+
+    <div class="site-preview reveal">
+      <div class="site-chrome">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="url">yourstore.in / shop — 24 items</div>
+      </div>
+      <div class="site-body">
+        <div style="padding:40px 48px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--line-soft)">
+          <div>
+            <div style="font-family:var(--f-serif); font-size:30px; font-weight:500">Shop all</div>
+            <div style="color:var(--ivory-dim); font-size:13px; margin-top:4px">24 items · New this week · 6</div>
+          </div>
+          <div style="display:flex; gap:8px">
+            <div class="ui-chip">Filter</div>
+            <div class="ui-chip muted">Sort: New</div>
+          </div>
+        </div>
+        <div style="padding:32px 48px; display:grid; grid-template-columns:repeat(4,1fr); gap:16px">
+          <div class="photo-card" style="aspect-ratio:3/4">
+            <svg viewBox="0 0 150 200" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="p1" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#C9A84C"/><stop offset="100%" stop-color="#5e4820"/></linearGradient></defs><rect width="150" height="200" fill="url(#p1)"/><circle cx="75" cy="90" r="40" fill="#E8C977" opacity="0.4"/><path d="M 40 150 Q 75 120 110 150" stroke="#E8C977" stroke-width="1.2" fill="none"/></svg>
+            <div class="label"><div class="n">Aarogya Tin</div><div class="p">₹ 499</div></div>
+          </div>
+          <div class="photo-card" style="aspect-ratio:3/4">
+            <svg viewBox="0 0 150 200" preserveAspectRatio="xMidYMid slice"><rect width="150" height="200" fill="#2a1f38"/><rect x="40" y="50" width="70" height="110" rx="4" fill="#C9A84C" opacity="0.75"/><rect x="50" y="70" width="50" height="2" fill="#1F1530"/><rect x="50" y="80" width="40" height="1" fill="#1F1530" opacity="0.5"/></svg>
+            <div class="label"><div class="n">Silk Runner</div><div class="p">₹ 1,299</div></div>
+          </div>
+          <div class="photo-card" style="aspect-ratio:3/4">
+            <svg viewBox="0 0 150 200" preserveAspectRatio="xMidYMid slice"><rect width="150" height="200" fill="#0e0a1e"/><circle cx="75" cy="100" r="50" fill="none" stroke="#E8C977" stroke-width="2"/><circle cx="75" cy="100" r="36" fill="#C9A84C" opacity="0.3"/><g fill="#E8C977"><circle cx="75" cy="78" r="2.5"/><circle cx="97" cy="100" r="2.5"/><circle cx="75" cy="122" r="2.5"/><circle cx="53" cy="100" r="2.5"/></g></svg>
+            <div class="label"><div class="n">Brass Coaster</div><div class="p">₹ 849</div></div>
+          </div>
+          <div class="photo-card" style="aspect-ratio:3/4">
+            <svg viewBox="0 0 150 200" preserveAspectRatio="xMidYMid slice"><defs><radialGradient id="p4" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#E8C977"/><stop offset="100%" stop-color="#2a1f38"/></radialGradient></defs><rect width="150" height="200" fill="url(#p4)"/><rect x="55" y="60" width="40" height="80" rx="20" fill="#1F1530" opacity="0.6"/><rect x="60" y="75" width="30" height="3" fill="#E8C977"/></svg>
+            <div class="label"><div class="n">Rose Serum</div><div class="p">₹ 1,499</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-row cols-3">
+      <div class="demo-card reveal">
+        <div class="demo-head"><i class="fa-solid fa-cart-shopping"></i> Cart drawer</div>
+        <div class="demo-body">
+          <div class="ui-list">
+            <div class="ui-item"><div style="display:flex; gap:10px; align-items:center"><div style="width:40px; height:40px; background:#C9A84C; border-radius:8px"></div><div><div class="t">Aarogya Tin</div><div class="s">Qty 2</div></div></div><div class="r">₹ 998</div></div>
+            <div class="ui-item"><div style="display:flex; gap:10px; align-items:center"><div style="width:40px; height:40px; background:#9A7BC4; border-radius:8px"></div><div><div class="t">Silk Runner</div><div class="s">Qty 1</div></div></div><div class="r">₹ 1,299</div></div>
+          </div>
+          <div style="display:flex; justify-content:space-between; padding:14px 4px; margin-top:10px; border-top:1px solid var(--line-soft)"><div style="color:var(--ivory-dim); font-size:13px">Shipping</div><div style="color:var(--ivory); font-size:13px">Free over ₹1,500</div></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding-top:6px"><div class="ui-sub" style="margin:0">Total</div><div class="ui-price">₹ 2,297</div></div>
+          <div class="ui-chip solid" style="margin-top:14px; width:100%; justify-content:center; padding:12px">Checkout →</div>
+        </div>
+      </div>
+      <div class="demo-card reveal" data-delay="1">
+        <div class="demo-head"><i class="fa-solid fa-indian-rupee-sign"></i> UPI checkout</div>
+        <div class="demo-body">
+          <div class="ui-title" style="font-size:16px">Pay with</div>
+          <div class="demo-row cols-2" style="margin-top:10px; gap:8px">
+            <div style="padding:14px; border:2px solid var(--gold); border-radius:10px; text-align:center; background:rgba(201,168,76,0.1)"><div style="font-family:var(--f-mono); font-size:10px; letter-spacing:2px; color:var(--gold)">UPI</div><div style="font-family:var(--f-serif); font-size:18px; margin-top:4px">GPay · PhonePe</div></div>
+            <div style="padding:14px; border:1px solid var(--line-soft); border-radius:10px; text-align:center"><div style="font-family:var(--f-mono); font-size:10px; letter-spacing:2px; color:var(--ivory-dim)">CARD</div><div style="font-family:var(--f-serif); font-size:18px; margin-top:4px; color:var(--ivory-dim)">Razorpay</div></div>
+            <div style="padding:14px; border:1px solid var(--line-soft); border-radius:10px; text-align:center"><div style="font-family:var(--f-mono); font-size:10px; letter-spacing:2px; color:var(--ivory-dim)">NET</div><div style="font-family:var(--f-serif); font-size:18px; margin-top:4px; color:var(--ivory-dim)">All banks</div></div>
+            <div style="padding:14px; border:1px solid var(--line-soft); border-radius:10px; text-align:center"><div style="font-family:var(--f-mono); font-size:10px; letter-spacing:2px; color:var(--ivory-dim)">COD</div><div style="font-family:var(--f-serif); font-size:18px; margin-top:4px; color:var(--ivory-dim)">Cash</div></div>
+          </div>
+          <div class="stat-pill" style="margin-top:16px"><div class="k">Secured by</div><div class="v" style="font-size:13px; font-family:var(--f-mono)">Razorpay</div></div>
+        </div>
+      </div>
+      <div class="demo-card reveal" data-delay="2">
+        <div class="demo-head"><i class="fa-solid fa-truck"></i> Order tracking</div>
+        <div class="demo-body">
+          <div class="ui-sub">Order #SR-8492 · Shiprocket</div>
+          <div style="margin-top:14px; position:relative; padding-left:24px">
+            <div style="position:absolute; left:6px; top:8px; bottom:8px; width:2px; background:var(--line-soft)"></div>
+            <div style="margin-bottom:16px; position:relative"><div style="position:absolute; left:-22px; top:0; width:14px; height:14px; background:var(--gold); border-radius:50%"></div><div class="t" style="font-size:13px">Placed</div><div class="s" style="font-size:11px">24 Apr · 11:02 AM</div></div>
+            <div style="margin-bottom:16px; position:relative"><div style="position:absolute; left:-22px; top:0; width:14px; height:14px; background:var(--gold); border-radius:50%"></div><div class="t" style="font-size:13px">Packed</div><div class="s" style="font-size:11px">24 Apr · 4:30 PM</div></div>
+            <div style="margin-bottom:16px; position:relative"><div style="position:absolute; left:-22px; top:0; width:14px; height:14px; background:var(--gold); border-radius:50%; box-shadow:0 0 0 4px rgba(201,168,76,0.2)"></div><div class="t" style="font-size:13px; color:var(--gold)">Out for delivery</div><div class="s" style="font-size:11px">25 Apr · 9:10 AM</div></div>
+            <div style="position:relative; opacity:0.5"><div style="position:absolute; left:-22px; top:0; width:14px; height:14px; border:2px solid var(--line-soft); border-radius:50%"></div><div class="t" style="font-size:13px">Delivered</div><div class="s" style="font-size:11px">Expected today</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="eyebrow reveal">03 — Mobile First</div>
+    <h2 class="reveal">Because 9 out of 10 orders come from a <em>phone</em>.</h2>
+    <div class="split">
+      <div class="split-text reveal">
+        <h3>A checkout that doesn't <em>lose</em> the sale.</h3>
+        <p>Industry average cart-abandonment is 70%. Our template aims for under 35% — because we remove every friction that makes someone close the tab.</p>
+        <ul>
+          <li>Guest checkout · no account needed</li>
+          <li>Pincode detects city + delivery time</li>
+          <li>UPI intent opens PhonePe / GPay natively</li>
+          <li>Sticky bag showing savings, not clutter</li>
+        </ul>
+      </div>
+      <div class="reveal" data-delay="1">
+        <div class="phone-shell">
+          <div class="phone-scr">
+            <svg viewBox="0 0 270 570" preserveAspectRatio="xMidYMid slice">
+              <defs><linearGradient id="em-bg" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#1F1530"/><stop offset="100%" stop-color="#0a0614"/></linearGradient></defs>
+              <rect width="270" height="570" fill="url(#em-bg)"/>
+              <text x="20" y="30" fill="#F4EFE6" opacity="0.7" font-family="sans-serif" font-size="11" font-weight="600">9:41</text>
+              <text x="20" y="68" fill="#C9A84C" font-family="serif" font-style="italic" font-size="15">Kalakriti.</text>
+              <text x="244" y="68" fill="#C9A84C" font-family="sans-serif" font-size="12" text-anchor="end">🛍 2</text>
+              <!-- product hero -->
+              <rect x="16" y="85" width="238" height="180" rx="14" fill="#2a1f38"/>
+              <circle cx="135" cy="175" r="55" fill="#C9A84C" opacity="0.4"/>
+              <circle cx="135" cy="175" r="38" fill="#E8C977" opacity="0.6"/>
+              <rect x="22" y="240" width="50" height="20" rx="10" fill="rgba(10,6,20,0.8)"/>
+              <text x="47" y="254" fill="#E8C977" font-family="monospace" font-size="9" text-anchor="middle">-20%</text>
+              <!-- title -->
+              <text x="20" y="290" fill="#F4EFE6" font-family="serif" font-size="20" font-weight="500">Aarogya Tin</text>
+              <text x="20" y="310" fill="#8A8578" font-family="sans-serif" font-size="10">Handcrafted · 250g</text>
+              <text x="20" y="342" fill="#C9A84C" font-family="serif" font-size="22" font-weight="500">₹ 499</text>
+              <text x="85" y="342" fill="#8A8578" font-family="sans-serif" font-size="12" text-decoration="line-through">₹ 620</text>
+              <!-- size chips -->
+              <g font-family="sans-serif" font-size="10" font-weight="500">
+                <rect x="20" y="360" width="44" height="28" rx="14" fill="none" stroke="#3a2850"/><text x="42" y="378" fill="#F4EFE6" text-anchor="middle">100g</text>
+                <rect x="70" y="360" width="44" height="28" rx="14" fill="#C9A84C"/><text x="92" y="378" fill="#0a0614" text-anchor="middle">250g</text>
+                <rect x="120" y="360" width="44" height="28" rx="14" fill="none" stroke="#3a2850"/><text x="142" y="378" fill="#F4EFE6" text-anchor="middle">500g</text>
+              </g>
+              <!-- details -->
+              <text x="20" y="420" fill="#C8C3BA" font-family="sans-serif" font-size="10">✓ Free shipping over ₹1,500</text>
+              <text x="20" y="438" fill="#C8C3BA" font-family="sans-serif" font-size="10">✓ Deliver by Sat · 560001</text>
+              <text x="20" y="456" fill="#C8C3BA" font-family="sans-serif" font-size="10">✓ 7-day return window</text>
+              <!-- CTA row -->
+              <rect x="16" y="485" width="110" height="42" rx="21" fill="none" stroke="#C9A84C" stroke-width="1.5"/>
+              <text x="71" y="511" fill="#C9A84C" font-family="sans-serif" font-size="11" font-weight="600" text-anchor="middle">Add to bag</text>
+              <rect x="134" y="485" width="120" height="42" rx="21" fill="#C9A84C"/>
+              <text x="194" y="511" fill="#0a0614" font-family="sans-serif" font-size="11" font-weight="600" text-anchor="middle">Buy now · UPI</text>
+              <rect x="0" y="540" width="270" height="30" fill="#1F1530"/>
+              <text x="135" y="559" fill="#8A8578" font-family="sans-serif" font-size="9" text-anchor="middle">🔒 Secure checkout · Razorpay</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="eyebrow reveal">04 — Merchant Tools</div>
+    <h2 class="reveal">A store you can <em>actually</em> run.</h2>
+    <div class="demo-row cols-4">
+      <div class="demo-card reveal"><div class="demo-body" style="text-align:center"><i class="fa-solid fa-mobile-screen-button" style="font-size:28px; color:var(--gold); margin-bottom:12px"></i><div class="ui-title" style="font-size:15px">Phone admin</div><div class="ui-sub" style="font-size:12px; margin-bottom:0">Add products &amp; update stock from your phone.</div></div></div>
+      <div class="demo-card reveal" data-delay="1"><div class="demo-body" style="text-align:center"><i class="fa-solid fa-chart-line" style="font-size:28px; color:var(--gold); margin-bottom:12px"></i><div class="ui-title" style="font-size:15px">Sales dashboard</div><div class="ui-sub" style="font-size:12px; margin-bottom:0">Daily revenue, top items, returning buyers.</div></div></div>
+      <div class="demo-card reveal" data-delay="2"><div class="demo-body" style="text-align:center"><i class="fa-solid fa-tag" style="font-size:28px; color:var(--gold); margin-bottom:12px"></i><div class="ui-title" style="font-size:15px">Coupons</div><div class="ui-sub" style="font-size:12px; margin-bottom:0">Run sales, first-time codes, free shipping triggers.</div></div></div>
+      <div class="demo-card reveal" data-delay="3"><div class="demo-body" style="text-align:center"><i class="fa-brands fa-instagram" style="font-size:28px; color:var(--gold); margin-bottom:12px"></i><div class="ui-title" style="font-size:15px">Instagram feed</div><div class="ui-sub" style="font-size:12px; margin-bottom:0">Shoppable posts, reels auto-embed, UGC section.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="template-cta reveal">
+      <div>
+        <div class="eyebrow">Start with this template</div>
+        <h3>Launch your <em>store</em> in three weeks.</h3>
+        <p>Whether you're moving off Shopify, coming out of Instagram DMs, or starting fresh — let's talk.</p>
+      </div>
+      <div class="p-ctas">
+        <a href="https://wa.me/919830000000" class="btn btn-primary" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> WhatsApp Me</a>
+        <a href="../index.html#contact" class="btn btn-ghost">Send an Enquiry</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<a class="next-case reveal" href="boutique.html">
+  <div>
+    <div class="eyebrow" style="margin-bottom:8px">Next Template</div>
+    <h3>Boutique &amp; Studio — <em>Editorial</em></h3>
+    <p>Lookbooks, stylist chat, IG-shoppable.</p>
+  </div>
+  <div class="btn btn-primary">Continue <i class="fa-solid fa-arrow-right"></i></div>
+</a>
+
+<div class="p-foot">
+  <div>© 2026 Mayank Khandelwal · Category Template · E-commerce</div>
+  <div><a href="../index.html">Back to all templates</a></div>
+</div>
+<a href="https://wa.me/919830000000" target="_blank" rel="noopener" class="wa-float" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+<script src="shared.js"></script>
+</body>
+</html>
+

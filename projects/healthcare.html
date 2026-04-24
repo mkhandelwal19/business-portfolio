@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="mint" data-layout="editorial">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Healthcare Template — Hospitals &amp; Clinics · Mayank Khandelwal</title>
+<meta name="description" content="A website template for hospitals, clinics, diagnostic labs and doctor practices. Appointments, doctor profiles, patient portal, WhatsApp consults." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<link rel="stylesheet" href="shared.css?v=4" />
+<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+</head>
+<body>
+<nav class="pnav">
+  <a class="logo" href="../index.html">Mayank<em>.</em></a>
+  <a class="back" href="../index.html#work"><i class="fa-solid fa-arrow-left"></i> All Templates</a>
+</nav>
+
+<section class="p-hero">
+  <canvas id="p-hero-canvas"></canvas>
+  <div class="p-hero-inner">
+    <div class="p-tag reveal"><i class="fa-solid fa-stethoscope"></i> Category · Healthcare</div>
+    <h1 class="reveal">A clinic website that <em>builds trust</em> in the first ten seconds.</h1>
+    <p class="p-hero-sub reveal">Designed for hospitals, family clinics, diagnostic labs, dental, eye-care and specialists. Honest doctor profiles, real-time appointment booking, reports on a patient portal, NABH-compliant privacy.</p>
+    <div class="p-meta reveal">
+      <div class="p-meta-item"><span class="k">Best for</span><span class="v">Clinics · Hospitals · Labs</span></div>
+      <div class="p-meta-item"><span class="k">Pages</span><span class="v">Home · Doctors · Services · Book</span></div>
+      <div class="p-meta-item"><span class="k">Delivery</span><span class="v">12–16 days</span></div>
+      <div class="p-meta-item"><span class="k">From</span><span class="v">₹ 55,000</span></div>
+    </div>
+    <div class="p-ctas reveal">
+      <a href="../index.html#contact" class="btn btn-primary">Start with this template <i class="fa-solid fa-arrow-right"></i></a>
+      <a href="#preview" class="btn btn-ghost">See full preview</a>
+    </div>
+  </div>
+
+  <div class="p-visual reveal">
+    <div class="hero-art">
+      <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id="h-bg" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="#0E2420"/><stop offset="100%" stop-color="#051814"/>
+          </linearGradient>
+          <linearGradient id="h-pulse" x1="0" x2="1">
+            <stop offset="0%" stop-color="#6FB5A8" stop-opacity="0"/>
+            <stop offset="50%" stop-color="#6FB5A8"/>
+            <stop offset="100%" stop-color="#6FB5A8" stop-opacity="0"/>
+          </linearGradient>
+          <radialGradient id="h-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#6FB5A8" stop-opacity="0.5"/>
+            <stop offset="100%" stop-color="#6FB5A8" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="600" height="600" fill="url(#h-bg)"/>
+
+        <!-- Concentric caring circles -->
+        <g stroke="#6FB5A8" stroke-width="0.6" fill="none" opacity="0.4">
+          <circle cx="300" cy="300" r="260"/>
+          <circle cx="300" cy="300" r="210"/>
+          <circle cx="300" cy="300" r="160"/>
+          <circle cx="300" cy="300" r="110"/>
+        </g>
+
+        <!-- central glow -->
+        <circle cx="300" cy="300" r="160" fill="url(#h-glow)"/>
+
+        <!-- Heart + plus shield -->
+        <g transform="translate(300 300)">
+          <path d="M 0 -70 C -40 -70 -70 -40 -70 0 C -70 50 -30 90 0 110 C 30 90 70 50 70 0 C 70 -40 40 -70 0 -70 Z"
+                fill="#0E2420" stroke="#9DD4C9" stroke-width="1.5"/>
+          <path d="M 0 -40 C -20 -40 -35 -25 -35 -5 C -35 25 -10 50 0 60 C 10 50 35 25 35 -5 C 35 -25 20 -40 0 -40 Z"
+                fill="#6FB5A8" opacity="0.25"/>
+          <!-- plus -->
+          <g fill="#9DD4C9">
+            <rect x="-6" y="-22" width="12" height="40" rx="2"/>
+            <rect x="-22" y="-6" width="40" height="12" rx="2"/>
+          </g>
+        </g>
+
+        <!-- ECG line across -->
+        <path d="M 0 420 L 140 420 L 160 380 L 180 460 L 200 400 L 220 430 L 240 420 L 600 420"
+              stroke="url(#h-pulse)" stroke-width="2" fill="none"/>
+        <path d="M 0 420 L 140 420 L 160 380 L 180 460 L 200 400 L 220 430 L 240 420 L 600 420"
+              stroke="#6FB5A8" stroke-width="0.8" fill="none" opacity="0.4"/>
+
+        <!-- data dots -->
+        <g fill="#9DD4C9" opacity="0.8">
+          <circle cx="120" cy="140" r="2"/>
+          <circle cx="480" cy="160" r="2"/>
+          <circle cx="100" cy="490" r="2"/>
+          <circle cx="500" cy="470" r="2"/>
+          <circle cx="60" cy="300" r="1.5"/>
+          <circle cx="540" cy="300" r="1.5"/>
+        </g>
+
+        <!-- micro labels -->
+        <g fill="#9DD4C9" opacity="0.5" font-family="monospace" font-size="9" letter-spacing="1.5">
+          <text x="70" y="95">BPM 72</text>
+          <text x="470" y="95">SPO2 98</text>
+          <text x="60" y="545">NABH</text>
+          <text x="480" y="545">ISO 9001</text>
+        </g>
+      </svg>
+      <div class="float-chip" style="top:22px; right:22px; color:#9DD4C9"><i class="fa-solid fa-heart-pulse"></i> 2,400+ patients cared for</div>
+      <div class="float-chip" style="bottom:22px; left:22px; animation-delay:1s; color:#9DD4C9;"><i class="fa-solid fa-shield-halved"></i> HIPAA-safe</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="preview">
+  <div class="wrap">
+    <div class="eyebrow reveal">01 — What's in the Template</div>
+    <h2 class="reveal">Everything a medical practice <em>needs to build trust.</em></h2>
+    <div class="features">
+      <div class="feature reveal"><i class="fa-solid fa-calendar-check"></i><h4>Appointment Booking</h4><p>Real-time slots per doctor. WhatsApp confirmation. Automatic reminders the day before.</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-user-doctor"></i><h4>Doctor Profiles</h4><p>Credentials, publications, languages spoken, consultation style — everything a nervous patient wants to know.</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-file-medical"></i><h4>Patient Portal</h4><p>Reports delivered to a private link. No more "my PDF got lost in WhatsApp."</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-microscope"></i><h4>Services &amp; Packages</h4><p>Transparent pricing for common tests and consultations. The #1 trust signal for clinics.</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-location-dot"></i><h4>Maps &amp; Parking</h4><p>Clear directions, parking notes, bus routes. Built for anxious first-time visitors.</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-language"></i><h4>Bilingual</h4><p>English + your local language. Toggles per patient's comfort, saved across visits.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="eyebrow reveal">02 — Live Preview</div>
+    <h2 class="reveal">A walk-through of the <em>clinic home</em>.</h2>
+
+    <div class="site-preview reveal">
+      <div class="site-chrome">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="url">yourclinic.in / — Home</div>
+      </div>
+      <div class="site-body">
+        <div style="padding:56px 48px 40px; background:radial-gradient(circle at 75% 30%, rgba(111,181,168,0.25), transparent 55%), linear-gradient(160deg, #0E2420, #051814)">
+          <div style="font-family:var(--f-mono); font-size:10px; letter-spacing:0.26em; color:var(--gold); margin-bottom:16px">NABH ACCREDITED · INDIRANAGAR</div>
+          <div style="font-family:var(--f-serif); font-size:42px; font-weight:500; line-height:1.06; max-width:16ch; margin-bottom:12px">Family medicine, without the queue.</div>
+          <div style="color:var(--ivory-dim); font-size:14px; max-width:50ch; margin-bottom:22px">Six doctors. Four specialties. Appointments from the comfort of your couch — reports on your phone by evening.</div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap">
+            <div class="ui-chip solid">Book an appointment</div>
+            <div class="ui-chip">Meet the doctors →</div>
+          </div>
+        </div>
+
+        <div style="padding:36px 48px; border-top:1px solid var(--line-soft); display:grid; grid-template-columns:repeat(4,1fr); gap:14px">
+          <div class="stat-pill"><div class="k">Wait time</div><div class="v">&lt; 12 min</div></div>
+          <div class="stat-pill"><div class="k">Patients</div><div class="v">2,400+</div></div>
+          <div class="stat-pill"><div class="k">Doctors</div><div class="v">6</div></div>
+          <div class="stat-pill"><div class="k">Rating</div><div class="v">4.9 ★</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-row cols-3">
+      <div class="demo-card reveal">
+        <div class="demo-head"><i class="fa-solid fa-user-doctor"></i> Doctor card</div>
+        <div class="demo-body">
+          <div style="display:flex; gap:14px; margin-bottom:14px; align-items:center">
+            <div style="width:60px; height:60px; border-radius:50%; background:linear-gradient(135deg, #6FB5A8, #3D7D72); display:grid; place-items:center; font-family:var(--f-serif); font-weight:500; color:var(--bg); font-size:22px">SB</div>
+            <div>
+              <div style="font-family:var(--f-serif); font-size:18px; font-weight:500">Dr. Shruti Basu</div>
+              <div style="font-size:12px; color:var(--ivory-dim); margin-top:2px">MBBS, MD · Family Medicine</div>
+              <div style="display:flex; gap:4px; margin-top:6px">
+                <span class="ui-chip muted" style="padding:3px 8px; font-size:9px">EN</span>
+                <span class="ui-chip muted" style="padding:3px 8px; font-size:9px">KN</span>
+                <span class="ui-chip muted" style="padding:3px 8px; font-size:9px">HI</span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-sub">12 years · Special interest in diabetes &amp; women's health</div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px">
+            <div class="ui-price" style="font-size:18px">₹ 600</div>
+            <div class="ui-chip solid">Book</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-card reveal" data-delay="1">
+        <div class="demo-head"><i class="fa-solid fa-calendar-days"></i> Slot picker</div>
+        <div class="demo-body">
+          <div class="ui-title" style="font-size:18px">Saturday, 26 April</div>
+          <div class="ui-sub">Dr. Basu · 4 slots available</div>
+          <div style="display:flex; flex-direction:column; gap:8px; margin-top:8px">
+            <div class="ui-item" style="padding:10px 14px"><div class="t">9:30 AM</div><div class="ui-chip solid" style="padding:4px 10px">Book</div></div>
+            <div class="ui-item" style="padding:10px 14px"><div class="t">10:15 AM</div><div class="ui-chip solid" style="padding:4px 10px">Book</div></div>
+            <div class="ui-item" style="padding:10px 14px; opacity:0.45"><div class="t">11:00 AM</div><div class="ui-chip muted" style="padding:4px 10px">Taken</div></div>
+            <div class="ui-item" style="padding:10px 14px"><div class="t">4:30 PM</div><div class="ui-chip solid" style="padding:4px 10px">Book</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-card reveal" data-delay="2">
+        <div class="demo-head"><i class="fa-solid fa-file-medical"></i> Patient portal</div>
+        <div class="demo-body">
+          <div class="ui-sub">Your reports · Ayesha K.</div>
+          <div class="ui-list">
+            <div class="ui-item"><div><div class="t">Complete Blood Count</div><div class="s">24 Apr · Normal range</div></div><div class="r"><i class="fa-solid fa-download"></i></div></div>
+            <div class="ui-item"><div><div class="t">Lipid Profile</div><div class="s">18 Apr · LDL slightly high</div></div><div class="r"><i class="fa-solid fa-download"></i></div></div>
+            <div class="ui-item"><div><div class="t">ECG</div><div class="s">10 Apr · Normal sinus</div></div><div class="r"><i class="fa-solid fa-download"></i></div></div>
+          </div>
+          <div class="ui-chip solid" style="margin-top:14px"><i class="fa-brands fa-whatsapp"></i> Share on WhatsApp</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="eyebrow reveal">03 — Mobile First</div>
+    <h2 class="reveal">Because anxious patients reach for their <em>phone</em>.</h2>
+    <div class="split">
+      <div class="split-text reveal">
+        <h3>Clear, calm, <em>uncluttered</em>.</h3>
+        <p>A worried parent at 10 PM doesn't want a carousel of stock photos. They want to know: are you open, who's on duty, and can I call?</p>
+        <ul>
+          <li>Emergency button pinned to the thumb rail</li>
+          <li>One-tap directions to your address</li>
+          <li>Current wait time updated by your receptionist</li>
+          <li>Language toggle remembered per visit</li>
+        </ul>
+      </div>
+      <div class="reveal" data-delay="1">
+        <div class="phone-shell">
+          <div class="phone-scr">
+            <svg viewBox="0 0 270 570" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <linearGradient id="hc-bg" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#0E2420"/><stop offset="100%" stop-color="#051814"/></linearGradient>
+                <radialGradient id="hc-hero" cx="70%" cy="25%" r="60%"><stop offset="0%" stop-color="#6FB5A8" stop-opacity="0.45"/><stop offset="100%" stop-color="#6FB5A8" stop-opacity="0"/></radialGradient>
+              </defs>
+              <rect width="270" height="570" fill="url(#hc-bg)"/>
+              <rect width="270" height="210" fill="url(#hc-hero)"/>
+              <text x="20" y="30" fill="#F4EFE6" opacity="0.7" font-family="sans-serif" font-size="11" font-weight="600">9:41</text>
+              <rect x="230" y="22" width="22" height="11" rx="2" stroke="#F4EFE6" fill="none" stroke-width="0.8" opacity="0.6"/>
+              <text x="20" y="70" fill="#6FB5A8" font-family="serif" font-style="italic" font-size="15">Sanjeevini.</text>
+              <text x="20" y="120" fill="#F4EFE6" font-family="serif" font-size="20" font-weight="500">Family care,</text>
+              <text x="20" y="144" fill="#F4EFE6" font-family="serif" font-size="20" font-style="italic">without the</text>
+              <text x="20" y="168" fill="#F4EFE6" font-family="serif" font-size="20">queue.</text>
+              <text x="20" y="195" fill="#C8C3BA" font-family="sans-serif" font-size="9">Wait time today · 9 min</text>
+              <rect x="20" y="215" width="130" height="36" rx="18" fill="#6FB5A8"/>
+              <text x="38" y="238" fill="#051814" font-family="sans-serif" font-size="11" font-weight="600">Book appointment →</text>
+
+              <!-- Doctor cards -->
+              <text x="20" y="290" fill="#6FB5A8" font-family="monospace" font-size="8" letter-spacing="2">OUR DOCTORS · 6</text>
+              <g>
+                <rect x="16" y="302" width="238" height="60" rx="12" fill="#0E2420" stroke="#143028" stroke-width="0.5"/>
+                <circle cx="42" cy="332" r="18" fill="#6FB5A8" opacity="0.5"/>
+                <text x="42" y="337" fill="#0E2420" font-family="serif" font-size="14" text-anchor="middle" font-weight="600">SB</text>
+                <text x="72" y="326" fill="#F4EFE6" font-family="serif" font-size="13" font-weight="500">Dr. Shruti Basu</text>
+                <text x="72" y="342" fill="#8A8578" font-family="sans-serif" font-size="9">Family Medicine · 12 yrs</text>
+                <text x="72" y="356" fill="#6FB5A8" font-family="monospace" font-size="9">Available today</text>
+
+                <rect x="16" y="372" width="238" height="60" rx="12" fill="#0E2420" stroke="#143028" stroke-width="0.5"/>
+                <circle cx="42" cy="402" r="18" fill="#9DD4C9" opacity="0.5"/>
+                <text x="42" y="407" fill="#0E2420" font-family="serif" font-size="14" text-anchor="middle" font-weight="600">RK</text>
+                <text x="72" y="396" fill="#F4EFE6" font-family="serif" font-size="13" font-weight="500">Dr. Ravi Kumar</text>
+                <text x="72" y="412" fill="#8A8578" font-family="sans-serif" font-size="9">Pediatrics · 15 yrs</text>
+                <text x="72" y="426" fill="#6FB5A8" font-family="monospace" font-size="9">Next slot · 2:00 PM</text>
+
+                <rect x="16" y="442" width="238" height="60" rx="12" fill="#0E2420" stroke="#143028" stroke-width="0.5"/>
+                <circle cx="42" cy="472" r="18" fill="#6FB5A8" opacity="0.4"/>
+                <text x="42" y="477" fill="#0E2420" font-family="serif" font-size="14" text-anchor="middle" font-weight="600">AM</text>
+                <text x="72" y="466" fill="#F4EFE6" font-family="serif" font-size="13" font-weight="500">Dr. Aisha Mehta</text>
+                <text x="72" y="482" fill="#8A8578" font-family="sans-serif" font-size="9">Gynaecology · 9 yrs</text>
+                <text x="72" y="496" fill="#8A8578" font-family="monospace" font-size="9">Booking from Mon</text>
+              </g>
+              <rect x="0" y="525" width="270" height="45" fill="#0E2420"/>
+              <g fill="#6FB5A8"><circle cx="50" cy="548" r="3"/></g>
+              <g fill="#8A8578" opacity="0.7">
+                <text x="40" y="560" font-family="sans-serif" font-size="8">Home</text>
+                <text x="100" y="560" font-family="sans-serif" font-size="8">Doctors</text>
+                <text x="165" y="560" font-family="sans-serif" font-size="8">Book</text>
+                <text x="225" y="560" font-family="sans-serif" font-size="8">Reports</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="eyebrow reveal">04 — Trust &amp; Compliance</div>
+    <h2 class="reveal">Designed for the <em>rules</em> medical practice lives by.</h2>
+    <div class="demo-row cols-4">
+      <div class="demo-card reveal"><div class="demo-body" style="text-align:center"><i class="fa-solid fa-shield-halved" style="font-size:28px; color:var(--gold); margin-bottom:12px"></i><div class="ui-title" style="font-size:15px">HIPAA-safe</div><div class="ui-sub" style="font-size:12px; margin-bottom:0">Encrypted storage, patient consent logs.</div></div></div>
+      <div class="demo-card reveal" data-delay="1"><div class="demo-body" style="text-align:center"><i class="fa-solid fa-award" style="font-size:28px; color:var(--gold); margin-bottom:12px"></i><div class="ui-title" style="font-size:15px">NABH badges</div><div class="ui-sub" style="font-size:12px; margin-bottom:0">Credentials shown, not buried in footer.</div></div></div>
+      <div class="demo-card reveal" data-delay="2"><div class="demo-body" style="text-align:center"><i class="fa-solid fa-file-invoice" style="font-size:28px; color:var(--gold); margin-bottom:12px"></i><div class="ui-title" style="font-size:15px">GST invoices</div><div class="ui-sub" style="font-size:12px; margin-bottom:0">Auto-generated on payment, mailed to patient.</div></div></div>
+      <div class="demo-card reveal" data-delay="3"><div class="demo-body" style="text-align:center"><i class="fa-solid fa-user-shield" style="font-size:28px; color:var(--gold); margin-bottom:12px"></i><div class="ui-title" style="font-size:15px">Data deletion</div><div class="ui-sub" style="font-size:12px; margin-bottom:0">Self-service for patients, under the DPDP Act.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="eyebrow reveal">05 — How we'd build yours</div>
+    <h2 class="reveal">From <em>first call</em> to launch, in 14 days.</h2>
+    <div class="process">
+      <div class="step reveal"><div class="step-num">01</div><h4>Listening</h4><p>A clinic visit. We meet the receptionist, watch a real check-in, and learn the anxieties.</p></div>
+      <div class="step reveal"><div class="step-num">02</div><h4>Design</h4><p>Two home-page directions. We test them with three of your past patients before committing.</p></div>
+      <div class="step reveal"><div class="step-num">03</div><h4>Build</h4><p>Booking engine, patient portal, bilingual toggle, NABH-compliant privacy page.</p></div>
+      <div class="step reveal"><div class="step-num">04</div><h4>Handover</h4><p>Receptionist training. 30 free days of edits. Ongoing care from one point of contact.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="template-cta reveal">
+      <div>
+        <div class="eyebrow">Start with this template</div>
+        <h3>Give your patients a <em>calm</em> first impression.</h3>
+        <p>A short conversation — phone or WhatsApp. We'll scope, quote, and have your site live in about two weeks.</p>
+      </div>
+      <div class="p-ctas">
+        <a href="https://wa.me/919830000000" class="btn btn-primary" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> WhatsApp Me</a>
+        <a href="../index.html#contact" class="btn btn-ghost">Send an Enquiry</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<a class="next-case reveal" href="ecommerce.html">
+  <div>
+    <div class="eyebrow" style="margin-bottom:8px">Next Template</div>
+    <h3>E-commerce — <em>Online Store</em></h3>
+    <p>Razorpay, UPI, GST invoices, live catalog.</p>
+  </div>
+  <div class="btn btn-primary">Continue <i class="fa-solid fa-arrow-right"></i></div>
+</a>
+
+<div class="p-foot">
+  <div>© 2026 Mayank Khandelwal · Category Template · Healthcare</div>
+  <div><a href="../index.html">Back to all templates</a></div>
+</div>
+
+<a href="https://wa.me/919830000000" target="_blank" rel="noopener" class="wa-float" aria-label="WhatsApp">
+  <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<script src="shared.js"></script>
+</body>
+</html>
+

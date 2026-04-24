@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="pearl" data-layout="editorial">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jewellery Template — Mayank Khandelwal</title>
+<meta name="description" content="Website template for jewellers, ateliers &amp; heritage houses. Catalogue, try-on appointments, lineage storytelling, hallmark display." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<link rel="stylesheet" href="shared.css?v=4" />
+<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+</head>
+<body>
+<nav class="pnav">
+  <a class="logo" href="../index.html">Mayank<em>.</em></a>
+  <a class="back" href="../index.html#work"><i class="fa-solid fa-arrow-left"></i> All Templates</a>
+</nav>
+
+<section class="p-hero">
+  <canvas id="p-hero-canvas"></canvas>
+  <div class="p-hero-inner">
+    <div class="p-tag reveal"><i class="fa-solid fa-gem"></i> Category · Jewellery &amp; Ateliers</div>
+    <h1 class="reveal">A website that feels <em>weighed in 22-carat gold</em>.</h1>
+    <p class="p-hero-sub reveal">For family jewellers, kundan ateliers, diamond houses, artisan studios. Catalogue with zoom-to-detail, try-on appointment booking, BIS hallmark display, heritage storytelling, lightning-fast on 4G.</p>
+    <div class="p-meta reveal">
+      <div class="p-meta-item"><span class="k">Best for</span><span class="v">Jewellers · Ateliers · Heritage</span></div>
+      <div class="p-meta-item"><span class="k">Pages</span><span class="v">Home · Collection · Story · Visit</span></div>
+      <div class="p-meta-item"><span class="k">Delivery</span><span class="v">16–20 days</span></div>
+      <div class="p-meta-item"><span class="k">From</span><span class="v">₹ 72,000</span></div>
+    </div>
+    <div class="p-ctas reveal">
+      <a href="../index.html#contact" class="btn btn-primary">Start with this template <i class="fa-solid fa-arrow-right"></i></a>
+      <a href="#preview" class="btn btn-ghost">See full preview</a>
+    </div>
+  </div>
+
+  <div class="p-visual reveal">
+    <div class="hero-art">
+      <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <radialGradient id="j-bg" cx="50%" cy="50%" r="70%"><stop offset="0%" stop-color="#241a38"/><stop offset="100%" stop-color="#0a0612"/></radialGradient>
+          <radialGradient id="j-gold" cx="50%" cy="40%" r="50%"><stop offset="0%" stop-color="#F8EDC8"/><stop offset="50%" stop-color="#E4D4A4"/><stop offset="100%" stop-color="#8E6B2E"/></radialGradient>
+          <radialGradient id="j-gem" cx="50%" cy="40%" r="60%"><stop offset="0%" stop-color="#FFFFFF"/><stop offset="40%" stop-color="#C4E0F5"/><stop offset="100%" stop-color="#2D4E80"/></radialGradient>
+          <radialGradient id="j-ruby" cx="50%" cy="40%" r="60%"><stop offset="0%" stop-color="#FFD2C9"/><stop offset="50%" stop-color="#D44A3A"/><stop offset="100%" stop-color="#4A0F08"/></radialGradient>
+          <radialGradient id="j-em" cx="50%" cy="40%" r="60%"><stop offset="0%" stop-color="#D4F0CC"/><stop offset="50%" stop-color="#3D8E55"/><stop offset="100%" stop-color="#0C3318"/></radialGradient>
+          <filter id="glow-j"><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <rect width="600" height="600" fill="url(#j-bg)"/>
+        <!-- radial shimmer -->
+        <circle cx="300" cy="300" r="220" fill="none" stroke="#E4D4A4" stroke-width="0.4" opacity="0.25"/>
+        <circle cx="300" cy="300" r="180" fill="none" stroke="#E4D4A4" stroke-width="0.3" opacity="0.2"/>
+        <circle cx="300" cy="300" r="140" fill="none" stroke="#E4D4A4" stroke-width="0.3" opacity="0.18"/>
+
+        <!-- Necklace arc (central hero) -->
+        <g transform="translate(300 280)" filter="url(#glow-j)">
+          <!-- chain -->
+          <path d="M -180 -40 Q -150 80 -100 130 Q -50 170 0 175 Q 50 170 100 130 Q 150 80 180 -40"
+                fill="none" stroke="url(#j-gold)" stroke-width="3" stroke-linecap="round"/>
+          <!-- beads along the chain -->
+          <g fill="url(#j-gold)">
+            <circle cx="-160" cy="-20" r="4"/><circle cx="-135" cy="30" r="4"/>
+            <circle cx="-105" cy="80" r="4"/><circle cx="-70" cy="120" r="5"/>
+            <circle cx="-35" cy="148" r="5"/><circle cx="0" cy="155" r="5"/>
+            <circle cx="35" cy="148" r="5"/><circle cx="70" cy="120" r="5"/>
+            <circle cx="105" cy="80" r="4"/><circle cx="135" cy="30" r="4"/>
+            <circle cx="160" cy="-20" r="4"/>
+          </g>
+          <!-- central pendant -->
+          <g>
+            <!-- gold floral setting -->
+            <circle cx="0" cy="75" r="42" fill="url(#j-gold)"/>
+            <g fill="#8E6B2E" opacity="0.5">
+              <ellipse cx="0" cy="35" rx="8" ry="14"/>
+              <ellipse cx="0" cy="115" rx="8" ry="14"/>
+              <ellipse cx="-40" cy="75" rx="14" ry="8"/>
+              <ellipse cx="40" cy="75" rx="14" ry="8"/>
+            </g>
+            <!-- center gem -->
+            <circle cx="0" cy="75" r="22" fill="url(#j-ruby)"/>
+            <polygon points="0,57 12,68 8,85 -8,85 -12,68" fill="#FFC8BE" opacity="0.7"/>
+            <circle cx="-4" cy="67" r="3" fill="#FFFFFF" opacity="0.8"/>
+            <!-- accent diamonds around -->
+            <g fill="url(#j-gem)">
+              <circle cx="-30" cy="50" r="5"/><circle cx="30" cy="50" r="5"/>
+              <circle cx="-30" cy="100" r="5"/><circle cx="30" cy="100" r="5"/>
+              <circle cx="0" cy="40" r="4"/><circle cx="0" cy="110" r="4"/>
+            </g>
+          </g>
+          <!-- earrings -->
+          <g transform="translate(-220 20)">
+            <path d="M 0 0 L 0 20 L -8 28 L 8 28 L 0 20" stroke="url(#j-gold)" stroke-width="1.5" fill="none"/>
+            <circle cx="0" cy="32" r="6" fill="url(#j-gold)"/>
+            <circle cx="0" cy="32" r="3" fill="url(#j-em)"/>
+          </g>
+          <g transform="translate(220 20)">
+            <path d="M 0 0 L 0 20 L -8 28 L 8 28 L 0 20" stroke="url(#j-gold)" stroke-width="1.5" fill="none"/>
+            <circle cx="0" cy="32" r="6" fill="url(#j-gold)"/>
+            <circle cx="0" cy="32" r="3" fill="url(#j-em)"/>
+          </g>
+        </g>
+
+        <!-- Floating gems scattered -->
+        <g filter="url(#glow-j)">
+          <circle cx="100" cy="120" r="6" fill="url(#j-gem)"/>
+          <circle cx="520" cy="100" r="7" fill="url(#j-em)"/>
+          <circle cx="80" cy="480" r="5" fill="url(#j-ruby)"/>
+          <circle cx="520" cy="500" r="6" fill="url(#j-gem)"/>
+          <circle cx="160" cy="480" r="4" fill="url(#j-gold)"/>
+          <circle cx="460" cy="480" r="4" fill="url(#j-gold)"/>
+        </g>
+
+        <!-- Sparkles -->
+        <g fill="#F5E9C8">
+          <path d="M 130 180 L 133 187 L 140 190 L 133 193 L 130 200 L 127 193 L 120 190 L 127 187 Z"/>
+          <path d="M 470 180 L 473 187 L 480 190 L 473 193 L 470 200 L 467 193 L 460 190 L 467 187 Z"/>
+          <path d="M 150 430 L 152 435 L 157 437 L 152 439 L 150 444 L 148 439 L 143 437 L 148 435 Z" opacity="0.8"/>
+          <path d="M 450 430 L 452 435 L 457 437 L 452 439 L 450 444 L 448 439 L 443 437 L 448 435 Z" opacity="0.8"/>
+        </g>
+      </svg>
+      <div class="float-chip" style="top:22px; right:22px; color:#E4D4A4"><i class="fa-solid fa-certificate"></i> BIS Hallmark verified</div>
+      <div class="float-chip" style="bottom:22px; left:22px; animation-delay:1s; color:#E4D4A4;"><i class="fa-solid fa-hand-holding-heart"></i> Est. 1952</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="preview">
+  <div class="wrap">
+    <div class="eyebrow reveal">01 — What's in the Template</div>
+    <h2 class="reveal">Built around <em>trust</em> — the hardest sale online.</h2>
+    <div class="features">
+      <div class="feature reveal"><i class="fa-solid fa-gem"></i><h4>Zoomable Catalogue</h4><p>High-res product pages with 360° spin, hallmark detail, carat + weight breakdown.</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-certificate"></i><h4>BIS + Certification</h4><p>Hallmark numbers, lab reports (GIA/IGI), purity badges displayed inline — not buried.</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-calendar-check"></i><h4>Virtual &amp; Store Appointments</h4><p>Book a video call with a senior consultant or walk-in slot. Confirmed via WhatsApp.</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-scroll"></i><h4>Lineage Story</h4><p>Heritage timeline — founder, master craftsmen, landmark pieces. Told beautifully.</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-money-bill-transfer"></i><h4>Gold Rate Ticker</h4><p>Live 22k / 18k / silver rates in your footer, auto-updated daily.</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-piggy-bank"></i><h4>Gold Savings Scheme</h4><p>Members deposit monthly, redeem as jewellery. Signup + ledger built in.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="eyebrow reveal">02 — Live Preview</div>
+    <h2 class="reveal">The <em>catalogue</em> is your showroom.</h2>
+
+    <div class="site-preview reveal">
+      <div class="site-chrome"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="url">yourhouse.in / collection — Bridal '26</div></div>
+      <div class="site-body">
+        <div style="padding:56px 48px 32px; background:linear-gradient(160deg, #181428, #0a0612)">
+          <div style="font-family:var(--f-mono); font-size:10px; letter-spacing:0.28em; color:var(--gold); margin-bottom:14px">SINCE 1952 · BOWBAZAR, KOLKATA</div>
+          <div style="font-family:var(--f-serif); font-size:46px; font-weight:500; font-style:italic; line-height:1.04; max-width:15ch; margin-bottom:14px">Where every piece has a <em style="font-style:normal; color:var(--gold)">witness</em>.</div>
+          <div style="color:var(--ivory-dim); font-size:14px; max-width:52ch">Three generations. Hand-set stones. BIS hallmarked. Browse the bridal collection, or book a private viewing upstairs.</div>
+        </div>
+        <div style="padding:32px 48px 48px">
+          <div style="font-family:var(--f-mono); font-size:10px; letter-spacing:0.26em; color:var(--gold); margin-bottom:16px">BRIDAL '26 · 84 PIECES</div>
+          <div class="ui-grid-3">
+            <div class="photo-card" style="aspect-ratio:4/5">
+              <svg viewBox="0 0 100 125" preserveAspectRatio="xMidYMid slice">
+                <defs><radialGradient id="jp1" cx="50%" cy="40%" r="60%"><stop offset="0%" stop-color="#2a1830"/><stop offset="100%" stop-color="#0a0612"/></radialGradient></defs>
+                <rect width="100" height="125" fill="url(#jp1)"/>
+                <path d="M 20 30 Q 50 55 80 30" fill="none" stroke="#E4D4A4" stroke-width="1.2"/>
+                <circle cx="50" cy="65" r="14" fill="#E4D4A4"/>
+                <circle cx="50" cy="65" r="7" fill="#D44A3A"/>
+                <g fill="#E4D4A4"><circle cx="30" cy="55" r="2"/><circle cx="70" cy="55" r="2"/><circle cx="50" cy="85" r="2"/></g>
+              </svg>
+              <div class="label" style="padding:6px 10px"><div class="n">Ruby Rani</div><div class="p">₹ 4.8L</div></div>
+            </div>
+            <div class="photo-card" style="aspect-ratio:4/5">
+              <svg viewBox="0 0 100 125" preserveAspectRatio="xMidYMid slice">
+                <defs><radialGradient id="jp2" cx="50%" cy="40%" r="60%"><stop offset="0%" stop-color="#1a2a40"/><stop offset="100%" stop-color="#080a12"/></radialGradient></defs>
+                <rect width="100" height="125" fill="url(#jp2)"/>
+                <g stroke="#E4D4A4" stroke-width="1" fill="none">
+                  <circle cx="35" cy="60" r="8"/><circle cx="50" cy="60" r="8"/><circle cx="65" cy="60" r="8"/>
+                </g>
+                <g fill="#C4E0F5"><circle cx="35" cy="60" r="3"/><circle cx="50" cy="60" r="3"/><circle cx="65" cy="60" r="3"/></g>
+              </svg>
+              <div class="label" style="padding:6px 10px"><div class="n">Trilogy Diamond</div><div class="p">₹ 6.2L</div></div>
+            </div>
+            <div class="photo-card" style="aspect-ratio:4/5">
+              <svg viewBox="0 0 100 125" preserveAspectRatio="xMidYMid slice">
+                <defs><radialGradient id="jp3" cx="50%" cy="40%" r="60%"><stop offset="0%" stop-color="#1a2820"/><stop offset="100%" stop-color="#080c0a"/></radialGradient></defs>
+                <rect width="100" height="125" fill="url(#jp3)"/>
+                <path d="M 30 45 Q 50 40 70 45 Q 65 70 50 75 Q 35 70 30 45 Z" fill="#E4D4A4"/>
+                <circle cx="50" cy="60" r="6" fill="#3D8E55"/>
+                <g fill="#E4D4A4"><circle cx="40" cy="55" r="1.5"/><circle cx="60" cy="55" r="1.5"/></g>
+              </svg>
+              <div class="label" style="padding:6px 10px"><div class="n">Nakshatra Haar</div><div class="p">₹ 9.4L</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-row cols-3">
+      <div class="demo-card reveal">
+        <div class="demo-head"><i class="fa-solid fa-certificate"></i> Hallmark &amp; cert</div>
+        <div class="demo-body">
+          <div style="padding:14px; border:1px solid var(--gold); border-radius:12px; background:rgba(228,212,164,0.06); margin-bottom:10px">
+            <div style="display:flex; justify-content:space-between; margin-bottom:8px"><div class="ui-sub" style="margin:0; font-size:11px">BIS Hallmark</div><div style="font-family:var(--f-mono); font-size:11px; color:var(--gold)">HUID: DL4839281</div></div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:6px"><div class="ui-sub" style="margin:0; font-size:11px">Purity</div><div style="font-family:var(--f-serif); font-size:14px; color:var(--ivory)">916 · 22kt</div></div>
+            <div style="display:flex; justify-content:space-between"><div class="ui-sub" style="margin:0; font-size:11px">Net weight</div><div style="font-family:var(--f-serif); font-size:14px; color:var(--ivory)">38.42 g</div></div>
+          </div>
+          <div style="display:flex; gap:8px; align-items:center; font-size:11px; color:var(--ivory-dim)"><i class="fa-solid fa-check" style="color:var(--gold)"></i> Lab certificate by IGI, downloadable PDF</div>
+        </div>
+      </div>
+      <div class="demo-card reveal" data-delay="1">
+        <div class="demo-head"><i class="fa-solid fa-money-bill-transfer"></i> Live rates</div>
+        <div class="demo-body">
+          <div class="stat-pill" style="margin-bottom:8px"><span class="k">22k Gold · /10g</span><span class="v">₹ 62,840</span></div>
+          <div class="stat-pill" style="margin-bottom:8px"><span class="k">18k Gold · /10g</span><span class="v">₹ 51,420</span></div>
+          <div class="stat-pill" style="margin-bottom:8px"><span class="k">Silver · /kg</span><span class="v">₹ 78,600</span></div>
+          <div class="ui-sub" style="font-size:10px; margin-top:12px; margin-bottom:0">Updated 14 Nov · 9:12 AM · from MCX</div>
+        </div>
+      </div>
+      <div class="demo-card reveal" data-delay="2">
+        <div class="demo-head"><i class="fa-solid fa-calendar-check"></i> Book a viewing</div>
+        <div class="demo-body">
+          <div class="ui-sub" style="font-size:12px; margin-bottom:12px">Private upstairs salon · 45 mins with a senior consultant</div>
+          <div class="cal-grid" style="margin-bottom:12px">
+            <div class="cal-day">10</div><div class="cal-day">11</div><div class="cal-day dot">12</div><div class="cal-day active">13</div><div class="cal-day dot">14</div><div class="cal-day">15</div><div class="cal-day">16</div>
+          </div>
+          <div style="display:flex; flex-wrap:wrap; gap:6px">
+            <div class="ui-chip muted" style="padding:4px 10px">11:00</div>
+            <div class="ui-chip solid" style="padding:4px 10px">14:00</div>
+            <div class="ui-chip muted" style="padding:4px 10px">16:30</div>
+            <div class="ui-chip muted" style="padding:4px 10px">18:00</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="eyebrow reveal">03 — Gold Savings</div>
+    <h2 class="reveal">The flow that builds <em>decade-long</em> customers.</h2>
+    <div class="split">
+      <div class="split-text reveal">
+        <h3>Members deposit every month. Redeem as <em>jewellery</em> at the end.</h3>
+        <p>It's the oldest trust-building scheme in Indian jewellery. We've modernised it — UPI auto-debit, monthly WhatsApp receipts, a ledger they can see anytime, and a redemption calendar that reminds them of their dates.</p>
+        <ul>
+          <li>11+1 scheme · deposit 11 months, 12th month on you</li>
+          <li>Auto-debit via UPI mandate · no follow-up needed</li>
+          <li>Digital ledger · members see balance + projections</li>
+          <li>Redemption reminders · convert to sales at maturity</li>
+        </ul>
+      </div>
+      <div class="reveal" data-delay="1">
+        <div class="phone-shell">
+          <div class="phone-scr">
+            <svg viewBox="0 0 270 570" preserveAspectRatio="xMidYMid slice">
+              <defs><linearGradient id="jm-bg" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#181428"/><stop offset="100%" stop-color="#080612"/></linearGradient></defs>
+              <rect width="270" height="570" fill="url(#jm-bg)"/>
+              <text x="20" y="30" fill="#F4EFE6" opacity="0.7" font-family="sans-serif" font-size="11" font-weight="600">9:41</text>
+              <text x="20" y="68" fill="#E4D4A4" font-family="serif" font-style="italic" font-size="14">Bimalendu &amp; Sons.</text>
+              <text x="250" y="68" fill="#E4D4A4" font-family="monospace" font-size="10" text-anchor="end">SCHEME · #4812</text>
+              <text x="20" y="108" fill="#C8C3BA" font-family="sans-serif" font-size="10">Your Gold Savings</text>
+              <text x="20" y="142" fill="#F4EFE6" font-family="serif" font-size="30" font-weight="500">₹ 38,500</text>
+              <text x="20" y="162" fill="#E4D4A4" font-family="sans-serif" font-size="10">+ ₹ 3,500 bonus at maturity</text>
+              <!-- progress -->
+              <rect x="20" y="180" width="230" height="6" rx="3" fill="#2a2438"/>
+              <rect x="20" y="180" width="160" height="6" rx="3" fill="#E4D4A4"/>
+              <text x="20" y="204" fill="#8A8578" font-family="monospace" font-size="9">MONTH 7 OF 11 · 4 TO GO</text>
+              <!-- next debit -->
+              <rect x="16" y="222" width="238" height="64" rx="12" fill="rgba(228,212,164,0.08)" stroke="#E4D4A4" stroke-width="0.8"/>
+              <text x="28" y="242" fill="#E4D4A4" font-family="monospace" font-size="9" letter-spacing="1">NEXT DEBIT</text>
+              <text x="28" y="262" fill="#F4EFE6" font-family="serif" font-size="16" font-weight="500">₹ 5,500 · on 1 Dec</text>
+              <text x="28" y="278" fill="#8A8578" font-family="sans-serif" font-size="10">HDFC UPI · auto</text>
+              <!-- ledger -->
+              <text x="20" y="316" fill="#E4D4A4" font-family="monospace" font-size="10" letter-spacing="1.5">LEDGER</text>
+              <g font-family="sans-serif">
+                <rect x="16" y="328" width="238" height="42" rx="10" fill="#1a1828"/>
+                <text x="28" y="348" fill="#F4EFE6" font-size="12">Oct deposit</text>
+                <text x="28" y="362" fill="#8A8578" font-size="9">01 Oct · auto-debit</text>
+                <text x="246" y="352" fill="#E4D4A4" font-size="13" text-anchor="end" font-family="serif">+ ₹ 5,500</text>
+
+                <rect x="16" y="376" width="238" height="42" rx="10" fill="#1a1828"/>
+                <text x="28" y="396" fill="#F4EFE6" font-size="12">Sep deposit</text>
+                <text x="28" y="410" fill="#8A8578" font-size="9">01 Sep · auto-debit</text>
+                <text x="246" y="400" fill="#E4D4A4" font-size="13" text-anchor="end" font-family="serif">+ ₹ 5,500</text>
+
+                <rect x="16" y="424" width="238" height="42" rx="10" fill="#1a1828"/>
+                <text x="28" y="444" fill="#F4EFE6" font-size="12">Aug deposit</text>
+                <text x="28" y="458" fill="#8A8578" font-size="9">01 Aug · auto-debit</text>
+                <text x="246" y="448" fill="#E4D4A4" font-size="13" text-anchor="end" font-family="serif">+ ₹ 5,500</text>
+              </g>
+              <!-- redeem -->
+              <rect x="16" y="486" width="238" height="46" rx="23" fill="#E4D4A4"/>
+              <text x="135" y="514" fill="#080612" font-family="sans-serif" font-size="12" font-weight="600" text-anchor="middle">Browse bridal collection</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="template-cta reveal">
+      <div>
+        <div class="eyebrow">Start with this template</div>
+        <h3>A website worthy of a <em>legacy</em>.</h3>
+        <p>Jewellery sites take 16–20 days. Hallmark display, gold rate ticker and savings scheme ledger ship from day one.</p>
+      </div>
+      <div class="p-ctas">
+        <a href="https://wa.me/919830000000" class="btn btn-primary" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> WhatsApp Me</a>
+        <a href="../index.html#contact" class="btn btn-ghost">Send an Enquiry</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<a class="next-case reveal" href="realestate.html">
+  <div><div class="eyebrow" style="margin-bottom:8px">Next Template</div><h3>Real Estate — <em>Developers &amp; Brokers</em></h3><p>Projects, floor plans, site visits, lead routing.</p></div>
+  <div class="btn btn-primary">Continue <i class="fa-solid fa-arrow-right"></i></div>
+</a>
+
+<div class="p-foot">
+  <div>© 2026 Mayank Khandelwal · Category Template · Jewellery</div>
+  <div><a href="../index.html">Back to all templates</a></div>
+</div>
+<a href="https://wa.me/919830000000" target="_blank" rel="noopener" class="wa-float" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+<script src="shared.js"></script>
+</body>
+</html>
+

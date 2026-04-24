@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="plum" data-layout="editorial">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Real Estate Template — Mayank Khandelwal</title>
+<meta name="description" content="Website template for real estate developers, builders, brokers &amp; PropTech. Project gallery, floor plans, site visit booking, lead routing." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<link rel="stylesheet" href="shared.css?v=4" />
+<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+</head>
+<body>
+<nav class="pnav">
+  <a class="logo" href="../index.html">Mayank<em>.</em></a>
+  <a class="back" href="../index.html#work"><i class="fa-solid fa-arrow-left"></i> All Templates</a>
+</nav>
+
+<section class="p-hero">
+  <canvas id="p-hero-canvas"></canvas>
+  <div class="p-hero-inner">
+    <div class="p-tag reveal"><i class="fa-solid fa-building"></i> Category · Real Estate</div>
+    <h1 class="reveal">A website that <em>books site visits</em>, not just views.</h1>
+    <p class="p-hero-sub reveal">For developers, builders, brokerages, luxury resales, and PropTech. Project galleries, interactive floor plans, RERA-compliant disclosures, site-visit booking, and lead routing that doesn't lose a single enquiry.</p>
+    <div class="p-meta reveal">
+      <div class="p-meta-item"><span class="k">Best for</span><span class="v">Developers · Brokers · Resale</span></div>
+      <div class="p-meta-item"><span class="k">Pages</span><span class="v">Home · Projects · Plans · Visit</span></div>
+      <div class="p-meta-item"><span class="k">Delivery</span><span class="v">18–24 days</span></div>
+      <div class="p-meta-item"><span class="k">From</span><span class="v">₹ 95,000</span></div>
+    </div>
+    <div class="p-ctas reveal">
+      <a href="../index.html#contact" class="btn btn-primary">Start with this template <i class="fa-solid fa-arrow-right"></i></a>
+      <a href="#preview" class="btn btn-ghost">See full preview</a>
+    </div>
+  </div>
+
+  <div class="p-visual reveal">
+    <div class="hero-art">
+      <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id="re-sky" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="#2a2040"/>
+            <stop offset="50%" stop-color="#1a1030"/>
+            <stop offset="100%" stop-color="#0a0618"/>
+          </linearGradient>
+          <linearGradient id="re-t1" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="#3a2a58"/>
+            <stop offset="100%" stop-color="#141028"/>
+          </linearGradient>
+          <linearGradient id="re-t2" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="#4a3868"/>
+            <stop offset="100%" stop-color="#1a1230"/>
+          </linearGradient>
+          <linearGradient id="re-t3" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="#5a4878"/>
+            <stop offset="100%" stop-color="#201838"/>
+          </linearGradient>
+          <radialGradient id="re-moon" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#F5E9C8"/><stop offset="100%" stop-color="#E4D4A4" stop-opacity="0"/></radialGradient>
+        </defs>
+        <rect width="600" height="600" fill="url(#re-sky)"/>
+        <!-- Moon glow -->
+        <circle cx="460" cy="130" r="70" fill="url(#re-moon)" opacity="0.6"/>
+        <circle cx="460" cy="130" r="28" fill="#F5E9C8" opacity="0.85"/>
+        <!-- Stars -->
+        <g fill="#E4D4A4">
+          <circle cx="80" cy="90" r="1.2"/><circle cx="140" cy="60" r="1"/>
+          <circle cx="220" cy="100" r="1.3"/><circle cx="330" cy="70" r="1"/>
+          <circle cx="540" cy="80" r="1.1"/><circle cx="560" cy="200" r="1"/>
+          <circle cx="60" cy="210" r="1"/><circle cx="100" cy="160" r="0.9"/>
+        </g>
+
+        <!-- Skyline: 3 towers -->
+        <!-- Back tower -->
+        <g transform="translate(150 230)">
+          <rect x="0" y="0" width="90" height="330" fill="url(#re-t1)" stroke="#E4D4A4" stroke-width="0.4"/>
+          <!-- windows grid -->
+          <g fill="#E4D4A4">
+            <rect x="10" y="20" width="14" height="14" opacity="0.9"/>
+            <rect x="34" y="20" width="14" height="14" opacity="0.4"/>
+            <rect x="58" y="20" width="14" height="14" opacity="0.85"/>
+            <rect x="10" y="50" width="14" height="14" opacity="0.45"/>
+            <rect x="34" y="50" width="14" height="14" opacity="0.9"/>
+            <rect x="58" y="50" width="14" height="14" opacity="0.3"/>
+            <rect x="10" y="80" width="14" height="14" opacity="0.7"/>
+            <rect x="34" y="80" width="14" height="14" opacity="0.5"/>
+            <rect x="58" y="80" width="14" height="14" opacity="0.9"/>
+            <rect x="10" y="110" width="14" height="14" opacity="0.85"/>
+            <rect x="34" y="110" width="14" height="14" opacity="0.4"/>
+            <rect x="58" y="110" width="14" height="14" opacity="0.6"/>
+            <rect x="10" y="140" width="14" height="14" opacity="0.3"/>
+            <rect x="34" y="140" width="14" height="14" opacity="0.9"/>
+            <rect x="58" y="140" width="14" height="14" opacity="0.7"/>
+            <rect x="10" y="170" width="14" height="14" opacity="0.6"/>
+            <rect x="34" y="170" width="14" height="14" opacity="0.45"/>
+            <rect x="58" y="170" width="14" height="14" opacity="0.85"/>
+            <rect x="10" y="200" width="14" height="14" opacity="0.9"/>
+            <rect x="34" y="200" width="14" height="14" opacity="0.3"/>
+            <rect x="58" y="200" width="14" height="14" opacity="0.7"/>
+            <rect x="10" y="230" width="14" height="14" opacity="0.5"/>
+            <rect x="34" y="230" width="14" height="14" opacity="0.85"/>
+            <rect x="58" y="230" width="14" height="14" opacity="0.4"/>
+            <rect x="10" y="260" width="14" height="14" opacity="0.9"/>
+            <rect x="34" y="260" width="14" height="14" opacity="0.6"/>
+            <rect x="58" y="260" width="14" height="14" opacity="0.8"/>
+            <rect x="10" y="290" width="14" height="14" opacity="0.45"/>
+            <rect x="34" y="290" width="14" height="14" opacity="0.9"/>
+            <rect x="58" y="290" width="14" height="14" opacity="0.5"/>
+          </g>
+          <!-- antenna -->
+          <line x1="45" y1="0" x2="45" y2="-24" stroke="#E4D4A4" stroke-width="1.2"/>
+          <circle cx="45" cy="-24" r="2.5" fill="#D44A3A"/>
+        </g>
+
+        <!-- Mid tower (taller, front-left) -->
+        <g transform="translate(60 160)">
+          <rect x="0" y="0" width="80" height="400" fill="url(#re-t2)" stroke="#E4D4A4" stroke-width="0.5"/>
+          <g fill="#F5E9C8">
+            <g opacity="0.8">
+              <rect x="8" y="14" width="12" height="12"/><rect x="28" y="14" width="12" height="12"/><rect x="48" y="14" width="12" height="12"/><rect x="68" y="14" width="8" height="12"/>
+            </g>
+            <g opacity="0.4"><rect x="8" y="40" width="12" height="12"/><rect x="28" y="40" width="12" height="12"/><rect x="48" y="40" width="12" height="12"/></g>
+            <g opacity="0.85"><rect x="8" y="66" width="12" height="12"/><rect x="48" y="66" width="12" height="12"/><rect x="68" y="66" width="8" height="12"/></g>
+            <g opacity="0.5"><rect x="28" y="92" width="12" height="12"/><rect x="48" y="92" width="12" height="12"/></g>
+            <g opacity="0.9"><rect x="8" y="118" width="12" height="12"/><rect x="28" y="118" width="12" height="12"/><rect x="68" y="118" width="8" height="12"/></g>
+            <g opacity="0.6"><rect x="48" y="144" width="12" height="12"/><rect x="68" y="144" width="8" height="12"/></g>
+            <g opacity="0.85"><rect x="8" y="170" width="12" height="12"/><rect x="48" y="170" width="12" height="12"/></g>
+            <g opacity="0.4"><rect x="28" y="196" width="12" height="12"/><rect x="68" y="196" width="8" height="12"/></g>
+            <g opacity="0.9"><rect x="8" y="222" width="12" height="12"/><rect x="28" y="222" width="12" height="12"/><rect x="48" y="222" width="12" height="12"/></g>
+            <g opacity="0.55"><rect x="8" y="248" width="12" height="12"/><rect x="48" y="248" width="12" height="12"/></g>
+            <g opacity="0.85"><rect x="28" y="274" width="12" height="12"/><rect x="68" y="274" width="8" height="12"/></g>
+            <g opacity="0.45"><rect x="8" y="300" width="12" height="12"/><rect x="48" y="300" width="12" height="12"/></g>
+            <g opacity="0.9"><rect x="8" y="326" width="12" height="12"/><rect x="28" y="326" width="12" height="12"/><rect x="68" y="326" width="8" height="12"/></g>
+            <g opacity="0.5"><rect x="28" y="352" width="12" height="12"/><rect x="48" y="352" width="12" height="12"/></g>
+            <g opacity="0.85"><rect x="8" y="378" width="12" height="12"/><rect x="68" y="378" width="8" height="12"/></g>
+          </g>
+        </g>
+
+        <!-- Front tower (tallest, hero) -->
+        <g transform="translate(280 100)">
+          <rect x="0" y="0" width="110" height="460" fill="url(#re-t3)" stroke="#E4D4A4" stroke-width="0.6"/>
+          <!-- signature gold band -->
+          <rect x="0" y="80" width="110" height="4" fill="#E4D4A4"/>
+          <rect x="0" y="260" width="110" height="4" fill="#E4D4A4" opacity="0.6"/>
+          <!-- windows as grid -->
+          <g fill="#F5E9C8">
+            <g>
+              <rect x="10" y="20" width="16" height="14" opacity="0.9"/>
+              <rect x="34" y="20" width="16" height="14" opacity="0.55"/>
+              <rect x="58" y="20" width="16" height="14" opacity="0.8"/>
+              <rect x="82" y="20" width="16" height="14" opacity="0.4"/>
+            </g>
+            <g>
+              <rect x="10" y="45" width="16" height="14" opacity="0.5"/>
+              <rect x="34" y="45" width="16" height="14" opacity="0.9"/>
+              <rect x="58" y="45" width="16" height="14" opacity="0.35"/>
+              <rect x="82" y="45" width="16" height="14" opacity="0.85"/>
+            </g>
+            <!-- amenity strip: pool / gym glow -->
+            <g>
+              <rect x="10" y="95" width="90" height="30" fill="#E4D4A4" opacity="0.2"/>
+              <rect x="10" y="95" width="90" height="30" fill="none" stroke="#E4D4A4" stroke-width="0.5" opacity="0.6"/>
+              <circle cx="30" cy="110" r="3" fill="#C4E0F5" opacity="0.8"/>
+              <circle cx="55" cy="110" r="3" fill="#C4E0F5" opacity="0.6"/>
+              <circle cx="80" cy="110" r="3" fill="#C4E0F5" opacity="0.7"/>
+            </g>
+            <g>
+              <rect x="10" y="140" width="16" height="14" opacity="0.85"/>
+              <rect x="34" y="140" width="16" height="14" opacity="0.4"/>
+              <rect x="58" y="140" width="16" height="14" opacity="0.9"/>
+              <rect x="82" y="140" width="16" height="14" opacity="0.55"/>
+            </g>
+            <g>
+              <rect x="10" y="165" width="16" height="14" opacity="0.5"/>
+              <rect x="34" y="165" width="16" height="14" opacity="0.85"/>
+              <rect x="58" y="165" width="16" height="14" opacity="0.4"/>
+              <rect x="82" y="165" width="16" height="14" opacity="0.9"/>
+            </g>
+            <g>
+              <rect x="10" y="190" width="16" height="14" opacity="0.9"/>
+              <rect x="34" y="190" width="16" height="14" opacity="0.55"/>
+              <rect x="58" y="190" width="16" height="14" opacity="0.8"/>
+              <rect x="82" y="190" width="16" height="14" opacity="0.35"/>
+            </g>
+            <g>
+              <rect x="10" y="215" width="16" height="14" opacity="0.55"/>
+              <rect x="34" y="215" width="16" height="14" opacity="0.9"/>
+              <rect x="58" y="215" width="16" height="14" opacity="0.4"/>
+              <rect x="82" y="215" width="16" height="14" opacity="0.8"/>
+            </g>
+            <g>
+              <rect x="10" y="240" width="16" height="14" opacity="0.85"/>
+              <rect x="34" y="240" width="16" height="14" opacity="0.35"/>
+              <rect x="58" y="240" width="16" height="14" opacity="0.9"/>
+              <rect x="82" y="240" width="16" height="14" opacity="0.55"/>
+            </g>
+            <g>
+              <rect x="10" y="280" width="16" height="14" opacity="0.5"/>
+              <rect x="34" y="280" width="16" height="14" opacity="0.85"/>
+              <rect x="58" y="280" width="16" height="14" opacity="0.35"/>
+              <rect x="82" y="280" width="16" height="14" opacity="0.9"/>
+            </g>
+            <g>
+              <rect x="10" y="305" width="16" height="14" opacity="0.9"/>
+              <rect x="34" y="305" width="16" height="14" opacity="0.4"/>
+              <rect x="58" y="305" width="16" height="14" opacity="0.8"/>
+              <rect x="82" y="305" width="16" height="14" opacity="0.55"/>
+            </g>
+            <g>
+              <rect x="10" y="330" width="16" height="14" opacity="0.45"/>
+              <rect x="34" y="330" width="16" height="14" opacity="0.9"/>
+              <rect x="58" y="330" width="16" height="14" opacity="0.6"/>
+              <rect x="82" y="330" width="16" height="14" opacity="0.3"/>
+            </g>
+            <g>
+              <rect x="10" y="355" width="16" height="14" opacity="0.85"/>
+              <rect x="34" y="355" width="16" height="14" opacity="0.5"/>
+              <rect x="58" y="355" width="16" height="14" opacity="0.9"/>
+              <rect x="82" y="355" width="16" height="14" opacity="0.6"/>
+            </g>
+            <g>
+              <rect x="10" y="380" width="16" height="14" opacity="0.4"/>
+              <rect x="34" y="380" width="16" height="14" opacity="0.85"/>
+              <rect x="58" y="380" width="16" height="14" opacity="0.45"/>
+              <rect x="82" y="380" width="16" height="14" opacity="0.9"/>
+            </g>
+            <g>
+              <rect x="10" y="405" width="16" height="14" opacity="0.9"/>
+              <rect x="34" y="405" width="16" height="14" opacity="0.55"/>
+              <rect x="58" y="405" width="16" height="14" opacity="0.8"/>
+              <rect x="82" y="405" width="16" height="14" opacity="0.4"/>
+            </g>
+            <g>
+              <rect x="10" y="430" width="16" height="14" opacity="0.5"/>
+              <rect x="34" y="430" width="16" height="14" opacity="0.9"/>
+              <rect x="58" y="430" width="16" height="14" opacity="0.35"/>
+              <rect x="82" y="430" width="16" height="14" opacity="0.85"/>
+            </g>
+          </g>
+          <!-- spire -->
+          <polygon points="55,-40 40,0 70,0" fill="#1a1230" stroke="#E4D4A4" stroke-width="0.6"/>
+          <line x1="55" y1="-40" x2="55" y2="-70" stroke="#E4D4A4" stroke-width="1"/>
+          <circle cx="55" cy="-70" r="3" fill="#D44A3A"/>
+        </g>
+
+        <!-- Side tower (short, right) -->
+        <g transform="translate(420 300)">
+          <rect x="0" y="0" width="100" height="260" fill="url(#re-t1)" stroke="#E4D4A4" stroke-width="0.4"/>
+          <g fill="#E4D4A4">
+            <g opacity="0.8"><rect x="8" y="16" width="12" height="12"/><rect x="28" y="16" width="12" height="12"/><rect x="48" y="16" width="12" height="12"/><rect x="68" y="16" width="12" height="12"/><rect x="88" y="16" width="8" height="12"/></g>
+            <g opacity="0.45"><rect x="8" y="40" width="12" height="12"/><rect x="48" y="40" width="12" height="12"/><rect x="88" y="40" width="8" height="12"/></g>
+            <g opacity="0.9"><rect x="28" y="64" width="12" height="12"/><rect x="48" y="64" width="12" height="12"/><rect x="68" y="64" width="12" height="12"/></g>
+            <g opacity="0.55"><rect x="8" y="88" width="12" height="12"/><rect x="28" y="88" width="12" height="12"/><rect x="68" y="88" width="12" height="12"/></g>
+            <g opacity="0.85"><rect x="48" y="112" width="12" height="12"/><rect x="68" y="112" width="12" height="12"/><rect x="88" y="112" width="8" height="12"/></g>
+            <g opacity="0.4"><rect x="8" y="136" width="12" height="12"/><rect x="48" y="136" width="12" height="12"/></g>
+            <g opacity="0.9"><rect x="8" y="160" width="12" height="12"/><rect x="28" y="160" width="12" height="12"/><rect x="68" y="160" width="12" height="12"/><rect x="88" y="160" width="8" height="12"/></g>
+            <g opacity="0.5"><rect x="28" y="184" width="12" height="12"/><rect x="48" y="184" width="12" height="12"/><rect x="88" y="184" width="8" height="12"/></g>
+            <g opacity="0.85"><rect x="8" y="208" width="12" height="12"/><rect x="48" y="208" width="12" height="12"/><rect x="68" y="208" width="12" height="12"/></g>
+            <g opacity="0.6"><rect x="28" y="232" width="12" height="12"/><rect x="68" y="232" width="12" height="12"/></g>
+          </g>
+        </g>
+
+        <!-- Ground reflection -->
+        <rect x="0" y="560" width="600" height="40" fill="#0a0618"/>
+        <g opacity="0.25">
+          <rect x="280" y="560" width="110" height="30" fill="url(#re-t3)" transform="matrix(1 0 0 -1 0 1120)"/>
+          <rect x="60" y="560" width="80" height="30" fill="url(#re-t2)" transform="matrix(1 0 0 -1 0 1120)"/>
+          <rect x="420" y="560" width="100" height="30" fill="url(#re-t1)" transform="matrix(1 0 0 -1 0 1120)"/>
+        </g>
+      </svg>
+      <div class="float-chip" style="top:22px; right:22px"><i class="fa-solid fa-check"></i> RERA P51700001234</div>
+      <div class="float-chip" style="bottom:22px; left:22px; animation-delay:1s"><i class="fa-solid fa-location-dot"></i> Possession Dec '27</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="preview">
+  <div class="wrap">
+    <div class="eyebrow reveal">01 — What's in the Template</div>
+    <h2 class="reveal">Everything for <em>high-ticket</em> property sales.</h2>
+    <div class="features">
+      <div class="feature reveal"><i class="fa-solid fa-building"></i><h4>Project Pages</h4><p>Full-bleed galleries, amenity grids, master plan, location map, unit configurations.</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-map"></i><h4>Interactive Floor Plans</h4><p>Click a unit, see the layout, carpet area, balcony direction, and price-on-request.</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-shield-halved"></i><h4>RERA Compliance</h4><p>Registration numbers, approvals, disclosures, commencement certificates — all in the footer.</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-calendar-check"></i><h4>Site Visit Booking</h4><p>Pick a slot, get a confirmed visit — with a pickup-cab option for serious buyers.</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-route"></i><h4>Lead Routing</h4><p>Enquiries land in your CRM, assigned by region. Zero leads lost to unread inboxes.</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-calculator"></i><h4>EMI Calculator</h4><p>Live calculator with bank-tie-up logos and pre-approval form. Qualifies intent early.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="eyebrow reveal">02 — Live Preview</div>
+    <h2 class="reveal">A project page that <em>answers</em> every question.</h2>
+
+    <div class="site-preview reveal">
+      <div class="site-chrome"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="url">yourgroup.in / projects / altair-one</div></div>
+      <div class="site-body">
+        <div style="padding:56px 48px 28px; background:linear-gradient(160deg, #1F1530, #0a0614)">
+          <div style="font-family:var(--f-mono); font-size:10px; letter-spacing:0.28em; color:var(--gold); margin-bottom:14px">ALTAIR GROUP · PROJECT 07</div>
+          <div style="font-family:var(--f-serif); font-size:46px; font-weight:500; line-height:1.04; max-width:14ch; margin-bottom:14px">Altair <em style="font-style:italic; color:var(--gold); font-weight:400">One.</em></div>
+          <div style="color:var(--ivory-dim); font-size:14px; max-width:50ch; margin-bottom:18px">42 storeys. 3 &amp; 4 BHK residences. New Town, Kolkata. RERA-certified. Possession December 2027.</div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap">
+            <div class="ui-chip muted">3 BHK · 1,780 sqft</div>
+            <div class="ui-chip muted">4 BHK · 2,340 sqft</div>
+            <div class="ui-chip solid">Book a visit</div>
+          </div>
+        </div>
+        <div style="padding:32px 48px 48px">
+          <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:22px">
+            <div class="stat-pill"><span class="k">Starting</span><span class="v">₹ 2.4 Cr</span></div>
+            <div class="stat-pill"><span class="k">Possession</span><span class="v">Dec '27</span></div>
+            <div class="stat-pill"><span class="k">Units</span><span class="v">286</span></div>
+            <div class="stat-pill"><span class="k">Sold</span><span class="v">38%</span></div>
+          </div>
+          <div style="font-family:var(--f-mono); font-size:10px; letter-spacing:0.26em; color:var(--gold); margin-bottom:14px">FLOOR PLAN · 3 BHK · TYPE A</div>
+          <div style="display:grid; grid-template-columns:2fr 1fr; gap:16px">
+            <div style="border:1px solid var(--line-soft); border-radius:12px; padding:20px; background:rgba(20,16,40,0.4); position:relative; min-height:200px">
+              <svg viewBox="0 0 320 200" style="width:100%; height:auto">
+                <rect x="10" y="10" width="300" height="180" fill="none" stroke="#E4D4A4" stroke-width="1.2"/>
+                <!-- rooms -->
+                <rect x="10" y="10" width="130" height="90" fill="none" stroke="#E4D4A4" stroke-width="0.8"/>
+                <text x="75" y="55" fill="#E4D4A4" font-family="monospace" font-size="10" text-anchor="middle">LIVING</text>
+                <text x="75" y="70" fill="#8A8578" font-family="monospace" font-size="8" text-anchor="middle">16 × 14</text>
+
+                <rect x="140" y="10" width="80" height="90" fill="none" stroke="#E4D4A4" stroke-width="0.8"/>
+                <text x="180" y="55" fill="#E4D4A4" font-family="monospace" font-size="10" text-anchor="middle">DINING</text>
+                <text x="180" y="70" fill="#8A8578" font-family="monospace" font-size="8" text-anchor="middle">12 × 10</text>
+
+                <rect x="220" y="10" width="90" height="90" fill="none" stroke="#E4D4A4" stroke-width="0.8"/>
+                <text x="265" y="50" fill="#E4D4A4" font-family="monospace" font-size="10" text-anchor="middle">MASTER</text>
+                <text x="265" y="62" fill="#E4D4A4" font-family="monospace" font-size="10" text-anchor="middle">BED</text>
+                <text x="265" y="80" fill="#8A8578" font-family="monospace" font-size="8" text-anchor="middle">14 × 14</text>
+
+                <rect x="10" y="100" width="100" height="90" fill="none" stroke="#E4D4A4" stroke-width="0.8"/>
+                <text x="60" y="140" fill="#E4D4A4" font-family="monospace" font-size="10" text-anchor="middle">BED 2</text>
+                <text x="60" y="155" fill="#8A8578" font-family="monospace" font-size="8" text-anchor="middle">12 × 12</text>
+
+                <rect x="110" y="100" width="100" height="90" fill="none" stroke="#E4D4A4" stroke-width="0.8"/>
+                <text x="160" y="140" fill="#E4D4A4" font-family="monospace" font-size="10" text-anchor="middle">BED 3</text>
+                <text x="160" y="155" fill="#8A8578" font-family="monospace" font-size="8" text-anchor="middle">11 × 11</text>
+
+                <rect x="210" y="100" width="100" height="90" fill="rgba(228,212,164,0.12)" stroke="#E4D4A4" stroke-width="0.8"/>
+                <text x="260" y="135" fill="#E4D4A4" font-family="monospace" font-size="10" text-anchor="middle">BALCONY</text>
+                <text x="260" y="150" fill="#8A8578" font-family="monospace" font-size="8" text-anchor="middle">SW FACING</text>
+                <!-- door markers -->
+                <g fill="#E4D4A4" opacity="0.6"><circle cx="140" cy="55" r="2"/><circle cx="140" cy="145" r="2"/><circle cx="210" cy="145" r="2"/></g>
+              </svg>
+            </div>
+            <div>
+              <div class="ui-sub" style="font-size:12px; margin-bottom:10px">Carpet area · 1,482 sqft</div>
+              <div style="display:flex; flex-direction:column; gap:6px; margin-bottom:12px">
+                <div style="font-size:12px; color:var(--ivory-dim)"><i class="fa-solid fa-compass" style="color:var(--gold); width:14px"></i> SW facing balcony</div>
+                <div style="font-size:12px; color:var(--ivory-dim)"><i class="fa-solid fa-elevator" style="color:var(--gold); width:14px"></i> 2 high-speed lifts</div>
+                <div style="font-size:12px; color:var(--ivory-dim)"><i class="fa-solid fa-car" style="color:var(--gold); width:14px"></i> 2 covered parking</div>
+                <div style="font-size:12px; color:var(--ivory-dim)"><i class="fa-solid fa-kitchen-set" style="color:var(--gold); width:14px"></i> Modular kitchen</div>
+              </div>
+              <div class="ui-price" style="font-size:22px; margin-bottom:10px">₹ 2.82 Cr</div>
+              <div class="ui-chip solid" style="width:100%; justify-content:center; padding:10px 14px">Book site visit</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-row cols-3">
+      <div class="demo-card reveal">
+        <div class="demo-head"><i class="fa-solid fa-calculator"></i> EMI calc</div>
+        <div class="demo-body">
+          <div class="ui-sub" style="font-size:11px; margin-bottom:4px">Loan amount</div>
+          <div style="font-family:var(--f-serif); font-size:22px; color:var(--ivory); margin-bottom:10px">₹ 2.25 Cr</div>
+          <div class="ui-sub" style="font-size:11px; margin-bottom:4px">20 years · 8.4% p.a.</div>
+          <div style="padding:14px; border:1px solid var(--gold); border-radius:12px; background:rgba(228,212,164,0.06); margin:10px 0">
+            <div class="ui-sub" style="font-size:10px; margin:0 0 4px">MONTHLY EMI</div>
+            <div style="font-family:var(--f-serif); font-size:26px; color:var(--gold)">₹ 1.94L</div>
+          </div>
+          <div style="display:flex; gap:6px; flex-wrap:wrap">
+            <div class="ui-chip muted" style="padding:3px 8px; font-size:9px">HDFC</div>
+            <div class="ui-chip muted" style="padding:3px 8px; font-size:9px">ICICI</div>
+            <div class="ui-chip muted" style="padding:3px 8px; font-size:9px">SBI</div>
+            <div class="ui-chip muted" style="padding:3px 8px; font-size:9px">Axis</div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-card reveal" data-delay="1">
+        <div class="demo-head"><i class="fa-solid fa-shield-halved"></i> RERA block</div>
+        <div class="demo-body">
+          <div style="padding:14px; border:1px solid var(--line-soft); border-radius:12px; margin-bottom:8px">
+            <div class="ui-sub" style="font-size:10px; margin:0 0 4px">REGISTRATION</div>
+            <div style="font-family:var(--f-mono); font-size:12px; color:var(--gold)">WBHIRA/P/NEW/2024/000123</div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:6px; font-size:11px; color:var(--ivory-dim)">
+            <div><i class="fa-solid fa-check" style="color:var(--gold); width:14px"></i> Commencement Certificate</div>
+            <div><i class="fa-solid fa-check" style="color:var(--gold); width:14px"></i> Environmental Clearance</div>
+            <div><i class="fa-solid fa-check" style="color:var(--gold); width:14px"></i> Fire NOC</div>
+            <div><i class="fa-solid fa-check" style="color:var(--gold); width:14px"></i> KMC Layout Sanction</div>
+          </div>
+          <div style="font-size:10px; color:var(--muted); margin-top:10px">All docs downloadable as PDF</div>
+        </div>
+      </div>
+      <div class="demo-card reveal" data-delay="2">
+        <div class="demo-head"><i class="fa-solid fa-route"></i> Lead routing</div>
+        <div class="demo-body">
+          <div class="ui-sub" style="font-size:12px; margin-bottom:12px">Enquiries routed live · this week</div>
+          <div style="display:flex; flex-direction:column; gap:8px">
+            <div class="stat-pill" style="padding:10px 14px"><span class="k">New Town</span><span class="v">12</span></div>
+            <div class="stat-pill" style="padding:10px 14px"><span class="k">Rajarhat</span><span class="v">8</span></div>
+            <div class="stat-pill" style="padding:10px 14px"><span class="k">Salt Lake</span><span class="v">5</span></div>
+          </div>
+          <div style="font-size:10px; color:var(--muted); margin-top:12px">Auto-assigned to 4 sales managers via WhatsApp</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="eyebrow reveal">03 — Mobile</div>
+    <h2 class="reveal">Half of all enquiries come from <em>WhatsApp links</em>.</h2>
+    <div class="split">
+      <div class="split-text reveal">
+        <h3>A project page that <em>scrolls itself</em> through WhatsApp shares.</h3>
+        <p>Broker shares a deep link. Buyer opens it on a phone. Sees the hero video, flips through floor plans, hits "Book a visit". Their pickup cab arrives at 11:00 AM Saturday. No calls made.</p>
+        <ul>
+          <li>Deep-linkable unit URLs · share-ready on WhatsApp</li>
+          <li>One-tap cab-pickup for serious buyers</li>
+          <li>Auto-downloadable brochure (PDF, 2MB)</li>
+          <li>Broker dashboard · see who opened the link</li>
+        </ul>
+      </div>
+      <div class="reveal" data-delay="1">
+        <div class="phone-shell">
+          <div class="phone-scr">
+            <svg viewBox="0 0 270 570" preserveAspectRatio="xMidYMid slice">
+              <defs><linearGradient id="rm-bg" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#1F1530"/><stop offset="100%" stop-color="#080612"/></linearGradient></defs>
+              <rect width="270" height="570" fill="url(#rm-bg)"/>
+              <text x="20" y="30" fill="#F4EFE6" opacity="0.7" font-family="sans-serif" font-size="11" font-weight="600">9:41</text>
+              <!-- hero block -->
+              <rect x="14" y="54" width="242" height="150" rx="14" fill="#2a1e48"/>
+              <g transform="translate(14 54)">
+                <rect x="90" y="24" width="30" height="120" fill="#3a2a58"/>
+                <rect x="130" y="40" width="30" height="104" fill="#4a3868"/>
+                <rect x="60" y="50" width="24" height="94" fill="#2a1e48"/>
+                <g fill="#E4D4A4">
+                  <rect x="94" y="40" width="5" height="5"/><rect x="104" y="40" width="5" height="5" opacity="0.5"/><rect x="114" y="40" width="4" height="5"/>
+                  <rect x="94" y="60" width="5" height="5" opacity="0.8"/><rect x="114" y="60" width="4" height="5" opacity="0.5"/>
+                  <rect x="134" y="56" width="5" height="5"/><rect x="146" y="56" width="5" height="5" opacity="0.8"/>
+                  <rect x="134" y="76" width="5" height="5" opacity="0.7"/><rect x="146" y="76" width="5" height="5"/>
+                </g>
+                <rect x="0" y="115" width="242" height="35" fill="url(#rm-bg)" opacity="0.7"/>
+              </g>
+              <text x="28" y="180" fill="#E4D4A4" font-family="monospace" font-size="9" letter-spacing="1">NEW TOWN · 3 &amp; 4 BHK</text>
+              <text x="28" y="198" fill="#F4EFE6" font-family="serif" font-size="20" font-weight="500">Altair One.</text>
+              <!-- body -->
+              <text x="20" y="240" fill="#F4EFE6" font-family="serif" font-size="16" font-weight="500">From ₹ 2.4 Cr</text>
+              <text x="250" y="240" fill="#E4D4A4" font-family="monospace" font-size="10" text-anchor="end">Dec '27</text>
+
+              <!-- config tabs -->
+              <g font-family="sans-serif" font-size="10">
+                <rect x="14" y="256" width="74" height="32" rx="16" fill="#E4D4A4"/><text x="51" y="276" fill="#080612" text-anchor="middle" font-weight="600">3 BHK</text>
+                <rect x="92" y="256" width="74" height="32" rx="16" fill="none" stroke="#3a2a58"/><text x="129" y="276" fill="#F4EFE6" text-anchor="middle">4 BHK</text>
+                <rect x="170" y="256" width="74" height="32" rx="16" fill="none" stroke="#3a2a58"/><text x="207" y="276" fill="#F4EFE6" text-anchor="middle">Duplex</text>
+              </g>
+
+              <!-- unit cards -->
+              <g>
+                <rect x="14" y="304" width="242" height="58" rx="12" fill="#1a1428" stroke="#2a1e48" stroke-width="0.5"/>
+                <text x="28" y="322" fill="#F4EFE6" font-family="sans-serif" font-size="12" font-weight="500">Type A · 1,780 sqft</text>
+                <text x="28" y="338" fill="#8A8578" font-family="sans-serif" font-size="9">SW balcony · Floor 14+</text>
+                <text x="28" y="354" fill="#E4D4A4" font-family="monospace" font-size="9">3 available</text>
+                <text x="246" y="328" fill="#E4D4A4" font-family="serif" font-size="15" text-anchor="end">₹ 2.82 Cr</text>
+
+                <rect x="14" y="370" width="242" height="58" rx="12" fill="#1a1428" stroke="#2a1e48" stroke-width="0.5"/>
+                <text x="28" y="388" fill="#F4EFE6" font-family="sans-serif" font-size="12" font-weight="500">Type B · 1,890 sqft</text>
+                <text x="28" y="404" fill="#8A8578" font-family="sans-serif" font-size="9">E balcony · Corner unit</text>
+                <text x="28" y="420" fill="#E4D4A4" font-family="monospace" font-size="9">1 available</text>
+                <text x="246" y="394" fill="#E4D4A4" font-family="serif" font-size="15" text-anchor="end">₹ 3.14 Cr</text>
+
+                <rect x="14" y="436" width="242" height="58" rx="12" fill="#1a1428" stroke="#2a1e48" stroke-width="0.5"/>
+                <text x="28" y="454" fill="#F4EFE6" font-family="sans-serif" font-size="12" font-weight="500">Type C · 1,820 sqft</text>
+                <text x="28" y="470" fill="#8A8578" font-family="sans-serif" font-size="9">NW balcony · Floor 8–12</text>
+                <text x="28" y="486" fill="#E4D4A4" font-family="monospace" font-size="9">5 available</text>
+                <text x="246" y="460" fill="#E4D4A4" font-family="serif" font-size="15" text-anchor="end">₹ 2.74 Cr</text>
+              </g>
+              <!-- book visit -->
+              <rect x="14" y="510" width="242" height="44" rx="22" fill="#E4D4A4"/>
+              <text x="135" y="538" fill="#080612" font-family="sans-serif" font-size="12" font-weight="600" text-anchor="middle">Book site visit · free cab</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="template-cta reveal">
+      <div>
+        <div class="eyebrow">Start with this template</div>
+        <h3>A website that sells <em>crores</em>, not clicks.</h3>
+        <p>Real estate sites take 18–24 days. EMI calc, lead routing, site-visit booking and RERA compliance ship from day one.</p>
+      </div>
+      <div class="p-ctas">
+        <a href="https://wa.me/919830000000" class="btn btn-primary" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> WhatsApp Me</a>
+        <a href="../index.html#contact" class="btn btn-ghost">Send an Enquiry</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<a class="next-case reveal" href="restaurant.html">
+  <div><div class="eyebrow" style="margin-bottom:8px">Next Template</div><h3>Restaurant &amp; Café — <em>Menu &amp; Bookings</em></h3><p>Menus, table bookings, ordering, story pages.</p></div>
+  <div class="btn btn-primary">Continue <i class="fa-solid fa-arrow-right"></i></div>
+</a>
+
+<div class="p-foot">
+  <div>© 2026 Mayank Khandelwal · Category Template · Real Estate</div>
+  <div><a href="../index.html">Back to all templates</a></div>
+</div>
+<a href="https://wa.me/919830000000" target="_blank" rel="noopener" class="wa-float" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+<script src="shared.js"></script>
+</body>
+</html>
+

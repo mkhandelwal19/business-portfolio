@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="sage" data-layout="editorial">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Yoga &amp; Wellness Template — Mayank Khandelwal</title>
+<meta name="description" content="Website template for yoga studios, wellness centres, meditation apps, retreats. Class calendar, memberships, teacher profiles." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<link rel="stylesheet" href="shared.css?v=4" />
+<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+</head>
+<body>
+<nav class="pnav">
+  <a class="logo" href="../index.html">Mayank<em>.</em></a>
+  <a class="back" href="../index.html#work"><i class="fa-solid fa-arrow-left"></i> All Templates</a>
+</nav>
+
+<section class="p-hero">
+  <canvas id="p-hero-canvas"></canvas>
+  <div class="p-hero-inner">
+    <div class="p-tag reveal"><i class="fa-solid fa-spa"></i> Category · Yoga &amp; Wellness</div>
+    <h1 class="reveal">A website that <em>breathes</em> between the scroll.</h1>
+    <p class="p-hero-sub reveal">For yoga studios, meditation apps, wellness retreats, pilates &amp; barre. Class calendar, teacher bios, membership plans, trial-week flows and a voice that sounds human — not clinical.</p>
+    <div class="p-meta reveal">
+      <div class="p-meta-item"><span class="k">Best for</span><span class="v">Studios · Retreats · Apps</span></div>
+      <div class="p-meta-item"><span class="k">Pages</span><span class="v">Home · Schedule · Teachers · Plans</span></div>
+      <div class="p-meta-item"><span class="k">Delivery</span><span class="v">10–14 days</span></div>
+      <div class="p-meta-item"><span class="k">From</span><span class="v">₹ 52,000</span></div>
+    </div>
+    <div class="p-ctas reveal">
+      <a href="../index.html#contact" class="btn btn-primary">Start with this template <i class="fa-solid fa-arrow-right"></i></a>
+      <a href="#preview" class="btn btn-ghost">See full preview</a>
+    </div>
+  </div>
+
+  <div class="p-visual reveal">
+    <div class="hero-art">
+      <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <radialGradient id="y-bg" cx="50%" cy="35%" r="75%"><stop offset="0%" stop-color="#1a2a22"/><stop offset="100%" stop-color="#050c08"/></radialGradient>
+          <radialGradient id="y-sun" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#C8DEBD" stop-opacity="0.9"/><stop offset="60%" stop-color="#A8C79B" stop-opacity="0.2"/><stop offset="100%" stop-color="#A8C79B" stop-opacity="0"/></radialGradient>
+          <linearGradient id="y-fig" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#C8DEBD"/><stop offset="100%" stop-color="#5E8453"/></linearGradient>
+        </defs>
+        <rect width="600" height="600" fill="url(#y-bg)"/>
+        <!-- Sun/moon halo -->
+        <circle cx="300" cy="220" r="180" fill="url(#y-sun)"/>
+        <circle cx="300" cy="220" r="70" fill="none" stroke="#A8C79B" stroke-width="0.6" opacity="0.5"/>
+        <circle cx="300" cy="220" r="100" fill="none" stroke="#A8C79B" stroke-width="0.4" opacity="0.35"/>
+        <circle cx="300" cy="220" r="140" fill="none" stroke="#A8C79B" stroke-width="0.3" opacity="0.25"/>
+
+        <!-- Mountains silhouette -->
+        <path d="M 0 440 L 80 380 L 160 410 L 240 340 L 340 390 L 420 350 L 500 400 L 600 370 L 600 600 L 0 600 Z" fill="#0a1410" opacity="0.9"/>
+        <path d="M 0 480 L 100 440 L 200 460 L 300 420 L 400 450 L 500 435 L 600 460 L 600 600 L 0 600 Z" fill="#050c08"/>
+
+        <!-- Mat -->
+        <g transform="translate(300 500)">
+          <ellipse cx="0" cy="0" rx="170" ry="18" fill="#000" opacity="0.5"/>
+          <rect x="-150" y="-8" width="300" height="16" rx="8" fill="#5E8453" opacity="0.8"/>
+          <rect x="-150" y="-8" width="300" height="4" rx="2" fill="#A8C79B" opacity="0.5"/>
+        </g>
+
+        <!-- Seated figure (meditation pose) -->
+        <g transform="translate(300 490)" fill="url(#y-fig)">
+          <!-- legs crossed -->
+          <ellipse cx="0" cy="0" rx="70" ry="18" opacity="0.9"/>
+          <!-- lap -->
+          <ellipse cx="0" cy="-8" rx="48" ry="14"/>
+          <!-- torso -->
+          <path d="M -26 -8 Q -32 -60 -22 -110 Q 0 -125 22 -110 Q 32 -60 26 -8 Z"/>
+          <!-- neck + head -->
+          <rect x="-8" y="-122" width="16" height="14" rx="3"/>
+          <circle cx="0" cy="-140" r="24"/>
+          <!-- arms resting -->
+          <path d="M -26 -60 Q -52 -40 -44 -14" stroke="url(#y-fig)" stroke-width="10" fill="none" stroke-linecap="round"/>
+          <path d="M 26 -60 Q 52 -40 44 -14" stroke="url(#y-fig)" stroke-width="10" fill="none" stroke-linecap="round"/>
+          <!-- mudra dots -->
+          <circle cx="-44" cy="-14" r="5" fill="#C8DEBD"/>
+          <circle cx="44" cy="-14" r="5" fill="#C8DEBD"/>
+          <!-- topknot -->
+          <circle cx="0" cy="-166" r="8" opacity="0.85"/>
+        </g>
+
+        <!-- Lotus petals around -->
+        <g transform="translate(300 220)" fill="#A8C79B" opacity="0.25">
+          <ellipse cx="0" cy="-60" rx="6" ry="18"/>
+          <ellipse cx="0" cy="60" rx="6" ry="18"/>
+          <ellipse cx="-60" cy="0" rx="18" ry="6"/>
+          <ellipse cx="60" cy="0" rx="18" ry="6"/>
+          <ellipse cx="-42" cy="-42" rx="6" ry="18" transform="rotate(45 -42 -42)"/>
+          <ellipse cx="42" cy="-42" rx="6" ry="18" transform="rotate(-45 42 -42)"/>
+          <ellipse cx="-42" cy="42" rx="6" ry="18" transform="rotate(-45 -42 42)"/>
+          <ellipse cx="42" cy="42" rx="6" ry="18" transform="rotate(45 42 42)"/>
+        </g>
+
+        <!-- Floating particles -->
+        <g fill="#C8DEBD" opacity="0.7">
+          <circle cx="120" cy="180" r="2"/><circle cx="480" cy="160" r="2.5"/>
+          <circle cx="80" cy="300" r="1.5"/><circle cx="520" cy="280" r="2"/>
+          <circle cx="150" cy="80" r="1.5"/><circle cx="450" cy="100" r="1.8"/>
+        </g>
+      </svg>
+      <div class="float-chip" style="top:22px; right:22px"><i class="fa-solid fa-om"></i> 42 classes / week</div>
+      <div class="float-chip" style="bottom:22px; left:22px; animation-delay:1s"><i class="fa-solid fa-seedling"></i> 7-day free trial</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="preview">
+  <div class="wrap">
+    <div class="eyebrow reveal">01 — What's in the Template</div>
+    <h2 class="reveal">Everything a <em>modern studio</em> runs on.</h2>
+    <div class="features">
+      <div class="feature reveal"><i class="fa-solid fa-calendar-days"></i><h4>Live Class Schedule</h4><p>Weekly calendar, levels, spots left. Syncs with Google Calendar for teachers.</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-user-group"></i><h4>Teacher Profiles</h4><p>Bio, certifications, style, photo. Members choose their teacher, not just a slot.</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-ticket"></i><h4>Memberships &amp; Class Packs</h4><p>Monthly unlimited, 10-class packs, single drop-ins. Auto-renew via Razorpay.</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-seedling"></i><h4>Free Trial Funnel</h4><p>Free first-week flow with WhatsApp follow-up. Converts 40% of trials to members.</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-mountain-sun"></i><h4>Retreats Module</h4><p>Landing pages for retreats with itinerary, gallery, deposit flow.</p></div>
+      <div class="feature reveal"><i class="fa-solid fa-circle-play"></i><h4>On-Demand Library</h4><p>Upload recorded classes. Members only. Simple progress tracking.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="eyebrow reveal">02 — Live Preview</div>
+    <h2 class="reveal">The <em>schedule</em> is the homepage.</h2>
+
+    <div class="site-preview reveal">
+      <div class="site-chrome"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="url">yourstudio.in — Weekly Schedule</div></div>
+      <div class="site-body">
+        <div style="padding:56px 48px 28px; background:linear-gradient(160deg, #0f1d18, #050c08)">
+          <div style="font-family:var(--f-mono); font-size:10px; letter-spacing:0.28em; color:var(--gold); margin-bottom:14px">SINCE 2018 · SECTOR 54, GURUGRAM</div>
+          <div style="font-family:var(--f-serif); font-size:44px; font-weight:500; line-height:1.06; max-width:14ch; margin-bottom:14px">A room. A breath. <em style="font-style:italic; color:var(--gold); font-weight:400">A practice.</em></div>
+          <div style="color:var(--ivory-dim); font-size:14px; max-width:50ch">Ashtanga, Vinyasa, Yin and guided meditation — taught small, taught slow, taught right.</div>
+        </div>
+        <div style="padding:32px 48px 48px">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px">
+            <div style="font-family:var(--f-mono); font-size:10px; letter-spacing:0.26em; color:var(--gold)">THIS WEEK · 14 NOV — 20 NOV</div>
+            <div style="display:flex; gap:8px"><div class="ui-chip muted">← Prev</div><div class="ui-chip solid">Today</div><div class="ui-chip muted">Next →</div></div>
+          </div>
+          <div class="cal-grid" style="margin-bottom:18px">
+            <div class="cal-day">Mon</div><div class="cal-day">Tue</div><div class="cal-day">Wed</div><div class="cal-day active">Thu</div><div class="cal-day">Fri</div><div class="cal-day">Sat</div><div class="cal-day">Sun</div>
+          </div>
+          <div class="ui-list">
+            <div class="ui-item"><div><div class="t">06:30 · Mysore Ashtanga</div><div class="s">90 min · Priya · Level 2–3</div></div><div style="display:flex; gap:10px; align-items:center"><div class="r">4 spots left</div><div class="ui-chip solid">Book</div></div></div>
+            <div class="ui-item"><div><div class="t">08:00 · Slow Vinyasa</div><div class="s">60 min · Rohan · All levels</div></div><div style="display:flex; gap:10px; align-items:center"><div class="r">12 spots</div><div class="ui-chip solid">Book</div></div></div>
+            <div class="ui-item"><div><div class="t">18:30 · Yin &amp; Restore</div><div class="s">75 min · Aditi · Open to beginners</div></div><div style="display:flex; gap:10px; align-items:center"><div class="r">2 spots left</div><div class="ui-chip solid">Book</div></div></div>
+            <div class="ui-item"><div><div class="t">20:00 · Breath &amp; Meditation</div><div class="s">45 min · Priya · Free for members</div></div><div style="display:flex; gap:10px; align-items:center"><div class="r">Open</div><div class="ui-chip solid">Book</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-row cols-3">
+      <div class="demo-card reveal">
+        <div class="demo-head"><i class="fa-solid fa-user-group"></i> Teachers</div>
+        <div class="demo-body">
+          <div style="display:flex; flex-direction:column; gap:10px">
+            <div style="display:flex; gap:12px; align-items:center; padding:10px; border:1px solid var(--line-soft); border-radius:12px">
+              <div style="width:44px; height:44px; border-radius:50%; background:linear-gradient(135deg, #C8DEBD, #5E8453); display:grid; place-items:center; color:#0a1410; font-family:var(--f-serif); font-weight:600">P</div>
+              <div style="flex:1"><div class="t">Priya D.</div><div class="s">E-RYT 500 · Ashtanga</div></div>
+              <i class="fa-solid fa-arrow-right" style="color:var(--gold); font-size:11px"></i>
+            </div>
+            <div style="display:flex; gap:12px; align-items:center; padding:10px; border:1px solid var(--line-soft); border-radius:12px">
+              <div style="width:44px; height:44px; border-radius:50%; background:linear-gradient(135deg, #A8C79B, #3D5D36); display:grid; place-items:center; color:#0a1410; font-family:var(--f-serif); font-weight:600">R</div>
+              <div style="flex:1"><div class="t">Rohan K.</div><div class="s">RYT 200 · Vinyasa</div></div>
+              <i class="fa-solid fa-arrow-right" style="color:var(--gold); font-size:11px"></i>
+            </div>
+            <div style="display:flex; gap:12px; align-items:center; padding:10px; border:1px solid var(--line-soft); border-radius:12px">
+              <div style="width:44px; height:44px; border-radius:50%; background:linear-gradient(135deg, #E8F0D8, #A8C79B); display:grid; place-items:center; color:#0a1410; font-family:var(--f-serif); font-weight:600">A</div>
+              <div style="flex:1"><div class="t">Aditi S.</div><div class="s">Yin · Yoga Nidra</div></div>
+              <i class="fa-solid fa-arrow-right" style="color:var(--gold); font-size:11px"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-card reveal" data-delay="1">
+        <div class="demo-head"><i class="fa-solid fa-ticket"></i> Plans</div>
+        <div class="demo-body">
+          <div style="padding:14px; border:1px solid var(--gold); border-radius:12px; background:linear-gradient(160deg, rgba(168,199,155,0.12), transparent); margin-bottom:10px">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px">
+              <div class="ui-title" style="font-size:17px; margin-bottom:0">Unlimited</div>
+              <div class="ui-chip solid" style="padding:3px 8px; font-size:9px">Most chosen</div>
+            </div>
+            <div class="ui-sub" style="font-size:11px; margin-bottom:6px">All classes · freeze 7 days</div>
+            <div class="ui-price" style="font-size:22px">₹ 4,500 / mo</div>
+          </div>
+          <div style="padding:14px; border:1px solid var(--line-soft); border-radius:12px; margin-bottom:8px">
+            <div class="ui-title" style="font-size:15px; color:var(--ivory-dim); margin-bottom:4px">10-Class Pack</div>
+            <div class="ui-sub" style="font-size:11px; margin-bottom:4px">Valid 3 months</div>
+            <div style="font-family:var(--f-serif); font-size:17px; color:var(--ivory)">₹ 3,200</div>
+          </div>
+          <div style="padding:14px; border:1px solid var(--line-soft); border-radius:12px">
+            <div class="ui-title" style="font-size:15px; color:var(--ivory-dim); margin-bottom:4px">Drop-in</div>
+            <div class="ui-sub" style="font-size:11px; margin-bottom:4px">Single class</div>
+            <div style="font-family:var(--f-serif); font-size:17px; color:var(--ivory)">₹ 450</div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-card reveal" data-delay="2">
+        <div class="demo-head"><i class="fa-solid fa-mountain-sun"></i> Retreats</div>
+        <div class="demo-body">
+          <div class="photo-card" style="aspect-ratio:4/3; margin-bottom:10px">
+            <svg viewBox="0 0 100 75" preserveAspectRatio="xMidYMid slice">
+              <defs><linearGradient id="rt1" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#3D7D72"/><stop offset="100%" stop-color="#0a1410"/></linearGradient></defs>
+              <rect width="100" height="75" fill="url(#rt1)"/>
+              <circle cx="20" cy="20" r="10" fill="#C8DEBD" opacity="0.7"/>
+              <path d="M 0 55 L 20 40 L 40 50 L 60 35 L 80 45 L 100 40 L 100 75 L 0 75 Z" fill="#0a1410"/>
+            </svg>
+            <div class="label" style="padding:6px 10px"><div class="n">Rishikesh · 7-day</div><div class="p">Dec '26</div></div>
+          </div>
+          <div class="ui-sub" style="font-size:12px; margin-bottom:0">Sunrise Ashtanga on the Ganga — 12 seats · ₹ 48,000</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="eyebrow reveal">03 — Mobile</div>
+    <h2 class="reveal">Most bookings happen <em>after 9 PM</em>, in bed.</h2>
+    <div class="split">
+      <div class="split-text reveal">
+        <h3>A phone-first schedule that doesn't feel like a <em>spreadsheet</em>.</h3>
+        <p>Members tap the teacher they like. Hit a time slot. Confirm. They're out before the WhatsApp notification fades. If a class fills up, the waitlist auto-promotes.</p>
+        <ul>
+          <li>One-tap booking · no extra screens</li>
+          <li>Class reminders · 2 hours before</li>
+          <li>Cancel-and-refund flow up to 6 hours prior</li>
+          <li>Streak tracking that isn't annoying</li>
+        </ul>
+      </div>
+      <div class="reveal" data-delay="1">
+        <div class="phone-shell">
+          <div class="phone-scr">
+            <svg viewBox="0 0 270 570" preserveAspectRatio="xMidYMid slice">
+              <defs><linearGradient id="ym-bg" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#0f1d18"/><stop offset="100%" stop-color="#050c08"/></linearGradient></defs>
+              <rect width="270" height="570" fill="url(#ym-bg)"/>
+              <text x="20" y="30" fill="#F4EFE6" opacity="0.7" font-family="sans-serif" font-size="11" font-weight="600">9:41</text>
+              <text x="20" y="68" fill="#A8C79B" font-family="serif" font-style="italic" font-size="15">Ananta.</text>
+              <text x="250" y="68" fill="#A8C79B" font-family="sans-serif" font-size="10" text-anchor="end">12-day streak</text>
+              <text x="20" y="110" fill="#F4EFE6" font-family="serif" font-size="22" font-weight="500">Thursday</text>
+              <text x="20" y="134" fill="#F4EFE6" font-family="serif" font-size="22" font-style="italic">breath work.</text>
+              <text x="20" y="160" fill="#C8C3BA" font-family="sans-serif" font-size="10">3 classes today · pick yours</text>
+              <!-- day picker -->
+              <g font-family="sans-serif" font-size="10">
+                <rect x="16" y="180" width="36" height="36" rx="10" fill="none" stroke="#2a3830"/><text x="34" y="196" fill="#8A8578" text-anchor="middle" font-size="8">MON</text><text x="34" y="210" fill="#F4EFE6" text-anchor="middle" font-weight="600">11</text>
+                <rect x="56" y="180" width="36" height="36" rx="10" fill="none" stroke="#2a3830"/><text x="74" y="196" fill="#8A8578" text-anchor="middle" font-size="8">TUE</text><text x="74" y="210" fill="#F4EFE6" text-anchor="middle" font-weight="600">12</text>
+                <rect x="96" y="180" width="36" height="36" rx="10" fill="none" stroke="#2a3830"/><text x="114" y="196" fill="#8A8578" text-anchor="middle" font-size="8">WED</text><text x="114" y="210" fill="#F4EFE6" text-anchor="middle" font-weight="600">13</text>
+                <rect x="136" y="180" width="36" height="36" rx="10" fill="#A8C79B"/><text x="154" y="196" fill="#0a1410" text-anchor="middle" font-size="8" font-weight="600">THU</text><text x="154" y="210" fill="#0a1410" text-anchor="middle" font-weight="700">14</text>
+                <rect x="176" y="180" width="36" height="36" rx="10" fill="none" stroke="#2a3830"/><text x="194" y="196" fill="#8A8578" text-anchor="middle" font-size="8">FRI</text><text x="194" y="210" fill="#F4EFE6" text-anchor="middle" font-weight="600">15</text>
+                <rect x="216" y="180" width="36" height="36" rx="10" fill="none" stroke="#2a3830"/><text x="234" y="196" fill="#8A8578" text-anchor="middle" font-size="8">SAT</text><text x="234" y="210" fill="#F4EFE6" text-anchor="middle" font-weight="600">16</text>
+              </g>
+              <!-- class cards -->
+              <g>
+                <rect x="14" y="232" width="242" height="72" rx="12" fill="#1a2a22" stroke="#2a3830" stroke-width="0.5"/>
+                <rect x="26" y="246" width="4" height="44" rx="2" fill="#A8C79B"/>
+                <text x="40" y="258" fill="#A8C79B" font-family="monospace" font-size="9" letter-spacing="1">06:30 · 90 MIN</text>
+                <text x="40" y="276" fill="#F4EFE6" font-family="serif" font-size="15" font-weight="500">Mysore Ashtanga</text>
+                <text x="40" y="292" fill="#8A8578" font-family="sans-serif" font-size="10">Priya · Level 2–3 · 4 spots</text>
+                <rect x="200" y="262" width="52" height="26" rx="13" fill="#A8C79B"/>
+                <text x="226" y="280" fill="#0a1410" font-family="sans-serif" font-size="10" font-weight="600" text-anchor="middle">Book</text>
+
+                <rect x="14" y="314" width="242" height="72" rx="12" fill="#1a2a22" stroke="#2a3830" stroke-width="0.5"/>
+                <rect x="26" y="328" width="4" height="44" rx="2" fill="#C8DEBD" opacity="0.6"/>
+                <text x="40" y="340" fill="#A8C79B" font-family="monospace" font-size="9" letter-spacing="1">18:30 · 75 MIN</text>
+                <text x="40" y="358" fill="#F4EFE6" font-family="serif" font-size="15" font-weight="500">Yin &amp; Restore</text>
+                <text x="40" y="374" fill="#8A8578" font-family="sans-serif" font-size="10">Aditi · Open · 2 spots left</text>
+                <rect x="200" y="344" width="52" height="26" rx="13" fill="#A8C79B"/>
+                <text x="226" y="362" fill="#0a1410" font-family="sans-serif" font-size="10" font-weight="600" text-anchor="middle">Book</text>
+
+                <rect x="14" y="396" width="242" height="72" rx="12" fill="#1a2a22" stroke="#2a3830" stroke-width="0.5"/>
+                <rect x="26" y="410" width="4" height="44" rx="2" fill="#5E8453"/>
+                <text x="40" y="422" fill="#A8C79B" font-family="monospace" font-size="9" letter-spacing="1">20:00 · 45 MIN</text>
+                <text x="40" y="440" fill="#F4EFE6" font-family="serif" font-size="15" font-weight="500">Breath &amp; Meditation</text>
+                <text x="40" y="456" fill="#8A8578" font-family="sans-serif" font-size="10">Priya · Free for members</text>
+                <rect x="200" y="426" width="52" height="26" rx="13" fill="none" stroke="#A8C79B"/>
+                <text x="226" y="444" fill="#A8C79B" font-family="sans-serif" font-size="10" font-weight="600" text-anchor="middle">Book</text>
+              </g>
+              <!-- bottom action -->
+              <rect x="14" y="492" width="242" height="46" rx="23" fill="none" stroke="#A8C79B"/>
+              <text x="135" y="520" fill="#A8C79B" font-family="sans-serif" font-size="12" font-weight="500" text-anchor="middle">Browse teachers →</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="template-cta reveal">
+      <div>
+        <div class="eyebrow">Start with this template</div>
+        <h3>A website as <em>calm</em> as your studio.</h3>
+        <p>Most yoga sites ship in 10–14 days. Free-trial funnel and membership flows included from day one.</p>
+      </div>
+      <div class="p-ctas">
+        <a href="https://wa.me/919830000000" class="btn btn-primary" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> WhatsApp Me</a>
+        <a href="../index.html#contact" class="btn btn-ghost">Send an Enquiry</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<a class="next-case reveal" href="jewellery.html">
+  <div><div class="eyebrow" style="margin-bottom:8px">Next Template</div><h3>Jewellery — <em>Heritage &amp; Atelier</em></h3><p>Catalogue with try-on, virtual appointments, heritage storytelling.</p></div>
+  <div class="btn btn-primary">Continue <i class="fa-solid fa-arrow-right"></i></div>
+</a>
+
+<div class="p-foot">
+  <div>© 2026 Mayank Khandelwal · Category Template · Yoga &amp; Wellness</div>
+  <div><a href="../index.html">Back to all templates</a></div>
+</div>
+<a href="https://wa.me/919830000000" target="_blank" rel="noopener" class="wa-float" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+<script src="shared.js"></script>
+</body>
+</html>
+
