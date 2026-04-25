@@ -2,22 +2,44 @@
 (function(){
   const THREE = window.THREE;
 
+  // Scroll progress bar
+  const bar = document.createElement('div');
+  bar.className = 'scroll-progress';
+  document.body.prepend(bar);
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    bar.style.transform = `scaleX(${h.scrollTop / (h.scrollHeight - h.clientHeight)})`;
+  }, {passive:true});
+
+  // Nav scroll state
+  const pnav = document.querySelector('.pnav');
+  if (pnav){
+    window.addEventListener('scroll', () => pnav.classList.toggle('scrolled', window.scrollY > 40), {passive:true});
+  }
+
   // Reveals with fallback: always show after 1.5s if IO hasn't fired
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target) }
     });
-  }, { threshold: 0.01, rootMargin: '0px 0px 0px 0px' });
+  }, { threshold: 0.01, rootMargin: '0px 0px -40px 0px' });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-  // Trigger immediately for any already-in-view elements after paint
   requestAnimationFrame(() => {
     document.querySelectorAll('.reveal').forEach(el => {
       const r = el.getBoundingClientRect();
       if (r.top < window.innerHeight && r.bottom > 0) el.classList.add('in');
     });
   });
-  // Hard fallback
   setTimeout(() => document.body.classList.add('ready'), 1500);
+
+  // 3D tilt on cards (mv-card, feature, result, step)
+  document.querySelectorAll('.feature').forEach(el => {
+    el.addEventListener('mousemove', (e) => {
+      const r = el.getBoundingClientRect();
+      el.style.setProperty('--fx', ((e.clientX - r.left)/r.width*100) + '%');
+      el.style.setProperty('--fy', ((e.clientY - r.top)/r.height*100) + '%');
+    });
+  });
 
   // Smooth anchor
   document.querySelectorAll('a[href^="#"]').forEach(a => {
@@ -99,14 +121,15 @@
     })();
   }
 
-  // Product visual — 3D product card showing the site's "look"
+  // Product visual — rich 3D website mockup card
   const vcanvas = document.getElementById('p-visual-canvas');
   if (vcanvas && THREE && window.PRODUCT_CONFIG){
     const cfg = window.PRODUCT_CONFIG;
+    const goldColor = cfg.accentColor || 0xC9A84C;
     const w = () => vcanvas.clientWidth || 400;
     const h = () => vcanvas.clientHeight || 400;
     const scene = new THREE.Scene();
-    const cam = new THREE.PerspectiveCamera(45, w()/h(), 0.1, 100);
+    const cam = new THREE.PerspectiveCamera(42, w()/h(), 0.1, 100);
     cam.position.set(0,0,5.5);
     const rn = new THREE.WebGLRenderer({canvas:vcanvas, antialias:true, alpha:true});
     rn.setPixelRatio(Math.min(window.devicePixelRatio,2));
@@ -115,75 +138,110 @@
     const group = new THREE.Group();
     scene.add(group);
 
-    // Background plane with category color
-    const bg = new THREE.Mesh(
-      new THREE.PlaneGeometry(5, 5),
-      new THREE.MeshBasicMaterial({color: cfg.bgColor || 0x0E1527})
-    );
-    bg.position.z = -1.5;
-    group.add(bg);
-
-    // Device-like card
+    // Main device card (phone-like aspect)
     const card = new THREE.Mesh(
-      new THREE.BoxGeometry(2.4, 3.4, 0.08),
-      new THREE.MeshStandardMaterial({color: 0x141C34, metalness:0.4, roughness:0.5, emissive:0x0c1328, emissiveIntensity:0.25})
+      new THREE.BoxGeometry(2.2, 3.8, 0.09),
+      new THREE.MeshStandardMaterial({color:0x0E1527, metalness:0.5, roughness:0.4, emissive:0x080e1c, emissiveIntensity:0.3})
     );
-    card.rotation.y = -0.15;
-    card.rotation.x = 0.08;
     group.add(card);
 
-    // Gold edge
+    // Gold edge wireframe
     card.add(new THREE.LineSegments(
       new THREE.EdgesGeometry(card.geometry),
-      new THREE.LineBasicMaterial({color:0xC9A84C, transparent:true, opacity:0.55})
+      new THREE.LineBasicMaterial({color:goldColor, transparent:true, opacity:0.6})
     ));
 
-    // Gold accent stripe
-    const stripe = new THREE.Mesh(new THREE.PlaneGeometry(1.8, 0.04), new THREE.MeshBasicMaterial({color:0xC9A84C}));
-    stripe.position.set(0, 1.4, 0.041);
-    card.add(stripe);
-
-    // Mock "hero" block (category color tinted)
-    const hero = new THREE.Mesh(
-      new THREE.PlaneGeometry(2.0, 1.1),
-      new THREE.MeshBasicMaterial({color: cfg.heroColor || 0xC9A84C, transparent:true, opacity:0.6})
+    // Notch at top (phone detail)
+    const notch = new THREE.Mesh(
+      new THREE.BoxGeometry(0.7, 0.14, 0.092),
+      new THREE.MeshBasicMaterial({color:0x060a12})
     );
-    hero.position.set(0, 0.55, 0.042);
-    card.add(hero);
+    notch.position.set(0, 1.77, 0);
+    card.add(notch);
 
-    // Mock text bars
-    for (let i=0;i<4;i++){
-      const bar = new THREE.Mesh(
-        new THREE.PlaneGeometry(1.6 - i*0.2, 0.07),
-        new THREE.MeshBasicMaterial({color:0xF4EFE6, transparent:true, opacity:0.35 - i*0.05})
+    // Hero image area (category-tinted)
+    const heroBlock = new THREE.Mesh(
+      new THREE.PlaneGeometry(1.9, 1.2),
+      new THREE.MeshBasicMaterial({color: cfg.heroColor || goldColor, transparent:true, opacity:0.65})
+    );
+    heroBlock.position.set(0, 0.85, 0.046);
+    card.add(heroBlock);
+
+    // Hero glow overlay
+    const heroGlow = new THREE.Mesh(
+      new THREE.PlaneGeometry(1.9, 1.2),
+      new THREE.MeshBasicMaterial({color:0xffffff, transparent:true, opacity:0.06})
+    );
+    heroGlow.position.set(0, 0.85, 0.047);
+    card.add(heroGlow);
+
+    // Gold accent divider
+    const divider = new THREE.Mesh(
+      new THREE.PlaneGeometry(1.7, 0.025),
+      new THREE.MeshBasicMaterial({color:goldColor})
+    );
+    divider.position.set(0, 0.23, 0.046);
+    card.add(divider);
+
+    // Text content bars (varying widths)
+    const barWidths = [1.5, 1.2, 0.9, 1.4, 0.7];
+    barWidths.forEach((bw, i) => {
+      const b = new THREE.Mesh(
+        new THREE.PlaneGeometry(bw, 0.065),
+        new THREE.MeshBasicMaterial({color:0xF4EFE6, transparent:true, opacity:0.3 - i*0.04})
       );
-      bar.position.set(-0.15, -0.3 - i*0.18, 0.042);
-      card.add(bar);
-    }
+      b.position.set(-(1.5-bw)/2 - 0.1, 0.08 - i*0.18, 0.046);
+      card.add(b);
+    });
 
-    // Mock button
-    const btn = new THREE.Mesh(new THREE.PlaneGeometry(0.7,0.18), new THREE.MeshBasicMaterial({color:0xC9A84C}));
-    btn.position.set(-0.55, -1.1, 0.042);
+    // CTA button
+    const btn = new THREE.Mesh(
+      new THREE.BoxGeometry(0.75, 0.22, 0.02),
+      new THREE.MeshBasicMaterial({color:goldColor})
+    );
+    btn.position.set(-0.47, -0.95, 0.046);
     card.add(btn);
 
-    // Floating satellite icon (icosahedron)
+    // Bottom navigation dots
+    for(let i=0;i<3;i++){
+      const dot = new THREE.Mesh(
+        new THREE.CircleGeometry(0.05, 8),
+        new THREE.MeshBasicMaterial({color: i===0 ? goldColor : 0xF4EFE6, transparent:true, opacity: i===0 ? 1 : 0.3})
+      );
+      dot.position.set((i-1)*0.28, -1.65, 0.046);
+      card.add(dot);
+    }
+
+    // Floating satellite: icosahedron (brand icon)
     const sat = new THREE.Mesh(
-      new THREE.IcosahedronGeometry(0.35, 0),
-      new THREE.MeshStandardMaterial({color:0xC9A84C, metalness:0.8, roughness:0.2, emissive:0x8E7430, emissiveIntensity:0.4})
+      new THREE.IcosahedronGeometry(0.32, 1),
+      new THREE.MeshStandardMaterial({color:goldColor, metalness:0.85, roughness:0.15, emissive:0x6a4a10, emissiveIntensity:0.5})
     );
-    sat.position.set(1.5, 1.4, 0.8);
+    sat.position.set(1.6, 1.5, 0.8);
     group.add(sat);
 
-    const sat2 = new THREE.Mesh(
-      new THREE.TorusGeometry(0.3, 0.02, 8, 32),
-      new THREE.MeshBasicMaterial({color:0xC9A84C, transparent:true, opacity:0.5})
+    // Floating torus ring
+    const ring = new THREE.Mesh(
+      new THREE.TorusGeometry(0.28, 0.018, 8, 40),
+      new THREE.MeshBasicMaterial({color:goldColor, transparent:true, opacity:0.55})
     );
-    sat2.position.set(-1.4, -1.3, 0.6);
-    group.add(sat2);
+    ring.position.set(-1.5, -1.2, 0.6);
+    ring.rotation.x = 0.4;
+    group.add(ring);
 
-    scene.add(new THREE.AmbientLight(0xffffff, 0.5));
-    const l1 = new THREE.DirectionalLight(0xC9A84C, 0.9); l1.position.set(4,4,5); scene.add(l1);
-    const l2 = new THREE.DirectionalLight(0xffffff, 0.3); l2.position.set(-4,-2,3); scene.add(l2);
+    // Floating octahedron (secondary detail)
+    const oct = new THREE.Mesh(
+      new THREE.OctahedronGeometry(0.18, 0),
+      new THREE.MeshStandardMaterial({color:goldColor, metalness:0.7, roughness:0.3, emissive:0x3a2a08, emissiveIntensity:0.3, transparent:true, opacity:0.8})
+    );
+    oct.position.set(1.2, -1.4, 0.4);
+    group.add(oct);
+
+    // Lighting
+    scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+    const l1 = new THREE.DirectionalLight(goldColor, 1.0); l1.position.set(4,5,6); scene.add(l1);
+    const l2 = new THREE.DirectionalLight(0xffffff, 0.35); l2.position.set(-4,-3,4); scene.add(l2);
+    const l3 = new THREE.PointLight(goldColor, 0.4, 8); l3.position.set(0,2,3); scene.add(l3);
 
     let tmx=0,tmy=0,mx=0,my=0;
     vcanvas.addEventListener('mousemove', e => {
@@ -200,13 +258,15 @@
     const start = performance.now();
     (function loop(){
       const t = (performance.now()-start)/1000;
-      mx += (tmx-mx)*0.06; my += (tmy-my)*0.06;
-      group.rotation.y = Math.sin(t*0.4)*0.15 + mx*0.6;
-      group.rotation.x = Math.cos(t*0.3)*0.06 + my*-0.4;
-      sat.rotation.x = t*0.7; sat.rotation.y = t*0.5;
-      sat.position.y = 1.4 + Math.sin(t*1.2)*0.15;
-      sat2.rotation.z = t*0.4;
-      sat2.position.y = -1.3 + Math.cos(t*1.1)*0.12;
+      mx += (tmx-mx)*0.05; my += (tmy-my)*0.05;
+      group.rotation.y = Math.sin(t*0.35)*0.18 + mx*0.7;
+      group.rotation.x = Math.cos(t*0.28)*0.07 + my*-0.45;
+      sat.rotation.x = t*0.65; sat.rotation.y = t*0.5;
+      sat.position.y = 1.5 + Math.sin(t*1.1)*0.18;
+      ring.rotation.z = t*0.35; ring.rotation.y = t*0.2;
+      ring.position.y = -1.2 + Math.cos(t*1.0)*0.14;
+      oct.rotation.x = t*0.8; oct.rotation.y = t*0.6;
+      oct.position.y = -1.4 + Math.sin(t*1.3)*0.1;
       rn.render(scene,cam);
       requestAnimationFrame(loop);
     })();

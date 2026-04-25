@@ -4,11 +4,11 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Mayank Khandelwal — Websites for Indian Small Businesses</title>
-<meta name="description" content="I'm Mayank, a Kolkata-based web designer building fast, beautiful, affordable websites for Indian local businesses — shops, clinics, boutiques, and craftsmen." />
+<meta name="description" content="I'm Mayank, a web designer building fast, beautiful, affordable websites for Indian local businesses across India — restaurants, clinics, boutiques, salons, jewellers, and more." />
 
 <!-- Open Graph -->
 <meta property="og:title" content="Mayank Khandelwal — Websites for Indian Small Businesses" />
-<meta property="og:description" content="Helping local Indian businesses shine online. Website design, e-commerce, Google Business, and ongoing care — from Kolkata." />
+<meta property="og:description" content="Helping local Indian businesses shine online. Website design, e-commerce, Google Business, and ongoing care — across India." />
 <meta property="og:type" content="website" />
 <meta property="og:locale" content="en_IN" />
 
@@ -18,6 +18,36 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
 <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+
+<!-- Production meta -->
+<link rel="canonical" href="https://mayank.in/" />
+<meta name="theme-color" content="#0A0F1E" />
+<meta name="robots" content="index, follow" />
+<meta property="og:image" content="https://mayank.in/og-cover.jpg" />
+<meta property="og:url" content="https://mayank.in/" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%230A0F1E'/><rect x='12' y='12' width='76' height='76' rx='10' fill='none' stroke='%23C9A84C' stroke-width='2'/><text y='.9em' x='50%' text-anchor='middle' font-size='58' font-family='Georgia,serif' fill='%23C9A84C' dominant-baseline='middle' dy='.1em'>M</text></svg>" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Mayank Khandelwal",
+  "jobTitle": "Web Designer — Indian Small Businesses",
+  "description": "Web designer building fast, beautiful, affordable websites for Indian restaurants, clinics, boutiques, salons, jewellers and local businesses across India.",
+  "url": "https://mayank.in",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Kolkata",
+    "addressRegion": "West Bengal",
+    "addressCountry": "IN"
+  },
+  "knowsAbout": ["Web Design", "Local SEO", "E-Commerce", "WhatsApp Business", "Small Business Websites", "Razorpay Integration", "Google Business Profile"],
+  "offers": {
+    "@type": "Offer",
+    "name": "Website Design for Indian Small Businesses",
+    "areaServed": ["Mumbai", "Bengaluru", "Delhi", "Hyderabad", "Chennai", "Pune", "Jaipur", "Ahmedabad", "Kolkata", "Gurugram", "Kochi", "Surat"]
+  }
+}
+</script>
 
 <style>
 :root{
@@ -190,8 +220,10 @@ body::after{
 .hero{
   position: relative;
   min-height: 100vh;
-  display:grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   padding: 140px 48px 80px;
   overflow: hidden;
   z-index: 1;
@@ -201,12 +233,16 @@ body::after{
   z-index: 0;
   opacity: 0.9;
 }
-.hero-inner{
+.hero-container{
   position: relative; z-index: 2;
-  max-width: 1200px;
+  max-width: 1280px;
   width: 100%;
-  text-align: center;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 60px;
+  align-items: center;
 }
+.hero-inner{ /* text column */ }
 .hero-eyebrow{
   display:inline-flex; align-items:center; gap:10px;
   font-family: var(--f-mono);
@@ -233,11 +269,10 @@ body::after{
 .hero h1{
   font-family: var(--f-serif);
   font-weight: 500;
-  font-size: clamp(44px, 7.4vw, 112px);
+  font-size: clamp(40px, 5.8vw, 88px);
   line-height: 1.02;
   letter-spacing: -0.015em;
   max-width: 14ch;
-  margin: 0 auto;
 }
 .hero h1 em{
   font-style: italic;
@@ -259,19 +294,17 @@ body::after{
   50%{background-position: 100% 50%}
 }
 .hero-sub{
-  margin-top: 28px;
-  font-size: clamp(15px, 1.2vw, 18px);
+  margin-top: 24px;
+  font-size: clamp(15px, 1.2vw, 17px);
   color: var(--ivory-dim);
-  max-width: 58ch;
-  margin-left:auto; margin-right:auto;
-  line-height: 1.6;
+  max-width: 50ch;
+  line-height: 1.65;
 }
 .hero-ctas{
-  margin-top: 44px;
+  margin-top: 40px;
   display:inline-flex;
   gap: 14px;
   flex-wrap: wrap;
-  justify-content: center;
 }
 .btn{
   font-family: var(--f-sans);
@@ -309,8 +342,8 @@ body::after{
 .btn:hover .arrow{ transform: translateX(4px) }
 
 .hero-meta{
-  margin-top: 80px;
-  display:flex; justify-content:center; gap: 48px;
+  margin-top: 48px;
+  display:flex; gap: 36px;
   flex-wrap: wrap;
   font-family: var(--f-mono);
   font-size: 11px;
@@ -320,6 +353,271 @@ body::after{
 }
 .hero-meta span{ display:inline-flex; align-items:center; gap:8px}
 .hero-meta .dash{ width: 20px; height:1px; background: var(--line); }
+
+/* ==================== HERO VISUAL ==================== */
+.hero-visual{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 500px;
+}
+.hv-browser{
+  width: 100%;
+  max-width: 420px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  box-shadow:
+    0 40px 100px -20px rgba(0,0,0,0.8),
+    0 0 0 1px rgba(201,168,76,0.12),
+    inset 0 1px 0 rgba(201,168,76,0.08);
+  overflow: hidden;
+  transform: perspective(1200px) rotateY(-10deg) rotateX(4deg);
+  animation: hvFloat 7s ease-in-out infinite;
+  transition: transform .6s cubic-bezier(.2,.8,.2,1);
+  position: relative; z-index: 2;
+}
+.hv-browser:hover{
+  transform: perspective(1200px) rotateY(-5deg) rotateX(2deg) !important;
+}
+@keyframes hvFloat{
+  0%,100%{ transform: perspective(1200px) rotateY(-10deg) rotateX(4deg) translateY(0) }
+  50%{ transform: perspective(1200px) rotateY(-10deg) rotateX(4deg) translateY(-14px) }
+}
+.hv-chrome{
+  display: flex; align-items: center; gap: 6px;
+  padding: 11px 16px;
+  background: rgba(8,12,24,0.9);
+  border-bottom: 1px solid var(--line-soft);
+}
+.hv-dot{ width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+.hv-url{
+  margin-left: 10px; flex: 1;
+  padding: 5px 12px;
+  background: rgba(244,239,230,0.05);
+  border-radius: 6px;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  color: var(--ivory-dim);
+  max-width: 220px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+/* Hero image strip — shows a stylised website hero */
+.hv-hero-strip{
+  height: 130px;
+  position: relative; overflow: hidden;
+  background: linear-gradient(140deg, #2a1408 0%, #1a0a05 60%, #0e0604 100%);
+}
+.hv-hero-strip::before{
+  content:"";
+  position: absolute; inset:0;
+  background:
+    radial-gradient(ellipse at 75% 40%, rgba(232,161,62,0.55), transparent 55%),
+    radial-gradient(ellipse at 20% 80%, rgba(180,60,20,0.25), transparent 60%);
+}
+.hv-hero-strip::after{
+  content:"";
+  position: absolute; bottom:0; left:0; right:0; height:40px;
+  background: linear-gradient(to bottom, transparent, var(--bg-2));
+}
+.hv-hs-text{
+  position: absolute; bottom: 20px; left: 16px; z-index: 2;
+}
+.hv-hs-h{ width: 110px; height: 10px; background: rgba(244,239,230,0.7); border-radius: 3px; margin-bottom: 6px; }
+.hv-hs-s{ width: 70px; height: 7px; background: rgba(244,239,230,0.35); border-radius: 2px; margin-bottom: 10px; }
+.hv-hs-b{ width: 60px; height: 22px; background: var(--gold); border-radius: 12px; }
+/* Nav bar */
+.hv-nav{
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--line-soft);
+  background: rgba(10,15,30,0.7);
+}
+.hv-nav-logo{ width: 18px; height: 18px; border-radius: 4px; background: var(--gold); flex-shrink:0; }
+.hv-nav-links{ display:flex; gap: 10px; margin-left: 8px; }
+.hv-nav-link{ height: 6px; border-radius: 3px; background: rgba(244,239,230,0.2); }
+/* Content rows */
+.hv-content{
+  padding: 14px 16px 8px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.hv-row{
+  height: 7px; border-radius: 3px;
+  background: rgba(244,239,230,0.15);
+}
+.hv-cards-row{
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 8px; padding: 10px 16px 16px;
+}
+.hv-mini-card{
+  border-radius: 8px; overflow: hidden;
+  border: 1px solid var(--line-soft);
+  background: rgba(20,28,52,0.7);
+  height: 56px;
+  position: relative;
+}
+.hv-mini-card::before{
+  content:""; position:absolute; inset:0;
+  opacity: 0.8;
+}
+.hv-mini-card:nth-child(1)::before{
+  background: radial-gradient(circle at 50% 40%, rgba(201,130,60,0.55), transparent 70%), linear-gradient(145deg,#1a0a04,transparent);
+}
+.hv-mini-card:nth-child(2)::before{
+  background: radial-gradient(circle at 50% 40%, rgba(100,185,168,0.55), transparent 70%), linear-gradient(145deg,#0a1810,transparent);
+}
+.hv-mini-card:nth-child(3)::before{
+  background: radial-gradient(circle at 50% 40%, rgba(190,150,220,0.5), transparent 70%), linear-gradient(145deg,#140e1c,transparent);
+}
+.hv-mini-card .hv-mc-label{
+  position: absolute; bottom: 6px; left: 6px; right: 6px;
+  height: 6px; border-radius: 2px;
+  background: rgba(244,239,230,0.3);
+}
+
+/* Floating chips around browser */
+.hv-chip{
+  position: absolute;
+  padding: 9px 14px;
+  background: rgba(10,15,30,0.88);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: flex; align-items: center; gap: 8px;
+  white-space: nowrap;
+  box-shadow: 0 8px 24px -8px rgba(0,0,0,0.5);
+  z-index: 3;
+}
+.hv-chip-1{ top: 24px; left: -24px; animation: hvc1 5.2s ease-in-out infinite; }
+.hv-chip-2{ top: 42%; right: -16px; animation: hvc2 4.8s ease-in-out infinite 0.7s; }
+.hv-chip-3{ bottom: 36px; left: 12px; animation: hvc3 5.6s ease-in-out infinite 1.5s; }
+@keyframes hvc1{ 0%,100%{transform:translateY(0) translateX(0)} 50%{transform:translateY(-10px) translateX(4px)} }
+@keyframes hvc2{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(10px)} }
+@keyframes hvc3{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
+
+/* Stat badge */
+.hv-badge{
+  position: absolute; bottom: 50px; right: -8px; z-index: 4;
+  padding: 14px 18px;
+  background: rgba(10,15,30,0.92);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 14px;
+  text-align: center;
+  box-shadow: 0 12px 40px -10px rgba(0,0,0,0.6), 0 0 0 1px rgba(201,168,76,0.1);
+  animation: hvc2 4s ease-in-out infinite 0.4s;
+}
+.hv-badge-num{
+  font-family: var(--f-serif);
+  font-size: 30px;
+  color: var(--gold);
+  line-height: 1;
+  font-weight: 500;
+}
+.hv-badge-lbl{
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ivory-dim);
+  margin-top: 5px;
+}
+
+/* ==================== STATS STRIP ==================== */
+.stats-strip{
+  position: relative; z-index: 1;
+  padding: 64px 48px;
+  border-top: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--line-soft);
+  background: linear-gradient(135deg, rgba(20,28,52,0.5), rgba(10,15,30,0.7));
+}
+.stats-strip::before{
+  content:""; position:absolute; inset:0;
+  background: radial-gradient(800px 200px at 50% 50%, rgba(201,168,76,0.06), transparent 70%);
+  pointer-events: none;
+}
+.ss-grid{
+  max-width: 1280px; margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  background: var(--line-soft);
+  border: 1px solid var(--line-soft);
+  border-radius: 20px; overflow: hidden;
+}
+.ss-item{
+  padding: 40px 32px;
+  background: var(--bg);
+  text-align: center;
+  position: relative; overflow: hidden;
+  transition: background .4s;
+}
+.ss-item::before{
+  content:""; position:absolute; inset:0;
+  background: radial-gradient(300px 200px at 50% 120%, rgba(201,168,76,0.08), transparent 70%);
+  opacity: 0; transition: opacity .4s;
+}
+.ss-item:hover{ background: var(--bg-2) }
+.ss-item:hover::before{ opacity: 1 }
+.ss-num-wrap{
+  display: flex; align-items: baseline; justify-content: center; gap: 2px;
+  margin-bottom: 10px;
+}
+.ss-num{
+  font-family: var(--f-serif);
+  font-size: clamp(44px, 4.5vw, 66px);
+  font-weight: 500;
+  color: var(--gold);
+  line-height: 1;
+  display: inline-block;
+}
+.ss-plus{
+  font-family: var(--f-serif);
+  font-size: clamp(28px, 3vw, 42px);
+  color: var(--gold);
+  line-height: 1;
+}
+.ss-lbl{
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ivory-dim);
+  line-height: 1.4;
+}
+
+/* ==================== WORK CHROME ==================== */
+.work-chrome{
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  background: rgba(8,12,24,0.88);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(244,239,230,0.07);
+  z-index: 4;
+  transition: background .3s;
+}
+.work-chrome .wc-dot{ width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.work-chrome .wc-url{
+  margin-left: 8px; flex: 1;
+  padding: 4px 10px;
+  background: rgba(244,239,230,0.05);
+  border-radius: 5px;
+  font-family: var(--f-mono);
+  font-size: 9px;
+  color: var(--muted);
+  max-width: 200px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
 
 .scroll-indicator{
   position: absolute;
@@ -582,19 +880,18 @@ section{
 /* original, stylized placeholder surfaces */
 .surf-restaurant{
   background:
-    radial-gradient(circle at 70% 30%, rgba(201,168,76,0.45), transparent 50%),
-    radial-gradient(circle at 20% 80%, rgba(180,70,50,0.35), transparent 55%),
-    linear-gradient(140deg, #1a0f0a, #2a1810 60%, #0f0806);
+    linear-gradient(to bottom, rgba(26,15,10,0.04) 0%, rgba(26,15,10,0.76) 100%),
+    url('https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=800&q=80&fit=crop&auto=format') center/cover no-repeat;
 }
 .surf-boutique{
   background:
-    radial-gradient(circle at 30% 20%, rgba(201,168,76,0.3), transparent 60%),
-    linear-gradient(160deg, #1f1830, #0f0c1c);
+    linear-gradient(to bottom, rgba(20,14,30,0.04) 0%, rgba(20,14,30,0.76) 100%),
+    url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800&q=80&fit=crop&auto=format') center/cover no-repeat;
 }
 .surf-clinic{
   background:
-    radial-gradient(circle at 80% 20%, rgba(144,200,190,0.25), transparent 60%),
-    linear-gradient(135deg, #0a1c24, #0a1218);
+    linear-gradient(to bottom, rgba(24,10,6,0.04) 0%, rgba(24,10,6,0.76) 100%),
+    url('https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=800&q=80&fit=crop&auto=format') center/cover no-repeat;
 }
 .surf-craft{
   background:
@@ -603,30 +900,28 @@ section{
 }
 .surf-sweets{
   background:
-    radial-gradient(circle at 60% 40%, rgba(230,170,100,0.35), transparent 55%),
-    linear-gradient(155deg, #241508, #0f0805);
+    linear-gradient(to bottom, rgba(10,14,24,0.04) 0%, rgba(10,14,24,0.76) 100%),
+    url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80&fit=crop&auto=format') center/cover no-repeat;
 }
 .surf-biryani{
   background:
-    radial-gradient(circle at 50% 40%, rgba(220,140,60,0.4), transparent 55%),
-    radial-gradient(circle at 20% 80%, rgba(180,80,40,0.25), transparent 60%),
-    linear-gradient(150deg, #2a1408, #0e0604);
+    linear-gradient(to bottom, rgba(8,20,16,0.04) 0%, rgba(8,20,16,0.76) 100%),
+    url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80&fit=crop&auto=format') center/cover no-repeat;
 }
 .surf-cafe{
   background:
-    radial-gradient(circle at 40% 50%, rgba(180,120,70,0.3), transparent 55%),
-    linear-gradient(150deg, #1a1008, #0a0604);
+    linear-gradient(to bottom, rgba(20,8,12,0.04) 0%, rgba(20,8,12,0.76) 100%),
+    url('https://images.unsplash.com/photo-1562322140-8baeececf3df?w=800&q=80&fit=crop&auto=format') center/cover no-repeat;
 }
 .surf-jewel{
   background:
-    radial-gradient(circle at 50% 50%, rgba(230,200,140,0.35), transparent 55%),
-    radial-gradient(circle at 80% 80%, rgba(120,90,180,0.18), transparent 60%),
-    linear-gradient(150deg, #141028, #08060e);
+    linear-gradient(to bottom, rgba(14,11,28,0.04) 0%, rgba(14,11,28,0.76) 100%),
+    url('https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&q=80&fit=crop&auto=format') center/cover no-repeat;
 }
 .surf-yoga{
   background:
-    radial-gradient(circle at 50% 40%, rgba(140,180,160,0.28), transparent 55%),
-    linear-gradient(150deg, #0e1c1a, #06100e);
+    linear-gradient(to bottom, rgba(10,20,16,0.04) 0%, rgba(10,20,16,0.76) 100%),
+    url('https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&q=80&fit=crop&auto=format') center/cover no-repeat;
 }
 
 /* City filter */
@@ -660,9 +955,9 @@ section{
 
 .work-content{
   position: absolute; inset:0;
-  padding: 32px;
+  padding: 62px 32px 32px; /* top accounts for chrome bar */
   display:flex; flex-direction: column; justify-content: space-between;
-  background: linear-gradient(to top, rgba(10,15,30,0.85) 0%, rgba(10,15,30,0.3) 50%, transparent 100%);
+  background: linear-gradient(to top, rgba(10,15,30,0.9) 0%, rgba(10,15,30,0.25) 55%, transparent 100%);
   z-index: 2;
 }
 .work-tag{
@@ -1079,18 +1374,20 @@ footer::before{
     border-radius: 24px;
     background: rgba(14,21,39,0.96);
   }
-  .nav.nav-open .nav-links a{
-    font-size: 15px;
-    color: var(--ivory);
-  }
-  .nav.nav-open .nav-cta{
-    display:inline-flex;
-    width:100%;
-    order:4;
-    justify-content:center;
-  }
+  .nav.nav-open .nav-links a{ font-size: 15px; color: var(--ivory); }
+  .nav.nav-open .nav-cta{ display:inline-flex; width:100%; order:4; justify-content:center; }
 
-  .hero{ padding: 120px 24px 80px }
+  .hero{ padding: 120px 24px 60px }
+  .hero-container{ grid-template-columns: 1fr; gap: 48px; }
+  .hero h1{ font-size: clamp(36px, 8vw, 56px); }
+  .hero-visual{ min-height: 340px; }
+  .hv-browser{ max-width: 340px; transform: none !important; animation: none !important; }
+  .hv-chip{ display: none; }
+  .hv-badge{ bottom: auto; top: 16px; right: 16px; animation: none; }
+
+  .stats-strip{ padding: 48px 24px; }
+  .ss-grid{ grid-template-columns: 1fr 1fr; }
+
   section{ padding: 100px 24px }
 
   .section-head{ grid-template-columns: 1fr; gap: 24px }
@@ -1106,14 +1403,19 @@ footer::before{
   .form-row{ grid-template-columns: 1fr }
   .foot{ grid-template-columns: 1fr; gap: 40px }
   footer{ padding: 60px 24px 40px }
-  .hero-meta{ gap: 20px }
+  .hero-meta{ gap: 16px; flex-wrap: wrap; }
   .hero-meta .dash{ display:none }
+}
+@media (max-width: 640px){
+  .ss-grid{ grid-template-columns: 1fr 1fr; border-radius: 14px; }
+  .ss-item{ padding: 28px 20px; }
 }
 @media (max-width: 540px){
   .services-grid{ grid-template-columns: 1fr }
   .why-grid{ grid-template-columns: 1fr }
   .mv-card{ padding: 40px 28px }
   .service{ padding: 36px 28px }
+  .ss-grid{ grid-template-columns: 1fr 1fr; }
 }
 </style>
 </head>
@@ -1139,37 +1441,127 @@ footer::before{
 <!-- ==================== HERO ==================== -->
 <section class="hero" id="top">
   <canvas id="hero-canvas"></canvas>
-  <div class="hero-inner">
-    <div class="hero-eyebrow reveal">
-      <span class="dot"></span>
-      Open for 2 projects · June – July 2026
+  <div class="hero-container">
+
+    <!-- Left: text column -->
+    <div class="hero-inner">
+      <div class="hero-eyebrow reveal">
+        <span class="dot"></span>
+        Open for 3 projects · June – July 2026
+      </div>
+      <h1 class="reveal" data-delay="1">
+        I build websites that make<br/>
+        <em>local businesses</em> unforgettable.
+      </h1>
+      <p class="hero-sub reveal" data-delay="2">
+        I'm Mayank — a web designer helping local businesses across India go digital.
+        Fast sites, honest pricing, mobile-first, WhatsApp-ready — built to win in your neighbourhood.
+      </p>
+      <div class="hero-ctas reveal" data-delay="3">
+        <a href="#work" class="btn btn-primary">
+          See My Work <span class="arrow">→</span>
+        </a>
+        <a href="#contact" class="btn btn-ghost">
+          Get a Free Demo
+        </a>
+      </div>
+      <div class="hero-meta reveal" data-delay="4">
+        <span><i class="fa-solid fa-location-dot" style="color:var(--gold)"></i> India-wide · Remote-friendly</span>
+        <span class="dash"></span>
+        <span>50+ businesses shipped</span>
+        <span class="dash"></span>
+        <span>10-day delivery</span>
+      </div>
     </div>
-    <h1 class="reveal" data-delay="1">
-      I build websites that make<br/>
-      <em>local businesses</em> unforgettable.
-    </h1>
-    <p class="hero-sub reveal" data-delay="2">
-      I'm Mayank — a web designer working across Kolkata, Hyderabad, Bangalore and Gurugram.
-      I help Indian shops, clinics, boutiques and studios look world-class online. Fast sites, honest pricing, built with pride.
-    </p>
-    <div class="hero-ctas reveal" data-delay="3">
-      <a href="#work" class="btn btn-primary">
-        See My Work <span class="arrow">→</span>
-      </a>
-      <a href="#contact" class="btn btn-ghost">
-        Get a Free Demo
-      </a>
+
+    <!-- Right: visual mockup -->
+    <div class="hero-visual reveal" data-delay="2" aria-hidden="true">
+      <!-- Floating category chips -->
+      <div class="hv-chip hv-chip-1"><i class="fa-solid fa-utensils"></i> Restaurant</div>
+      <div class="hv-chip hv-chip-2"><i class="fa-solid fa-stethoscope"></i> Healthcare</div>
+      <div class="hv-chip hv-chip-3"><i class="fa-solid fa-gem"></i> Jewellery</div>
+
+      <!-- Browser mockup -->
+      <div class="hv-browser">
+        <!-- Chrome bar -->
+        <div class="hv-chrome">
+          <span class="hv-dot" style="background:#E06C65"></span>
+          <span class="hv-dot" style="background:#E2B756"></span>
+          <span class="hv-dot" style="background:#64C267"></span>
+          <span class="hv-url">nizami-biryani.in</span>
+        </div>
+        <!-- Nav bar mock -->
+        <div class="hv-nav">
+          <div class="hv-nav-logo"></div>
+          <div class="hv-nav-links">
+            <div class="hv-nav-link" style="width:36px"></div>
+            <div class="hv-nav-link" style="width:28px"></div>
+            <div class="hv-nav-link" style="width:32px"></div>
+            <div class="hv-nav-link" style="width:24px"></div>
+          </div>
+        </div>
+        <!-- Hero image strip -->
+        <div class="hv-hero-strip">
+          <div class="hv-hs-text">
+            <div class="hv-hs-h"></div>
+            <div class="hv-hs-s"></div>
+            <div class="hv-hs-b"></div>
+          </div>
+        </div>
+        <!-- Content rows -->
+        <div class="hv-content">
+          <div class="hv-row" style="width:80%"></div>
+          <div class="hv-row" style="width:65%"></div>
+          <div class="hv-row" style="width:50%"></div>
+        </div>
+        <!-- Mini cards row -->
+        <div class="hv-cards-row">
+          <div class="hv-mini-card"><div class="hv-mc-label"></div></div>
+          <div class="hv-mini-card"><div class="hv-mc-label"></div></div>
+          <div class="hv-mini-card"><div class="hv-mc-label"></div></div>
+        </div>
+      </div>
+
+      <!-- Lighthouse score badge -->
+      <div class="hv-badge">
+        <div class="hv-badge-num">95+</div>
+        <div class="hv-badge-lbl">Lighthouse</div>
+      </div>
     </div>
-    <div class="hero-meta reveal" data-delay="4">
-      <span><i class="fa-solid fa-location-dot" style="color:var(--gold)"></i> Kolkata · West Bengal</span>
-      <span class="dash"></span>
-      <span>Est. 2021 · 40+ businesses shipped</span>
-      <span class="dash"></span>
-      <span>Avg. build time · 10 days</span>
-    </div>
+
   </div>
   <div class="scroll-indicator">Scroll</div>
 </section>
+
+<!-- ==================== STATS STRIP ==================== -->
+<div class="stats-strip">
+  <div class="ss-grid">
+    <div class="ss-item reveal">
+      <div class="ss-num-wrap">
+        <span class="ss-num" data-count="50">0</span><span class="ss-plus">+</span>
+      </div>
+      <div class="ss-lbl">Businesses<br/>Built</div>
+    </div>
+    <div class="ss-item reveal" data-delay="1">
+      <div class="ss-num-wrap">
+        <span class="ss-num" data-count="12">0</span>
+      </div>
+      <div class="ss-lbl">Cities &amp;<br/>Towns</div>
+    </div>
+    <div class="ss-item reveal" data-delay="2">
+      <div class="ss-num-wrap">
+        <span class="ss-num" data-count="10">0</span>
+      </div>
+      <div class="ss-lbl">Days Avg.<br/>Delivery</div>
+    </div>
+    <div class="ss-item reveal" data-delay="3">
+      <div class="ss-num-wrap">
+        <span class="ss-num" data-count="95">0</span><span class="ss-plus">+</span>
+      </div>
+      <div class="ss-lbl">Lighthouse<br/>Score</div>
+    </div>
+  </div>
+</div>
 
 <!-- ==================== MISSION / VISION ==================== -->
 <section id="about">
@@ -1180,8 +1572,8 @@ footer::before{
         <h2 class="reveal" data-delay="1">Every Indian shop<br/> deserves a website <em>as proud as its owner.</em></h2>
       </div>
       <p class="reveal" data-delay="2">
-        I've sat in the back of chai stalls, climbed to boutique mezzanines in Park Street, and waited in
-        clinic lobbies in Salt Lake. Every owner I meet has a story worth telling online — and a Google
+        I've sat in the back of chai stalls in Jaipur, visited handloom boutiques in Ahmedabad, and waited
+        in clinic lobbies in Chennai. Every owner I meet has a story worth telling online — and a Google
         search that doesn't find them yet. That's what I'm here to fix.
       </p>
     </div>
@@ -1204,7 +1596,7 @@ footer::before{
         <div class="mv-label">Vision</div>
         <h3>A digitally empowered India where the corner shop competes with the chain.</h3>
         <p>
-          Where a tailor in Howrah, a café in Jadavpur, and a clinic in New Town all have
+          Where a tailor in Surat, a café in Pune, and a clinic in Kochi all have
           beautiful online homes — ones their customers are proud to share.
         </p>
       </article>
@@ -1315,6 +1707,7 @@ footer::before{
     <div class="work-grid" id="workGrid">
       <!-- Restaurant & Café -->
       <a href="projects/restaurant.html" class="work work-1 reveal tilt" data-city="hospitality">
+        <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">restaurant-demo.in</span></div>
         <div class="work-thumb">
           <div class="surface surf-restaurant"></div>
           <div class="motif">
@@ -1352,6 +1745,7 @@ footer::before{
 
       <!-- Healthcare -->
       <a href="projects/healthcare.html" class="work work-2 reveal tilt" data-delay="1" data-city="wellness">
+        <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">clinic-demo.in</span></div>
         <div class="work-thumb">
           <div class="surface surf-biryani"></div>
           <div class="motif">
@@ -1380,6 +1774,7 @@ footer::before{
 
       <!-- E-commerce -->
       <a href="projects/ecommerce.html" class="work work-3 reveal tilt" data-delay="2" data-city="retail">
+        <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">shop-demo.in</span></div>
         <div class="work-thumb">
           <div class="surface surf-clinic"></div>
           <div class="motif">
@@ -1408,6 +1803,7 @@ footer::before{
 
       <!-- Boutique & Studio -->
       <a href="projects/boutique.html" class="work work-4 reveal tilt" data-delay="1" data-city="lifestyle">
+        <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">boutique-demo.in</span></div>
         <div class="work-thumb">
           <div class="surface surf-boutique"></div>
           <div class="motif">
@@ -1438,6 +1834,7 @@ footer::before{
 
       <!-- Real Estate -->
       <a href="projects/realestate.html" class="work work-5 reveal tilt" data-delay="2" data-city="lifestyle">
+        <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">realestate-demo.in</span></div>
         <div class="work-thumb">
           <div class="surface surf-sweets"></div>
           <div class="motif">
@@ -1467,6 +1864,7 @@ footer::before{
 
       <!-- Salon & Spa -->
       <a href="projects/salon.html" class="work work-6 reveal tilt" data-city="wellness">
+        <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">salon-demo.in</span></div>
         <div class="work-thumb">
           <div class="surface surf-cafe"></div>
           <div class="motif">
@@ -1491,6 +1889,7 @@ footer::before{
 
       <!-- Jewellery -->
       <a href="projects/jewellery.html" class="work work-7 reveal tilt" data-delay="1" data-city="retail">
+        <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">jewellery-demo.in</span></div>
         <div class="work-thumb">
           <div class="surface surf-jewel"></div>
           <div class="motif">
@@ -1516,6 +1915,7 @@ footer::before{
 
       <!-- Yoga & Wellness -->
       <a href="projects/yoga.html" class="work work-8 reveal tilt" data-delay="2" data-city="wellness">
+        <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">yoga-demo.in</span></div>
         <div class="work-thumb">
           <div class="surface surf-yoga"></div>
           <div class="motif">
@@ -1592,8 +1992,8 @@ footer::before{
       <div class="why-visual reveal" data-delay="2">
         <canvas id="why-canvas"></canvas>
         <div class="why-badge">
-          <div class="num">40+</div>
-          <div class="lbl">Businesses · 7 cities · since 2021</div>
+          <div class="num">50+</div>
+          <div class="lbl">Businesses · 12 cities · since 2021</div>
         </div>
       </div>
     </div>
@@ -1660,6 +2060,28 @@ footer::before{
             </div>
           </figcaption>
         </figure>
+        <figure class="testi">
+          <div class="stars">★★★★★</div>
+          <blockquote>"I was skeptical a website would help a Rajasthani jewellery shop. Now brides from Mumbai and Delhi contact us weeks before their wedding. The ROI is unreal."</blockquote>
+          <figcaption class="testi-author">
+            <div class="testi-avatar">P</div>
+            <div>
+              <div class="testi-name">Priya Singhania</div>
+              <div class="testi-biz">Singhania Jewels · Jaipur</div>
+            </div>
+          </figcaption>
+        </figure>
+        <figure class="testi">
+          <div class="stars">★★★★★</div>
+          <blockquote>"Our yoga studio was full on weekends, empty on weekdays. The online class calendar and trial-week flow turned that around in the first month after launch."</blockquote>
+          <figcaption class="testi-author">
+            <div class="testi-avatar">A</div>
+            <div>
+              <div class="testi-name">Ananya Krishnan</div>
+              <div class="testi-biz">Prana Yoga Studio · Chennai</div>
+            </div>
+          </figcaption>
+        </figure>
       </div>
       <div class="testi-controls">
         <button class="testi-btn" id="testiPrev" aria-label="Previous"><i class="fa-solid fa-arrow-left"></i></button>
@@ -1700,7 +2122,7 @@ footer::before{
             <i class="fa-solid fa-location-dot"></i>
             <div class="channel-text">
               <div class="k">Studio</div>
-              <div class="v">Kolkata · Hyderabad · Bangalore · Gurugram</div>
+              <div class="v">Mumbai · Bengaluru · Delhi · Hyderabad · Chennai · Jaipur · Pune + more</div>
             </div>
           </div>
         </div>
@@ -1710,23 +2132,29 @@ footer::before{
         <div class="form-row">
           <div class="form-field">
             <label>Your name</label>
-            <input type="text" name="name" required placeholder="Ranajit Mondal" />
+            <input type="text" name="name" required placeholder="Priya Sharma" />
           </div>
           <div class="form-field">
             <label>City</label>
-            <input type="text" name="city" required placeholder="Kolkata" />
+            <input type="text" name="city" required placeholder="Jaipur" />
           </div>
         </div>
         <div class="form-field">
           <label>Business type</label>
           <select name="type" required>
             <option value="">Select one</option>
-            <option>Restaurant / Café</option>
-            <option>Boutique / Retail</option>
-            <option>Clinic / Health</option>
-            <option>Sweet Shop / Food</option>
-            <option>Craftsman / Studio</option>
-            <option>Service / Other</option>
+            <option>Restaurant / Café / Cloud Kitchen</option>
+            <option>Boutique / Fashion / Handloom</option>
+            <option>Clinic / Hospital / Diagnostic</option>
+            <option>Salon / Spa / Beauty</option>
+            <option>Jewellery / Accessories</option>
+            <option>Real Estate / Builder / Broker</option>
+            <option>Yoga / Wellness / Fitness</option>
+            <option>E-commerce / D2C Store</option>
+            <option>Sweet Shop / Bakery / Food</option>
+            <option>Gym / Fitness / Sports</option>
+            <option>Coaching / Tuition / Education</option>
+            <option>Other</option>
           </select>
         </div>
         <div class="form-field">
@@ -1753,7 +2181,7 @@ footer::before{
         <span class="logo-mark"><span>M</span></span>
         <span>Mayank Khandelwal<em>.</em></span>
       </a>
-      <p>Helping local Indian businesses shine online. Website design, e-commerce, and ongoing care — from a small studio in Kolkata.</p>
+      <p>Helping local Indian businesses shine online. Website design, e-commerce, and ongoing care — working remotely across India.</p>
       <div class="foot-social">
         <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
         <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
@@ -1782,8 +2210,8 @@ footer::before{
     </div>
   </div>
   <div class="foot-bottom">
-    <div>© 2026 Mayank Khandelwal · Kolkata, India</div>
-    <div>Designed &amp; built with pride · in Bengal</div>
+    <div>© 2026 Mayank Khandelwal · India</div>
+    <div>Designed &amp; built with pride · for every Indian business</div>
   </div>
 </footer>
 
@@ -2054,12 +2482,57 @@ document.querySelectorAll('.tilt').forEach(el => {
     const r = el.getBoundingClientRect();
     const x = (e.clientX - r.left) / r.width - 0.5;
     const y = (e.clientY - r.top) / r.height - 0.5;
-    el.style.transform = `perspective(1100px) rotateX(${y*-5}deg) rotateY(${x*6}deg) translateZ(0)`;
+    el.style.transform = `perspective(1100px) rotateX(${y*-6}deg) rotateY(${x*7}deg) scale(1.01)`;
   });
   el.addEventListener('mouseleave', () => {
     el.style.transform = '';
   });
 });
+
+/* ============================================
+   HERO VISUAL — 3D mouse parallax
+   ============================================ */
+(function heroVisualParallax(){
+  const browser = document.querySelector('.hv-browser');
+  if (!browser) return;
+  const hero = document.querySelector('.hero-visual');
+  if (!hero) return;
+  hero.addEventListener('mousemove', (e) => {
+    const r = hero.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    browser.style.transform = `perspective(1200px) rotateY(${-10 + x*8}deg) rotateX(${4 - y*5}deg)`;
+  });
+  hero.addEventListener('mouseleave', () => {
+    browser.style.transform = '';
+  });
+})();
+
+/* ============================================
+   ANIMATED COUNTERS
+   ============================================ */
+(function counters(){
+  const nums = document.querySelectorAll('.ss-num[data-count]');
+  if (!nums.length) return;
+  const ease = (t) => t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
+  const animate = (el) => {
+    const target = parseInt(el.dataset.count, 10);
+    const dur = 1600;
+    const start = performance.now();
+    (function tick(now){
+      const p = Math.min((now - start) / dur, 1);
+      el.textContent = Math.round(ease(p) * target);
+      if (p < 1) requestAnimationFrame(tick);
+      else el.textContent = target;
+    })(start);
+  };
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting){ animate(e.target); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.5 });
+  nums.forEach(el => io.observe(el));
+})();
 
 /* ============================================
    SERVICE CARD — GOLD GLOW FOLLOWS MOUSE
