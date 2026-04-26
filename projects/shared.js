@@ -17,6 +17,150 @@
     window.addEventListener('scroll', () => pnav.classList.toggle('scrolled', window.scrollY > 40), {passive:true});
   }
 
+  const pageName = (window.location.pathname.split('/').pop() || '').toLowerCase();
+  const asset = (name) => `assets/media/${name}`;
+  const photo = (name, position = 'center center') => ({
+    url: asset(name),
+    position
+  });
+
+  const curatedMediaByPage = {
+    'restaurant.html': {
+      previewHero: photo('restaurant-preview.jpg'),
+      photoCards: [
+        photo('restaurant-dish.jpg')
+      ]
+    },
+    'healthcare.html': {
+      previewHero: photo('healthcare-preview.jpg')
+    },
+    'boutique.html': {
+      previewHero: photo('boutique-preview.jpg'),
+      photoCards: [
+        photo('boutique-look-1.jpg'),
+        photo('boutique-look-2.jpg'),
+        photo('boutique-look-3.jpg')
+      ]
+    },
+    'ecommerce.html': {
+      previewHero: photo('ecommerce-preview.jpg'),
+      photoCards: [
+        photo('ecommerce-product-1.jpg'),
+        photo('ecommerce-product-2.jpg'),
+        photo('ecommerce-product-3.jpg'),
+        photo('ecommerce-preview.jpg')
+      ]
+    },
+    'realestate.html': {
+      previewHero: photo('realestate-preview.jpg')
+    },
+    'salon.html': {
+      previewHero: photo('salon-preview.jpg'),
+      photoCards: [
+        photo('salon-before.jpg'),
+        photo('salon-after.jpg')
+      ]
+    },
+    'jewellery.html': {
+      previewHero: photo('jewellery-preview.jpg'),
+      photoCards: [
+        photo('jewellery-preview.jpg'),
+        photo('jewellery-piece-2.jpg'),
+        photo('jewellery-piece-3.jpg')
+      ]
+    },
+    'yoga.html': {
+      previewHero: photo('yoga-preview.jpg'),
+      photoCards: [
+        photo('yoga-preview.jpg')
+      ]
+    },
+    'aangan-thali.html': {
+      heroVisual: photo('aangan-hero.jpg')
+    },
+    'chai-basti.html': {
+      heroVisual: photo('chai-hero.jpg')
+    },
+    'basu-clinic.html': {
+      heroVisual: photo('clinic-hero.jpg')
+    },
+    'studio-indu.html': {
+      heroVisual: photo('studio-hero.jpg')
+    },
+    'ananta-yoga.html': {
+      heroVisual: photo('ananta-hero.jpg')
+    },
+    'mondal-mishti.html': {
+      heroVisual: photo('mishti-hero.jpg')
+    },
+    'nizami-biryani.html': {
+      heroVisual: photo('biryani-hero.jpg')
+    },
+    'pearl-jewels.html': {
+      heroVisual: photo('pearl-hero.jpg')
+    }
+  };
+
+  const applyPhotoCard = (card, media, eager = false) => {
+    if (!card || !media || card.querySelector('.bg-image-layer')) return;
+    const img = document.createElement('img');
+    img.className = 'bg-image-layer';
+    img.src = media.url;
+    img.alt = '';
+    img.decoding = 'async';
+    img.loading = eager ? 'eager' : 'lazy';
+    if (eager) img.fetchPriority = 'high';
+    if (media.position) img.style.objectPosition = media.position;
+    card.querySelectorAll('svg').forEach(svg => svg.remove());
+    card.classList.add('has-photo');
+    card.prepend(img);
+  };
+
+  const applyPreviewHero = (media) => {
+    const block = document.querySelector('.site-preview .site-body > div:first-child');
+    if (!block || !media || block.querySelector('.section-media-layer')) return;
+    const img = document.createElement('img');
+    img.className = 'section-media-layer';
+    img.src = media.url;
+    img.alt = '';
+    img.decoding = 'async';
+    img.loading = 'eager';
+    img.fetchPriority = 'high';
+    if (media.position) img.style.objectPosition = media.position;
+    block.classList.add('media-hero-block');
+    block.style.background = 'transparent';
+    block.prepend(img);
+  };
+
+  const applyHeroVisual = (media) => {
+    const visual = document.querySelector('.p-visual');
+    if (!visual || !media || visual.querySelector('.hero-visual-image')) return;
+    visual.querySelectorAll('#p-hero-canvas, #p-visual-canvas').forEach(el => el.remove());
+    visual.querySelectorAll('.hero-art.photo-hero').forEach(el => el.remove());
+    const img = document.createElement('img');
+    img.className = 'hero-visual-image';
+    img.src = media.url;
+    img.alt = '';
+    img.decoding = 'async';
+    img.loading = 'eager';
+    img.fetchPriority = 'high';
+    if (media.position) img.style.objectPosition = media.position;
+    visual.classList.add('has-photo');
+    visual.prepend(img);
+  };
+
+  const curatedMedia = curatedMediaByPage[pageName];
+  if (curatedMedia){
+    applyHeroVisual(curatedMedia.heroVisual);
+    applyPreviewHero(curatedMedia.previewHero);
+    if (Array.isArray(curatedMedia.photoCards)){
+      const cards = Array.from(document.querySelectorAll('.photo-card'));
+      curatedMedia.photoCards.forEach((media, index) => {
+        applyPhotoCard(cards[index], media, index < 2);
+      });
+    }
+  }
+
   // Mobile browsers are more reliable with real <img> tags than CSS-only
   // remote backgrounds, so hydrate shared hero/gallery media from the same URL.
   document.querySelectorAll('.hero-art.photo-hero, .gshot .s').forEach(el => {

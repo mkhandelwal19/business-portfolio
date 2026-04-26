@@ -462,6 +462,15 @@ body::after{
   border:1px solid var(--line-soft); aspect-ratio:4/5;
 }
 .photo-card svg{position:absolute; inset:0; width:100%; height:100%}
+.photo-card .bg-image-layer{
+  position:absolute; inset:0; width:100%; height:100%;
+  display:block; object-fit:cover; z-index:0;
+}
+.photo-card.has-photo::after{
+  content:""; position:absolute; inset:0; z-index:1;
+  background:linear-gradient(to bottom, rgba(10,15,30,0.08), rgba(10,15,30,0.14) 48%, rgba(10,15,30,0.72) 100%);
+  pointer-events:none;
+}
 .photo-card .label{
   position:absolute; bottom:12px; left:12px; right:12px;
   padding:10px 14px; background:rgba(10,15,30,0.8); backdrop-filter:blur(8px);
@@ -565,6 +574,24 @@ body::after{
 .p-visual:hover{
   transform:perspective(1400px) rotateY(-2deg) rotateX(1deg);
 }
+.p-visual.has-photo::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:1;
+  background:linear-gradient(160deg, rgba(0,0,0,0.04) 14%, rgba(0,0,0,0.3) 100%);
+  pointer-events:none;
+}
+.p-visual .hero-visual-image{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  z-index:0;
+  filter:brightness(0.96) saturate(1.08) contrast(1.04);
+}
 .p-visual canvas{position:absolute; inset:0; width:100% !important; height:100% !important}
 .p-visual > .hero-art{
   position:absolute;
@@ -625,6 +652,33 @@ body::after{
   display:block;
   object-fit:cover;
   z-index:0;
+}
+.media-hero-block{
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+  background:transparent !important;
+}
+.media-hero-block .section-media-layer{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  z-index:0;
+}
+.media-hero-block::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:1;
+  background:linear-gradient(160deg, rgba(7,7,15,0.18) 8%, rgba(7,7,15,0.82) 100%);
+  pointer-events:none;
+}
+.media-hero-block > *{
+  position:relative;
+  z-index:2;
 }
 .hero-art.photo-hero::after{
   content:""; position:absolute; inset:0; z-index:1;
