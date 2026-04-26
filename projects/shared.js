@@ -32,7 +32,11 @@
       ]
     },
     'healthcare.html': {
-      previewHero: photo('healthcare-preview.jpg')
+      previewHero: photo('healthcare-clinic.jpg', 'center 40%'),
+      photoCards: [
+        photo('healthcare-room.jpg', 'center center'),
+        photo('clinic-gallery-2.jpg', 'center 30%')
+      ]
     },
     'boutique.html': {
       previewHero: photo('boutique-preview.jpg'),
@@ -52,7 +56,11 @@
       ]
     },
     'realestate.html': {
-      previewHero: photo('realestate-preview.jpg')
+      previewHero: photo('realestate-interior-1.jpg', 'center center'),
+      photoCards: [
+        photo('realestate-interior-2.jpg', 'center 40%'),
+        photo('realestate-interior-1.jpg', 'center center')
+      ]
     },
     'salon.html': {
       previewHero: photo('salon-preview.jpg'),
@@ -72,7 +80,7 @@
     'yoga.html': {
       previewHero: photo('yoga-preview.jpg'),
       photoCards: [
-        photo('yoga-preview.jpg')
+        photo('yoga-hero-bg.jpg', 'center 30%')
       ]
     },
     'aangan-thali.html': {
