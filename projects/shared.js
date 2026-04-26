@@ -17,19 +17,34 @@
     window.addEventListener('scroll', () => pnav.classList.toggle('scrolled', window.scrollY > 40), {passive:true});
   }
 
-  // Reveals with fallback: always show after 1.5s if IO hasn't fired
+  // Reveals with fallback: hero content should never wait on scroll timing.
+  const revealEls = Array.from(document.querySelectorAll('.reveal'));
+  const revealVisible = () => {
+    revealEls.forEach(el => {
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight * 0.92 && r.bottom > 0) el.classList.add('in');
+    });
+  };
+
+  revealEls.forEach(el => {
+    if (el.closest('.p-hero')) el.classList.add('in');
+  });
+
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => {
-      if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target) }
+      if (e.isIntersecting){
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
     });
   }, { threshold: 0.01, rootMargin: '0px 0px -40px 0px' });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-  requestAnimationFrame(() => {
-    document.querySelectorAll('.reveal').forEach(el => {
-      const r = el.getBoundingClientRect();
-      if (r.top < window.innerHeight && r.bottom > 0) el.classList.add('in');
-    });
+
+  revealEls.forEach(el => {
+    if (!el.classList.contains('in')) io.observe(el);
   });
+
+  requestAnimationFrame(revealVisible);
+  window.addEventListener('load', revealVisible, { once:true });
   setTimeout(() => document.body.classList.add('ready'), 1500);
 
   // 3D tilt on cards (mv-card, feature, result, step)
