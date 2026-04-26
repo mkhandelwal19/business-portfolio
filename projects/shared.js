@@ -17,6 +17,37 @@
     window.addEventListener('scroll', () => pnav.classList.toggle('scrolled', window.scrollY > 40), {passive:true});
   }
 
+  // Mobile browsers are more reliable with real <img> tags than CSS-only
+  // remote backgrounds, so hydrate shared hero/gallery media from the same URL.
+  document.querySelectorAll('.hero-art.photo-hero, .gshot .s').forEach(el => {
+    const inlineBackground = el.style.background || '';
+    const inlineBackgroundImage = el.style.backgroundImage || '';
+    const source = inlineBackground || inlineBackgroundImage;
+    const urlMatch = source.match(/url\((['"]?)(.*?)\1\)/i);
+    if (!urlMatch || el.querySelector('.bg-image-layer')) return;
+
+    const img = document.createElement('img');
+    img.className = 'bg-image-layer';
+    img.src = urlMatch[2];
+    img.alt = '';
+    img.decoding = 'async';
+    img.loading = el.closest('.p-hero') ? 'eager' : 'lazy';
+    if (el.closest('.p-hero')) img.fetchPriority = 'high';
+    el.prepend(img);
+
+    if (inlineBackground){
+      const layeredMatch = inlineBackground.match(/^(.*),\s*url\((['"]?)(.*?)\2\)(.*)$/i);
+      if (layeredMatch){
+        el.style.setProperty('--bg-overlay', layeredMatch[1].trim());
+        el.style.background = 'none';
+      }
+    }
+
+    if (inlineBackgroundImage){
+      el.style.backgroundImage = 'none';
+    }
+  });
+
   // Reveals with fallback: hero content should never wait on scroll timing.
   const revealEls = Array.from(document.querySelectorAll('.reveal'));
   const revealVisible = () => {
