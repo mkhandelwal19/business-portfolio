@@ -6,7 +6,11 @@
       "WebFetch(domain:images.unsplash.com)",
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "WebFetch(domain:rogue.studio)",
+      "WebFetch(domain:lusion.co)",
+      "WebFetch(domain:www.refractweb.com)",
+      "Bash(grep -v \"^$\")"
     ],
     "additionalDirectories": [
       "c:\\Users\\Mayank\\.claude\\projects\\c--Users-Mayank-Desktop-Tech-Project-Website-Portfolio"
