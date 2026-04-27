@@ -840,6 +840,140 @@ section{
   transform: rotate(-45deg);
 }
 
+/* ==================== PRICING ==================== */
+#pricing{
+  padding: 120px 48px;
+  border-top: 1px solid var(--line-soft);
+}
+.pricing-grid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 64px;
+}
+.price-card{
+  background: var(--bg-2);
+  border: 1px solid var(--line-soft);
+  border-radius: 24px;
+  padding: 40px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+  transition: border-color .3s, transform .3s;
+}
+.price-card:hover{
+  border-color: var(--line);
+  transform: translateY(-4px);
+}
+.price-featured{
+  border-color: var(--gold) !important;
+  background: linear-gradient(160deg, rgba(201,168,76,0.08) 0%, var(--bg-2) 60%);
+}
+.price-badge{
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--gold);
+  color: var(--bg);
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 5px 18px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.price-tag{
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.price-card h4{
+  font-family: var(--f-serif);
+  font-size: 26px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+.price-amount{
+  font-family: var(--f-serif);
+  font-size: 46px;
+  font-weight: 600;
+  color: var(--gold);
+  line-height: 1;
+}
+.price-sub{
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-top: 6px;
+  margin-bottom: 28px;
+}
+.price-list{
+  list-style: none;
+  padding: 0; margin: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.price-list li{
+  font-size: 14px;
+  color: var(--ivory-dim);
+  padding-left: 20px;
+  position: relative;
+}
+.price-list li::before{
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+  font-size: 12px;
+}
+.price-best{
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-top: 24px;
+  margin-bottom: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line-soft);
+}
+.price-cta{ width: 100%; justify-content: center }
+.addons-row{
+  margin-top: 56px;
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.addons-label{
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+  padding-top: 6px;
+}
+.addons-chips{ display: flex; flex-wrap: wrap; gap: 10px }
+.addon-chip{
+  padding: 8px 16px;
+  border: 1px solid var(--line-soft);
+  border-radius: 20px;
+  font-size: 13px;
+  color: var(--ivory-dim);
+  background: var(--bg-2);
+}
+.addon-chip em{ color: var(--gold); font-style: normal; margin-left: 6px }
+
 /* ==================== PORTFOLIO ==================== */
 .work-grid{
   display: grid;
@@ -1273,6 +1407,18 @@ section{
   text-align: center;
 }
 .form-success.show{ display:block }
+.form-error{
+  display:none;
+  padding: 16px 20px;
+  border: 1px solid rgba(220,50,50,0.4);
+  border-radius: 12px;
+  background: rgba(220,50,50,0.06);
+  color: #e06c6c;
+  font-size: 14px;
+  margin-top: 16px;
+  text-align: center;
+}
+.form-error.show{ display:block }
 
 /* ==================== FOOTER ==================== */
 footer{
@@ -1393,6 +1539,8 @@ footer::before{
   .section-head{ grid-template-columns: 1fr; gap: 24px }
   .mv-grid{ grid-template-columns: 1fr }
   .services-grid{ grid-template-columns: 1fr 1fr }
+  .pricing-grid{ grid-template-columns: 1fr }
+  #pricing{ padding: 100px 24px }
   .work-grid{ grid-template-columns: 1fr; gap: 18px }
   .work-1,.work-2,.work-3,.work-4,.work-5,.work-6,.work-7,.work-8{ grid-column: span 1; margin: 0; min-height: 340px }
   .why-wrap{ grid-template-columns: 1fr; gap: 40px }
@@ -1431,6 +1579,7 @@ footer::before{
     <li><a href="#work" data-nav-link>Work</a></li>
     <li><a href="#about" data-nav-link>About</a></li>
     <li><a href="#services" data-nav-link>Services</a></li>
+    <li><a href="#pricing" data-nav-link>Pricing</a></li>
     <li><a href="#testimonials" data-nav-link>Testimonials</a></li>
     <li><a href="#contact" data-nav-link>Contact</a></li>
   </ul>
@@ -1679,6 +1828,97 @@ footer::before{
         <div class="service-arrow"><i class="fa-solid fa-arrow-right"></i></div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ==================== PRICING ==================== -->
+<section id="pricing">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow reveal">03 — Pricing</div>
+        <h2 class="reveal" data-delay="1">Simple, <em>honest pricing.</em><br/>No hidden charges.</h2>
+      </div>
+      <p class="reveal" data-delay="2">
+        Every pack includes domain setup, hosting guidance, mobile optimisation, and a free strategy call.
+        Add-ons available à la carte after we talk.
+      </p>
+    </div>
+
+    <div class="pricing-grid reveal">
+
+      <!-- Starter -->
+      <div class="price-card">
+        <div class="price-tag">S/01</div>
+        <h4>Starter</h4>
+        <div class="price-amount">₹12,999</div>
+        <div class="price-sub">one-time · delivery 5–7 days</div>
+        <ul class="price-list">
+          <li>1-page landing site</li>
+          <li>Mobile-first responsive</li>
+          <li>WhatsApp click-to-chat</li>
+          <li>Google Maps & Hours</li>
+          <li>Basic enquiry form</li>
+          <li>1 month support</li>
+        </ul>
+        <div class="price-best">Best for: Salon, Coaching, Gym, Sweet Shop</div>
+        <a href="#contact" class="btn btn-ghost price-cta">Get Started <span class="arrow">→</span></a>
+      </div>
+
+      <!-- Business (most popular) -->
+      <div class="price-card price-featured">
+        <div class="price-badge">Most Popular</div>
+        <div class="price-tag">S/02</div>
+        <h4>Business</h4>
+        <div class="price-amount">₹24,999</div>
+        <div class="price-sub">one-time · delivery 10–14 days</div>
+        <ul class="price-list">
+          <li>5-page full website</li>
+          <li>SEO + speed optimised</li>
+          <li>Gallery / Menu / Portfolio</li>
+          <li>Online booking & enquiry</li>
+          <li>Google Business setup</li>
+          <li>WhatsApp catalog</li>
+          <li>3 months support</li>
+        </ul>
+        <div class="price-best">Best for: Restaurant, Boutique, Clinic, Yoga</div>
+        <a href="#contact" class="btn btn-primary price-cta">Get Started <span class="arrow">→</span></a>
+      </div>
+
+      <!-- Premium -->
+      <div class="price-card">
+        <div class="price-tag">S/03</div>
+        <h4>Premium</h4>
+        <div class="price-amount">₹44,999</div>
+        <div class="price-sub">one-time · delivery 21–30 days</div>
+        <ul class="price-list">
+          <li>Unlimited pages</li>
+          <li>E-commerce / Online ordering</li>
+          <li>Razorpay / UPI / COD</li>
+          <li>Inventory management</li>
+          <li>SEO + Google Ads setup</li>
+          <li>WhatsApp Business API</li>
+          <li>6 months support</li>
+        </ul>
+        <div class="price-best">Best for: Jewellery, Real Estate, D2C Brand</div>
+        <a href="#contact" class="btn btn-ghost price-cta">Get Started <span class="arrow">→</span></a>
+      </div>
+
+    </div>
+
+    <!-- Add-ons -->
+    <div class="addons-row reveal" data-delay="2">
+      <div class="addons-label">Popular add-ons</div>
+      <div class="addons-chips">
+        <span class="addon-chip">QR Menu / Table Ordering <em>+₹2,999</em></span>
+        <span class="addon-chip">Appointment Booking System <em>+₹3,999</em></span>
+        <span class="addon-chip">Instagram Shop Sync <em>+₹2,499</em></span>
+        <span class="addon-chip">Property Listings Module <em>+₹5,999</em></span>
+        <span class="addon-chip">Monthly Maintenance <em>₹1,999/mo</em></span>
+        <span class="addon-chip">Logo + Brand Kit <em>+₹4,999</em></span>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -2111,11 +2351,11 @@ footer::before{
               <div class="v">+91 98300 00000</div>
             </div>
           </a>
-          <a class="channel" href="mailto:hello@mayank.in">
+          <a class="channel" href="mailto:imayank.khandelwal@gmail.com">
             <i class="fa-regular fa-envelope"></i>
             <div class="channel-text">
               <div class="k">Email</div>
-              <div class="v">hello@mayank.in</div>
+              <div class="v">imayank.khandelwal@gmail.com</div>
             </div>
           </a>
           <div class="channel">
@@ -2136,7 +2376,17 @@ footer::before{
           </div>
           <div class="form-field">
             <label>City</label>
-            <input type="text" name="city" required placeholder="Jaipur" />
+            <input type="text" name="city" required placeholder="Kolkata" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label>Email address</label>
+            <input type="email" name="email" required placeholder="priya@yourshop.in" />
+          </div>
+          <div class="form-field">
+            <label>WhatsApp / Phone <span style="color:var(--muted);font-size:11px">(optional)</span></label>
+            <input type="tel" name="phone" placeholder="+91 98300 00000" />
           </div>
         </div>
         <div class="form-field">
@@ -2161,12 +2411,15 @@ footer::before{
           <label>Tell me about your business</label>
           <textarea name="message" required placeholder="A short paragraph about what you do, where you are, and what you want your website to achieve."></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">
+        <button type="submit" class="btn btn-primary" id="formBtn">
           Send Enquiry <span class="arrow">→</span>
         </button>
         <div class="form-note">No spam. No salesy follow-ups. Just a reply from me.</div>
         <div class="form-success" id="formSuccess">
           Thanks — your message is on its way. I'll reply within a few hours, promise.
+        </div>
+        <div class="form-error" id="formError">
+          Something went wrong. Please email me directly at <a href="mailto:imayank.khandelwal@gmail.com" style="color:var(--gold)">imayank.khandelwal@gmail.com</a>
         </div>
       </form>
     </div>
@@ -2195,6 +2448,7 @@ footer::before{
         <li><a href="#work">Selected Work</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#services">Services</a></li>
+        <li><a href="#pricing">Pricing</a></li>
         <li><a href="#testimonials">Testimonials</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
@@ -2578,14 +2832,38 @@ document.querySelectorAll('.city-chip').forEach(chip => {
 })();
 
 /* ============================================
-   CONTACT FORM — FAKE SUBMIT
+   CONTACT FORM — FORMSPREE SUBMIT
+   Sign up at formspree.io → create form → replace YOUR_FORMSPREE_ID below
    ============================================ */
+const FORMSPREE_ID = 'meevwvvd';
 const form = document.getElementById('contactForm');
-form.addEventListener('submit', (e) => {
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
-  document.getElementById('formSuccess').classList.add('show');
-  form.querySelector('.btn-primary').textContent = 'Sent ✓';
-  setTimeout(() => form.reset(), 200);
+  const btn = document.getElementById('formBtn');
+  const success = document.getElementById('formSuccess');
+  const error = document.getElementById('formError');
+  btn.disabled = true;
+  btn.innerHTML = 'Sending… <span class="arrow">↻</span>';
+  success.classList.remove('show');
+  error.classList.remove('show');
+  try {
+    const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    });
+    if (res.ok) {
+      success.classList.add('show');
+      btn.innerHTML = 'Sent ✓';
+      setTimeout(() => { form.reset(); btn.disabled = false; btn.innerHTML = 'Send Enquiry <span class="arrow">→</span>'; }, 4000);
+    } else {
+      throw new Error('server error');
+    }
+  } catch {
+    error.classList.add('show');
+    btn.disabled = false;
+    btn.innerHTML = 'Send Enquiry <span class="arrow">→</span>';
+  }
 });
 
 /* ============================================

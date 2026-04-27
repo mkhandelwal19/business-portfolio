@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Lead Scanner Dashboard — Mayank K.</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
+  :root {
+    --bg:    #0A0F1E;
+    --bg2:   #111827;
+    --bg3:   #1a2235;
+    --gold:  #C9A84C;
+    --gold2: rgba(201,168,76,0.12);
+    --line:  rgba(255,255,255,0.08);
+    --text:  #E8E4DA;
+    --dim:   #8891a4;
+    --green: #4ade80;
+    --red:   #f87171;
+    --blue:  #60a5fa;
+    --radius: 12px;
+    --mono: 'JetBrains Mono', 'Fira Code', monospace;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, 'Segoe UI', sans-serif;
+    font-size: 14px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Top bar ─────────────────────────── */
+  header {
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    background: var(--bg2);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .logo { font-weight: 700; font-size: 16px; color: var(--gold); white-space: nowrap }
+  .logo span { color: var(--text); font-weight: 400 }
+  .stats-bar { display: flex; gap: 20px; flex-wrap: wrap; margin-left: auto; }
+  .stat { text-align: center; }
+  .stat-n { font-size: 20px; font-weight: 700; color: var(--gold); line-height: 1 }
+  .stat-l { font-size: 10px; color: var(--dim); text-transform: uppercase; letter-spacing: .1em }
+  .load-btn {
+    background: var(--gold); color: var(--bg);
+    border: none; border-radius: 8px;
+    padding: 8px 18px; font-size: 13px; font-weight: 600;
+    cursor: pointer; white-space: nowrap;
+  }
+  .load-btn:hover { opacity: .85 }
+  #fileInput { display: none }
+
+  /* ── Filter bar ──────────────────────── */
+  .filters {
+    padding: 12px 24px;
+    border-bottom: 1px solid var(--line);
+    display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+    background: var(--bg2);
+  }
+  .filters select, .filters input[type=text], .filters input[type=range] {
+    background: var(--bg3);
+    border: 1px solid var(--line);
+    color: var(--text);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 13px;
+    outline: none;
+  }
+  .filters select:focus, .filters input:focus { border-color: var(--gold) }
+  .filter-label { font-size: 11px; color: var(--dim); text-transform: uppercase; letter-spacing: .1em }
+  .score-val { font-family: var(--mono); font-size: 12px; color: var(--gold); min-width: 28px }
+  .clear-btn {
+    background: transparent; border: 1px solid var(--line);
+    color: var(--dim); border-radius: 8px;
+    padding: 6px 14px; cursor: pointer; font-size: 12px;
+  }
+  .clear-btn:hover { border-color: var(--gold); color: var(--gold) }
+
+  /* ── Layout ──────────────────────────── */
+  .layout { display: flex; flex: 1; overflow: hidden; height: calc(100vh - 108px) }
+
+  /* ── Table panel ─────────────────────── */
+  .table-wrap {
+    flex: 1; overflow-y: auto; overflow-x: auto;
+    transition: flex .3s ease;
+  }
+  .table-wrap.panel-open { flex: 0 0 60% }
+
+  table { width: 100%; border-collapse: collapse; }
+  thead th {
+    position: sticky; top: 0;
+    background: var(--bg2);
+    padding: 10px 12px;
+    text-align: left;
+    font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--dim); border-bottom: 1px solid var(--line);
+    cursor: pointer; user-select: none; white-space: nowrap;
+  }
+  thead th:hover { color: var(--gold) }
+  thead th .sort-arrow { margin-left: 4px; opacity: .5 }
+  thead th.sorted { color: var(--gold) }
+  thead th.sorted .sort-arrow { opacity: 1 }
+
+  tbody tr {
+    border-bottom: 1px solid var(--line);
+    cursor: pointer;
+    transition: background .15s;
+  }
+  tbody tr:hover { background: rgba(201,168,76,0.05) }
+  tbody tr.selected { background: rgba(201,168,76,0.10); border-left: 3px solid var(--gold) }
+
+  td { padding: 10px 12px; vertical-align: middle; white-space: nowrap }
+  .td-score {
+    font-family: var(--mono); font-weight: 700; font-size: 15px;
+  }
+  .score-hot  { color: var(--green) }
+  .score-warm { color: var(--gold) }
+  .score-cold { color: var(--dim) }
+  .badge {
+    display: inline-block; padding: 2px 8px;
+    border-radius: 20px; font-size: 10px; font-weight: 600;
+    letter-spacing: .05em; text-transform: uppercase;
+  }
+  .badge-none    { background: rgba(248,113,113,.15); color: var(--red) }
+  .badge-fb      { background: rgba(96,165,250,.15);  color: var(--blue) }
+  .badge-jd      { background: rgba(251,191,36,.15);  color: #fbbf24 }
+  .badge-wix     { background: rgba(139,92,246,.15);  color: #a78bfa }
+  .badge-own     { background: rgba(74,222,128,.12);  color: var(--green) }
+  .badge-default { background: var(--bg3); color: var(--dim) }
+
+  .td-email { font-family: var(--mono); font-size: 12px }
+  .has-email { color: var(--green) }
+  .no-email  { color: var(--dim); font-style: italic }
+  .td-name   { font-weight: 600; max-width: 220px; overflow: hidden; text-overflow: ellipsis }
+  .td-phone  { font-family: var(--mono); font-size: 12px }
+
+  /* ── Detail panel ─────────────────────── */
+  .detail-panel {
+    width: 0; overflow: hidden;
+    border-left: 1px solid var(--line);
+    background: var(--bg2);
+    transition: width .3s ease;
+    display: flex; flex-direction: column;
+  }
+  .detail-panel.open { width: 40%; min-width: 380px; overflow-y: auto }
+  .panel-inner { padding: 24px; min-width: 360px }
+  .panel-close {
+    position: sticky; top: 0;
+    display: flex; justify-content: flex-end;
+    padding: 12px 16px;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--line);
+    z-index: 10;
+  }
+  .panel-close button {
+    background: var(--bg3); border: 1px solid var(--line);
+    color: var(--dim); border-radius: 8px;
+    padding: 5px 14px; cursor: pointer; font-size: 12px;
+  }
+  .panel-close button:hover { border-color: var(--gold); color: var(--gold) }
+
+  .p-score-row { display: flex; align-items: baseline; gap: 12px; margin-bottom: 4px }
+  .p-score { font-size: 40px; font-weight: 800; font-family: var(--mono) }
+  .p-name  { font-size: 22px; font-weight: 700; margin-bottom: 4px }
+  .p-cat   { font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--dim); margin-bottom: 20px }
+
+  .p-section { margin-top: 20px }
+  .p-section-title {
+    font-size: 10px; text-transform: uppercase; letter-spacing: .15em;
+    color: var(--dim); margin-bottom: 10px;
+    padding-bottom: 6px; border-bottom: 1px solid var(--line);
+  }
+  .p-row { display: flex; gap: 10px; margin-bottom: 8px; align-items: flex-start }
+  .p-row-label { font-size: 11px; color: var(--dim); min-width: 90px; padding-top: 2px }
+  .p-row-val   { font-size: 13px; word-break: break-all; flex: 1 }
+  .p-row-val a { color: var(--gold); text-decoration: none }
+  .p-row-val a:hover { text-decoration: underline }
+
+  .owner-field {
+    background: var(--bg3); border: 1px solid var(--line);
+    color: var(--text); border-radius: 8px;
+    padding: 6px 10px; font-size: 13px; width: 100%;
+    outline: none;
+  }
+  .owner-field:focus { border-color: var(--gold) }
+  .owner-hint { font-size: 10px; color: var(--dim); margin-top: 4px }
+
+  .reasons-list { display: flex; flex-wrap: wrap; gap: 6px }
+  .reason-pill {
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.2);
+    color: var(--gold); border-radius: 20px;
+    padding: 3px 10px; font-size: 11px;
+  }
+
+  /* ── Email section ───────────────────── */
+  .email-template-box {
+    background: var(--bg3);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 14px;
+    font-size: 12px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+    color: var(--text);
+    max-height: 280px;
+    overflow-y: auto;
+    margin-bottom: 12px;
+    font-family: -apple-system, 'Segoe UI', sans-serif;
+  }
+  .email-actions { display: flex; gap: 8px; flex-wrap: wrap }
+  .btn-primary {
+    background: var(--gold); color: var(--bg);
+    border: none; border-radius: 8px;
+    padding: 9px 18px; font-size: 13px; font-weight: 600;
+    cursor: pointer; display: flex; align-items: center; gap: 6px;
+    white-space: nowrap;
+  }
+  .btn-primary:hover { opacity: .85 }
+  .btn-outline {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--text);
+    border-radius: 8px;
+    padding: 9px 16px; font-size: 13px;
+    cursor: pointer; display: flex; align-items: center; gap: 6px;
+    white-space: nowrap;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold) }
+  .copy-toast {
+    font-size: 11px; color: var(--green);
+    display: none; align-items: center; gap: 4px;
+  }
+  .copy-toast.show { display: flex }
+
+  /* ── Empty / loading states ──────────── */
+  .empty {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    height: 100%; padding: 60px 24px; text-align: center;
+    color: var(--dim);
+  }
+  .empty-icon { font-size: 48px; margin-bottom: 16px; opacity: .3 }
+  .empty h3  { font-size: 18px; color: var(--text); margin-bottom: 8px }
+  .empty p   { font-size: 13px; max-width: 360px; line-height: 1.6 }
+  .count-label { font-size: 11px; color: var(--dim); padding: 8px 24px }
+</style>
+</head>
+<body>
+
+<!-- ── Header ──────────────────────────── -->
+<header>
+  <div class="logo">MK <span>Lead Scanner</span></div>
+  <div class="stats-bar" id="statsBar" style="display:none">
+    <div class="stat"><div class="stat-n" id="stTotal">0</div><div class="stat-l">Total Leads</div></div>
+    <div class="stat"><div class="stat-n" id="stShowing">0</div><div class="stat-l">Showing</div></div>
+    <div class="stat"><div class="stat-n" id="stEmails">0</div><div class="stat-l">With Email</div></div>
+    <div class="stat"><div class="stat-n" id="stHot">0</div><div class="stat-l">Hot (70+)</div></div>
+  </div>
+  <button class="load-btn" onclick="document.getElementById('fileInput').click()">
+    📂 Load leads.json
+  </button>
+  <input type="file" id="fileInput" accept=".json" onchange="loadFile(event)"/>
+</header>
+
+<!-- ── Filters ─────────────────────────── -->
+<div class="filters" id="filterBar" style="display:none">
+  <span class="filter-label">Filter:</span>
+
+  <select id="fCity" onchange="applyFilters()">
+    <option value="">All Cities</option>
+  </select>
+
+  <select id="fCat" onchange="applyFilters()">
+    <option value="">All Categories</option>
+  </select>
+
+  <select id="fWeb" onchange="applyFilters()">
+    <option value="">Any Web Type</option>
+    <option value="none">No Website</option>
+    <option value="facebook">Facebook Only</option>
+    <option value="justdial">JustDial</option>
+    <option value="indiamart">IndiaMart</option>
+    <option value="wix">Wix</option>
+    <option value="own_site">Has Own Site</option>
+  </select>
+
+  <select id="fEmail" onchange="applyFilters()">
+    <option value="">Any</option>
+    <option value="yes">Has Email</option>
+    <option value="no">No Email</option>
+  </select>
+
+  <span class="filter-label">Min Score:</span>
+  <input type="range" id="fScore" min="0" max="100" value="0" step="5" oninput="updateScoreLabel();applyFilters()"/>
+  <span class="score-val" id="scoreLabel">0</span>
+
+  <input type="text" id="fSearch" placeholder="Search name / area…" oninput="applyFilters()" style="min-width:180px"/>
+
+  <button class="clear-btn" onclick="clearFilters()">Clear</button>
+</div>
+
+<!-- ── Main layout ─────────────────────── -->
+<div class="layout" id="layout">
+
+  <!-- Table -->
+  <div class="table-wrap" id="tableWrap">
+    <div class="empty" id="emptyState">
+      <div class="empty-icon">🗺️</div>
+      <h3>No leads loaded</h3>
+      <p>Run <code style="background:var(--bg3);padding:2px 8px;border-radius:4px">node scanner.js</code> first, then click <strong>Load leads.json</strong> above to see your results.</p>
+    </div>
+    <div id="countLabel" class="count-label" style="display:none"></div>
+    <table id="leadsTable" style="display:none">
+      <thead>
+        <tr>
+          <th onclick="sortBy('score')"       data-col="score">Score<span class="sort-arrow">↕</span></th>
+          <th onclick="sortBy('name')"        data-col="name">Business Name<span class="sort-arrow">↕</span></th>
+          <th onclick="sortBy('category')"    data-col="category">Category<span class="sort-arrow">↕</span></th>
+          <th onclick="sortBy('city')"        data-col="city">City<span class="sort-arrow">↕</span></th>
+          <th onclick="sortBy('area')"        data-col="area">Area<span class="sort-arrow">↕</span></th>
+          <th onclick="sortBy('rating')"      data-col="rating">Rating<span class="sort-arrow">↕</span></th>
+          <th onclick="sortBy('reviews')"     data-col="reviews">Reviews<span class="sort-arrow">↕</span></th>
+          <th>Web Type</th>
+          <th onclick="sortBy('phone')"       data-col="phone">Phone<span class="sort-arrow">↕</span></th>
+          <th onclick="sortBy('email')"       data-col="email">Email<span class="sort-arrow">↕</span></th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+
+  <!-- Detail panel -->
+  <div class="detail-panel" id="detailPanel">
+    <div class="panel-close">
+      <button onclick="closePanel()">✕ Close</button>
+    </div>
+    <div class="panel-inner" id="panelInner"></div>
+  </div>
+
+</div>
+
+<script>
+// ── State ─────────────────────────────────────
+let allLeads     = [];
+let filtered     = [];
+let sortCol      = 'score';
+let sortDir      = -1;  // -1 = desc, 1 = asc
+let selectedIdx  = null;
+
+// ── Email templates per category ──────────────
+const templates = {
+  'Restaurant / Café': {
+    subject: 'Quick question about {name}\'s online presence',
+    body: `Hi{owner},
+
+I tried to find {name} online and your restaurant looks fantastic — but there's no website where customers can see your full menu or place direct orders.
+
+I'm Mayank Khandelwal, a web designer in Kolkata. I build custom websites for restaurants and cafés — complete with your menu, photo gallery, online ordering, and WhatsApp integration.
+
+Live example: https://mayankkhandelwal.github.io/projects/restaurant.html
+
+A website typically pays for itself in 2–3 months through direct orders (no 25–30% aggregator commission on those). Would you have 10 minutes for a quick call this week?
+
+— Mayank
+imayank.khandelwal@gmail.com`,
+  },
+  'Boutique / Fashion': {
+    subject: '{name} deserves a proper online home',
+    body: `Hi{owner},
+
+I came across {name} and your collection looks beautiful — but when I searched online, there was no website to browse or shop from.
+
+I specialise in building elegant websites for boutiques and ethnic wear brands. Here's an example: https://mayankkhandelwal.github.io/projects/boutique.html
+
+With your own site, customers from across the city (and country) can browse and buy — not just people who walk past. Your Instagram becomes a shop window, not just a catalogue.
+
+Packages start at ₹24,999. Would love to chat.
+
+— Mayank
+imayank.khandelwal@gmail.com`,
+  },
+  'Clinic / Healthcare': {
+    subject: 'Helping {name} get more patient bookings',
+    body: `Dear Doctor{owner},
+
+I'm Mayank, a web designer working with clinics and diagnostic centres. I noticed {name} doesn't have a website for patients to book appointments or learn about your services.
+
+A professional medical website does three things: builds trust before the first visit, handles appointment requests 24/7, and helps you rank on Google when patients search nearby.
+
+Example: https://mayankkhandelwal.github.io/projects/healthcare.html
+
+Would a 15-minute call work this week?
+
+Regards,
+Mayank Khandelwal
+imayank.khandelwal@gmail.com`,
+  },
+  'Salon / Spa / Beauty': {
+    subject: 'Let {name} customers book online 24/7',
+    body: `Hi{owner},
+
+I came across {name} and noticed you don't have a website yet. A simple, professional site lets your customers browse services, see prices, and book appointments — even at midnight.
+
+I build clean, mobile-first websites for salons and spas. Example: https://mayankkhandelwal.github.io/projects/salon.html
+
+Packages start at ₹12,999 — delivered in about a week. Interested in a quick look?
+
+— Mayank
+imayank.khandelwal@gmail.com`,
+  },
+  'Jewellery': {
+    subject: 'Let brides across India discover {name}',
+    body: `Hi{owner},
+
+I found {name} and your craftsmanship is remarkable. The challenge: brides planning their wedding from Mumbai or Delhi can't browse your collection without making the trip first.
+
+I build premium jewellery websites with beautiful galleries, custom enquiry forms, and WhatsApp integration. Example: https://mayankkhandelwal.github.io/projects/jewellery.html
+
+Shops that go online typically see 30–40% more enquiries in the first 3 months. Happy to explain over a quick call.
+
+— Mayank
+imayank.khandelwal@gmail.com`,
+  },
+  'Real Estate': {
+    subject: 'A website to generate direct property leads for {name}',
+    body: `Hi{owner},
+
+I'm Mayank, a web designer. Property portals like MagicBricks bury your listings among thousands. Your own website means direct inquiries — on your terms.
+
+I build property sites with listing pages, lead capture forms, and WhatsApp integration. Example: https://mayankkhandelwal.github.io/projects/realestate.html
+
+Would love to show you how this works for a business like {name}. Free 15-min call?
+
+— Mayank
+imayank.khandelwal@gmail.com`,
+  },
+  'Yoga / Wellness': {
+    subject: '{name}\'s next 50 students are searching Google right now',
+    body: `Hi{owner},
+
+I came across {name} and love what you're doing. But if someone searches "yoga classes near me" today, they won't find you — there's no website.
+
+I build websites for yoga studios that include class schedules, teacher bios, pricing, and online booking. Example: https://mayankkhandelwal.github.io/projects/yoga.html
+
+Getting found on Google is the highest-ROI move for a wellness studio. Can we talk for 10 minutes?
+
+— Mayank
+imayank.khandelwal@gmail.com`,
+  },
+  'Gym / Fitness': {
+    subject: 'Help {name} members find you online',
+    body: `Hi{owner},
+
+I found {name} and noticed there's no website. A gym website with membership plans, class schedules, and trainer profiles helps you attract members before they even walk in.
+
+I build clean fitness websites starting at ₹12,999. Can I show you a quick example?
+
+— Mayank
+imayank.khandelwal@gmail.com`,
+  },
+  'Coaching / Education': {
+    subject: 'Parents searching for coaching in your area will find {name} first',
+    body: `Hi{owner},
+
+I'm Mayank, a web designer. I noticed {name} doesn't have a website. Parents searching for coaching centres online are choosing between whoever shows up on Google — and right now, that's not you.
+
+A simple website with your results, testimonials, and an enquiry form changes that. Starting at ₹12,999.
+
+Want to see an example? Happy to do a quick 10-minute call.
+
+— Mayank
+imayank.khandelwal@gmail.com`,
+  },
+  'Sweet Shop / Bakery': {
+    subject: 'Ready for Puja pre-orders? {name} should be',
+    body: `Hi{owner},
+
+Festival season orders over WhatsApp are chaos. I build simple websites for sweet shops and bakeries that let customers pre-order online — no more missed messages.
+
+Example built for a similar shop: https://mayankkhandelwal.github.io/projects/restaurant.html
+
+Starting at ₹12,999 and delivered in under a week. Would love to chat before the next festival season!
+
+— Mayank
+imayank.khandelwal@gmail.com`,
+  },
+};
+
+function getTemplate(lead, ownerName) {
+  const tpl = templates[lead.category] || {
+    subject: 'A website for {name}',
+    body: `Hi{owner},\n\nI came across {name} and would love to help you build a professional website.\n\n— Mayank\nimayank.khandelwal@gmail.com`,
+  };
+  const ownerPart = ownerName ? ` ${ownerName}` : '';
+  return {
+    subject: tpl.subject.replace(/{name}/g, lead.name),
+    body:    tpl.body
+               .replace(/{name}/g, lead.name)
+               .replace(/{owner}/g, ownerPart),
+  };
+}
+
+// ── Load file ─────────────────────────────────
+function loadFile(evt) {
+  const file = evt.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      allLeads = JSON.parse(e.target.result);
+      init();
+    } catch {
+      alert('Could not parse leads.json — make sure the scanner has run successfully.');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function init() {
+  document.getElementById('statsBar').style.display = 'flex';
+  document.getElementById('filterBar').style.display = 'flex';
+  document.getElementById('emptyState').style.display = 'none';
+  document.getElementById('leadsTable').style.display = '';
+  document.getElementById('countLabel').style.display = '';
+
+  // Populate filter dropdowns
+  const cities = [...new Set(allLeads.map(l => l.city).filter(Boolean))].sort();
+  const cats   = [...new Set(allLeads.map(l => l.category))].sort();
+
+  const fCity = document.getElementById('fCity');
+  const fCat  = document.getElementById('fCat');
+  fCity.innerHTML = '<option value="">All Cities</option>' + cities.map(c => `<option>${c}</option>`).join('');
+  fCat.innerHTML  = '<option value="">All Categories</option>' + cats.map(c => `<option>${c}</option>`).join('');
+
+  applyFilters();
+  updateStats();
+}
+
+// ── Filters & sort ────────────────────────────
+function applyFilters() {
+  const city   = document.getElementById('fCity').value;
+  const cat    = document.getElementById('fCat').value;
+  const web    = document.getElementById('fWeb').value;
+  const email  = document.getElementById('fEmail').value;
+  const minSco = +document.getElementById('fScore').value;
+  const search = document.getElementById('fSearch').value.toLowerCase();
+
+  filtered = allLeads.filter(l => {
+    if (city   && l.city !== city)              return false;
+    if (cat    && l.category !== cat)           return false;
+    if (web    && l.website_type !== web)       return false;
+    if (email === 'yes' && !l.email)            return false;
+    if (email === 'no'  &&  l.email)            return false;
+    if (l.score < minSco)                       return false;
+    if (search && !l.name.toLowerCase().includes(search) &&
+        !l.area.toLowerCase().includes(search) &&
+        !(l.email||'').toLowerCase().includes(search)) return false;
+    return true;
+  });
+
+  sortLeads();
+  renderTable();
+  updateStats();
+}
+
+function sortBy(col) {
+  if (sortCol === col) sortDir *= -1;
+  else { sortCol = col; sortDir = col === 'score' ? -1 : 1; }
+  sortLeads();
+  renderTable();
+  // Update header highlight
+  document.querySelectorAll('thead th').forEach(th => {
+    th.classList.toggle('sorted', th.dataset.col === col);
+    const arr = th.querySelector('.sort-arrow');
+    if (arr && th.dataset.col === col) arr.textContent = sortDir === -1 ? '↓' : '↑';
+    else if (arr) arr.textContent = '↕';
+  });
+}
+
+function sortLeads() {
+  filtered.sort((a, b) => {
+    let av = a[sortCol] ?? '', bv = b[sortCol] ?? '';
+    if (typeof av === 'number') return (av - bv) * sortDir;
+    return String(av).localeCompare(String(bv)) * sortDir;
+  });
+}
+
+function clearFilters() {
+  document.getElementById('fCity').value  = '';
+  document.getElementById('fCat').value   = '';
+  document.getElementById('fWeb').value   = '';
+  document.getElementById('fEmail').value = '';
+  document.getElementById('fScore').value = 0;
+  document.getElementById('fSearch').value = '';
+  document.getElementById('scoreLabel').textContent = '0';
+  applyFilters();
+}
+
+function updateScoreLabel() {
+  document.getElementById('scoreLabel').textContent = document.getElementById('fScore').value;
+}
+
+// ── Render table ──────────────────────────────
+function webBadge(type) {
+  const map = {
+    none:          ['badge-none',    'No Website'],
+    facebook:      ['badge-fb',      'Facebook'],
+    instagram:     ['badge-fb',      'Instagram'],
+    justdial:      ['badge-jd',      'JustDial'],
+    indiamart:     ['badge-jd',      'IndiaMart'],
+    sulekha:       ['badge-jd',      'Sulekha'],
+    wix:           ['badge-wix',     'Wix'],
+    blogspot:      ['badge-wix',     'Blogspot'],
+    template_free: ['badge-wix',     'Free Template'],
+    linktree:      ['badge-default', 'Linktree'],
+    zomato_swiggy: ['badge-default', 'Zomato/Swiggy'],
+    own_site:      ['badge-own',     'Own Site'],
+  };
+  const [cls, label] = map[type] || ['badge-default', type || '—'];
+  return `<span class="badge ${cls}">${label}</span>`;
+}
+
+function scoreClass(s) {
+  if (s >= 70) return 'score-hot';
+  if (s >= 50) return 'score-warm';
+  return 'score-cold';
+}
+
+function renderTable() {
+  const tbody = document.getElementById('tableBody');
+  document.getElementById('countLabel').textContent = `Showing ${filtered.length} of ${allLeads.length} leads`;
+
+  if (!filtered.length) {
+    tbody.innerHTML = `<tr><td colspan="10" style="text-align:center;padding:40px;color:var(--dim)">No leads match your filters.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map((l, i) => `
+    <tr onclick="selectLead(${i})" class="${selectedIdx === i ? 'selected' : ''}">
+      <td class="td-score ${scoreClass(l.score)}">${l.score}</td>
+      <td class="td-name" title="${esc(l.name)}">${esc(l.name)}</td>
+      <td>${esc(l.category)}</td>
+      <td>${esc(l.city||'')}</td>
+      <td>${esc(l.area)}</td>
+      <td>${l.rating ? l.rating.toFixed(1) + ' ⭐' : '—'}</td>
+      <td>${l.reviews || '—'}</td>
+      <td>${webBadge(l.website_type)}</td>
+      <td class="td-phone">${esc(l.phone||'—')}</td>
+      <td class="td-email ${l.email ? 'has-email' : 'no-email'}">${l.email ? esc(l.email) : 'not found'}</td>
+    </tr>
+  `).join('');
+}
+
+// ── Stats ─────────────────────────────────────
+function updateStats() {
+  document.getElementById('stTotal').textContent   = allLeads.length;
+  document.getElementById('stShowing').textContent = filtered.length;
+  document.getElementById('stEmails').textContent  = allLeads.filter(l=>l.email).length;
+  document.getElementById('stHot').textContent     = allLeads.filter(l=>l.score>=70).length;
+}
+
+// ── Detail panel ──────────────────────────────
+function selectLead(idx) {
+  selectedIdx = idx;
+  renderTable();
+  openPanel(filtered[idx]);
+}
+
+function openPanel(lead) {
+  const panel = document.getElementById('detailPanel');
+  const wrap  = document.getElementById('tableWrap');
+  panel.classList.add('open');
+  wrap.classList.add('panel-open');
+  renderPanel(lead);
+}
+
+function closePanel() {
+  document.getElementById('detailPanel').classList.remove('open');
+  document.getElementById('tableWrap').classList.remove('panel-open');
+  selectedIdx = null;
+  renderTable();
+}
+
+function renderPanel(lead) {
+  const scoreC = scoreClass(lead.score);
+  const reasons = (lead.reasons || '').split(' · ').filter(Boolean);
+  const panelInner = document.getElementById('panelInner');
+
+  panelInner.innerHTML = `
+    <div class="p-score-row">
+      <div class="p-score ${scoreC}">${lead.score}</div>
+      <span style="font-size:12px;color:var(--dim)">/ 100</span>
+    </div>
+    <div class="p-name">${esc(lead.name)}</div>
+    <div class="p-cat">${esc(lead.category)} · ${esc(lead.city||'')} · ${esc(lead.area)}</div>
+
+    <!-- Why a good lead -->
+    <div class="p-section">
+      <div class="p-section-title">Why this lead</div>
+      <div class="reasons-list">
+        ${reasons.map(r => `<span class="reason-pill">${esc(r)}</span>`).join('')}
+      </div>
+    </div>
+
+    <!-- Contact details -->
+    <div class="p-section">
+      <div class="p-section-title">Contact Details</div>
+      <div class="p-row"><div class="p-row-label">Address</div><div class="p-row-val">${esc(lead.address||'—')}</div></div>
+      <div class="p-row"><div class="p-row-label">Phone</div><div class="p-row-val">${lead.phone ? `<a href="tel:${lead.phone}">${esc(lead.phone)}</a>` : '—'}</div></div>
+      <div class="p-row"><div class="p-row-label">Email</div><div class="p-row-val ${lead.email?'has-email':'no-email'}">${lead.email ? `<a href="mailto:${lead.email}">${esc(lead.email)}</a> <span style="font-size:10px;color:var(--dim)">(${esc(lead.email_source)})</span>` : 'Not found — check website or JustDial'}</div></div>
+      <div class="p-row"><div class="p-row-label">Website</div><div class="p-row-val">${lead.website ? `<a href="${lead.website}" target="_blank" rel="noopener">${esc(lead.website.slice(0,50))}</a>` : '—'} &nbsp;${webBadge(lead.website_type)}</div></div>
+      <div class="p-row"><div class="p-row-label">Google Maps</div><div class="p-row-val"><a href="${esc(lead.maps_url)}" target="_blank" rel="noopener">Open in Maps ↗</a></div></div>
+      <div class="p-row"><div class="p-row-label">Rating</div><div class="p-row-val">${lead.rating ? `${lead.rating} ⭐ (${lead.reviews} reviews)` : '—'}</div></div>
+    </div>
+
+    <!-- Owner name field -->
+    <div class="p-section">
+      <div class="p-section-title">Owner / Contact Name</div>
+      <input
+        type="text"
+        class="owner-field"
+        id="ownerField"
+        placeholder="e.g. Ramesh Gupta  (type to personalise email)"
+        oninput="refreshEmailDraft('${lead.category.replace(/'/g,"\\'")}', ${JSON.stringify(lead).replace(/</g,'\\u003c')})"
+      />
+      <div class="owner-hint">Check Google Maps listing, Facebook page, or JustDial profile for the owner name.</div>
+    </div>
+
+    <!-- Email template -->
+    <div class="p-section">
+      <div class="p-section-title">Email Template</div>
+      <div class="email-template-box" id="emailBody"></div>
+      <div class="email-actions">
+        <button class="btn-primary" onclick="sendGmail()">📧 Open in Gmail</button>
+        <button class="btn-outline"  onclick="copyEmail()">📋 Copy Email</button>
+        ${lead.phone ? `<button class="btn-outline" onclick="openWhatsApp('${esc(lead.phone.replace(/\D/g,''))}')">💬 WhatsApp</button>` : ''}
+        <span class="copy-toast" id="copyToast">✓ Copied!</span>
+      </div>
+    </div>
+  `;
+
+  // Initial render
+  refreshEmailDraft(lead.category, lead);
+}
+
+let currentSubject = '';
+let currentBody    = '';
+
+function refreshEmailDraft(cat, lead) {
+  const owner = (document.getElementById('ownerField')?.value || '').trim();
+  const tpl   = getTemplate(lead, owner);
+  currentSubject = tpl.subject;
+  currentBody    = tpl.body;
+  const box = document.getElementById('emailBody');
+  if (box) box.textContent = `Subject: ${tpl.subject}\n\n${tpl.body}`;
+}
+
+function sendGmail() {
+  if (!currentBody) return;
+  const lead = filtered[selectedIdx];
+  const to   = lead?.email || '';
+  const url  = `https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(to)}&su=${encodeURIComponent(currentSubject)}&body=${encodeURIComponent(currentBody)}`;
+  window.open(url, '_blank');
+}
+
+function copyEmail() {
+  const text = `Subject: ${currentSubject}\n\n${currentBody}`;
+  navigator.clipboard.writeText(text).then(() => {
+    const t = document.getElementById('copyToast');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+  });
+}
+
+function openWhatsApp(phone) {
+  const lead = filtered[selectedIdx];
+  const msg  = `Hi, I'm Mayank — web designer in Kolkata. I came across ${lead?.name || 'your business'} and noticed you don't have a website yet. I'd love to show you a quick example — is this a good time? 🙏`;
+  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+// ── Utility ───────────────────────────────────
+function esc(s) {
+  return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>

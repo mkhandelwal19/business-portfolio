@@ -1,0 +1,15 @@
+{
+  "name": "kolkata-lead-scanner",
+  "version": "2.0.0",
+  "description": "Finds businesses (Kolkata/Gurugram/Hyderabad/Bangalore) with no web presence via Google Places API",
+  "main": "scanner.js",
+  "scripts": {
+    "scan":        "node scanner.js",
+    "scan:quick":  "node scanner.js --quick",
+    "scan:noemail":"node scanner.js --no-email",
+    "dashboard":   "node server.js"
+  },
+  "dependencies": {
+    "axios": "^1.7.0"
+  }
+}
