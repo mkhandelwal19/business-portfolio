@@ -832,20 +832,20 @@ function formatPhoneForWA(raw) {
 
 // ── Category-specific short WhatsApp messages ──
 const waMessages = {
-  'Restaurant / Café':      n => `Hi! 👋 I came across *${n}* and noticed there's no website yet.\n\nI'm Mayank — I build restaurant sites with online menus & direct ordering (no Zomato/Swiggy commission 💰).\n\nCan I show you a quick example? Takes 2 min 🙏`,
-  'Boutique / Fashion':     n => `Hi! 👋 Came across *${n}* — beautiful collection, but no website to shop from.\n\nI'm Mayank — I build boutique sites where customers can browse & order directly from Instagram.\n\nQuick 10-min chat? 🙏`,
-  'Clinic / Healthcare':    n => `Hi! 👋 I'm Mayank, web designer. Noticed *${n}* doesn't have a website for online appointment booking.\n\nA simple site means patients find you on Google & book 24/7 — no missed calls.\n\nCan I show you an example? 🙏`,
-  'Salon / Spa / Beauty':   n => `Hi! 👋 I'm Mayank — I build salon websites with online booking & service menus.\n\nNoticed *${n}* doesn't have one yet. Starts at ₹12,999, ready in a week.\n\nWant to see a quick example? 🙏`,
-  'Jewellery':              n => `Hi! 👋 Came across *${n}* — the craftsmanship looks stunning.\n\nI'm Mayank — I build jewellery websites so brides from Mumbai/Delhi can browse your full collection before visiting.\n\n30% more enquiries typically in 3 months. Quick chat? 🙏`,
-  'Real Estate':            n => `Hi! 👋 I'm Mayank — I build property websites with listing pages & direct lead forms.\n\nNoticed *${n}* relies on portals — your own site means inquiries come directly to you.\n\nCan I show you how? 🙏`,
-  'Yoga / Wellness':        n => `Hi! 👋 I'm Mayank — I build yoga studio websites with class schedules & online booking.\n\nNoticed *${n}* isn't showing up on Google searches yet. Easy to fix!\n\nQuick 10-min chat? 🙏`,
-  'Gym / Fitness':          n => `Hi! 👋 I'm Mayank — I build gym websites with membership plans & class timetables.\n\nNoticed *${n}* doesn't have one yet — people searching "gym near me" can't find you.\n\nWant to see an example? 🙏`,
-  'Coaching / Education':   n => `Hi! 👋 I'm Mayank — I build coaching centre websites with results, testimonials & enquiry forms.\n\nParents searching for classes in your area won't find *${n}* without a website.\n\nQuick chat? 🙏`,
-  'Sweet Shop / Bakery':    n => `Hi! 👋 I'm Mayank — I build sweet shop websites with online pre-ordering.\n\nImagine taking all your Durga Puja orders online — no WhatsApp chaos! 🎉\n\nCan I show you what I built for a shop like *${n}*? 🙏`,
+  'Restaurant / Café':      n => `Hi! I came across *${n}* and noticed there's no website yet.\n\nI'm Mayank — I build restaurant sites with online menus & direct ordering (no Zomato/Swiggy commission).\n\nCan I show you a quick example? Takes 2 min.`,
+  'Boutique / Fashion':     n => `Hi! I came across *${n}* — beautiful collection, but no website to shop from.\n\nI'm Mayank — I build boutique sites where customers can browse & order directly.\n\nQuick 10-min chat?`,
+  'Clinic / Healthcare':    n => `Hi! I'm Mayank, web designer. Noticed *${n}* doesn't have a website for online appointment booking.\n\nA simple site means patients find you on Google & book 24/7 — no missed calls.\n\nCan I show you an example?`,
+  'Salon / Spa / Beauty':   n => `Hi! I'm Mayank — I build salon websites with online booking & service menus.\n\nNoticed *${n}* doesn't have one yet. Starts at Rs.12,999, ready in a week.\n\nWant to see a quick example?`,
+  'Jewellery':              n => `Hi! I came across *${n}* — the craftsmanship looks stunning.\n\nI'm Mayank — I build jewellery websites so brides from Mumbai/Delhi can browse your full collection before visiting.\n\n30% more enquiries typically in 3 months. Quick chat?`,
+  'Real Estate':            n => `Hi! I'm Mayank — I build property websites with listing pages & direct lead forms.\n\nNoticed *${n}* relies on portals — your own site means inquiries come directly to you.\n\nCan I show you how?`,
+  'Yoga / Wellness':        n => `Hi! I'm Mayank — I build yoga studio websites with class schedules & online booking.\n\nNoticed *${n}* isn't showing up on Google searches yet. Easy to fix!\n\nQuick 10-min chat?`,
+  'Gym / Fitness':          n => `Hi! I'm Mayank — I build gym websites with membership plans & class timetables.\n\nNoticed *${n}* doesn't have one yet — people searching "gym near me" can't find you.\n\nWant to see an example?`,
+  'Coaching / Education':   n => `Hi! I'm Mayank — I build coaching centre websites with results, testimonials & enquiry forms.\n\nParents searching for classes in your area won't find *${n}* without a website.\n\nQuick chat?`,
+  'Sweet Shop / Bakery':    n => `Hi! I'm Mayank — I build sweet shop websites with online pre-ordering.\n\nImagine taking all your Durga Puja orders online instead of WhatsApp messages!\n\nCan I show you what I built for a shop like *${n}*?`,
 };
 
 const DEFAULT_WA_MSG = n =>
-  `Hi! 👋 I'm Mayank — web designer. Came across *${n}* and noticed there's no website yet.\n\nI'd love to show you what I can build for your business. Takes 2 minutes to see — is this a good time? 🙏`;
+  `Hi! I'm Mayank — web designer. Came across *${n}* and noticed there's no website yet.\n\nI'd love to show you what I can build for your business. Takes 2 minutes to see — is this a good time?`;
 
 // ── Build WhatsApp URL for a given filtered-array index ──
 function waLink(idx) {
