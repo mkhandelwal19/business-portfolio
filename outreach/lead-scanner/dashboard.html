@@ -140,6 +140,17 @@
   .no-email  { color: var(--dim); font-style: italic }
   .td-name   { font-weight: 600; max-width: 220px; overflow: hidden; text-overflow: ellipsis }
   .td-phone  { font-family: var(--mono); font-size: 12px }
+  .btn-wa {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 34px; height: 34px; border-radius: 50%;
+    background: rgba(37,211,102,0.12);
+    border: 1px solid rgba(37,211,102,0.3);
+    color: #25D366; font-size: 17px;
+    cursor: pointer; transition: background .2s, transform .2s;
+    text-decoration: none; flex-shrink: 0;
+  }
+  .btn-wa:hover { background: rgba(37,211,102,0.25); transform: scale(1.12) }
+  .btn-wa.disabled { opacity: .25; pointer-events: none; cursor: default }
 
   /* ── Detail panel ─────────────────────── */
   .detail-panel {
@@ -335,6 +346,7 @@
           <th>Web Type</th>
           <th onclick="sortBy('phone')"       data-col="phone">Phone<span class="sort-arrow">↕</span></th>
           <th onclick="sortBy('email')"       data-col="email">Email<span class="sort-arrow">↕</span></th>
+          <th style="text-align:center">WhatsApp</th>
         </tr>
       </thead>
       <tbody id="tableBody"></tbody>
@@ -656,11 +668,16 @@ function renderTable() {
   document.getElementById('countLabel').textContent = `Showing ${filtered.length} of ${allLeads.length} leads`;
 
   if (!filtered.length) {
-    tbody.innerHTML = `<tr><td colspan="10" style="text-align:center;padding:40px;color:var(--dim)">No leads match your filters.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="11" style="text-align:center;padding:40px;color:var(--dim)">No leads match your filters.</td></tr>`;
     return;
   }
 
-  tbody.innerHTML = filtered.map((l, i) => `
+  tbody.innerHTML = filtered.map((l, i) => {
+    const waPhone = formatPhoneForWA(l.phone);
+    const waBtn   = waPhone
+      ? `<a class="btn-wa" title="WhatsApp ${esc(l.name)}" href="${waLink(i)}" target="_blank" rel="noopener" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>`
+      : `<span class="btn-wa disabled" title="No phone number"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></span>`;
+    return `
     <tr onclick="selectLead(${i})" class="${selectedIdx === i ? 'selected' : ''}">
       <td class="td-score ${scoreClass(l.score)}">${l.score}</td>
       <td class="td-name" title="${esc(l.name)}">${esc(l.name)}</td>
@@ -672,8 +689,9 @@ function renderTable() {
       <td>${webBadge(l.website_type)}</td>
       <td class="td-phone">${esc(l.phone||'—')}</td>
       <td class="td-email ${l.email ? 'has-email' : 'no-email'}">${l.email ? esc(l.email) : 'not found'}</td>
-    </tr>
-  `).join('');
+      <td style="text-align:center">${waBtn}</td>
+    </tr>`;
+  }).join('');
 }
 
 // ── Stats ─────────────────────────────────────
@@ -797,10 +815,54 @@ function copyEmail() {
   });
 }
 
+// ── WhatsApp phone formatter ───────────────────
+// Converts any Indian number format → 91XXXXXXXXXX
+function formatPhoneForWA(raw) {
+  if (!raw) return '';
+  let digits = raw.replace(/\D/g, '');
+  // Already has country code 91 + 10 digits
+  if (digits.startsWith('91') && digits.length === 12) return digits;
+  // Leading 0 (STD format like 033...) — strip 0, check if 10 digits remain
+  if (digits.startsWith('0')) digits = digits.slice(1);
+  // 10-digit mobile
+  if (digits.length === 10) return '91' + digits;
+  // 8-digit landline (city codes removed) — can't reliably convert
+  return digits.length >= 10 ? '91' + digits.slice(-10) : '';
+}
+
+// ── Category-specific short WhatsApp messages ──
+const waMessages = {
+  'Restaurant / Café':      n => `Hi! 👋 I came across *${n}* and noticed there's no website yet.\n\nI'm Mayank — I build restaurant sites with online menus & direct ordering (no Zomato/Swiggy commission 💰).\n\nCan I show you a quick example? Takes 2 min 🙏`,
+  'Boutique / Fashion':     n => `Hi! 👋 Came across *${n}* — beautiful collection, but no website to shop from.\n\nI'm Mayank — I build boutique sites where customers can browse & order directly from Instagram.\n\nQuick 10-min chat? 🙏`,
+  'Clinic / Healthcare':    n => `Hi! 👋 I'm Mayank, web designer. Noticed *${n}* doesn't have a website for online appointment booking.\n\nA simple site means patients find you on Google & book 24/7 — no missed calls.\n\nCan I show you an example? 🙏`,
+  'Salon / Spa / Beauty':   n => `Hi! 👋 I'm Mayank — I build salon websites with online booking & service menus.\n\nNoticed *${n}* doesn't have one yet. Starts at ₹12,999, ready in a week.\n\nWant to see a quick example? 🙏`,
+  'Jewellery':              n => `Hi! 👋 Came across *${n}* — the craftsmanship looks stunning.\n\nI'm Mayank — I build jewellery websites so brides from Mumbai/Delhi can browse your full collection before visiting.\n\n30% more enquiries typically in 3 months. Quick chat? 🙏`,
+  'Real Estate':            n => `Hi! 👋 I'm Mayank — I build property websites with listing pages & direct lead forms.\n\nNoticed *${n}* relies on portals — your own site means inquiries come directly to you.\n\nCan I show you how? 🙏`,
+  'Yoga / Wellness':        n => `Hi! 👋 I'm Mayank — I build yoga studio websites with class schedules & online booking.\n\nNoticed *${n}* isn't showing up on Google searches yet. Easy to fix!\n\nQuick 10-min chat? 🙏`,
+  'Gym / Fitness':          n => `Hi! 👋 I'm Mayank — I build gym websites with membership plans & class timetables.\n\nNoticed *${n}* doesn't have one yet — people searching "gym near me" can't find you.\n\nWant to see an example? 🙏`,
+  'Coaching / Education':   n => `Hi! 👋 I'm Mayank — I build coaching centre websites with results, testimonials & enquiry forms.\n\nParents searching for classes in your area won't find *${n}* without a website.\n\nQuick chat? 🙏`,
+  'Sweet Shop / Bakery':    n => `Hi! 👋 I'm Mayank — I build sweet shop websites with online pre-ordering.\n\nImagine taking all your Durga Puja orders online — no WhatsApp chaos! 🎉\n\nCan I show you what I built for a shop like *${n}*? 🙏`,
+};
+
+const DEFAULT_WA_MSG = n =>
+  `Hi! 👋 I'm Mayank — web designer. Came across *${n}* and noticed there's no website yet.\n\nI'd love to show you what I can build for your business. Takes 2 minutes to see — is this a good time? 🙏`;
+
+// ── Build WhatsApp URL for a given filtered-array index ──
+function waLink(idx) {
+  const l    = filtered[idx];
+  const phone = formatPhoneForWA(l.phone);
+  if (!phone) return '#';
+  const msgFn = waMessages[l.category] || DEFAULT_WA_MSG;
+  const msg   = msgFn(l.name);
+  return `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+}
+
+// Keep panel-level WhatsApp button working too
 function openWhatsApp(phone) {
-  const lead = filtered[selectedIdx];
-  const msg  = `Hi, I'm Mayank — web designer in Kolkata. I came across ${lead?.name || 'your business'} and noticed you don't have a website yet. I'd love to show you a quick example — is this a good time? 🙏`;
-  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+  const lead  = filtered[selectedIdx];
+  const msgFn = waMessages[lead?.category] || DEFAULT_WA_MSG;
+  const msg   = msgFn(lead?.name || 'your business');
+  window.open(`https://wa.me/${formatPhoneForWA(phone)}?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
 // ── Utility ───────────────────────────────────
