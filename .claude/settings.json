@@ -81,7 +81,9 @@
       "Bash(npm install *)",
       "Bash(node scanner.js --quick --no-email --category \"Restaurant\")",
       "Bash(node scanner.js --quick --category \"Salon\")",
-      "Bash(git remote *)"
+      "Bash(git remote *)",
+      "Bash(gh api *)",
+      "Bash(git commit -m 'Fix WhatsApp message encoding — remove emojis that corrupt on Windows *)"
     ],
     "additionalDirectories": [
       "c:\\Users\\Mayank\\.claude\\projects\\c--Users-Mayank-Desktop-Tech-Project-Website-Portfolio"

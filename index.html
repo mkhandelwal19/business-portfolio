@@ -1565,9 +1565,463 @@ footer::before{
   .service{ padding: 36px 28px }
   .ss-grid{ grid-template-columns: 1fr 1fr; }
 }
+
+/* ==================== STICKY MOBILE WA BAR ==================== */
+.sticky-wa-bar{
+  position: fixed; bottom: 0; left: 0; right: 0;
+  z-index: 200;
+  background: linear-gradient(135deg, #0d1e10, #132013);
+  border-top: 1px solid rgba(37,211,102,0.25);
+  padding: 12px 20px;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  transform: translateY(100%);
+  transition: transform .4s cubic-bezier(0.16,1,0.3,1);
+  box-shadow: 0 -8px 32px rgba(0,0,0,0.5);
+}
+.sticky-wa-bar.visible{ transform: translateY(0) }
+.sticky-wa-bar-text{
+  font-size: 13px; color: var(--ivory-dim);
+  line-height: 1.35; flex: 1; min-width: 0;
+}
+.sticky-wa-bar-text strong{
+  display: block; color: var(--ivory);
+  font-size: 14px; font-weight: 600;
+}
+.sticky-wa-btn{
+  display: flex; align-items: center; gap: 7px;
+  background: #25D366; color: #fff;
+  font-family: var(--f-sans); font-size: 13px;
+  font-weight: 600; letter-spacing: .02em;
+  padding: 10px 18px; border-radius: 999px;
+  white-space: nowrap; text-decoration: none;
+  border: none; cursor: pointer;
+  transition: background .2s, box-shadow .2s;
+}
+.sticky-wa-btn:hover{ background: #1ebe58; box-shadow: 0 4px 20px rgba(37,211,102,0.45) }
+.sticky-wa-btn i{ font-size: 15px }
+.sticky-wa-close{
+  width: 28px; height: 28px; display: flex;
+  align-items: center; justify-content: center;
+  color: var(--muted); font-size: 20px; line-height: 1;
+  border: none; background: none; cursor: pointer;
+  flex-shrink: 0; transition: color .2s; padding: 0;
+}
+.sticky-wa-close:hover{ color: var(--ivory) }
+@media(min-width: 769px){ .sticky-wa-bar{ display: none !important } }
+@media(max-width: 768px){ .sticky-wa-bar{ display: flex } }
+
+/* ==================== HERO BUSINESS NAME PREVIEW ==================== */
+.hero-biz-preview{
+  margin-top: 24px;
+  display: flex; align-items: stretch; max-width: 320px;
+}
+.hero-biz-preview input{
+  flex: 1; background: rgba(20,28,52,0.7);
+  border: 1px solid var(--line); border-right: none;
+  color: var(--ivory); font-family: var(--f-sans); font-size: 13px;
+  padding: 11px 14px; border-radius: 10px 0 0 10px;
+  outline: none; transition: border-color .2s;
+}
+.hero-biz-preview input::placeholder{ color: var(--muted) }
+.hero-biz-preview input:focus{ border-color: var(--gold) }
+.hero-biz-preview-btn{
+  background: var(--gold); color: var(--bg);
+  font-size: 11px; font-weight: 700; letter-spacing: .04em;
+  text-transform: uppercase; padding: 11px 14px;
+  border-radius: 0 10px 10px 0; white-space: nowrap;
+  border: 1px solid var(--gold); cursor: default;
+}
+.hero-biz-hint{
+  font-size: 11px; color: var(--muted); margin-top: 7px; letter-spacing: .03em;
+}
+
+/* ==================== PROCESS TIMELINE ==================== */
+#process{ background: var(--bg-2) }
+.process-track{
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  margin-top: 60px; position: relative;
+}
+.process-track::before{
+  content:""; position: absolute; top: 24px;
+  left: 12.5%; right: 12.5%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-deep) 20%, var(--gold) 50%, var(--gold-deep) 80%, transparent);
+  opacity: .45;
+}
+.process-step{
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; padding: 0 18px; position: relative;
+}
+.ps-day{
+  font-family: var(--f-mono); font-size: 11px; color: var(--gold);
+  letter-spacing: .08em; text-transform: uppercase;
+  margin-bottom: 12px; height: 16px;
+}
+.ps-dot{
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--bg-3); border: 2px solid var(--gold-deep);
+  position: relative; z-index: 2; margin-bottom: 28px;
+  transition: transform .3s, border-color .3s, background .3s; flex-shrink: 0;
+}
+.ps-dot.gold{
+  background: var(--gold); border-color: var(--gold);
+  box-shadow: 0 0 16px rgba(201,168,76,0.6);
+}
+.process-step:hover .ps-dot{ transform: scale(1.5); border-color: var(--gold) }
+.ps-icon{
+  width: 52px; height: 52px; border-radius: 14px;
+  background: var(--bg-3); border: 1px solid var(--line);
+  display: grid; place-items: center; font-size: 20px;
+  color: var(--gold-deep); margin: 0 auto 16px; transition: all .3s;
+}
+.ps-icon.gold{
+  background: rgba(201,168,76,0.1); border-color: var(--gold);
+  color: var(--gold); box-shadow: 0 8px 28px -8px rgba(201,168,76,0.45);
+}
+.process-step:hover .ps-icon{ border-color: var(--gold); color: var(--gold) }
+.ps-content h4{ font-size: 15px; margin-bottom: 8px }
+.ps-content p{ font-size: 13.5px; color: var(--ivory-dim); line-height: 1.55 }
+@media(max-width: 768px){
+  .process-track{ grid-template-columns: 1fr; gap: 0 }
+  .process-track::before{ display: none }
+  .process-step{
+    flex-direction: row; text-align: left; gap: 20px;
+    align-items: flex-start; padding: 0 0 36px 28px;
+    border-left: 1px solid var(--line-soft); margin-left: 8px;
+  }
+  .process-step:last-child{ border-left-color: transparent }
+  .ps-day{ min-width: 66px; flex-shrink: 0; margin-bottom: 0 }
+  .ps-dot{ position: absolute; left: -8px; top: 0; margin-bottom: 0 }
+  .ps-icon{ flex-shrink: 0; margin: 0 }
+  .ps-content{ flex: 1 }
+}
+
+/* ==================== DELIVERY BADGE ==================== */
+.delivery-badge{
+  display: inline-flex; align-items: center; gap: 10px;
+  border: 1.5px solid rgba(201,168,76,0.35);
+  border-radius: 999px; padding: 10px 20px 10px 14px;
+  margin-top: 32px;
+  background: rgba(201,168,76,0.05);
+  font-size: 13px; color: var(--ivory-dim); letter-spacing: .02em;
+  animation: badgePulse 3s ease-in-out infinite;
+}
+.delivery-badge i{ font-size: 14px; color: var(--gold) }
+.delivery-badge strong{ color: var(--ivory) }
+@keyframes badgePulse{
+  0%,100%{ box-shadow: 0 0 0 0 rgba(201,168,76,0) }
+  50%{ box-shadow: 0 0 0 5px rgba(201,168,76,0.1) }
+}
+
+/* ==================== ROI CALCULATOR ==================== */
+.roi-card{
+  display: grid; grid-template-columns: 1fr 1fr;
+  margin-top: 48px; border: 1px solid var(--line);
+  border-radius: 24px; overflow: hidden; background: var(--bg-3);
+}
+.roi-inputs{ padding: 48px; border-right: 1px solid var(--line-soft) }
+.roi-result{
+  padding: 48px; display: flex; flex-direction: column; justify-content: center;
+  background: radial-gradient(500px 400px at 50% 60%, rgba(201,168,76,0.07), transparent 70%);
+}
+.roi-field{ margin-bottom: 32px }
+.roi-field:last-child{ margin-bottom: 0 }
+.roi-field > label{
+  display: block; font-size: 11px; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
+}
+.roi-field select{
+  width: 100%; background: var(--bg); color: var(--ivory);
+  border: 1px solid var(--line); border-radius: 10px;
+  padding: 12px 16px; font-family: var(--f-sans); font-size: 14px;
+  cursor: pointer; outline: none; transition: border-color .2s;
+  -webkit-appearance: none; appearance: none;
+}
+.roi-field select:focus{ border-color: var(--gold) }
+.roi-range-wrap{ display: flex; align-items: center; gap: 16px }
+.roi-range-wrap input[type=range]{
+  flex: 1; -webkit-appearance: none; appearance: none;
+  height: 3px; background: var(--line); border-radius: 3px; outline: none; cursor: pointer;
+}
+.roi-range-wrap input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%;
+  background: var(--gold); cursor: pointer; box-shadow: 0 0 8px rgba(201,168,76,0.5);
+}
+.roi-range-wrap input[type=range]::-moz-range-thumb{
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--gold); cursor: pointer; border: none;
+}
+.roi-range-val{ font-family: var(--f-serif); font-size: 20px; color: var(--gold); min-width: 64px; text-align: right }
+.roi-math{ display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; margin-bottom: 28px }
+.roi-math span{ font-family: var(--f-serif) }
+.roi-num{ font-size: 26px; color: var(--gold) }
+.roi-op{ font-size: 20px; color: var(--muted) }
+.roi-total-wrap{ display: flex; flex-direction: column; align-items: flex-start }
+.roi-total{ font-size: 46px; font-weight: 600; color: var(--ivory); line-height: 1 }
+.roi-total-lbl{ font-size: 12px; color: var(--muted); font-family: var(--f-sans); letter-spacing: .04em }
+.roi-payback{
+  font-size: 14px; color: var(--ivory-dim); line-height: 1.65; margin-bottom: 32px;
+  padding: 16px; border: 1px solid var(--line-soft); border-radius: 12px;
+  background: rgba(10,15,30,0.5);
+}
+.roi-payback strong{ color: var(--ivory) }
+@media(max-width: 768px){
+  .roi-card{ grid-template-columns: 1fr }
+  .roi-inputs{ border-right: none; border-bottom: 1px solid var(--line-soft); padding: 32px 24px }
+  .roi-result{ padding: 32px 24px }
+}
+
+/* ==================== BEFORE / AFTER SLIDER ==================== */
+#ba-section{ background: var(--bg-2) }
+.ba-wrap{
+  margin-top: 56px; border-radius: 24px; overflow: hidden;
+  border: 1px solid var(--line); position: relative;
+  user-select: none; aspect-ratio: 16/7;
+  cursor: col-resize; min-height: 220px;
+}
+.ba-before, .ba-after{
+  position: absolute; inset: 0; overflow: hidden;
+}
+.ba-after{ clip-path: inset(0 50% 0 0) }
+.ba-divider{
+  position: absolute; top: 0; bottom: 0; left: 50%;
+  width: 2px; background: var(--gold); transform: translateX(-50%); z-index: 10;
+}
+.ba-handle{
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--gold); display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5); cursor: col-resize; z-index: 11;
+}
+.ba-handle i{ color: var(--bg); font-size: 14px }
+.ba-label{
+  position: absolute; bottom: 18px;
+  background: rgba(10,15,30,0.82); backdrop-filter: blur(8px);
+  padding: 5px 14px; border-radius: 999px;
+  font-size: 11px; letter-spacing: .06em;
+  text-transform: uppercase; pointer-events: none; z-index: 5;
+}
+.ba-label-before{ left: 18px; color: var(--muted); border: 1px solid var(--line-soft) }
+.ba-label-after{ right: 18px; color: var(--gold); border: 1px solid rgba(201,168,76,0.3) }
+.ba-before-inner{
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, #111120, #0d0d1a);
+  display: flex; align-items: center; justify-content: center; gap: 32px; padding: 28px;
+}
+.ba-before-card{
+  background: #191928; border: 1px solid #252536; border-radius: 10px; padding: 18px 20px; width: 210px; flex-shrink: 0;
+}
+.ba-before-card .bbc-label{ font-size: 10px; color: #555; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 8px }
+.ba-before-card h4{ font-size: 15px; color: #888; margin-bottom: 3px }
+.ba-before-card p{ font-size: 11px; color: #444 }
+.ba-before-card .bbc-phone{ margin-top: 10px; padding: 7px 10px; background: #222233; border-radius: 7px; font-family: var(--f-mono); font-size: 12px; color: #666 }
+.ba-before-text{ flex: 1; max-width: 220px }
+.ba-before-text h3{ font-size: 18px; color: #444; margin-bottom: 8px; line-height: 1.3 }
+.ba-before-text p{ font-size: 12px; color: #333; line-height: 1.5 }
+.ba-before-text ul{ list-style: none; margin-top: 10px }
+.ba-before-text ul li{ font-size: 11px; color: #3a3a4a; padding: 2px 0; display: flex; align-items: center; gap: 7px }
+.ba-before-text ul li::before{ content: "✗"; color: #4a2a2a }
+.ba-after-inner{
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, var(--bg-3), var(--bg));
+  display: flex; align-items: center; justify-content: center; gap: 32px; padding: 28px;
+}
+.ba-after-browser{
+  background: var(--bg-2); border: 1px solid var(--line); border-radius: 10px; overflow: hidden;
+  width: 260px; flex-shrink: 0; box-shadow: 0 16px 48px -16px rgba(0,0,0,0.7);
+}
+.ba-after-chrome{
+  background: var(--bg-3); padding: 7px 10px;
+  display: flex; align-items: center; gap: 6px; border-bottom: 1px solid var(--line-soft);
+}
+.ba-after-chrome span{ width: 7px; height: 7px; border-radius: 50% }
+.ba-url-bar{ flex: 1; background: var(--bg); border-radius: 5px; padding: 3px 8px; font-family: var(--f-mono); font-size: 9px; color: var(--gold) }
+.ba-after-hero-strip{
+  height: 80px; background: linear-gradient(135deg, #1a0a02, #2d1808);
+  display: flex; align-items: center; padding: 14px 14px; gap: 10px; border-bottom: 1px solid var(--line-soft);
+}
+.ba-ah-text div:first-child{ height: 9px; width: 110px; background: var(--gold); border-radius: 2px; margin-bottom: 5px; opacity: .9 }
+.ba-ah-text div:last-child{ height: 6px; width: 75px; background: rgba(201,168,76,0.4); border-radius: 2px }
+.ba-after-cta-bar{ height: 22px; background: var(--gold); border-radius: 5px; width: 70px; margin: 10px 14px }
+.ba-after-grid{ padding: 10px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px }
+.ba-after-grid-item{ height: 32px; background: var(--bg-3); border-radius: 5px; border: 1px solid var(--line-soft) }
+.ba-after-text{ flex: 1; max-width: 220px }
+.ba-after-text h3{ font-size: 18px; color: var(--gold); margin-bottom: 8px; line-height: 1.3 }
+.ba-after-text p{ font-size: 12px; color: var(--ivory-dim); line-height: 1.5 }
+.ba-after-text ul{ list-style: none; margin-top: 10px }
+.ba-after-text ul li{ font-size: 11px; color: var(--ivory-dim); padding: 2px 0; display: flex; align-items: center; gap: 7px }
+.ba-after-text ul li::before{ content: "✓"; color: var(--gold) }
+@media(max-width: 768px){
+  .ba-wrap{ aspect-ratio: auto; height: 280px }
+  .ba-before-text, .ba-after-text{ display: none }
+  .ba-before-inner, .ba-after-inner{ justify-content: center }
+}
+
+/* ==================== COMPARISON TABLE ==================== */
+#compare{ background: var(--bg-3) }
+.compare-table-wrap{
+  margin-top: 48px; overflow-x: auto;
+  border-radius: 20px; border: 1px solid var(--line);
+}
+.compare-table{
+  width: 100%; border-collapse: collapse; min-width: 520px;
+}
+.compare-table th{
+  padding: 18px 22px; font-size: 12px; letter-spacing: .04em;
+  text-transform: uppercase; font-weight: 600;
+  border-bottom: 1px solid var(--line-soft); text-align: center;
+  background: var(--bg-2);
+}
+.compare-table th:first-child{ text-align: left }
+.compare-table th.ct-h{
+  background: rgba(201,168,76,0.08); color: var(--gold);
+  border-bottom-color: rgba(201,168,76,0.3);
+}
+.compare-table td{
+  padding: 14px 22px; font-size: 14px;
+  border-bottom: 1px solid var(--line-soft);
+  text-align: center; color: var(--ivory-dim); vertical-align: middle;
+}
+.compare-table td:first-child{ text-align: left; color: var(--ivory); font-weight: 500 }
+.compare-table td.ct-h{ background: rgba(201,168,76,0.04); color: var(--gold); font-weight: 600 }
+.compare-table tr:last-child td{ border-bottom: none }
+.compare-table tr:hover td{ background: rgba(244,239,230,0.02) }
+.compare-table tr:hover td.ct-h{ background: rgba(201,168,76,0.07) }
+.ct-yes{ color: #4ade80; font-size: 16px }
+.ct-no{ color: #484848 }
+.ct-maybe{ color: #f59e0b; font-size: 13px }
+
+/* ==================== CUSTOM CURSOR ==================== */
+@media(pointer: fine){
+  body{ cursor: none }
+  a, button, input, select, textarea, [role=button], .ba-wrap{ cursor: none }
+}
+.cursor-dot{
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--gold);
+  position: fixed; top: 0; left: 0; z-index: 9999;
+  pointer-events: none; transform: translate(-50%,-50%);
+  transition: transform .08s ease, width .2s, height .2s, background .2s;
+  display: none;
+}
+.cursor-ring{
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 1.5px solid rgba(201,168,76,0.55);
+  position: fixed; top: 0; left: 0; z-index: 9998;
+  pointer-events: none; transform: translate(-50%,-50%);
+  transition: transform .18s ease, width .25s, height .25s, border-color .2s;
+  display: none;
+}
+.cursor-dot.active{ width: 12px; height: 12px; background: var(--gold-soft) }
+.cursor-ring.active{ width: 48px; height: 48px; border-color: rgba(201,168,76,0.35) }
+@media(pointer: fine){ .cursor-dot, .cursor-ring{ display: block } }
+
+/* ==================== MARQUEE TICKER ==================== */
+.marquee-strip{
+  overflow: hidden; padding: 14px 0;
+  border-bottom: 1px solid var(--line-soft);
+  background: var(--bg-2);
+  position: relative; z-index: 1;
+}
+.marquee-strip::before,.marquee-strip::after{
+  content:""; position:absolute; top:0; bottom:0; width:100px; z-index:2; pointer-events:none;
+}
+.marquee-strip::before{ left:0; background: linear-gradient(90deg, var(--bg-2), transparent) }
+.marquee-strip::after{ right:0; background: linear-gradient(-90deg, var(--bg-2), transparent) }
+.marquee-track{
+  display: flex; gap: 0;
+  animation: marqueeScroll 28s linear infinite;
+  width: max-content;
+}
+.marquee-strip:hover .marquee-track{ animation-play-state: paused }
+.marquee-item{
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 0 32px; white-space: nowrap;
+  font-size: 13px; color: var(--muted); letter-spacing: .04em;
+}
+.marquee-item i{ color: var(--gold-deep); font-size: 11px }
+.marquee-sep{ color: var(--line); padding: 0 4px }
+@keyframes marqueeScroll{
+  0%{ transform: translateX(0) }
+  100%{ transform: translateX(-50%) }
+}
+
+/* ==================== SCARCITY SLOTS BADGE ==================== */
+.slots-badge{
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(239,68,68,0.08);
+  border: 1px solid rgba(239,68,68,0.3);
+  border-radius: 999px; padding: 7px 16px 7px 10px;
+  font-size: 12px; color: #fca5a5; letter-spacing: .03em;
+  margin-bottom: 20px;
+  animation: slotPulse 2s ease-in-out infinite;
+}
+.slots-badge .slot-dot{
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #ef4444; flex-shrink: 0;
+  animation: dotBlink 1.2s ease-in-out infinite;
+}
+@keyframes slotPulse{
+  0%,100%{ box-shadow: 0 0 0 0 rgba(239,68,68,0) }
+  50%{ box-shadow: 0 0 0 5px rgba(239,68,68,0.08) }
+}
+@keyframes dotBlink{
+  0%,100%{ opacity:1 } 50%{ opacity:.3 }
+}
+
+/* ==================== TOAST NOTIFICATIONS ==================== */
+.toast-stack{
+  position: fixed; bottom: 96px; left: 24px;
+  z-index: 180; display: flex; flex-direction: column; gap: 8px;
+  pointer-events: none;
+}
+.toast{
+  display: flex; align-items: center; gap: 12px;
+  background: rgba(14,21,39,0.92); backdrop-filter: blur(14px);
+  border: 1px solid var(--line); border-radius: 12px;
+  padding: 12px 16px; max-width: 280px;
+  transform: translateX(-110%); opacity: 0;
+  transition: transform .45s cubic-bezier(0.16,1,0.3,1), opacity .35s ease;
+  pointer-events: auto;
+}
+.toast.show{ transform: translateX(0); opacity: 1 }
+.toast-avatar{
+  width: 34px; height: 34px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold-deep), var(--gold));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700; color: var(--bg); flex-shrink: 0;
+}
+.toast-text{ font-size: 13px; line-height: 1.4 }
+.toast-text strong{ color: var(--ivory); display: block; font-size: 13px }
+.toast-text span{ color: var(--muted); font-size: 12px }
+.toast-icon{ color: #25D366; font-size: 16px; flex-shrink: 0 }
+@media(max-width: 480px){ .toast-stack{ left: 12px; bottom: 84px } .toast{ max-width: 230px } }
+
+/* ==================== WORK CARD METRICS OVERLAY ==================== */
+.work-metric{
+  position: absolute; bottom: 12px; right: 12px;
+  background: rgba(201,168,76,0.12); backdrop-filter: blur(10px);
+  border: 1px solid rgba(201,168,76,0.35); border-radius: 10px;
+  padding: 7px 13px; font-size: 12px; color: var(--gold-soft);
+  font-family: var(--f-sans); letter-spacing: .02em;
+  opacity: 0; transform: translateY(6px);
+  transition: opacity .3s, transform .3s;
+  z-index: 5; pointer-events: none;
+}
+.work:hover .work-metric{ opacity: 1; transform: translateY(0) }
 </style>
 </head>
 <body>
+
+<!-- Custom cursor -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Toast notification stack -->
+<div class="toast-stack" id="toastStack"></div>
 
 <!-- ==================== NAV ==================== -->
 <nav class="nav" id="nav">
@@ -1614,7 +2068,13 @@ footer::before{
           Get a Free Demo
         </a>
       </div>
-      <div class="hero-meta reveal" data-delay="4">
+      <div class="hero-biz-preview reveal" data-delay="4">
+        <input type="text" id="bizNameInput" maxlength="40" placeholder="Type your business name…" autocomplete="off" />
+        <div class="hero-biz-preview-btn">Preview</div>
+      </div>
+      <div class="hero-biz-hint reveal" data-delay="4">See how your site could look — instantly.</div>
+
+      <div class="hero-meta reveal" data-delay="5">
         <span><i class="fa-solid fa-location-dot" style="color:var(--gold)"></i> India-wide · Remote-friendly</span>
         <span class="dash"></span>
         <span>50+ businesses shipped</span>
@@ -1637,7 +2097,7 @@ footer::before{
           <span class="hv-dot" style="background:#E06C65"></span>
           <span class="hv-dot" style="background:#E2B756"></span>
           <span class="hv-dot" style="background:#64C267"></span>
-          <span class="hv-url">nizami-biryani.in</span>
+          <span class="hv-url" id="heroUrl">nizami-biryani.in</span>
         </div>
         <!-- Nav bar mock -->
         <div class="hv-nav">
@@ -1709,6 +2169,37 @@ footer::before{
       </div>
       <div class="ss-lbl">Lighthouse<br/>Score</div>
     </div>
+  </div>
+</div>
+
+<!-- ==================== MARQUEE TICKER ==================== -->
+<div class="marquee-strip" aria-hidden="true">
+  <div class="marquee-track" id="marqueeTrack">
+    <span class="marquee-item"><i class="fa-solid fa-utensils"></i> Kolkata Restaurant <span class="marquee-sep">·</span></span>
+    <span class="marquee-item"><i class="fa-solid fa-stethoscope"></i> Bangalore Clinic <span class="marquee-sep">·</span></span>
+    <span class="marquee-item"><i class="fa-solid fa-gem"></i> Jaipur Jewellery <span class="marquee-sep">·</span></span>
+    <span class="marquee-item"><i class="fa-solid fa-shirt"></i> Mumbai Boutique <span class="marquee-sep">·</span></span>
+    <span class="marquee-item"><i class="fa-solid fa-spa"></i> Chennai Yoga Studio <span class="marquee-sep">·</span></span>
+    <span class="marquee-item"><i class="fa-solid fa-building"></i> Pune Real Estate <span class="marquee-sep">·</span></span>
+    <span class="marquee-item"><i class="fa-solid fa-scissors"></i> Delhi Salon &amp; Spa <span class="marquee-sep">·</span></span>
+    <span class="marquee-item"><i class="fa-solid fa-bag-shopping"></i> Hyderabad E-commerce <span class="marquee-sep">·</span></span>
+    <span class="marquee-item"><i class="fa-solid fa-cake-candles"></i> Ahmedabad Bakery <span class="marquee-sep">·</span></span>
+    <span class="marquee-item"><i class="fa-solid fa-dumbbell"></i> Surat Gym <span class="marquee-sep">·</span></span>
+    <span class="marquee-item"><i class="fa-solid fa-graduation-cap"></i> Kochi Coaching <span class="marquee-sep">·</span></span>
+    <span class="marquee-item"><i class="fa-solid fa-store"></i> Jaipur Kirana Store <span class="marquee-sep">·</span></span>
+    <!-- duplicate for seamless loop -->
+    <span class="marquee-item"><i class="fa-solid fa-utensils"></i> Kolkata Restaurant <span class="marquee-sep">·</span></span>
+    <span class="marquee-item"><i class="fa-solid fa-stethoscope"></i> Bangalore Clinic <span class="marquee-sep">·</span></span>
+    <span class="marquee-item"><i class="fa-solid fa-gem"></i> Jaipur Jewellery <span class="marquee-sep">·</span></span>
+    <span class="marquee-item"><i class="fa-solid fa-shirt"></i> Mumbai Boutique <span class="marquee-sep">·</span></span>
+    <span class="marquee-item"><i class="fa-solid fa-spa"></i> Chennai Yoga Studio <span class="marquee-sep">·</span></span>
+    <span class="marquee-item"><i class="fa-solid fa-building"></i> Pune Real Estate <span class="marquee-sep">·</span></span>
+    <span class="marquee-item"><i class="fa-solid fa-scissors"></i> Delhi Salon &amp; Spa <span class="marquee-sep">·</span></span>
+    <span class="marquee-item"><i class="fa-solid fa-bag-shopping"></i> Hyderabad E-commerce <span class="marquee-sep">·</span></span>
+    <span class="marquee-item"><i class="fa-solid fa-cake-candles"></i> Ahmedabad Bakery <span class="marquee-sep">·</span></span>
+    <span class="marquee-item"><i class="fa-solid fa-dumbbell"></i> Surat Gym <span class="marquee-sep">·</span></span>
+    <span class="marquee-item"><i class="fa-solid fa-graduation-cap"></i> Kochi Coaching <span class="marquee-sep">·</span></span>
+    <span class="marquee-item"><i class="fa-solid fa-store"></i> Jaipur Kirana Store <span class="marquee-sep">·</span></span>
   </div>
 </div>
 
@@ -1831,11 +2322,68 @@ footer::before{
   </div>
 </section>
 
+<!-- ==================== PROCESS TIMELINE ==================== -->
+<section id="process">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow reveal">02B — How It Works</div>
+        <h2 class="reveal" data-delay="1">From first chat to<br/> <em>live website</em> in 7 days.</h2>
+      </div>
+      <p class="reveal" data-delay="2">
+        No long discovery calls. No waiting weeks. Here's exactly what happens after you say yes — step by step, day by day.
+      </p>
+    </div>
+    <div class="process-track">
+      <div class="process-step reveal" data-delay="1">
+        <div class="ps-day">Day 1</div>
+        <div class="ps-dot"></div>
+        <div class="ps-icon"><i class="fa-solid fa-mug-hot"></i></div>
+        <div class="ps-content">
+          <h4>Brief Call</h4>
+          <p>30-minute WhatsApp or video call. I learn your business, your customers, and your dream site.</p>
+        </div>
+      </div>
+      <div class="process-step reveal" data-delay="2">
+        <div class="ps-day">Days 2–3</div>
+        <div class="ps-dot"></div>
+        <div class="ps-icon"><i class="fa-solid fa-pen-nib"></i></div>
+        <div class="ps-content">
+          <h4>Design</h4>
+          <p>Full layout, colour palette, fonts, and content tailored to your industry and personality.</p>
+        </div>
+      </div>
+      <div class="process-step reveal" data-delay="3">
+        <div class="ps-day">Days 4–6</div>
+        <div class="ps-dot"></div>
+        <div class="ps-icon"><i class="fa-solid fa-code"></i></div>
+        <div class="ps-content">
+          <h4>Build &amp; Review</h4>
+          <p>I build the site and share a live preview link. One round of feedback, incorporated same day.</p>
+        </div>
+      </div>
+      <div class="process-step reveal" data-delay="4">
+        <div class="ps-day">Day 7</div>
+        <div class="ps-dot gold"></div>
+        <div class="ps-icon gold"><i class="fa-solid fa-rocket"></i></div>
+        <div class="ps-content">
+          <h4>Launch Day</h4>
+          <p>Your domain goes live. Google Business is set up, WhatsApp is connected. You're open online.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ==================== PRICING ==================== -->
 <section id="pricing">
   <div class="container">
     <div class="section-head">
       <div>
+        <div class="slots-badge reveal" id="slotsBadge">
+          <span class="slot-dot"></span>
+          <span id="slotsText">Only 3 project slots open for June</span>
+        </div>
         <div class="eyebrow reveal">03 — Pricing</div>
         <h2 class="reveal" data-delay="1">Simple, <em>honest pricing.</em><br/>No hidden charges.</h2>
       </div>
@@ -1843,6 +2391,11 @@ footer::before{
         Every pack includes domain setup, hosting guidance, mobile optimisation, and a free strategy call.
         Add-ons available à la carte after we talk.
       </p>
+    </div>
+
+    <div class="delivery-badge reveal" data-delay="3">
+      <i class="fa-solid fa-bolt"></i>
+      <span><strong>Starter sites go live in 5–7 days.</strong> Every pack includes a free 30-min strategy call.</span>
     </div>
 
     <div class="pricing-grid reveal">
@@ -1922,6 +2475,68 @@ footer::before{
   </div>
 </section>
 
+<!-- ==================== ROI CALCULATOR ==================== -->
+<section id="roi-calc">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow reveal">— ROI Check</div>
+        <h2 class="reveal" data-delay="1">Will a website<br/> <em>pay for itself?</em></h2>
+      </div>
+      <p class="reveal" data-delay="2">
+        Run the numbers for your business type. Most Starter sites break even in the first month.
+      </p>
+    </div>
+    <div class="roi-card reveal" data-delay="1">
+      <div class="roi-inputs">
+        <div class="roi-field">
+          <label>Business type</label>
+          <select id="roiType">
+            <option value="restaurant">Restaurant / Café</option>
+            <option value="clinic">Clinic / Hospital</option>
+            <option value="boutique">Boutique / Shop</option>
+            <option value="salon">Salon / Spa</option>
+            <option value="yoga">Yoga / Fitness Studio</option>
+            <option value="jewellery">Jewellery</option>
+            <option value="realestate">Real Estate</option>
+          </select>
+        </div>
+        <div class="roi-field">
+          <label id="roiMetricLabel">New customers / month from website</label>
+          <div class="roi-range-wrap">
+            <input type="range" id="roiSlider" min="2" max="40" value="8" />
+            <span class="roi-range-val" id="roiSliderVal">8</span>
+          </div>
+        </div>
+        <div class="roi-field">
+          <label id="roiAvgLabel">Average spend per visit (₹)</label>
+          <div class="roi-range-wrap">
+            <input type="range" id="roiAvgSlider" min="200" max="3000" step="50" value="600" />
+            <span class="roi-range-val" id="roiAvgVal">₹600</span>
+          </div>
+        </div>
+      </div>
+      <div class="roi-result">
+        <div class="roi-math">
+          <span class="roi-num" id="roiCustomers">8</span>
+          <span class="roi-op">×</span>
+          <span class="roi-num" id="roiAvgDisp">₹600</span>
+          <span class="roi-op">=</span>
+          <span class="roi-total-wrap">
+            <span class="roi-total" id="roiTotal">₹4,800</span>
+            <span class="roi-total-lbl">extra per month</span>
+          </span>
+        </div>
+        <div class="roi-payback">
+          Your <strong>Starter site (₹12,999)</strong> pays back in <strong id="roiMonths">3 months</strong>.
+          Everything after that is profit — every single month.
+        </div>
+        <a href="#contact" class="btn btn-primary">Let's build yours <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ==================== PORTFOLIO ==================== -->
 <section id="work">
   <div class="container">
@@ -1946,7 +2561,7 @@ footer::before{
 
     <div class="work-grid" id="workGrid">
       <!-- Restaurant & Café -->
-      <a href="projects/restaurant.html" class="work work-1 reveal tilt" data-city="hospitality">
+      <a href="projects/restaurant.html" class="work work-1 reveal tilt" data-city="hospitality" data-metric="3× more table bookings">
         <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">restaurant-demo.in</span></div>
         <div class="work-thumb">
           <div class="surface surf-restaurant"></div>
@@ -1984,7 +2599,7 @@ footer::before{
       </a>
 
       <!-- Healthcare -->
-      <a href="projects/healthcare.html" class="work work-2 reveal tilt" data-delay="1" data-city="wellness">
+      <a href="projects/healthcare.html" class="work work-2 reveal tilt" data-delay="1" data-city="wellness" data-metric="Ranked #1 on Google Maps">
         <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">clinic-demo.in</span></div>
         <div class="work-thumb">
           <div class="surface surf-biryani"></div>
@@ -2013,7 +2628,7 @@ footer::before{
       </a>
 
       <!-- E-commerce -->
-      <a href="projects/ecommerce.html" class="work work-3 reveal tilt" data-delay="2" data-city="retail">
+      <a href="projects/ecommerce.html" class="work work-3 reveal tilt" data-delay="2" data-city="retail" data-metric="Site paid back in 3 weeks">
         <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">shop-demo.in</span></div>
         <div class="work-thumb">
           <div class="surface surf-clinic"></div>
@@ -2042,7 +2657,7 @@ footer::before{
       </a>
 
       <!-- Boutique & Studio -->
-      <a href="projects/boutique.html" class="work work-4 reveal tilt" data-delay="1" data-city="lifestyle">
+      <a href="projects/boutique.html" class="work work-4 reveal tilt" data-delay="1" data-city="lifestyle" data-metric="Instagram orders up 5×">
         <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">boutique-demo.in</span></div>
         <div class="work-thumb">
           <div class="surface surf-boutique"></div>
@@ -2073,7 +2688,7 @@ footer::before{
       </a>
 
       <!-- Real Estate -->
-      <a href="projects/realestate.html" class="work work-5 reveal tilt" data-delay="2" data-city="lifestyle">
+      <a href="projects/realestate.html" class="work work-5 reveal tilt" data-delay="2" data-city="lifestyle" data-metric="4× more property enquiries">
         <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">realestate-demo.in</span></div>
         <div class="work-thumb">
           <div class="surface surf-sweets"></div>
@@ -2103,7 +2718,7 @@ footer::before{
       </a>
 
       <!-- Salon & Spa -->
-      <a href="projects/salon.html" class="work work-6 reveal tilt" data-city="wellness">
+      <a href="projects/salon.html" class="work work-6 reveal tilt" data-city="wellness" data-metric="Fully booked weekdays in 30 days">
         <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">salon-demo.in</span></div>
         <div class="work-thumb">
           <div class="surface surf-cafe"></div>
@@ -2128,7 +2743,7 @@ footer::before{
       </a>
 
       <!-- Jewellery -->
-      <a href="projects/jewellery.html" class="work work-7 reveal tilt" data-delay="1" data-city="retail">
+      <a href="projects/jewellery.html" class="work work-7 reveal tilt" data-delay="1" data-city="retail" data-metric="Bridal leads from 8 cities">
         <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">jewellery-demo.in</span></div>
         <div class="work-thumb">
           <div class="surface surf-jewel"></div>
@@ -2154,7 +2769,7 @@ footer::before{
       </a>
 
       <!-- Yoga & Wellness -->
-      <a href="projects/yoga.html" class="work work-8 reveal tilt" data-delay="2" data-city="wellness">
+      <a href="projects/yoga.html" class="work work-8 reveal tilt" data-delay="2" data-city="wellness" data-metric="Weekday classes filled in 6 weeks">
         <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">yoga-demo.in</span></div>
         <div class="work-thumb">
           <div class="surface surf-yoga"></div>
@@ -2179,6 +2794,83 @@ footer::before{
           </div>
         </div>
       </a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== BEFORE / AFTER SLIDER ==================== -->
+<section id="ba-section">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow reveal">— The Difference</div>
+        <h2 class="reveal" data-delay="1">Your business,<br/> <em>before and after.</em></h2>
+      </div>
+      <p class="reveal" data-delay="2">
+        Drag the slider to see what changes when a local business gets a proper website. This is the difference your customers notice.
+      </p>
+    </div>
+    <div class="ba-wrap reveal" data-delay="1" id="baWrap">
+      <!-- Before -->
+      <div class="ba-before">
+        <div class="ba-before-inner">
+          <div class="ba-before-card">
+            <div class="bbc-label">Online Presence</div>
+            <h4>Ravi's Restaurant</h4>
+            <p>No website found</p>
+            <div class="bbc-phone">+91 98300 00000</div>
+          </div>
+          <div class="ba-before-text">
+            <h3>Hidden from Google. Hard to find.</h3>
+            <p>Customers search online, find a competitor, and never know you exist.</p>
+            <ul>
+              <li>Not on Google Search</li>
+              <li>No menu to share</li>
+              <li>No way to take bookings</li>
+              <li>No trust signals online</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- After -->
+      <div class="ba-after">
+        <div class="ba-after-inner">
+          <div class="ba-after-browser">
+            <div class="ba-after-chrome">
+              <span style="background:#E06C65"></span>
+              <span style="background:#E2B756"></span>
+              <span style="background:#64C267"></span>
+              <div class="ba-url-bar">ravis-restaurant.in</div>
+            </div>
+            <div class="ba-after-hero-strip">
+              <div class="ba-ah-text">
+                <div></div><div></div>
+              </div>
+            </div>
+            <div class="ba-after-cta-bar"></div>
+            <div class="ba-after-grid">
+              <div class="ba-after-grid-item"></div>
+              <div class="ba-after-grid-item"></div>
+              <div class="ba-after-grid-item"></div>
+            </div>
+          </div>
+          <div class="ba-after-text">
+            <h3>Found on Google. Trusted instantly.</h3>
+            <p>A fast, beautiful website that works on every phone and converts visitors into customers.</p>
+            <ul>
+              <li>Ranks on Google Maps</li>
+              <li>Shareable digital menu</li>
+              <li>WhatsApp bookings 24/7</li>
+              <li>Looks world-class</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- Divider + handle -->
+      <div class="ba-divider" id="baDivider"></div>
+      <div class="ba-handle" id="baHandle"><i class="fa-solid fa-arrows-left-right"></i></div>
+      <div class="ba-label ba-label-before">Before</div>
+      <div class="ba-label ba-label-after">After</div>
     </div>
   </div>
 </section>
@@ -2236,6 +2928,85 @@ footer::before{
           <div class="lbl">Businesses · 12 cities · since 2021</div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== COMPARISON TABLE ==================== -->
+<section id="compare">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow reveal">— Why Not DIY</div>
+        <h2 class="reveal" data-delay="1">How I compare to<br/> <em>the alternatives.</em></h2>
+      </div>
+      <p class="reveal" data-delay="2">
+        Wix and Squarespace look free. A big agency sounds professional. Here's the honest breakdown.
+      </p>
+    </div>
+    <div class="compare-table-wrap reveal" data-delay="1">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>What you need</th>
+            <th class="ct-h">Mayank</th>
+            <th>Wix / Squarespace</th>
+            <th>Local Freelancer</th>
+            <th>Big Agency</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Delivered in 7–10 days</td>
+            <td class="ct-h"><span class="ct-yes">✓</span></td>
+            <td><span class="ct-maybe">DIY — weeks of your time</span></td>
+            <td><span class="ct-maybe">Varies</span></td>
+            <td><span class="ct-no">4–12 weeks</span></td>
+          </tr>
+          <tr>
+            <td>Knows Indian business context</td>
+            <td class="ct-h"><span class="ct-yes">✓</span></td>
+            <td><span class="ct-no">✗</span></td>
+            <td><span class="ct-maybe">Sometimes</span></td>
+            <td><span class="ct-no">✗</span></td>
+          </tr>
+          <tr>
+            <td>WhatsApp + Razorpay + UPI ready</td>
+            <td class="ct-h"><span class="ct-yes">✓</span></td>
+            <td><span class="ct-maybe">Add-ons cost extra</span></td>
+            <td><span class="ct-maybe">Maybe</span></td>
+            <td><span class="ct-yes">✓</span></td>
+          </tr>
+          <tr>
+            <td>Google Business Profile setup</td>
+            <td class="ct-h"><span class="ct-yes">✓ Included</span></td>
+            <td><span class="ct-no">✗</span></td>
+            <td><span class="ct-no">Usually extra</span></td>
+            <td><span class="ct-maybe">Sometimes</span></td>
+          </tr>
+          <tr>
+            <td>Transparent one-time pricing</td>
+            <td class="ct-h"><span class="ct-yes">✓</span></td>
+            <td><span class="ct-no">Monthly subscription forever</span></td>
+            <td><span class="ct-maybe">Varies</span></td>
+            <td><span class="ct-no">High retainer</span></td>
+          </tr>
+          <tr>
+            <td>Direct WhatsApp support after launch</td>
+            <td class="ct-h"><span class="ct-yes">✓</span></td>
+            <td><span class="ct-no">Ticket queue</span></td>
+            <td><span class="ct-maybe">Maybe</span></td>
+            <td><span class="ct-no">Account manager only</span></td>
+          </tr>
+          <tr>
+            <td>Mobile-first, 90+ Lighthouse score</td>
+            <td class="ct-h"><span class="ct-yes">✓</span></td>
+            <td><span class="ct-maybe">Varies by template</span></td>
+            <td><span class="ct-maybe">Depends on skill</span></td>
+            <td><span class="ct-yes">✓</span></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </section>
@@ -2473,6 +3244,18 @@ footer::before{
 <a href="https://wa.me/919830000000" target="_blank" rel="noopener" class="wa-float" aria-label="Chat on WhatsApp">
   <i class="fa-brands fa-whatsapp"></i>
 </a>
+
+<!-- ==================== STICKY MOBILE WA BAR ==================== -->
+<div class="sticky-wa-bar" id="stickyWaBar" role="complementary" aria-label="Contact prompt">
+  <div class="sticky-wa-bar-text">
+    <strong>Get your website built</strong>
+    Live in 7 days · starts ₹12,999
+  </div>
+  <a href="https://wa.me/919830000000?text=Hi%20Mayank%2C%20I%20want%20a%20website%20for%20my%20business" target="_blank" rel="noopener" class="sticky-wa-btn">
+    <i class="fa-brands fa-whatsapp"></i> Chat Now
+  </a>
+  <button class="sticky-wa-close" id="stickyWaClose" aria-label="Dismiss">×</button>
+</div>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ============================================
@@ -2879,6 +3662,228 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     window.scrollTo({top: y, behavior: 'smooth'});
   });
 });
+
+/* ============================================
+   CUSTOM CURSOR
+   ============================================ */
+(function customCursor(){
+  const dot  = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  if (!dot || !matchMedia('(pointer: fine)').matches) return;
+  let rx = 0, ry = 0, dx = 0, dy = 0;
+  document.addEventListener('mousemove', (e) => {
+    dx = e.clientX; dy = e.clientY;
+    dot.style.left  = dx + 'px';
+    dot.style.top   = dy + 'px';
+  });
+  (function animRing(){
+    rx += (dx - rx) * 0.14;
+    ry += (dy - ry) * 0.14;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(animRing);
+  })();
+  document.querySelectorAll('a,button,[role=button],.work,.price-card,.ba-wrap').forEach(el => {
+    el.addEventListener('mouseenter', () => { dot.classList.add('active'); ring.classList.add('active') });
+    el.addEventListener('mouseleave', () => { dot.classList.remove('active'); ring.classList.remove('active') });
+  });
+})();
+
+/* ============================================
+   SCARCITY BADGE — auto month
+   ============================================ */
+(function slotsBadge(){
+  const el = document.getElementById('slotsText');
+  if (!el) return;
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const next = new Date(); next.setMonth(next.getMonth() + 1);
+  el.textContent = `Only 3 project slots open for ${months[next.getMonth()]}`;
+})();
+
+/* ============================================
+   WORK CARD METRICS OVERLAY
+   ============================================ */
+document.querySelectorAll('.work[data-metric]').forEach(card => {
+  const m = document.createElement('div');
+  m.className = 'work-metric';
+  m.innerHTML = '<i class="fa-solid fa-chart-line" style="font-size:10px;margin-right:5px"></i>' + card.dataset.metric;
+  card.style.position = 'relative';
+  card.appendChild(m);
+});
+
+/* ============================================
+   MAGNETIC BUTTONS
+   ============================================ */
+document.querySelectorAll('.btn-primary,.btn-ghost').forEach(btn => {
+  btn.addEventListener('mousemove', (e) => {
+    const r = btn.getBoundingClientRect();
+    const x = (e.clientX - r.left - r.width  / 2) * 0.22;
+    const y = (e.clientY - r.top  - r.height / 2) * 0.22;
+    btn.style.transform = `translate(${x}px, ${y}px)`;
+  });
+  btn.addEventListener('mouseleave', () => {
+    btn.style.transform = '';
+  });
+});
+
+/* ============================================
+   TOAST SOCIAL PROOF
+   ============================================ */
+(function toastProof(){
+  const stack = document.getElementById('toastStack');
+  if (!stack || window.innerWidth < 600) return;
+  const entries = [
+    { init: 'P', name: 'Priya S.', city: 'Mumbai', type: 'restaurant website' },
+    { init: 'R', name: 'Rajesh K.', city: 'Bangalore', type: 'clinic site' },
+    { init: 'A', name: 'Ananya M.', city: 'Delhi', type: 'boutique store' },
+    { init: 'S', name: 'Suresh N.', city: 'Hyderabad', type: 'biryani house' },
+    { init: 'M', name: 'Meera R.', city: 'Chennai', type: 'yoga studio' },
+    { init: 'K', name: 'Kiran J.', city: 'Pune', type: 'jewellery shop' },
+    { init: 'D', name: 'Deepa V.', city: 'Ahmedabad', type: 'salon website' },
+    { init: 'V', name: 'Vikram T.', city: 'Jaipur', type: 'real estate site' },
+  ];
+  let idx = 0;
+  const show = () => {
+    const e = entries[idx % entries.length]; idx++;
+    const t = document.createElement('div');
+    t.className = 'toast';
+    t.innerHTML = `
+      <div class="toast-avatar">${e.init}</div>
+      <div class="toast-text">
+        <strong>${e.name} from ${e.city}</strong>
+        <span>just enquired about a ${e.type}</span>
+      </div>
+      <i class="fa-brands fa-whatsapp toast-icon"></i>`;
+    stack.appendChild(t);
+    requestAnimationFrame(() => { t.classList.add('show') });
+    setTimeout(() => {
+      t.classList.remove('show');
+      setTimeout(() => t.remove(), 500);
+    }, 5000);
+  };
+  setTimeout(show, 6000);
+  setInterval(show, 12000);
+})();
+
+/* ============================================
+   STICKY MOBILE WA BAR
+   ============================================ */
+(function stickyWA(){
+  const bar = document.getElementById('stickyWaBar');
+  const closeBtn = document.getElementById('stickyWaClose');
+  if (!bar) return;
+  let dismissed = false;
+  const threshold = window.innerHeight * 0.85;
+  window.addEventListener('scroll', () => {
+    if (dismissed) return;
+    bar.classList.toggle('visible', window.scrollY > threshold);
+  }, { passive: true });
+  closeBtn.addEventListener('click', () => {
+    dismissed = true;
+    bar.classList.remove('visible');
+  });
+})();
+
+/* ============================================
+   HERO BUSINESS NAME LIVE PREVIEW
+   ============================================ */
+(function bizPreview(){
+  const input = document.getElementById('bizNameInput');
+  const urlEl = document.getElementById('heroUrl');
+  const heading = document.querySelector('.hv-hs-h');
+  if (!input || !urlEl) return;
+  const toSlug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') || 'your-business';
+  input.addEventListener('input', () => {
+    const name = input.value.trim();
+    urlEl.textContent = name ? toSlug(name) + '.in' : 'nizami-biryani.in';
+    if (heading) {
+      heading.style.background = name ? 'var(--gold)' : '';
+      heading.style.transition = 'background .4s';
+    }
+  });
+})();
+
+/* ============================================
+   ROI CALCULATOR
+   ============================================ */
+(function roiCalc(){
+  const configs = {
+    restaurant: { metric: 'New diners / month from website', avg: 600,  avgLabel: 'Avg. bill per table (₹)', min: 200, max: 3000, step: 100 },
+    clinic:     { metric: 'New patients / month',            avg: 800,  avgLabel: 'Consultation fee (₹)',     min: 200, max: 2000, step: 50  },
+    boutique:   { metric: 'New customers / month',           avg: 1200, avgLabel: 'Avg. purchase value (₹)',  min: 300, max: 5000, step: 100 },
+    salon:      { metric: 'New bookings / month',            avg: 700,  avgLabel: 'Avg. service value (₹)',   min: 200, max: 2000, step: 50  },
+    yoga:       { metric: 'New members / month',             avg: 1200, avgLabel: 'Monthly membership (₹)',   min: 500, max: 3000, step: 100 },
+    jewellery:  { metric: 'New enquiries / month',           avg: 5000, avgLabel: 'Avg. sale value (₹)',      min: 1000, max: 30000, step: 500 },
+    realestate: { metric: 'New leads / month',               avg: 3000, avgLabel: 'Commission per deal (₹)', min: 2000, max: 50000, step: 500 },
+  };
+  const typeEl    = document.getElementById('roiType');
+  const slider    = document.getElementById('roiSlider');
+  const sliderVal = document.getElementById('roiSliderVal');
+  const avgSlider = document.getElementById('roiAvgSlider');
+  const avgVal    = document.getElementById('roiAvgVal');
+  const metricLbl = document.getElementById('roiMetricLabel');
+  const avgLbl    = document.getElementById('roiAvgLabel');
+  const totalEl   = document.getElementById('roiTotal');
+  const monthsEl  = document.getElementById('roiMonths');
+  const custEl    = document.getElementById('roiCustomers');
+  const avgDisp   = document.getElementById('roiAvgDisp');
+  if (!typeEl) return;
+  const fmt = (n) => '₹' + n.toLocaleString('en-IN');
+  function update(){
+    const cfg = configs[typeEl.value];
+    metricLbl.textContent = cfg.metric;
+    avgLbl.textContent = cfg.avgLabel;
+    avgSlider.min = cfg.min; avgSlider.max = cfg.max; avgSlider.step = cfg.step;
+    const customers = parseInt(slider.value, 10);
+    const avg       = parseInt(avgSlider.value, 10);
+    const monthly   = customers * avg;
+    const months    = Math.ceil(12999 / Math.max(monthly, 1));
+    sliderVal.textContent = customers;
+    avgVal.textContent    = fmt(avg);
+    totalEl.textContent   = fmt(monthly);
+    custEl.textContent    = customers;
+    avgDisp.textContent   = fmt(avg);
+    monthsEl.textContent  = months <= 1 ? 'under 1 month' : months + ' month' + (months === 1 ? '' : 's');
+  }
+  typeEl.addEventListener('change', () => { avgSlider.value = configs[typeEl.value].avg; update(); });
+  slider.addEventListener('input', update);
+  avgSlider.addEventListener('input', update);
+  update();
+})();
+
+/* ============================================
+   BEFORE / AFTER DRAG SLIDER
+   ============================================ */
+(function baSlider(){
+  const wrap    = document.getElementById('baWrap');
+  const divider = document.getElementById('baDivider');
+  const handle  = document.getElementById('baHandle');
+  const after   = wrap && wrap.querySelector('.ba-after');
+  if (!wrap) return;
+  let dragging = false;
+  const setPos = (pct) => {
+    pct = Math.max(5, Math.min(95, pct));
+    const right = (100 - pct) + '%';
+    after.style.clipPath = `inset(0 ${right} 0 0)`;
+    divider.style.left = pct + '%';
+    handle.style.left  = pct + '%';
+  };
+  const getX = (e) => (e.touches ? e.touches[0].clientX : e.clientX);
+  const onMove = (e) => {
+    if (!dragging) return;
+    e.preventDefault();
+    const rect = wrap.getBoundingClientRect();
+    const pct  = ((getX(e) - rect.left) / rect.width) * 100;
+    setPos(pct);
+  };
+  wrap.addEventListener('mousedown',  (e) => { dragging = true; onMove(e); });
+  wrap.addEventListener('touchstart', (e) => { dragging = true; onMove(e); }, { passive: false });
+  window.addEventListener('mousemove',  onMove);
+  window.addEventListener('touchmove',  onMove, { passive: false });
+  window.addEventListener('mouseup',  () => { dragging = false; });
+  window.addEventListener('touchend', () => { dragging = false; });
+  setPos(50);
+})();
 </script>
 </body>
 </html>
