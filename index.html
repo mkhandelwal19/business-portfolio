@@ -1843,7 +1843,7 @@ footer::before{
 .ba-before, .ba-after{
   position: absolute; inset: 0; overflow: hidden;
 }
-.ba-after{ clip-path: inset(0 50% 0 0) }
+.ba-after{ clip-path: inset(0 0 0 50%) }
 .ba-divider{
   position: absolute; top: 0; bottom: 0; left: 50%;
   width: 2px; background: var(--gold); transform: translateX(-50%); z-index: 10;
@@ -4108,8 +4108,7 @@ document.querySelectorAll('.btn-primary,.btn-ghost').forEach(btn => {
   let dragging = false;
   const setPos = (pct) => {
     pct = Math.max(5, Math.min(95, pct));
-    const right = (100 - pct) + '%';
-    after.style.clipPath = `inset(0 ${right} 0 0)`;
+    after.style.clipPath = `inset(0 0 0 ${pct}%)`;
     divider.style.left = pct + '%';
     handle.style.left  = pct + '%';
   };
