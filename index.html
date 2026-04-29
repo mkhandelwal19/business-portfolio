@@ -85,6 +85,13 @@ body{
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+
+/* ==================== SCROLLBAR ==================== */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--gold-deep);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--gold)}
+*{scrollbar-width:thin;scrollbar-color:var(--gold-deep) var(--bg)}
 ::selection{background: var(--gold); color: var(--bg)}
 
 /* Global textures */
@@ -2110,8 +2117,9 @@ footer::before{
         <em>local businesses</em> unforgettable.
       </h1>
       <p class="hero-sub reveal" data-delay="2">
-        I'm Mayank — a web designer helping local businesses across India go digital.
-        Fast sites, honest pricing, mobile-first, WhatsApp-ready — built to win in your neighbourhood.
+        I'm Mayank — your <em style="font-style:normal;color:var(--gold)">Digital Sathi</em> for going online.
+        Think of it as your <strong style="font-weight:600">Mobile Store</strong> — WhatsApp-integrated, Google-ready, and built to win customers right in your neighbourhood.
+        Full handholding from Day 1 to launch and beyond.
       </p>
       <div class="hero-ctas reveal" data-delay="3">
         <a href="#work" class="btn btn-primary">
@@ -2307,7 +2315,8 @@ footer::before{
       </div>
       <p class="reveal" data-delay="2">
         From your first domain name to the Sunday-evening WhatsApp message — I take care of
-        the technical parts so you can focus on what you do best: running your business.
+        every technical step so you can focus on what you do best: running your business.
+        No jargon. No ghosting. End-to-end handholding, in your language.
       </p>
     </div>
 
@@ -2316,8 +2325,8 @@ footer::before{
         <div class="service-num">S/01</div>
         <div>
           <div class="service-icon"><i class="fa-regular fa-window-maximize"></i></div>
-          <h4>Website Design</h4>
-          <p>Custom-designed, fast-loading sites that look stunning on every phone — no cookie-cutter templates.</p>
+          <h4>Mobile Store Design</h4>
+          <p>A fast, beautiful site that works as your digital storefront on every phone — WhatsApp bookings, UPI payments, and a shareable link your customers will actually open.</p>
         </div>
         <div class="service-arrow"><i class="fa-solid fa-arrow-right"></i></div>
       </div>
@@ -2960,8 +2969,8 @@ footer::before{
         <div class="why-card reveal tilt" data-delay="2">
           <div>
             <div class="why-icon"><i class="fa-solid fa-mobile-screen"></i></div>
-            <h4>Mobile-First, Always</h4>
-            <p>85% of your customers will open your site on a phone — often on 4G. I design for them first, desktop second.</p>
+            <h4>Your Mobile Store First</h4>
+            <p>In India, business happens on the phone. Every site I build is a mobile-first, WhatsApp-ready store — designed for 4G, not a boardroom laptop.</p>
           </div>
         </div>
         <div class="why-card reveal tilt" data-delay="3">
@@ -2973,9 +2982,9 @@ footer::before{
         </div>
         <div class="why-card reveal tilt" data-delay="4">
           <div>
-            <div class="why-icon"><i class="fa-solid fa-heart"></i></div>
-            <h4>Ongoing Support Included</h4>
-            <p>30 days of free edits after launch. No fine print, no hourly rates — just WhatsApp me the change.</p>
+            <div class="why-icon"><i class="fa-solid fa-handshake-angle"></i></div>
+            <h4>Your Digital Sathi</h4>
+            <p>Tech can feel scary. I walk you through every step — domain, hosting, content, launch — and stay reachable on WhatsApp long after the site goes live.</p>
           </div>
         </div>
       </div>
@@ -3305,22 +3314,55 @@ footer::before{
           </div>
           <div class="form-field">
             <label>City</label>
-            <input type="text" name="city" required placeholder="Kolkata" />
+            <select name="city" required>
+              <option value="">Select your city</option>
+              <option>Mumbai</option>
+              <option>Delhi</option>
+              <option>Bengaluru</option>
+              <option>Hyderabad</option>
+              <option>Chennai</option>
+              <option>Kolkata</option>
+              <option>Pune</option>
+              <option>Ahmedabad</option>
+              <option>Jaipur</option>
+              <option>Surat</option>
+              <option>Lucknow</option>
+              <option>Kochi</option>
+              <option>Indore</option>
+              <option>Chandigarh</option>
+              <option>Gurugram</option>
+              <option>Noida</option>
+              <option>Nagpur</option>
+              <option>Bhopal</option>
+              <option>Visakhapatnam</option>
+              <option>Patna</option>
+            </select>
           </div>
         </div>
         <div class="form-row">
-          <div class="form-field">
+          <div class="form-field" style="position:relative">
             <label>Email address</label>
-            <input type="email" name="email" required placeholder="priya@yourshop.in" />
+            <input type="text" name="email" id="emailInput" required placeholder="priya@yourshop.in" autocomplete="email" inputmode="email" />
+            <ul id="emailSuggestions" style="display:none;position:absolute;top:100%;left:0;right:0;background:var(--bg-3);border:1px solid var(--line);border-radius:8px;margin-top:4px;padding:4px 0;z-index:100;list-style:none"></ul>
           </div>
           <div class="form-field">
             <label>WhatsApp / Phone <span style="color:var(--muted);font-size:11px">(optional)</span></label>
             <input type="tel" name="phone" placeholder="+91 98300 00000" />
           </div>
         </div>
-        <div class="form-field">
-          <label>Business type</label>
-          <select name="type" required>
+        <div class="form-row">
+          <div class="form-field">
+            <label>Interested in</label>
+            <select name="package" required>
+              <option value="">Select a package</option>
+              <option value="starter">Starter — ₹7,999</option>
+              <option value="business">Business — ₹14,999</option>
+              <option value="premium">Premium — ₹24,999</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Business type</label>
+            <select name="type" required>
             <option value="">Select one</option>
             <option>Restaurant / Café / Cloud Kitchen</option>
             <option>Boutique / Fashion / Handloom</option>
@@ -3334,7 +3376,8 @@ footer::before{
             <option>Gym / Fitness / Sports</option>
             <option>Coaching / Tuition / Education</option>
             <option>Other</option>
-          </select>
+            </select>
+          </div>
         </div>
         <div class="form-field">
           <label>Tell me about your business</label>
@@ -3807,6 +3850,49 @@ form.addEventListener('submit', async (e) => {
     btn.innerHTML = 'Send Enquiry <span class="arrow">→</span>';
   }
 });
+
+/* ============================================
+   EMAIL DOMAIN SUGGESTIONS
+   ============================================ */
+(function(){
+  const EMAIL_DOMAINS = ['gmail.com','yahoo.com','outlook.com','hotmail.com','icloud.com','rediffmail.com','ymail.com','live.com'];
+  const inp = document.getElementById('emailInput');
+  const box = document.getElementById('emailSuggestions');
+  if(!inp || !box) return;
+
+  const styleItem = el => {
+    el.style.cssText = 'padding:8px 14px;cursor:pointer;font-size:13px;color:var(--ivory-dim);transition:background .15s';
+    el.addEventListener('mouseenter',()=>{ el.style.background='rgba(201,168,76,0.1)'; el.style.color='var(--gold)'; });
+    el.addEventListener('mouseleave',()=>{ el.style.background=''; el.style.color='var(--ivory-dim)'; });
+  };
+
+  inp.addEventListener('input', () => {
+    const val = inp.value;
+    const atIdx = val.lastIndexOf('@');
+    if(atIdx < 0){ box.style.display='none'; return; }
+    const prefix = val.slice(0, atIdx + 1);
+    const after  = val.slice(atIdx + 1).toLowerCase();
+    const matches = EMAIL_DOMAINS.filter(d => d.startsWith(after));
+    if(!matches.length){ box.style.display='none'; return; }
+    box.innerHTML = '';
+    matches.forEach(d => {
+      const li = document.createElement('li');
+      li.textContent = prefix + d;
+      styleItem(li);
+      li.addEventListener('mousedown', e => {
+        e.preventDefault();
+        inp.value = prefix + d;
+        box.style.display = 'none';
+      });
+      box.appendChild(li);
+    });
+    box.style.display = 'block';
+  });
+
+  document.addEventListener('click', e => {
+    if(!box.contains(e.target) && e.target !== inp) box.style.display = 'none';
+  });
+})();
 
 /* ============================================
    SMOOTH ANCHOR SCROLL (offset nav)
