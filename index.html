@@ -1478,6 +1478,58 @@ footer::before{
   color: var(--muted);
 }
 
+/* ==================== GUARANTEE ROW ==================== */
+.guarantee-row{
+  display:flex; align-items:center; gap:14px;
+  max-width: 680px; margin: 28px auto 0;
+  padding: 18px 24px;
+  border: 1px solid rgba(201,168,76,0.22);
+  border-radius: 14px;
+  background: rgba(201,168,76,0.04);
+  font-size: 14px; color: var(--ivory-dim); line-height: 1.6;
+}
+.guarantee-row i{ font-size: 22px; color: var(--gold); flex-shrink:0 }
+
+/* ==================== FAQ ==================== */
+#faq{ background: var(--bg) }
+.faq-list{ max-width: 760px; margin: 0 auto; display:flex; flex-direction:column; gap:2px }
+.faq-item{
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: border-color .3s;
+}
+.faq-item.open{ border-color: rgba(201,168,76,0.4) }
+.faq-q{
+  width:100%; text-align:left;
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  padding: 20px 24px;
+  font-family: var(--f-sans); font-size: 15.5px; font-weight:600;
+  color: var(--ivory); background: none; cursor: pointer;
+  transition: background .2s;
+}
+.faq-q:hover{ background: rgba(201,168,76,0.04) }
+.faq-item.open .faq-q{ color: var(--gold) }
+.faq-icon{
+  flex-shrink:0; width:22px; height:22px;
+  border: 1.5px solid var(--line);
+  border-radius:50%;
+  display:grid; place-items:center;
+  font-size:13px; color: var(--muted);
+  transition: transform .35s cubic-bezier(.4,0,.2,1), border-color .3s, color .3s;
+}
+.faq-item.open .faq-icon{ transform: rotate(45deg); border-color: var(--gold); color: var(--gold) }
+.faq-body{
+  max-height:0; overflow:hidden;
+  transition: max-height .4s cubic-bezier(.4,0,.2,1), padding .4s;
+}
+.faq-item.open .faq-body{ max-height: 300px }
+.faq-body p{
+  padding: 0 24px 20px;
+  font-size: 14.5px; color: var(--ivory-dim); line-height: 1.75;
+}
+.faq-body a{ color: var(--gold); text-decoration: underline }
+
 /* ==================== WHATSAPP FLOAT ==================== */
 .wa-float{
   position: fixed; right: 24px; bottom: 24px; z-index: 90;
@@ -2035,6 +2087,7 @@ footer::before{
     <li><a href="#services" data-nav-link>Services</a></li>
     <li><a href="#pricing" data-nav-link>Pricing</a></li>
     <li><a href="#testimonials" data-nav-link>Testimonials</a></li>
+    <li><a href="#faq" data-nav-link>FAQ</a></li>
     <li><a href="#contact" data-nav-link>Contact</a></li>
   </ul>
   <a href="#contact" class="nav-cta" data-nav-link>Let's Talk</a>
@@ -2472,6 +2525,12 @@ footer::before{
       </div>
     </div>
 
+    <!-- Guarantee -->
+    <div class="guarantee-row reveal" data-delay="3">
+      <i class="fa-solid fa-shield-halved"></i>
+      <span><strong>Satisfaction guarantee:</strong> If after two full revision rounds the design isn't right for you, I'll refund every rupee — no questions asked. <a href="#faq" style="color:var(--gold)">Read the FAQ →</a></span>
+    </div>
+
   </div>
 </section>
 
@@ -2542,7 +2601,7 @@ footer::before{
   <div class="container">
     <div class="section-head">
       <div>
-        <div class="eyebrow reveal">03 — Template Showcase</div>
+        <div class="eyebrow reveal">04 — Template Showcase</div>
         <h2 class="reveal" data-delay="1">Pick your <em>category.</em><br/>Preview a website built for it.</h2>
       </div>
       <p class="reveal" data-delay="2">
@@ -3102,12 +3161,111 @@ footer::before{
   </div>
 </section>
 
+<!-- ==================== FAQ ==================== -->
+<section id="faq">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow reveal">06 — FAQ</div>
+        <h2 class="reveal" data-delay="1">Questions you'll<br/> <em>definitely have.</em></h2>
+      </div>
+      <p class="reveal" data-delay="2">
+        Answered honestly — no sales spin. If something isn't listed here, just WhatsApp me.
+      </p>
+    </div>
+
+    <div class="faq-list reveal" data-delay="1">
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          Do I own the website after I pay?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-body" role="region">
+          <p>Yes, 100%. Once the project is complete and the final payment is cleared, the domain, hosting account, and all website files are entirely yours. I don't hold anything hostage.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          What about domain and hosting costs — are they extra?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-body" role="region">
+          <p>My prices cover design and development only. Domain registration costs roughly ₹800–₹1,200/year and basic hosting is ₹350–₹700/month. I'll set everything up for you, recommend the right provider for your budget, and walk you through the renewal process so you're never dependent on me.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          How many design revisions do I get?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-body" role="region">
+          <p>As many as it takes to get it right — within the agreed project scope. After the initial design is approved, further structural changes (adding new pages, rethinking the layout) are treated as new work. Most clients need 1–2 rounds. I've never had a project go past 3.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          Do I need to provide photos and content?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-body" role="region">
+          <p>Yes — your photos, your words, your story. Most business owners already have good photos on their phones; I'll tell you exactly which ones work. I can write the copy myself if needed (small extra charge). Using your real photos always beats stock — clients trust what looks like you.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          What if I'm not happy with the final result?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-body" role="region">
+          <p>I iterate until you love it. If after two full revision rounds the design still isn't working for you, I'll refund the full amount — no questions, no awkwardness. In three years I've never had to honour that policy, but it stands regardless.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          Will my website rank on Google?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-body" role="region">
+          <p>Every site ships with on-page SEO (meta titles, descriptions, schema markup, image alt tags) and I set up your Google Business Profile so you appear on Maps. Organic rankings take 4–12 weeks depending on your city and competition. I'll tell you honestly what to expect for your specific niche — I don't over-promise.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          Can I update the website myself after launch?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-body" role="region">
+          <p>For most updates (new photos, changed hours, festival offers) — just WhatsApp me. It's faster than any CMS. If you want full editorial control, I can build on a simple CMS. During the support period all changes are free; after that, updates take 15–30 minutes and cost less than a cup of chai at a five-star hotel.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          I'm in [city] — do you work with businesses outside Kolkata?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-body" role="region">
+          <p>Entirely remote — I've worked with businesses in Mumbai, Hyderabad, Delhi, Bangalore, Chennai, Jaipur, Pune, and many more. The initial call is on Google Meet or WhatsApp video. Everything else runs through screen shares and chat. Location has never been a problem.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- ==================== CONTACT ==================== -->
 <section id="contact" class="contact">
   <div class="container">
     <div class="contact-grid">
       <div class="contact-left">
-        <div class="eyebrow reveal">06 — Let's Build</div>
+        <div class="eyebrow reveal">07 — Let's Build</div>
         <h2 class="reveal" data-delay="1">Ready to get your<br/> business <em>online?</em></h2>
         <p class="reveal" data-delay="2">
           Tell me a little about your shop — I usually respond within a few hours. If you'd rather talk,
@@ -3221,6 +3379,7 @@ footer::before{
         <li><a href="#services">Services</a></li>
         <li><a href="#pricing">Pricing</a></li>
         <li><a href="#testimonials">Testimonials</a></li>
+        <li><a href="#faq">FAQ</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </div>
@@ -3883,6 +4042,29 @@ document.querySelectorAll('.btn-primary,.btn-ghost').forEach(btn => {
   window.addEventListener('mouseup',  () => { dragging = false; });
   window.addEventListener('touchend', () => { dragging = false; });
   setPos(50);
+})();
+
+/* ============================================
+   FAQ ACCORDION
+   ============================================ */
+(function faqAccordion(){
+  document.querySelectorAll('.faq-item').forEach(item => {
+    const btn  = item.querySelector('.faq-q');
+    const body = item.querySelector('.faq-body');
+    if (!btn || !body) return;
+    btn.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      // close all
+      document.querySelectorAll('.faq-item.open').forEach(o => {
+        o.classList.remove('open');
+        o.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
 })();
 </script>
 </body>
