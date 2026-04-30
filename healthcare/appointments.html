@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book Appointment — Basu Family Clinic</title>
+<meta name="description" content="Book an appointment at Basu Family Clinic, Salt Lake Kolkata. Choose your doctor, pick a date and time slot.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="../demo.css">
+</head>
+<body class="theme-mint">
+<div class="preview-bar">
+  <span>Demo site · Built by <a href="../index.html">Mayank Khandelwal</a></span>
+  <span class="sep">·</span>
+  <a href="../index.html#work">View full portfolio</a>
+</div>
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Basu Clinic<em>.</em></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li><li><a href="services.html">Services</a></li>
+      <li><a href="doctors.html">Doctors</a></li><li><a href="about.html">About</a></li>
+      <li><a href="gallery.html">Facilities</a></li><li><a href="testimonials.html">Reviews</a></li>
+      <li><a href="health-tips.html">Health Tips</a></li><li><a href="contact.html">Contact</a></li>
+      <li><a href="appointments.html" class="nav-cta active">Book Appointment</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="page-header">
+  <div class="eyebrow">Book Appointment</div>
+  <h1>Choose your <em>doctor</em> and time.</h1>
+  <p>Same-day slots available most weekdays. Confirmation sent via WhatsApp.</p>
+</div>
+<section class="section">
+  <div class="wrap">
+    <div class="booking-layout" style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start">
+      <div class="reveal">
+        <div class="eyebrow" style="margin-bottom:20px">Select Doctor</div>
+        <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:40px">
+          <label style="display:flex;align-items:center;gap:16px;background:var(--bg-card);border:1px solid var(--line);border-radius:var(--r);padding:16px 20px;cursor:pointer">
+            <input type="radio" name="doctor" value="amitabha" checked style="accent-color:var(--accent)">
+            <div>
+              <div style="font-weight:600;color:var(--fg-1)">Dr. Amitabha Basu</div>
+              <div style="font-size:0.8rem;color:var(--fg-3)">General Medicine · MBBS, MD</div>
+            </div>
+            <span style="margin-left:auto;font-size:0.8rem;color:var(--accent)">₹500</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:16px;background:var(--bg-card);border:1px solid var(--line);border-radius:var(--r);padding:16px 20px;cursor:pointer">
+            <input type="radio" name="doctor" value="sunita" style="accent-color:var(--accent)">
+            <div>
+              <div style="font-weight:600;color:var(--fg-1)">Dr. Sunita Basu</div>
+              <div style="font-size:0.8rem;color:var(--fg-3)">Gynaecology & Obstetrics · MBBS, DGO</div>
+            </div>
+            <span style="margin-left:auto;font-size:0.8rem;color:var(--accent)">₹600</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:16px;background:var(--bg-card);border:1px solid var(--line);border-radius:var(--r);padding:16px 20px;cursor:pointer">
+            <input type="radio" name="doctor" value="rohit" style="accent-color:var(--accent)">
+            <div>
+              <div style="font-weight:600;color:var(--fg-1)">Dr. Rohit Sharma</div>
+              <div style="font-size:0.8rem;color:var(--fg-3)">Paediatrics · MBBS, DCH</div>
+            </div>
+            <span style="margin-left:auto;font-size:0.8rem;color:var(--accent)">₹500</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:16px;background:var(--bg-card);border:1px solid var(--line);border-radius:var(--r);padding:16px 20px;cursor:pointer">
+            <input type="radio" name="doctor" value="kavita" style="accent-color:var(--accent)">
+            <div>
+              <div style="font-weight:600;color:var(--fg-1)">Dr. Kavita Gupta</div>
+              <div style="font-size:0.8rem;color:var(--fg-3)">Pathology · MBBS, DCP</div>
+            </div>
+            <span style="margin-left:auto;font-size:0.8rem;color:var(--accent)">Included with lab</span>
+          </label>
+        </div>
+        <div class="eyebrow" style="margin-bottom:16px">Select Date — May 2026</div>
+        <div class="cal">
+          <div class="cal-head">
+            <span><i class="fa-solid fa-chevron-left"></i></span>
+            <strong>May 2026</strong>
+            <span><i class="fa-solid fa-chevron-right"></i></span>
+          </div>
+          <div class="cal-grid">
+            <div class="cal-dow">S</div><div class="cal-dow">M</div><div class="cal-dow">T</div><div class="cal-dow">W</div><div class="cal-dow">T</div><div class="cal-dow">F</div><div class="cal-dow">S</div>
+            <div class="cal-day empty"></div>
+            <div class="cal-day empty"></div>
+            <div class="cal-day empty"></div>
+            <div class="cal-day empty"></div>
+            <div class="cal-day">1</div>
+            <div class="cal-day avail">2</div>
+            <div class="cal-day">3</div>
+            <div class="cal-day avail">4</div>
+            <div class="cal-day avail sel">5</div>
+            <div class="cal-day avail">6</div>
+            <div class="cal-day avail">7</div>
+            <div class="cal-day avail">8</div>
+            <div class="cal-day avail">9</div>
+            <div class="cal-day">10</div>
+            <div class="cal-day avail">11</div>
+            <div class="cal-day avail">12</div>
+            <div class="cal-day avail">13</div>
+            <div class="cal-day avail">14</div>
+            <div class="cal-day avail">15</div>
+            <div class="cal-day avail">16</div>
+            <div class="cal-day">17</div>
+            <div class="cal-day avail">18</div>
+            <div class="cal-day avail">19</div>
+            <div class="cal-day">20</div>
+            <div class="cal-day avail">21</div>
+            <div class="cal-day avail">22</div>
+            <div class="cal-day avail">23</div>
+            <div class="cal-day">24</div>
+            <div class="cal-day avail">25</div>
+            <div class="cal-day avail">26</div>
+            <div class="cal-day avail">27</div>
+            <div class="cal-day avail">28</div>
+            <div class="cal-day avail">29</div>
+            <div class="cal-day avail">30</div>
+            <div class="cal-day">31</div>
+          </div>
+        </div>
+        <div class="eyebrow" style="margin:28px 0 14px">Morning Slots (9 AM – 1 PM)</div>
+        <div class="time-slots">
+          <div class="time-slot">9:00 AM</div>
+          <div class="time-slot booked">9:20 AM</div>
+          <div class="time-slot sel">9:40 AM</div>
+          <div class="time-slot booked">10:00 AM</div>
+          <div class="time-slot">10:20 AM</div>
+          <div class="time-slot">10:40 AM</div>
+          <div class="time-slot booked">11:00 AM</div>
+          <div class="time-slot">11:20 AM</div>
+          <div class="time-slot">11:40 AM</div>
+          <div class="time-slot">12:00 PM</div>
+          <div class="time-slot booked">12:20 PM</div>
+          <div class="time-slot">12:40 PM</div>
+        </div>
+        <div class="eyebrow" style="margin:24px 0 14px">Evening Slots (5 PM – 8 PM)</div>
+        <div class="time-slots">
+          <div class="time-slot booked">5:00 PM</div>
+          <div class="time-slot">5:20 PM</div>
+          <div class="time-slot">5:40 PM</div>
+          <div class="time-slot">6:00 PM</div>
+          <div class="time-slot booked">6:20 PM</div>
+          <div class="time-slot">6:40 PM</div>
+          <div class="time-slot">7:00 PM</div>
+          <div class="time-slot">7:20 PM</div>
+          <div class="time-slot booked">7:40 PM</div>
+        </div>
+      </div>
+      <div class="reveal" data-d="1">
+        <div style="background:var(--bg-card);border:1px solid var(--line);border-radius:var(--r);padding:36px;position:sticky;top:100px">
+          <div class="eyebrow" style="margin-bottom:24px">Patient Details</div>
+          <div class="form-wrap">
+            <div class="form-row">
+              <div class="form-group"><label>Full Name</label><input type="text" placeholder="Ravi Agarwal"></div>
+              <div class="form-group"><label>Age</label><input type="number" placeholder="38" min="1" max="120"></div>
+            </div>
+            <div class="form-group"><label>Mobile Number</label><input type="tel" placeholder="+91 98XXX XXXXX"></div>
+            <div class="form-group"><label>Reason for Visit</label>
+              <select>
+                <option>General check-up</option>
+                <option>Fever / cold / infection</option>
+                <option>Diabetes management</option>
+                <option>Blood pressure follow-up</option>
+                <option>Pregnancy consultation</option>
+                <option>Child vaccination</option>
+                <option>Lab test only</option>
+                <option>Ultrasound appointment</option>
+                <option>ECG</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Any existing conditions / medications</label><textarea placeholder="Optional — helps the doctor prepare" style="min-height:80px"></textarea></div>
+            <div style="background:var(--bg-alt);border-radius:8px;padding:16px 20px;margin-bottom:20px;font-size:0.85rem">
+              <div style="font-weight:600;margin-bottom:8px;color:var(--fg-1)">Appointment Summary</div>
+              <div style="color:var(--fg-3);line-height:1.8">
+                <div>Doctor: <span style="color:var(--fg-2)">Dr. Amitabha Basu</span></div>
+                <div>Date: <span style="color:var(--fg-2)">Monday, 5 May 2026</span></div>
+                <div>Time: <span style="color:var(--fg-2)">9:40 AM</span></div>
+                <div>Fee: <span style="color:var(--accent)">₹500</span></div>
+              </div>
+            </div>
+            <button class="btn btn-primary" style="width:100%;justify-content:center">Confirm Appointment <i class="fa-solid fa-check"></i></button>
+            <p style="font-size:0.78rem;color:var(--fg-4);text-align:center;margin-top:12px">You'll receive a WhatsApp confirmation within minutes</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand"><div class="name">Basu Clinic<em>.</em></div><p>Family healthcare built on 25 years of trust.</p>
+      <div class="footer-social"><a href="#"><i class="fa-brands fa-facebook-f"></i></a><a href="https://wa.me/919830020002"><i class="fa-brands fa-whatsapp"></i></a></div>
+    </div>
+    <div class="footer-col"><h5>Navigate</h5><ul>
+      <li><a href="index.html">Home</a></li><li><a href="services.html">Services</a></li>
+      <li><a href="doctors.html">Our Doctors</a></li><li><a href="appointments.html">Book Appointment</a></li>
+    </ul></div>
+    <div class="footer-col"><h5>Services</h5><ul>
+      <li><a href="services.html">General Medicine</a></li><li><a href="services.html">Paediatrics</a></li>
+      <li><a href="services.html">Gynaecology</a></li><li><a href="services.html">Pathology</a></li>
+    </ul></div>
+    <div class="footer-col"><h5>Contact</h5><ul>
+      <li><a href="contact.html">CF-12, Salt Lake, Sector III</a></li>
+      <li><a href="tel:+919830020002">+91 98300 20002</a></li>
+      <li><a href="#">Mon–Sat: 9–1 &amp; 5–8 PM</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Basu Family Clinic</span>
+    <span>Site by <a href="../index.html">Mayank Khandelwal</a></span>
+  </div>
+</footer>
+<a href="https://wa.me/919830020002" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+<script src="../demo.js"></script>
+</body>
+</html>

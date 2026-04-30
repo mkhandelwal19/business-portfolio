@@ -83,7 +83,8 @@
       "Bash(node scanner.js --quick --category \"Salon\")",
       "Bash(git remote *)",
       "Bash(gh api *)",
-      "Bash(git commit -m 'Fix WhatsApp message encoding — remove emojis that corrupt on Windows *)"
+      "Bash(git commit -m 'Fix WhatsApp message encoding — remove emojis that corrupt on Windows *)",
+      "Bash(grep -Ev \"\\(projects/|outreach/|/index\\\\.html$|Mayank|v1|v2\\)\")"
     ],
     "additionalDirectories": [
       "c:\\Users\\Mayank\\.claude\\projects\\c--Users-Mayank-Desktop-Tech-Project-Website-Portfolio"

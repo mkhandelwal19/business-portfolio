@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home — Lumière Salon & Spa</title>
+<meta name="description" content="Lumière Salon & Spa — Park Street's most trusted salon for expert haircuts, colour, keratin, bridal packages and luxury spa treatments in Kolkata.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="../demo.css">
+</head>
+<body class="theme-plum">
+
+<div class="preview-bar">
+  <span>Demo site · Built by <a href="../index.html">Mayank Khandelwal</a></span>
+  <span class="sep">·</span>
+  <a href="../index.html#work">View full portfolio</a>
+</div>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Lumière<em>.</em></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="team.html">Our Team</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="testimonials.html">Reviews</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="booking.html" class="nav-cta">Book Now</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-eyebrow">Park Street · Est. 2016</div>
+      <h1>Where beauty<br>meets <em>craft.</em></h1>
+      <p class="hero-sub">Eight years of expert cuts, colour, and care. Kolkata's most trusted salon for working professionals and bridal looks.</p>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="label">Est.</span>
+          <span class="value">2016</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="label">Stylists</span>
+          <span class="value">6</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="label">Happy Clients</span>
+          <span class="value">8,000+</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="label">Rating</span>
+          <span class="value">4.9★</span>
+        </div>
+      </div>
+      <div class="btns">
+        <a href="booking.html" class="btn btn-primary"><i class="fa-regular fa-calendar"></i> Book Appointment</a>
+        <a href="services.html" class="btn btn-ghost">See Services <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <svg viewBox="0 0 480 600" xmlns="http://www.w3.org/2000/svg">
+        <rect width="480" height="600" fill="#1a0820"/>
+        <!-- Ambient glow -->
+        <radialGradient id="heroGlow" cx="50%" cy="40%" r="55%">
+          <stop offset="0%" stop-color="#9B59B6" stop-opacity="0.35"/>
+          <stop offset="100%" stop-color="#1a0820" stop-opacity="0"/>
+        </radialGradient>
+        <rect width="480" height="600" fill="url(#heroGlow)"/>
+        <!-- Salon mirror frame -->
+        <rect x="140" y="60" width="200" height="260" rx="100" fill="none" stroke="#9B59B6" stroke-width="3" opacity="0.6"/>
+        <rect x="150" y="70" width="180" height="240" rx="90" fill="none" stroke="#C07FD8" stroke-width="1" opacity="0.3"/>
+        <!-- Hair silhouette inside mirror -->
+        <ellipse cx="240" cy="195" rx="60" ry="70" fill="#2d1040"/>
+        <ellipse cx="240" cy="165" rx="44" ry="50" fill="#3d1555"/>
+        <!-- Face oval -->
+        <ellipse cx="240" cy="175" rx="32" ry="40" fill="#2a0f38"/>
+        <!-- Flowing hair strands -->
+        <path d="M196 155 Q175 200 180 260 Q185 280 195 290" stroke="#9B59B6" stroke-width="2.5" fill="none" opacity="0.7"/>
+        <path d="M284 155 Q305 200 300 260 Q295 280 285 290" stroke="#9B59B6" stroke-width="2.5" fill="none" opacity="0.7"/>
+        <path d="M200 145 Q185 190 188 240" stroke="#C07FD8" stroke-width="1.5" fill="none" opacity="0.5"/>
+        <path d="M280 145 Q295 190 292 240" stroke="#C07FD8" stroke-width="1.5" fill="none" opacity="0.5"/>
+        <!-- Scissors decorative -->
+        <g transform="translate(80, 380) rotate(-30)" opacity="0.7">
+          <circle cx="0" cy="0" r="8" fill="none" stroke="#9B59B6" stroke-width="2"/>
+          <circle cx="20" cy="0" r="8" fill="none" stroke="#9B59B6" stroke-width="2"/>
+          <line x1="6" y1="-5" x2="50" y2="-18" stroke="#9B59B6" stroke-width="2.5"/>
+          <line x1="6" y1="5" x2="50" y2="18" stroke="#C07FD8" stroke-width="2.5"/>
+        </g>
+        <!-- Makeup brush -->
+        <g transform="translate(370, 80) rotate(25)" opacity="0.6">
+          <rect x="-3" y="0" width="6" height="60" rx="3" fill="#9B59B6"/>
+          <ellipse cx="0" cy="-8" rx="5" ry="10" fill="#C07FD8"/>
+          <rect x="-2" y="60" width="4" height="20" rx="2" fill="#7a3d99"/>
+        </g>
+        <!-- Comb -->
+        <g transform="translate(40, 100) rotate(-15)" opacity="0.5">
+          <rect x="0" y="0" width="10" height="70" rx="5" fill="none" stroke="#9B59B6" stroke-width="1.5"/>
+          <line x1="3" y1="15" x2="3" y2="40" stroke="#9B59B6" stroke-width="1.5"/>
+          <line x1="7" y1="15" x2="7" y2="40" stroke="#9B59B6" stroke-width="1.5"/>
+        </g>
+        <!-- Stars / sparkles -->
+        <circle cx="100" cy="80" r="2" fill="#C07FD8" opacity="0.8"/>
+        <circle cx="380" cy="200" r="1.5" fill="#C07FD8" opacity="0.6"/>
+        <circle cx="60" cy="300" r="2" fill="#9B59B6" opacity="0.7"/>
+        <circle cx="420" cy="350" r="1.5" fill="#C07FD8" opacity="0.5"/>
+        <circle cx="150" cy="480" r="2" fill="#9B59B6" opacity="0.6"/>
+        <circle cx="340" cy="500" r="1.5" fill="#C07FD8" opacity="0.7"/>
+        <!-- Bottom decorative curves -->
+        <path d="M0 500 Q120 460 240 490 Q360 520 480 480 L480 600 L0 600 Z" fill="#2d0845" opacity="0.4"/>
+        <!-- Service badges -->
+        <rect x="60" y="350" width="140" height="36" rx="18" fill="#2d0845" stroke="#9B59B6" stroke-width="1" opacity="0.9"/>
+        <text x="130" y="373" text-anchor="middle" fill="#C07FD8" font-size="11" font-family="sans-serif">Hair · Colour · Bridal</text>
+        <rect x="280" y="390" width="140" height="36" rx="18" fill="#2d0845" stroke="#9B59B6" stroke-width="1" opacity="0.9"/>
+        <text x="350" y="413" text-anchor="middle" fill="#C07FD8" font-size="11" font-family="sans-serif">Facials · Keratin · Nails</text>
+      </svg>
+      <div class="float-tag">
+        <div class="float-chip"><i class="fa-solid fa-star" style="color:var(--accent)"></i> 4.9 · 3,200+ Reviews</div>
+        <div class="float-chip"><i class="fa-solid fa-scissors" style="color:var(--accent)"></i> Park Street · Est. 2016</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section section-alt">
+  <div class="wrap">
+    <div class="text-center">
+      <div class="eyebrow">What We Offer</div>
+      <h2 class="section-title">Crafted for every <em>occasion</em></h2>
+      <p class="section-sub">From everyday cuts to once-in-a-lifetime bridal transformations, our expert team has you covered.</p>
+    </div>
+    <div class="features">
+      <div class="feature reveal" data-d="1">
+        <div class="feature-icon"><i class="fa-solid fa-scissors"></i></div>
+        <h4>Expert Haircuts</h4>
+        <p>Precision cuts tailored to your face shape, lifestyle, and hair texture by L'Oréal-certified stylists.</p>
+      </div>
+      <div class="feature reveal" data-d="2">
+        <div class="feature-icon"><i class="fa-solid fa-palette"></i></div>
+        <h4>Colour & Highlights</h4>
+        <p>From global colour to hand-painted balayage, using only L'Oréal Professionnel and Schwarzkopf products.</p>
+      </div>
+      <div class="feature reveal" data-d="3">
+        <div class="feature-icon"><i class="fa-solid fa-sparkles"></i></div>
+        <h4>Keratin Treatment</h4>
+        <p>Long-lasting smoothness and shine. Say goodbye to frizz with our professional keratin and Brazilian blowout services.</p>
+      </div>
+      <div class="feature reveal" data-d="1">
+        <div class="feature-icon"><i class="fa-solid fa-leaf"></i></div>
+        <h4>Luxury Facials</h4>
+        <p>Classic, gold, and brightening facials using premium skincare for radiant, healthy skin.</p>
+      </div>
+      <div class="feature reveal" data-d="2">
+        <div class="feature-icon"><i class="fa-solid fa-hand-sparkles"></i></div>
+        <h4>Manicure & Pedicure</h4>
+        <p>From classic manicures to intricate nail art and gel nails — every detail, perfected.</p>
+      </div>
+      <div class="feature reveal" data-d="3">
+        <div class="feature-icon"><i class="fa-solid fa-heart"></i></div>
+        <h4>Bridal Package</h4>
+        <p>Your big day deserves the best. Complete bridal packages from trial makeup to wedding-day glam.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="section">
+  <div class="wrap">
+    <div class="stats reveal">
+      <div class="stat">
+        <div class="stat-num">8,000+</div>
+        <div class="stat-label">Happy Clients</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">8</div>
+        <div class="stat-label">Years on Park Street</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">150+</div>
+        <div class="stat-label">Bridal Looks Delivered</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">4.9★</div>
+        <div class="stat-label">Average Rating</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICE PREVIEW -->
+<section class="section section-alt">
+  <div class="wrap">
+    <div class="text-center">
+      <div class="eyebrow">Popular Services</div>
+      <h2 class="section-title">Our most-loved <em>treatments</em></h2>
+      <p class="section-sub">Explore our bestsellers — the services our clients keep coming back for.</p>
+    </div>
+    <div class="grid-3">
+      <div class="card reveal" data-d="1">
+        <div class="card-thumb">
+          <svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+            <rect width="400" height="250" fill="#1a0820"/>
+            <radialGradient id="c1" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#9B59B6" stop-opacity="0.2"/>
+              <stop offset="100%" stop-color="#1a0820" stop-opacity="0"/>
+            </radialGradient>
+            <rect width="400" height="250" fill="url(#c1)"/>
+            <!-- Scissors large -->
+            <g transform="translate(200,125)" opacity="0.85">
+              <circle cx="-30" cy="-20" r="16" fill="none" stroke="#9B59B6" stroke-width="3"/>
+              <circle cx="30" cy="-20" r="16" fill="none" stroke="#9B59B6" stroke-width="3"/>
+              <line x1="-16" y1="-30" x2="80" y2="-80" stroke="#C07FD8" stroke-width="3"/>
+              <line x1="-16" y1="-10" x2="80" y2="40" stroke="#9B59B6" stroke-width="3"/>
+            </g>
+            <!-- Hair strands -->
+            <path d="M80 200 Q120 120 160 150 Q200 180 240 120 Q280 60 320 80" stroke="#C07FD8" stroke-width="2" fill="none" opacity="0.5"/>
+            <path d="M60 220 Q100 140 150 170 Q190 200 230 150" stroke="#9B59B6" stroke-width="1.5" fill="none" opacity="0.4"/>
+            <text x="200" y="230" text-anchor="middle" fill="#9B59B6" font-size="10" font-family="sans-serif" opacity="0.6" letter-spacing="3">HAIRCUT &amp; STYLING</text>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="card-tag">Hair</div>
+          <div class="card-title">Haircut & Blow-dry</div>
+          <p class="card-desc">A perfectly shaped cut with a professional blow-dry finish. Great for all hair types and lengths.</p>
+          <div class="card-price">₹800+</div>
+        </div>
+        <div class="card-footer">
+          <span class="card-meta"><i class="fa-regular fa-clock" style="color:var(--accent);margin-right:5px"></i> 45 – 60 min</span>
+          <a href="booking.html" class="btn btn-sm btn-primary">Book</a>
+        </div>
+      </div>
+
+      <div class="card reveal" data-d="2">
+        <div class="card-thumb">
+          <svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+            <rect width="400" height="250" fill="#1a0820"/>
+            <radialGradient id="c2" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#9B59B6" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#1a0820" stop-opacity="0"/>
+            </radialGradient>
+            <rect width="400" height="250" fill="url(#c2)"/>
+            <!-- Colour swatches -->
+            <circle cx="140" cy="110" r="45" fill="#7a3d99" opacity="0.6"/>
+            <circle cx="200" cy="100" r="45" fill="#9B59B6" opacity="0.5"/>
+            <circle cx="260" cy="110" r="45" fill="#C07FD8" opacity="0.4"/>
+            <!-- Brush strokes -->
+            <path d="M100 180 Q150 140 200 160 Q250 180 300 150" stroke="#C07FD8" stroke-width="2.5" fill="none" opacity="0.6"/>
+            <path d="M80 200 Q140 155 200 175 Q260 195 320 165" stroke="#9B59B6" stroke-width="2" fill="none" opacity="0.5"/>
+            <text x="200" y="235" text-anchor="middle" fill="#9B59B6" font-size="10" font-family="sans-serif" opacity="0.6" letter-spacing="3">COLOUR &amp; HIGHLIGHTS</text>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="card-tag">Colour</div>
+          <div class="card-title">L'Oréal Colour</div>
+          <p class="card-desc">Full global colour or balayage highlights using L'Oréal Professionnel for vibrant, long-lasting results.</p>
+          <div class="card-price">₹2,500+</div>
+        </div>
+        <div class="card-footer">
+          <span class="card-meta"><i class="fa-regular fa-clock" style="color:var(--accent);margin-right:5px"></i> 90 – 120 min</span>
+          <a href="booking.html" class="btn btn-sm btn-primary">Book</a>
+        </div>
+      </div>
+
+      <div class="card reveal" data-d="3">
+        <div class="card-thumb">
+          <svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+            <rect width="400" height="250" fill="#1a0820"/>
+            <radialGradient id="c3" cx="50%" cy="40%" r="55%">
+              <stop offset="0%" stop-color="#9B59B6" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="#1a0820" stop-opacity="0"/>
+            </radialGradient>
+            <rect width="400" height="250" fill="url(#c3)"/>
+            <!-- Bridal veil / updo silhouette -->
+            <ellipse cx="200" cy="100" rx="50" ry="60" fill="#2d0845" opacity="0.8"/>
+            <ellipse cx="200" cy="80" rx="36" ry="44" fill="#3d1555"/>
+            <!-- Crown / tiara -->
+            <path d="M168 58 L176 42 L184 54 L192 36 L200 50 L208 36 L216 54 L224 42 L232 58" stroke="#C07FD8" stroke-width="2.5" fill="none" opacity="0.9"/>
+            <!-- Veil -->
+            <path d="M160 80 Q140 140 130 200 Q160 220 200 215 Q240 220 270 200 Q260 140 240 80" fill="#3d1555" opacity="0.5"/>
+            <!-- Flowers in hair -->
+            <circle cx="170" cy="70" r="7" fill="#9B59B6" opacity="0.8"/>
+            <circle cx="230" cy="70" r="7" fill="#9B59B6" opacity="0.8"/>
+            <circle cx="200" cy="62" r="5" fill="#C07FD8" opacity="0.7"/>
+            <text x="200" y="235" text-anchor="middle" fill="#9B59B6" font-size="10" font-family="sans-serif" opacity="0.6" letter-spacing="3">BRIDAL PACKAGE</text>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="card-tag">Bridal</div>
+          <div class="card-title">Bridal Package</div>
+          <p class="card-desc">Complete bridal transformation — trial, wedding-day makeup, hair styling, and pre-bridal skin prep.</p>
+          <div class="card-price">₹15,000+</div>
+        </div>
+        <div class="card-footer">
+          <span class="card-meta"><i class="fa-regular fa-clock" style="color:var(--accent);margin-right:5px"></i> Full day</span>
+          <a href="booking.html" class="btn btn-sm btn-primary">Book</a>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:40px">
+      <a href="services.html" class="btn btn-ghost">View All Services & Pricing <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section">
+  <div class="wrap">
+    <div class="text-center">
+      <div class="eyebrow">Client Love</div>
+      <h2 class="section-title">What our guests <em>say</em></h2>
+      <p class="section-sub">Over 8,000 satisfied clients — here's what a few of them have shared.</p>
+    </div>
+    <div class="testimonial-grid">
+      <div class="testimonial reveal" data-d="1">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"Riya transformed my hair completely. I came in with dull, damaged hair and left with silky, beautiful colour. Easily the best salon on Park Street."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">P</div>
+          <div>
+            <div class="testimonial-name">Priya Banerjee</div>
+            <div class="testimonial-role">Software Engineer, Salt Lake</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial reveal" data-d="2">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"My bridal look was absolutely stunning. Maya understood exactly what I wanted and delivered beyond expectations. All my guests asked who did my makeup!"</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">S</div>
+          <div>
+            <div class="testimonial-name">Sneha Agarwal</div>
+            <div class="testimonial-role">Bride, December 2025</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial reveal" data-d="3">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"Been coming here for 3 years for my haircut and keratin. The team knows my hair inside out. Never going anywhere else."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">A</div>
+          <div>
+            <div class="testimonial-name">Ananya Das</div>
+            <div class="testimonial-role">Marketing Manager, Ballygunge</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:36px">
+      <a href="testimonials.html" class="btn btn-ghost">Read All Reviews <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section section-alt">
+  <div class="wrap">
+    <div class="text-center">
+      <div class="eyebrow">Website Packages</div>
+      <h2 class="section-title">Transparent <em>pricing</em></h2>
+      <p class="section-sub">Get a premium website for your salon. Choose the package that fits your needs and budget.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card reveal" data-d="1">
+        <div class="pricing-tier">Standard</div>
+        <div class="pricing-price">₹14,999<small>/one-time</small></div>
+        <p class="pricing-note">Perfect to establish your online presence</p>
+        <ul class="pricing-features">
+          <li><i class="fa-solid fa-check"></i> Home Page</li>
+          <li><i class="fa-solid fa-check"></i> Services & Pricing</li>
+          <li><i class="fa-solid fa-check"></i> About Page</li>
+          <li><i class="fa-solid fa-check"></i> Contact Page</li>
+          <li class="off"><i class="fa-solid fa-xmark"></i> Gallery</li>
+          <li class="off"><i class="fa-solid fa-xmark"></i> Reviews Page</li>
+          <li class="off"><i class="fa-solid fa-xmark"></i> FAQ</li>
+          <li class="off"><i class="fa-solid fa-xmark"></i> Online Booking</li>
+          <li class="off"><i class="fa-solid fa-xmark"></i> Team Page</li>
+          <li class="off"><i class="fa-solid fa-xmark"></i> Blog</li>
+        </ul>
+        <a href="../index.html#contact" class="btn btn-ghost" style="width:100%;justify-content:center">Get Started</a>
+      </div>
+      <div class="pricing-card featured reveal" data-d="2">
+        <div class="pricing-badge">Most Popular</div>
+        <div class="pricing-tier">Business</div>
+        <div class="pricing-price">₹24,999<small>/one-time</small></div>
+        <p class="pricing-note">Best for established salons</p>
+        <ul class="pricing-features">
+          <li><i class="fa-solid fa-check"></i> Home Page</li>
+          <li><i class="fa-solid fa-check"></i> Services & Pricing</li>
+          <li><i class="fa-solid fa-check"></i> About Page</li>
+          <li><i class="fa-solid fa-check"></i> Contact Page</li>
+          <li><i class="fa-solid fa-check"></i> Gallery Page</li>
+          <li><i class="fa-solid fa-check"></i> Reviews Page</li>
+          <li><i class="fa-solid fa-check"></i> FAQ Page</li>
+          <li class="off"><i class="fa-solid fa-xmark"></i> Online Booking</li>
+          <li class="off"><i class="fa-solid fa-xmark"></i> Team Page</li>
+          <li class="off"><i class="fa-solid fa-xmark"></i> Blog</li>
+        </ul>
+        <a href="../index.html#contact" class="btn btn-primary" style="width:100%;justify-content:center">Get Started</a>
+      </div>
+      <div class="pricing-card reveal" data-d="3">
+        <div class="pricing-tier">Premium</div>
+        <div class="pricing-price">₹39,999<small>/one-time</small></div>
+        <p class="pricing-note">Full-featured digital presence</p>
+        <ul class="pricing-features">
+          <li><i class="fa-solid fa-check"></i> Home Page</li>
+          <li><i class="fa-solid fa-check"></i> Services & Pricing</li>
+          <li><i class="fa-solid fa-check"></i> About Page</li>
+          <li><i class="fa-solid fa-check"></i> Contact Page</li>
+          <li><i class="fa-solid fa-check"></i> Gallery Page</li>
+          <li><i class="fa-solid fa-check"></i> Reviews Page</li>
+          <li><i class="fa-solid fa-check"></i> FAQ Page</li>
+          <li><i class="fa-solid fa-check"></i> Online Booking</li>
+          <li><i class="fa-solid fa-check"></i> Team Page</li>
+          <li><i class="fa-solid fa-check"></i> Blog</li>
+        </ul>
+        <a href="../index.html#contact" class="btn btn-ghost" style="width:100%;justify-content:center">Get Started</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section">
+  <div class="wrap">
+    <div class="cta-banner reveal">
+      <div class="cta-text">
+        <h3>Ready to book your <em>next visit?</em></h3>
+        <p>Walk into Lumière or book online in under a minute. Confirmation sent instantly via WhatsApp.</p>
+      </div>
+      <div class="btns">
+        <a href="booking.html" class="btn btn-primary"><i class="fa-regular fa-calendar"></i> Book Online</a>
+        <a href="https://wa.me/919830030003" class="btn btn-ghost"><i class="fa-brands fa-whatsapp"></i> WhatsApp Us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="name">Lumière<em>.</em></div>
+      <p>Park Street's most trusted salon. Expert stylists, luxury products, results that last.</p>
+      <div class="footer-social">
+        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="https://wa.me/919830030003" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Navigate</h5>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="services.html">Services & Pricing</a></li>
+        <li><a href="team.html">Our Stylists</a></li>
+        <li><a href="gallery.html">Transformations</a></li>
+        <li><a href="booking.html">Book Appointment</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="services.html">Haircuts & Styling</a></li>
+        <li><a href="services.html">Colour & Highlights</a></li>
+        <li><a href="services.html">Keratin Treatment</a></li>
+        <li><a href="services.html">Facials & Skin</a></li>
+        <li><a href="services.html">Bridal Package</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Find Us</h5>
+      <ul>
+        <li><a href="contact.html">14 Park Street, GF</a></li>
+        <li><a href="contact.html">Kolkata – 700 016</a></li>
+        <li><a href="tel:+919830030003">+91 98300 30003</a></li>
+        <li><a href="#">Mon–Sat: 10 AM – 8 PM</a></li>
+        <li><a href="#">Sun: 11 AM – 6 PM</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Lumière Salon & Spa · All rights reserved</span>
+    <span>Site by <a href="../index.html">Mayank Khandelwal</a></span>
+  </div>
+</footer>
+
+<a href="https://wa.me/919830030003" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <i class="fa-brands fa-whatsapp"></i>
+</a>
+<script src="../demo.js"></script>
+</body>
+</html>
