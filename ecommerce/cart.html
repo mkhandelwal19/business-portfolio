@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cart — Kolkata Craft Co.</title>
+<meta name="description" content="Your shopping cart at Kolkata Craft Co.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="../demo.css">
+</head>
+<body class="theme-saffron">
+<div class="preview-bar">
+  <span>Demo site · Built by <a href="../index.html">Mayank Khandelwal</a></span>
+  <span class="sep">·</span>
+  <a href="../index.html#work">View full portfolio</a>
+</div>
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">KraftCo<em>.</em></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="categories.html">Categories</a></li>
+      <li><a href="products.html">All Products</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="testimonials.html">Reviews</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="cart.html" class="nav-cta active">Cart (3)</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="page-header">
+  <div class="eyebrow">Your Cart</div>
+  <h1>3 items. All <em>handmade</em>.</h1>
+  <p>Free shipping on orders above ₹999. You qualify.</p>
+</div>
+<section class="section">
+  <div class="wrap">
+    <div style="display:grid;grid-template-columns:1fr 360px;gap:48px;align-items:start">
+      <div class="reveal">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div style="background:var(--bg-card);border:1px solid var(--line);border-radius:var(--r);padding:24px;display:flex;gap:20px;align-items:center">
+            <div style="width:90px;height:90px;flex-shrink:0;border-radius:8px;overflow:hidden">
+              <svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+                <rect width="90" height="90" fill="#1A0F05"/>
+                <rect x="12" y="8" width="66" height="74" rx="4" fill="#241505" stroke="#D4822A" stroke-width="0.8"/>
+                <g fill="none" stroke="#D4822A" opacity="0.35">
+                  <line x1="12" y1="26" x2="78" y2="26"/><line x1="12" y1="44" x2="78" y2="44"/>
+                  <line x1="12" y1="62" x2="78" y2="62"/>
+                  <line x1="30" y1="8" x2="30" y2="82"/><line x1="50" y1="8" x2="50" y2="82"/>
+                </g>
+              </svg>
+            </div>
+            <div style="flex:1">
+              <div style="font-weight:600;color:var(--fg-1);margin-bottom:4px">Tant Cotton Saree — White & Red Border</div>
+              <div style="font-size:0.8rem;color:var(--fg-3);margin-bottom:8px">Handloom · Nadia district · In stock</div>
+              <div style="display:flex;align-items:center;gap:16px">
+                <div style="display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:6px;padding:4px 8px">
+                  <button style="background:none;border:none;color:var(--fg-2);cursor:pointer;font-size:1rem;padding:0 4px">−</button>
+                  <span style="font-family:var(--mono);font-size:0.9rem;color:var(--fg-1)">1</span>
+                  <button style="background:none;border:none;color:var(--fg-2);cursor:pointer;font-size:1rem;padding:0 4px">+</button>
+                </div>
+                <span style="color:var(--accent);font-weight:600">₹2,400</span>
+                <button style="background:none;border:none;color:var(--fg-4);cursor:pointer;font-size:0.8rem;margin-left:auto">Remove</button>
+              </div>
+            </div>
+          </div>
+          <div style="background:var(--bg-card);border:1px solid var(--line);border-radius:var(--r);padding:24px;display:flex;gap:20px;align-items:center">
+            <div style="width:90px;height:90px;flex-shrink:0;border-radius:8px;overflow:hidden">
+              <svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+                <rect width="90" height="90" fill="#1A0F05"/>
+                <circle cx="45" cy="42" r="26" fill="#241505" stroke="#D4822A" stroke-width="0.8"/>
+                <circle cx="45" cy="42" r="17" fill="#1A0F05" stroke="#F0A850" stroke-width="0.5"/>
+                <g fill="#D4822A" opacity="0.6"><circle cx="45" cy="42" r="5"/></g>
+              </svg>
+            </div>
+            <div style="flex:1">
+              <div style="font-weight:600;color:var(--fg-1);margin-bottom:4px">Dhokra Ganesh — Bankura Brass</div>
+              <div style="font-size:0.8rem;color:var(--fg-3);margin-bottom:8px">Dhokra · Bankura district · In stock</div>
+              <div style="display:flex;align-items:center;gap:16px">
+                <div style="display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:6px;padding:4px 8px">
+                  <button style="background:none;border:none;color:var(--fg-2);cursor:pointer;font-size:1rem;padding:0 4px">−</button>
+                  <span style="font-family:var(--mono);font-size:0.9rem;color:var(--fg-1)">2</span>
+                  <button style="background:none;border:none;color:var(--fg-2);cursor:pointer;font-size:1rem;padding:0 4px">+</button>
+                </div>
+                <span style="color:var(--accent);font-weight:600">₹3,600</span>
+                <button style="background:none;border:none;color:var(--fg-4);cursor:pointer;font-size:0.8rem;margin-left:auto">Remove</button>
+              </div>
+            </div>
+          </div>
+          <div style="background:var(--bg-card);border:1px solid var(--line);border-radius:var(--r);padding:24px;display:flex;gap:20px;align-items:center">
+            <div style="width:90px;height:90px;flex-shrink:0;border-radius:8px;overflow:hidden">
+              <svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+                <rect width="90" height="90" fill="#1A0F05"/>
+                <rect x="10" y="10" width="70" height="70" rx="5" fill="#241505" stroke="#D4822A" stroke-width="0.8"/>
+                <g fill="none" stroke="#D4822A" opacity="0.45" stroke-width="1">
+                  <path d="M 18 36 Q 45 22 72 36"/>
+                  <path d="M 18 48 Q 45 34 72 48"/>
+                  <path d="M 18 60 Q 45 46 72 60"/>
+                </g>
+              </svg>
+            </div>
+            <div style="flex:1">
+              <div style="font-weight:600;color:var(--fg-1);margin-bottom:4px">Kantha Embroidered Silk Stole</div>
+              <div style="font-size:0.8rem;color:var(--fg-3);margin-bottom:8px">Kantha · Birbhum district · 3 week lead time</div>
+              <div style="display:flex;align-items:center;gap:16px">
+                <div style="display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:6px;padding:4px 8px">
+                  <button style="background:none;border:none;color:var(--fg-2);cursor:pointer;font-size:1rem;padding:0 4px">−</button>
+                  <span style="font-family:var(--mono);font-size:0.9rem;color:var(--fg-1)">1</span>
+                  <button style="background:none;border:none;color:var(--fg-2);cursor:pointer;font-size:1rem;padding:0 4px">+</button>
+                </div>
+                <span style="color:var(--accent);font-weight:600">₹3,200</span>
+                <button style="background:none;border:none;color:var(--fg-4);cursor:pointer;font-size:0.8rem;margin-left:auto">Remove</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:16px">
+          <a href="products.html" style="color:var(--accent);font-size:0.85rem;text-decoration:none"><i class="fa-solid fa-arrow-left" style="margin-right:6px"></i>Continue Shopping</a>
+        </div>
+      </div>
+      <div class="reveal" data-d="1" style="position:sticky;top:100px">
+        <div style="background:var(--bg-card);border:1px solid var(--line);border-radius:var(--r);padding:32px">
+          <div class="eyebrow" style="margin-bottom:20px">Order Summary</div>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;font-size:0.9rem">
+            <div style="display:flex;justify-content:space-between;color:var(--fg-3)"><span>Tant Saree × 1</span><span>₹2,400</span></div>
+            <div style="display:flex;justify-content:space-between;color:var(--fg-3)"><span>Dhokra Ganesh × 2</span><span>₹3,600</span></div>
+            <div style="display:flex;justify-content:space-between;color:var(--fg-3)"><span>Kantha Stole × 1</span><span>₹3,200</span></div>
+            <div style="height:1px;background:var(--line);margin:8px 0"></div>
+            <div style="display:flex;justify-content:space-between;color:var(--fg-3)"><span>Subtotal</span><span>₹9,200</span></div>
+            <div style="display:flex;justify-content:space-between;color:var(--fg-3)"><span>Shipping</span><span style="color:var(--accent)">Free</span></div>
+            <div style="height:1px;background:var(--line);margin:8px 0"></div>
+            <div style="display:flex;justify-content:space-between;font-weight:600;color:var(--fg-1);font-size:1rem"><span>Total</span><span>₹9,200</span></div>
+          </div>
+          <div class="form-group" style="margin-bottom:16px"><label>Coupon Code</label>
+            <div style="display:flex;gap:8px"><input type="text" placeholder="CRAFT10"><button class="btn btn-ghost" style="white-space:nowrap;padding:10px 16px;font-size:0.85rem">Apply</button></div>
+          </div>
+          <button class="btn btn-primary" style="width:100%;justify-content:center;margin-bottom:12px">Proceed to Checkout <i class="fa-solid fa-arrow-right"></i></button>
+          <div style="display:flex;justify-content:center;gap:16px;margin-top:14px;opacity:0.5">
+            <i class="fa-brands fa-cc-visa" style="font-size:1.5rem"></i>
+            <i class="fa-brands fa-cc-mastercard" style="font-size:1.5rem"></i>
+            <i class="fa-solid fa-mobile" style="font-size:1.3rem;margin-top:2px"></i>
+          </div>
+          <p style="font-size:0.75rem;color:var(--fg-4);text-align:center;margin-top:8px">UPI · Cards · Net Banking · COD</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand"><div class="name">KraftCo<em>.</em></div><p>Handmade in Bengal. Delivered across India.</p>
+      <div class="footer-social"><a href="#"><i class="fa-brands fa-instagram"></i></a><a href="#"><i class="fa-brands fa-facebook-f"></i></a><a href="https://wa.me/919830070007"><i class="fa-brands fa-whatsapp"></i></a></div>
+    </div>
+    <div class="footer-col"><h5>Shop</h5><ul>
+      <li><a href="categories.html">Categories</a></li><li><a href="products.html">All Products</a></li>
+      <li><a href="cart.html">Cart</a></li><li><a href="blog.html">Stories</a></li>
+    </ul></div>
+    <div class="footer-col"><h5>Crafts</h5><ul>
+      <li><a href="categories.html">Handloom</a></li><li><a href="categories.html">Dhokra Metalwork</a></li>
+      <li><a href="categories.html">Kantha</a></li><li><a href="categories.html">Terracotta</a></li>
+    </ul></div>
+    <div class="footer-col"><h5>Help</h5><ul>
+      <li><a href="contact.html">Contact Us</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="about.html">About Us</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Kolkata Craft Co.</span>
+    <span>Site by <a href="../index.html">Mayank Khandelwal</a></span>
+  </div>
+</footer>
+<a href="https://wa.me/919830070007" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+<script src="../demo.js"></script>
+</body>
+</html>

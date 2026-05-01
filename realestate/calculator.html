@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMI Calculator — Saha Properties</title>
+<meta name="description" content="Home loan EMI calculator from Saha Properties — estimate your monthly EMI, total interest, and eligibility.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="../demo.css">
+</head>
+<body class="theme-cocoa">
+<div class="preview-bar">
+  <span>Demo site · Built by <a href="../index.html">Mayank Khandelwal</a></span>
+  <span class="sep">·</span>
+  <a href="../index.html#work">View full portfolio</a>
+</div>
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Saha<em>.</em></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="properties.html">Properties</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="testimonials.html">Reviews</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="team.html">Team</a></li>
+      <li><a href="calculator.html" class="active">EMI Calc</a></li>
+      <li><a href="contact.html" class="nav-cta">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="page-header">
+  <div class="eyebrow">Home Loan Calculator</div>
+  <h1>How much will your <em>loan cost</em>?</h1>
+  <p>Estimate your EMI, total interest, and check loan eligibility before you begin.</p>
+</div>
+<section class="section">
+  <div class="wrap">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start">
+      <div class="reveal">
+        <div style="background:var(--bg-card);border:1px solid var(--line);border-radius:var(--r);padding:36px">
+          <div class="eyebrow" style="margin-bottom:24px">EMI Calculator</div>
+          <div class="form-wrap" id="emiForm">
+            <div class="form-group">
+              <label>Loan Amount (₹)</label>
+              <input type="number" id="loanAmt" value="5000000" min="100000" step="100000" placeholder="50,00,000">
+              <small style="color:var(--fg-4);font-size:0.75rem;margin-top:4px;display:block">Enter total loan amount (not property price)</small>
+            </div>
+            <div class="form-group">
+              <label>Interest Rate (% per annum)</label>
+              <input type="number" id="interestRate" value="8.5" min="5" max="20" step="0.05" placeholder="8.5">
+              <small style="color:var(--fg-4);font-size:0.75rem;margin-top:4px;display:block">Current SBI home loan rate: 8.50% p.a.</small>
+            </div>
+            <div class="form-group">
+              <label>Loan Tenure (Years)</label>
+              <input type="number" id="tenure" value="20" min="5" max="30" step="1" placeholder="20">
+              <small style="color:var(--fg-4);font-size:0.75rem;margin-top:4px;display:block">Maximum tenure: 30 years (most banks)</small>
+            </div>
+            <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="calculateEMI()">Calculate EMI <i class="fa-solid fa-calculator"></i></button>
+          </div>
+          <div id="emiResult" style="margin-top:28px;padding:24px;background:var(--bg-alt);border-radius:8px;border:1px solid var(--line)">
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <span style="color:var(--fg-3);font-size:0.85rem">Monthly EMI</span>
+                <span id="emiVal" style="color:var(--accent);font-weight:700;font-size:1.4rem;font-family:var(--mono)">₹43,391</span>
+              </div>
+              <div style="height:1px;background:var(--line)"></div>
+              <div style="display:flex;justify-content:space-between">
+                <span style="color:var(--fg-3);font-size:0.85rem">Total Amount Payable</span>
+                <span id="totalVal" style="color:var(--fg-2);font-weight:600;font-family:var(--mono)">₹1,04,13,840</span>
+              </div>
+              <div style="display:flex;justify-content:space-between">
+                <span style="color:var(--fg-3);font-size:0.85rem">Principal</span>
+                <span id="principalVal" style="color:var(--fg-2);font-family:var(--mono)">₹50,00,000</span>
+              </div>
+              <div style="display:flex;justify-content:space-between">
+                <span style="color:var(--fg-3);font-size:0.85rem">Total Interest</span>
+                <span id="interestVal" style="color:var(--fg-2);font-family:var(--mono)">₹54,13,840</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal" data-d="1">
+        <div style="background:var(--bg-card);border:1px solid var(--line);border-radius:var(--r);padding:36px;margin-bottom:24px">
+          <div class="eyebrow" style="margin-bottom:20px">Loan Eligibility Check</div>
+          <div class="form-wrap">
+            <div class="form-group">
+              <label>Monthly Income (₹)</label>
+              <input type="number" id="income" placeholder="1,00,000" value="100000">
+            </div>
+            <div class="form-group">
+              <label>Existing EMIs per month (₹)</label>
+              <input type="number" id="existingEmi" placeholder="0" value="0">
+            </div>
+            <div class="form-group">
+              <label>Preferred Tenure (Years)</label>
+              <input type="number" id="eligTenure" value="20" min="5" max="30">
+            </div>
+            <button class="btn btn-ghost" style="width:100%;justify-content:center" onclick="checkEligibility()">Check Eligibility <i class="fa-solid fa-check"></i></button>
+          </div>
+          <div id="eligResult" style="margin-top:20px;padding:20px;background:var(--bg-alt);border-radius:8px;border:1px solid var(--line);display:none">
+            <div style="color:var(--fg-3);font-size:0.85rem;margin-bottom:8px">Estimated maximum loan</div>
+            <div id="eligVal" style="color:var(--accent);font-weight:700;font-size:1.3rem;font-family:var(--mono)">₹40,00,000</div>
+            <div id="eligNote" style="color:var(--fg-4);font-size:0.78rem;margin-top:8px">Based on 50% FOIR and 8.5% rate over 20 years. Actual approval depends on credit score, employment type, and lender policy.</div>
+          </div>
+        </div>
+        <div style="background:var(--bg-card);border:1px solid var(--line);border-radius:var(--r);padding:28px">
+          <div class="eyebrow" style="margin-bottom:16px">Current Bank Rates</div>
+          <div style="display:flex;flex-direction:column;gap:10px;font-size:0.85rem">
+            <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line)">
+              <span style="color:var(--fg-2);font-weight:600">SBI</span><span style="color:var(--accent);font-family:var(--mono)">8.50% p.a.</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line)">
+              <span style="color:var(--fg-2);font-weight:600">HDFC</span><span style="color:var(--accent);font-family:var(--mono)">8.60% p.a.</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line)">
+              <span style="color:var(--fg-2);font-weight:600">ICICI</span><span style="color:var(--accent);font-family:var(--mono)">8.65% p.a.</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line)">
+              <span style="color:var(--fg-2);font-weight:600">LIC Housing</span><span style="color:var(--accent);font-family:var(--mono)">8.55% p.a.</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:10px 0">
+              <span style="color:var(--fg-2);font-weight:600">Axis Bank</span><span style="color:var(--accent);font-family:var(--mono)">8.70% p.a.</span>
+            </div>
+          </div>
+          <p style="font-size:0.75rem;color:var(--fg-4);margin-top:16px">Rates as of May 2026. Subject to change. We can negotiate below-standard rates for our clients.</p>
+          <a href="contact.html" class="btn btn-ghost" style="width:100%;justify-content:center;margin-top:16px;font-size:0.85rem">Talk to a Loan Advisor <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+function calculateEMI() {
+  var P = parseFloat(document.getElementById('loanAmt').value) || 5000000;
+  var r = (parseFloat(document.getElementById('interestRate').value) || 8.5) / 12 / 100;
+  var n = (parseFloat(document.getElementById('tenure').value) || 20) * 12;
+  var emi = P * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+  var total = emi * n;
+  var interest = total - P;
+  var fmt = function(v) { return '₹' + Math.round(v).toLocaleString('en-IN'); };
+  document.getElementById('emiVal').textContent = fmt(emi);
+  document.getElementById('totalVal').textContent = fmt(total);
+  document.getElementById('principalVal').textContent = fmt(P);
+  document.getElementById('interestVal').textContent = fmt(interest);
+}
+function checkEligibility() {
+  var income = parseFloat(document.getElementById('income').value) || 100000;
+  var existing = parseFloat(document.getElementById('existingEmi').value) || 0;
+  var n = (parseFloat(document.getElementById('eligTenure').value) || 20) * 12;
+  var r = 8.5 / 12 / 100;
+  var availableEmi = income * 0.5 - existing;
+  if (availableEmi <= 0) { document.getElementById('eligResult').style.display = 'block'; document.getElementById('eligVal').textContent = '₹0'; document.getElementById('eligNote').textContent = 'Existing EMIs exceed 50% of income. No additional loan likely available.'; return; }
+  var loanAmt = availableEmi * (Math.pow(1 + r, n) - 1) / (r * Math.pow(1 + r, n));
+  var fmt = function(v) { return '₹' + Math.round(v).toLocaleString('en-IN'); };
+  document.getElementById('eligResult').style.display = 'block';
+  document.getElementById('eligVal').textContent = fmt(loanAmt);
+}
+calculateEMI();
+</script>
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand"><div class="name">Saha<em>.</em></div><p>Trusted real estate advisory in Kolkata since 1998.</p>
+      <div class="footer-social"><a href="#"><i class="fa-brands fa-instagram"></i></a><a href="#"><i class="fa-brands fa-linkedin-in"></i></a><a href="https://wa.me/919830080008"><i class="fa-brands fa-whatsapp"></i></a></div>
+    </div>
+    <div class="footer-col"><h5>Navigate</h5><ul>
+      <li><a href="index.html">Home</a></li><li><a href="properties.html">Properties</a></li>
+      <li><a href="team.html">Our Team</a></li><li><a href="calculator.html">EMI Calculator</a></li>
+    </ul></div>
+    <div class="footer-col"><h5>Services</h5><ul>
+      <li><a href="properties.html">Residential</a></li><li><a href="properties.html">Commercial</a></li>
+      <li><a href="properties.html">Investment</a></li><li><a href="calculator.html">Home Loans</a></li>
+    </ul></div>
+    <div class="footer-col"><h5>Contact</h5><ul>
+      <li><a href="contact.html">22 Park Street, Kolkata</a></li>
+      <li><a href="tel:+919830080008">+91 98300 80008</a></li>
+      <li><a href="#">Mon–Sat: 10 AM – 6 PM</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Saha Properties</span>
+    <span>Site by <a href="../index.html">Mayank Khandelwal</a></span>
+  </div>
+</footer>
+<a href="https://wa.me/919830080008" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+<script src="../demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book Appointment — Lumière Salon & Spa</title>
+<meta name="description" content="Book your appointment at Lumière Salon & Spa, Ballygunge Kolkata. Choose your service, date and stylist.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="../demo.css">
+</head>
+<body class="theme-plum">
+<div class="preview-bar">
+  <span>Demo site · Built by <a href="../index.html">Mayank Khandelwal</a></span>
+  <span class="sep">·</span>
+  <a href="../index.html#work">View full portfolio</a>
+</div>
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Lumière<em>.</em></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li><li><a href="services.html">Services</a></li>
+      <li><a href="about.html">About</a></li><li><a href="gallery.html">Gallery</a></li>
+      <li><a href="testimonials.html">Reviews</a></li><li><a href="team.html">Team</a></li>
+      <li><a href="faq.html">FAQ</a></li><li><a href="contact.html">Contact</a></li>
+      <li><a href="booking.html" class="nav-cta active">Book Now</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="page-header">
+  <div class="eyebrow">Book Appointment</div>
+  <h1>Reserve your <em>slot</em>.</h1>
+  <p>Pick a service, choose your stylist, select a time. Confirmation via WhatsApp.</p>
+</div>
+<section class="section">
+  <div class="wrap">
+    <div class="booking-layout" style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start">
+      <div class="reveal">
+        <div class="eyebrow" style="margin-bottom:16px">Select Service</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:36px">
+          <label style="display:flex;align-items:center;gap:14px;background:var(--bg-card);border:1px solid var(--line);border-radius:var(--r);padding:14px 18px;cursor:pointer">
+            <input type="radio" name="service" value="haircut" checked style="accent-color:var(--accent)">
+            <div><div style="font-weight:600;color:var(--fg-1)">Haircut & Blow-dry</div><div style="font-size:0.8rem;color:var(--fg-3)">45–60 min</div></div>
+            <span style="margin-left:auto;color:var(--accent);font-size:0.85rem">from ₹800</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:14px;background:var(--bg-card);border:1px solid var(--line);border-radius:var(--r);padding:14px 18px;cursor:pointer">
+            <input type="radio" name="service" value="colour" style="accent-color:var(--accent)">
+            <div><div style="font-weight:600;color:var(--fg-1)">Hair Colour / Highlights</div><div style="font-size:0.8rem;color:var(--fg-3)">2–4 hours</div></div>
+            <span style="margin-left:auto;color:var(--accent);font-size:0.85rem">from ₹2,500</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:14px;background:var(--bg-card);border:1px solid var(--line);border-radius:var(--r);padding:14px 18px;cursor:pointer">
+            <input type="radio" name="service" value="keratin" style="accent-color:var(--accent)">
+            <div><div style="font-weight:600;color:var(--fg-1)">Keratin / Smoothening</div><div style="font-size:0.8rem;color:var(--fg-3)">3–4 hours</div></div>
+            <span style="margin-left:auto;color:var(--accent);font-size:0.85rem">from ₹5,000</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:14px;background:var(--bg-card);border:1px solid var(--line);border-radius:var(--r);padding:14px 18px;cursor:pointer">
+            <input type="radio" name="service" value="facial" style="accent-color:var(--accent)">
+            <div><div style="font-weight:600;color:var(--fg-1)">Facial & Skin</div><div style="font-size:0.8rem;color:var(--fg-3)">60–90 min</div></div>
+            <span style="margin-left:auto;color:var(--accent);font-size:0.85rem">from ₹1,800</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:14px;background:var(--bg-card);border:1px solid var(--line);border-radius:var(--r);padding:14px 18px;cursor:pointer">
+            <input type="radio" name="service" value="nails" style="accent-color:var(--accent)">
+            <div><div style="font-weight:600;color:var(--fg-1)">Nail Studio</div><div style="font-size:0.8rem;color:var(--fg-3)">45–90 min</div></div>
+            <span style="margin-left:auto;color:var(--accent);font-size:0.85rem">from ₹900</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:14px;background:var(--bg-card);border:1px solid var(--line);border-radius:var(--r);padding:14px 18px;cursor:pointer">
+            <input type="radio" name="service" value="bridal" style="accent-color:var(--accent)">
+            <div><div style="font-weight:600;color:var(--fg-1)">Bridal Package</div><div style="font-size:0.8rem;color:var(--fg-3)">Trial + Wedding day</div></div>
+            <span style="margin-left:auto;color:var(--accent);font-size:0.85rem">from ₹18,000</span>
+          </label>
+        </div>
+        <div class="eyebrow" style="margin-bottom:16px">Select Date — May 2026</div>
+        <div class="cal">
+          <div class="cal-head">
+            <span><i class="fa-solid fa-chevron-left"></i></span>
+            <strong>May 2026</strong>
+            <span><i class="fa-solid fa-chevron-right"></i></span>
+          </div>
+          <div class="cal-grid">
+            <div class="cal-dow">S</div><div class="cal-dow">M</div><div class="cal-dow">T</div><div class="cal-dow">W</div><div class="cal-dow">T</div><div class="cal-dow">F</div><div class="cal-dow">S</div>
+            <div class="cal-day empty"></div><div class="cal-day closed">1</div><div class="cal-day avail">2</div><div class="cal-day avail">3</div>
+            <div class="cal-day avail">4</div><div class="cal-day avail sel">5</div><div class="cal-day avail">6</div>
+            <div class="cal-day avail">7</div><div class="cal-day closed">8</div><div class="cal-day avail">9</div><div class="cal-day avail">10</div>
+            <div class="cal-day avail">11</div><div class="cal-day avail">12</div><div class="cal-day avail">13</div>
+            <div class="cal-day avail">14</div><div class="cal-day closed">15</div><div class="cal-day avail">16</div><div class="cal-day avail">17</div>
+            <div class="cal-day avail">18</div><div class="cal-day avail">19</div><div class="cal-day avail">20</div>
+            <div class="cal-day avail">21</div><div class="cal-day closed">22</div><div class="cal-day avail">23</div><div class="cal-day avail">24</div>
+            <div class="cal-day avail">25</div><div class="cal-day avail">26</div><div class="cal-day avail">27</div>
+            <div class="cal-day avail">28</div><div class="cal-day closed">29</div><div class="cal-day avail">30</div><div class="cal-day avail">31</div>
+          </div>
+          <div style="display:flex;gap:16px;margin-top:12px;font-size:0.75rem;color:var(--fg-4)">
+            <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:var(--accent);display:inline-block"></span>Available</span>
+            <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:var(--bg-alt);border:1px solid var(--line);display:inline-block"></span>Closed (Mon)</span>
+          </div>
+        </div>
+        <div class="eyebrow" style="margin:28px 0 14px">Available Slots</div>
+        <div class="time-slots">
+          <div class="time-slot booked">10:00 AM</div>
+          <div class="time-slot">10:30 AM</div>
+          <div class="time-slot sel">11:00 AM</div>
+          <div class="time-slot booked">11:30 AM</div>
+          <div class="time-slot">12:00 PM</div>
+          <div class="time-slot">12:30 PM</div>
+          <div class="time-slot booked">1:00 PM</div>
+          <div class="time-slot">2:00 PM</div>
+          <div class="time-slot">2:30 PM</div>
+          <div class="time-slot booked">3:00 PM</div>
+          <div class="time-slot">3:30 PM</div>
+          <div class="time-slot">4:00 PM</div>
+          <div class="time-slot booked">4:30 PM</div>
+          <div class="time-slot">5:00 PM</div>
+          <div class="time-slot">5:30 PM</div>
+          <div class="time-slot">6:00 PM</div>
+          <div class="time-slot booked">6:30 PM</div>
+          <div class="time-slot">7:00 PM</div>
+        </div>
+      </div>
+      <div class="reveal" data-d="1">
+        <div style="background:var(--bg-card);border:1px solid var(--line);border-radius:var(--r);padding:36px;position:sticky;top:100px">
+          <div class="eyebrow" style="margin-bottom:24px">Your Details</div>
+          <div class="form-wrap">
+            <div class="form-row">
+              <div class="form-group"><label>Name</label><input type="text" placeholder="Priya Sen"></div>
+              <div class="form-group"><label>Phone</label><input type="tel" placeholder="+91 98XXX XXXXX"></div>
+            </div>
+            <div class="form-group">
+              <label>Preferred Stylist</label>
+              <select>
+                <option>No preference</option>
+                <option>Priya Mehta (Founder)</option>
+                <option>Riya Chakraborty</option>
+                <option>Tanisha Singh</option>
+                <option>Meghna Das</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Special requests or notes</label><textarea placeholder="e.g. allergies, reference photos, specific concerns" style="min-height:80px"></textarea></div>
+            <div style="background:var(--bg-alt);border-radius:8px;padding:16px 20px;margin-bottom:20px;font-size:0.85rem">
+              <div style="font-weight:600;margin-bottom:8px;color:var(--fg-1)">Booking Summary</div>
+              <div style="color:var(--fg-3);line-height:1.8">
+                <div>Service: <span style="color:var(--fg-2)">Haircut & Blow-dry</span></div>
+                <div>Date: <span style="color:var(--fg-2)">Monday, 5 May 2026</span></div>
+                <div>Time: <span style="color:var(--fg-2)">11:00 AM</span></div>
+                <div>Price: <span style="color:var(--accent)">from ₹800</span></div>
+              </div>
+            </div>
+            <button class="btn btn-primary" style="width:100%;justify-content:center">Confirm Booking <i class="fa-solid fa-check"></i></button>
+            <p style="font-size:0.78rem;color:var(--fg-4);text-align:center;margin-top:12px">WhatsApp confirmation sent within 5 minutes</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand"><div class="name">Lumière<em>.</em></div><p>South Kolkata's premium salon & spa since 2014.</p>
+      <div class="footer-social"><a href="#"><i class="fa-brands fa-instagram"></i></a><a href="#"><i class="fa-brands fa-facebook-f"></i></a><a href="https://wa.me/919830030003"><i class="fa-brands fa-whatsapp"></i></a></div>
+    </div>
+    <div class="footer-col"><h5>Navigate</h5><ul>
+      <li><a href="index.html">Home</a></li><li><a href="services.html">Services</a></li>
+      <li><a href="team.html">Our Team</a></li><li><a href="booking.html">Book Appointment</a></li>
+    </ul></div>
+    <div class="footer-col"><h5>Services</h5><ul>
+      <li><a href="services.html">Hair & Colour</a></li><li><a href="services.html">Skin & Facial</a></li>
+      <li><a href="services.html">Nail Studio</a></li><li><a href="services.html">Bridal Packages</a></li>
+    </ul></div>
+    <div class="footer-col"><h5>Contact</h5><ul>
+      <li><a href="contact.html">18B Ballygunge Circular Rd</a></li>
+      <li><a href="tel:+919830030003">+91 98300 30003</a></li>
+      <li><a href="#">Tue–Sun: 10 AM – 8 PM</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Lumière Salon & Spa</span>
+    <span>Site by <a href="../index.html">Mayank Khandelwal</a></span>
+  </div>
+</footer>
+<a href="https://wa.me/919830030003" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+<script src="../demo.js"></script>
+</body>
+</html>
