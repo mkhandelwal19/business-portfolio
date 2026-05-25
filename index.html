@@ -1835,10 +1835,10 @@ footer::before{
 /* ==================== BEFORE / AFTER SLIDER ==================== */
 #ba-section{ background: var(--bg-2) }
 .ba-wrap{
-  margin-top: 56px; border-radius: 24px; overflow: hidden;
-  border: 1px solid var(--line); position: relative;
-  user-select: none; aspect-ratio: 16/7;
-  cursor: col-resize; min-height: 220px;
+  margin-top: 56px; border-radius: 20px 20px 0 0; overflow: hidden;
+  border: 1px solid var(--line); border-bottom: none; position: relative;
+  user-select: none; aspect-ratio: 16/5;
+  cursor: col-resize; min-height: 180px;
 }
 .ba-before, .ba-after{
   position: absolute; inset: 0; overflow: hidden;
@@ -1868,7 +1868,7 @@ footer::before{
 .ba-before-inner{
   width: 100%; height: 100%;
   background: linear-gradient(135deg, #111120, #0d0d1a);
-  display: flex; align-items: center; justify-content: center; gap: 32px; padding: 28px;
+  display: flex; align-items: center; justify-content: center; padding: 28px;
 }
 .ba-before-card{
   background: #191928; border: 1px solid #252536; border-radius: 10px; padding: 18px 20px; width: 210px; flex-shrink: 0;
@@ -1877,16 +1877,10 @@ footer::before{
 .ba-before-card h4{ font-size: 15px; color: #888; margin-bottom: 3px }
 .ba-before-card p{ font-size: 11px; color: #444 }
 .ba-before-card .bbc-phone{ margin-top: 10px; padding: 7px 10px; background: #222233; border-radius: 7px; font-family: var(--f-mono); font-size: 12px; color: #666 }
-.ba-before-text{ flex: 1; max-width: 220px }
-.ba-before-text h3{ font-size: 18px; color: #444; margin-bottom: 8px; line-height: 1.3 }
-.ba-before-text p{ font-size: 12px; color: #333; line-height: 1.5 }
-.ba-before-text ul{ list-style: none; margin-top: 10px }
-.ba-before-text ul li{ font-size: 11px; color: #3a3a4a; padding: 2px 0; display: flex; align-items: center; gap: 7px }
-.ba-before-text ul li::before{ content: "✗"; color: #4a2a2a }
 .ba-after-inner{
   width: 100%; height: 100%;
   background: linear-gradient(135deg, var(--bg-3), var(--bg));
-  display: flex; align-items: center; justify-content: center; gap: 32px; padding: 28px;
+  display: flex; align-items: center; justify-content: center; padding: 28px;
 }
 .ba-after-browser{
   background: var(--bg-2); border: 1px solid var(--line); border-radius: 10px; overflow: hidden;
@@ -1907,16 +1901,36 @@ footer::before{
 .ba-after-cta-bar{ height: 22px; background: var(--gold); border-radius: 5px; width: 70px; margin: 10px 14px }
 .ba-after-grid{ padding: 10px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px }
 .ba-after-grid-item{ height: 32px; background: var(--bg-3); border-radius: 5px; border: 1px solid var(--line-soft) }
-.ba-after-text{ flex: 1; max-width: 220px }
-.ba-after-text h3{ font-size: 18px; color: var(--gold); margin-bottom: 8px; line-height: 1.3 }
-.ba-after-text p{ font-size: 12px; color: var(--ivory-dim); line-height: 1.5 }
-.ba-after-text ul{ list-style: none; margin-top: 10px }
-.ba-after-text ul li{ font-size: 11px; color: var(--ivory-dim); padding: 2px 0; display: flex; align-items: center; gap: 7px }
-.ba-after-text ul li::before{ content: "✓"; color: var(--gold) }
+/* Stats row — flush below slider, shares the same outer border */
+.ba-stats-row{
+  display: grid; grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--line); border-top: 1px solid var(--line-soft);
+  border-radius: 0 0 20px 20px; overflow: hidden;
+}
+.ba-stats-col{ padding: 28px 36px }
+.ba-stats-col.is-before{
+  background: linear-gradient(135deg, #111120, #0d0d1a);
+  border-right: 1px solid var(--line-soft);
+}
+.ba-stats-col.is-after{ background: linear-gradient(135deg, var(--bg-3), var(--bg)) }
+.ba-stats-col h3{ font-family: var(--f-serif); font-size: 17px; line-height: 1.35; margin-bottom: 12px }
+.ba-stats-col.is-before h3{ color: #555 }
+.ba-stats-col.is-after h3{ color: var(--gold) }
+.ba-stats-col h3 em{ font-style: italic }
+.ba-stats-col p{ font-size: 12px; line-height: 1.6; margin-bottom: 14px }
+.ba-stats-col.is-before p{ color: #333 }
+.ba-stats-col.is-after p{ color: var(--ivory-dim) }
+.ba-stats-col ul{ list-style: none }
+.ba-stats-col ul li{ font-size: 12px; padding: 4px 0; display: flex; align-items: center; gap: 8px }
+.ba-stats-col.is-before ul li{ color: #3a3a4a }
+.ba-stats-col.is-before ul li::before{ content: "✗"; color: #5a2a2a; font-size: 11px }
+.ba-stats-col.is-after ul li{ color: var(--ivory-dim) }
+.ba-stats-col.is-after ul li::before{ content: "✓"; color: var(--gold); font-size: 11px }
 @media(max-width: 768px){
-  .ba-wrap{ aspect-ratio: auto; height: 280px }
-  .ba-before-text, .ba-after-text{ display: none }
-  .ba-before-inner, .ba-after-inner{ justify-content: center }
+  .ba-wrap{ aspect-ratio: auto; height: 220px }
+  .ba-stats-row{ grid-template-columns: 1fr }
+  .ba-stats-col.is-before{ border-right: none; border-bottom: 1px solid var(--line-soft) }
+  .ba-stats-col{ padding: 22px 24px }
 }
 
 /* ==================== COMPARISON TABLE ==================== */
@@ -2879,7 +2893,7 @@ footer::before{
       </p>
     </div>
     <div class="ba-wrap reveal" data-delay="1" id="baWrap">
-      <!-- Before -->
+      <!-- Before: visual only -->
       <div class="ba-before">
         <div class="ba-before-inner">
           <div class="ba-before-card">
@@ -2888,19 +2902,9 @@ footer::before{
             <p>No website found</p>
             <div class="bbc-phone">+91 98300 00000</div>
           </div>
-          <div class="ba-before-text">
-            <h3>Hidden from Google. Hard to find.</h3>
-            <p>Customers search online, find a competitor, and never know you exist.</p>
-            <ul>
-              <li>Not on Google Search</li>
-              <li>No menu to share</li>
-              <li>No way to take bookings</li>
-              <li>No trust signals online</li>
-            </ul>
-          </div>
         </div>
       </div>
-      <!-- After -->
+      <!-- After: visual only -->
       <div class="ba-after">
         <div class="ba-after-inner">
           <div class="ba-after-browser">
@@ -2922,16 +2926,6 @@ footer::before{
               <div class="ba-after-grid-item"></div>
             </div>
           </div>
-          <div class="ba-after-text">
-            <h3>Found on Google. Trusted instantly.</h3>
-            <p>A fast, beautiful website that works on every phone and converts visitors into customers.</p>
-            <ul>
-              <li>Ranks on Google Maps</li>
-              <li>Shareable digital menu</li>
-              <li>WhatsApp bookings 24/7</li>
-              <li>Looks world-class</li>
-            </ul>
-          </div>
         </div>
       </div>
       <!-- Divider + handle -->
@@ -2939,6 +2933,29 @@ footer::before{
       <div class="ba-handle" id="baHandle"><i class="fa-solid fa-arrows-left-right"></i></div>
       <div class="ba-label ba-label-before">Before</div>
       <div class="ba-label ba-label-after">After</div>
+    </div>
+    <!-- Stats row: flush below slider -->
+    <div class="ba-stats-row">
+      <div class="ba-stats-col is-before">
+        <h3>Hidden from Google.<br><em>Hard to find.</em></h3>
+        <p>Customers search online, find a competitor, and never know you exist.</p>
+        <ul>
+          <li>Not on Google Search</li>
+          <li>No menu to share</li>
+          <li>No way to take bookings</li>
+          <li>No trust signals online</li>
+        </ul>
+      </div>
+      <div class="ba-stats-col is-after">
+        <h3>Found on Google.<br><em>Trusted instantly.</em></h3>
+        <p>A fast, beautiful website that works on every phone and converts visitors into customers.</p>
+        <ul>
+          <li>Ranks on Google Maps</li>
+          <li>Shareable digital menu</li>
+          <li>WhatsApp bookings 24/7</li>
+          <li>Looks world-class</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
