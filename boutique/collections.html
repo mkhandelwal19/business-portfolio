@@ -35,21 +35,43 @@
   </div>
 </nav>
 <div class="page-header">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+    <i class="fa-solid fa-chevron-right"></i>
+    <span aria-current="page">Collections</span>
+  </nav>
   <div class="eyebrow">Collections</div>
   <h1>Curated for the <em>modern</em> Indian woman.</h1>
   <p>Ethnic roots, contemporary silhouettes. Four collections updated each season.</p>
+  <div class="header-chips">
+    <span class="header-chip"><i class="fa-solid fa-scissors"></i> <strong>Custom tailoring</strong> on every piece</span>
+    <span class="header-chip"><i class="fa-solid fa-shirt"></i> <span class="num">120+</span> in-studio styles</span>
+    <span class="header-chip"><i class="fa-solid fa-truck-fast"></i> Free shipping over ₹3,000</span>
+    <span class="header-chip"><i class="fa-solid fa-rotate-left"></i> 7-day fit exchange</span>
+  </div>
 </div>
 <section class="section">
   <div class="wrap">
+    <div class="listing-toolbar">
+      <div class="listing-count" data-count data-label="pieces"><strong>6</strong> pieces</div>
+      <div class="listing-sort"><span>Sort</span>
+        <select data-target=".product-grid" aria-label="Sort pieces">
+          <option value="featured">Featured</option>
+          <option value="price-asc">Price · low to high</option>
+          <option value="price-desc">Price · high to low</option>
+          <option value="name">Name · A to Z</option>
+        </select>
+      </div>
+    </div>
     <div class="filter-tabs reveal">
-      <button class="filter-tab active">All</button>
-      <button class="filter-tab">Everyday</button>
-      <button class="filter-tab">Occasion</button>
-      <button class="filter-tab">Bridal</button>
-      <button class="filter-tab">Festive</button>
+      <button class="filter-tab active" data-filter="all">All</button>
+      <button class="filter-tab" data-filter="everyday">Everyday</button>
+      <button class="filter-tab" data-filter="occasion">Occasion</button>
+      <button class="filter-tab" data-filter="bridal">Bridal</button>
+      <button class="filter-tab" data-filter="festive">Festive</button>
     </div>
     <div class="product-grid">
-      <div class="product-card reveal">
+      <div class="product-card reveal" data-cat="occasion">
         <div class="product-img">
           <svg viewBox="0 0 280 320" xmlns="http://www.w3.org/2000/svg">
             <rect width="280" height="320" fill="#1A1410"/>
@@ -68,7 +90,7 @@
           <div class="product-price">₹4,800</div>
         </div>
       </div>
-      <div class="product-card reveal" data-d="1">
+      <div class="product-card reveal" data-d="1" data-cat="everyday">
         <div class="product-img">
           <svg viewBox="0 0 280 320" xmlns="http://www.w3.org/2000/svg">
             <rect width="280" height="320" fill="#1A1410"/>
@@ -87,7 +109,7 @@
           <div class="product-price">₹2,200</div>
         </div>
       </div>
-      <div class="product-card reveal" data-d="2">
+      <div class="product-card reveal" data-d="2" data-cat="bridal">
         <div class="product-img">
           <svg viewBox="0 0 280 320" xmlns="http://www.w3.org/2000/svg">
             <rect width="280" height="320" fill="#1A1410"/>
@@ -106,7 +128,7 @@
           <div class="product-price">₹28,000</div>
         </div>
       </div>
-      <div class="product-card reveal" data-d="3">
+      <div class="product-card reveal" data-d="3" data-cat="festive">
         <div class="product-img">
           <svg viewBox="0 0 280 320" xmlns="http://www.w3.org/2000/svg">
             <rect width="280" height="320" fill="#1A1410"/>
@@ -125,7 +147,7 @@
           <div class="product-price">₹8,500</div>
         </div>
       </div>
-      <div class="product-card reveal">
+      <div class="product-card reveal" data-cat="everyday">
         <div class="product-img">
           <svg viewBox="0 0 280 320" xmlns="http://www.w3.org/2000/svg">
             <rect width="280" height="320" fill="#1A1410"/>
@@ -144,7 +166,7 @@
           <div class="product-price">₹3,400</div>
         </div>
       </div>
-      <div class="product-card reveal" data-d="1">
+      <div class="product-card reveal" data-d="1" data-cat="occasion">
         <div class="product-img">
           <svg viewBox="0 0 280 320" xmlns="http://www.w3.org/2000/svg">
             <rect width="280" height="320" fill="#1A1410"/>

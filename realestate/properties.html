@@ -36,13 +36,34 @@
   </div>
 </nav>
 <div class="page-header">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+    <i class="fa-solid fa-chevron-right"></i>
+    <span aria-current="page">Properties</span>
+  </nav>
   <div class="eyebrow">Current Listings</div>
   <h1>Properties across <em>Kolkata</em>.</h1>
   <p>Residential, commercial, and investment properties — verified and ready for viewing.</p>
+  <div class="header-chips">
+    <span class="header-chip"><i class="fa-solid fa-check-double"></i> Every listing <strong>document-verified</strong></span>
+    <span class="header-chip"><i class="fa-solid fa-key"></i> <span class="num">12</span> new this week</span>
+    <span class="header-chip"><i class="fa-solid fa-calculator"></i> Free <strong>EMI estimate</strong> with every visit</span>
+    <span class="header-chip"><i class="fa-solid fa-handshake"></i> No brokerage on shortlisted units</span>
+  </div>
 </div>
 <section class="section">
   <div class="wrap">
-    <div class="filter-tabs" style="margin-bottom:40px">
+    <div class="listing-toolbar">
+      <div class="listing-count" data-count data-label="listings"><strong>6</strong> listings</div>
+      <div class="listing-sort"><span>Sort</span>
+        <select data-target=".product-grid" aria-label="Sort listings">
+          <option value="featured">Featured</option>
+          <option value="price-asc">Price · low to high</option>
+          <option value="price-desc">Price · high to low</option>
+        </select>
+      </div>
+    </div>
+    <div class="filter-tabs" style="margin-bottom:32px">
       <button class="filter-btn active" data-filter="all">All</button>
       <button class="filter-btn" data-filter="residential">Residential</button>
       <button class="filter-btn" data-filter="commercial">Commercial</button>
