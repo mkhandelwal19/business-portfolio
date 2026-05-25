@@ -10,6 +10,32 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="../demo.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "name": "Aangan Thali House",
+  "servesCuisine": "Bengali",
+  "priceRange": "₹₹",
+  "telephone": "+91-98300-10001",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "42A Gariahat Road, Ballygunge",
+    "addressLocality": "Kolkata",
+    "postalCode": "700019",
+    "addressCountry": "IN"
+  },
+  "openingHoursSpecification": [{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+    "opens": "12:00",
+    "closes": "15:30"
+  }],
+  "acceptsReservations": true,
+  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.9", "reviewCount": 2412 },
+  "hasMenu": { "@type": "Menu", "url": "https://example.com/menu.html" }
+}
+</script>
 </head>
 <body class="theme-ember">
 
@@ -28,8 +54,6 @@
       <li><a href="about.html">About</a></li>
       <li><a href="gallery.html">Gallery</a></li>
       <li><a href="testimonials.html">Reviews</a></li>
-      <li><a href="blog.html">Blog</a></li>
-      <li><a href="team.html">Team</a></li>
       <li><a href="contact.html">Contact</a></li>
       <li><a href="booking.html" class="nav-cta">Reserve Table</a></li>
     </ul>
@@ -39,10 +63,45 @@
   </div>
 </nav>
 
+<!-- LOCAL BAR (sticky open-now / hours / phone) -->
+<div class="local-bar" data-hours="Tue-Sun 12:00-15:30">
+  <span class="local-bar-item"><span class="live-dot"></span> <span data-open-label>Open · 12 – 3:30 PM</span></span>
+  <span class="local-bar-sep"></span>
+  <span class="local-bar-item"><i class="fa-solid fa-location-dot"></i> 42A Gariahat Rd, Ballygunge</span>
+  <span class="local-bar-sep"></span>
+  <a class="local-bar-item" href="tel:+919830010001"><i class="fa-solid fa-phone"></i> +91 98300 10001</a>
+  <span class="local-bar-sep"></span>
+  <a class="local-bar-item" href="https://wa.me/919830010001" target="_blank" rel="noopener" data-wa-prefill="Hi Aangan — what's on today's board?"><i class="fa-brands fa-whatsapp"></i> Today's board on WhatsApp</a>
+</div>
+
 <div class="page-header">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+    <i class="fa-solid fa-chevron-right"></i>
+    <span aria-current="page">Today's Menu</span>
+  </nav>
   <div class="eyebrow">Kitchen · Updated Daily</div>
   <h1>Today's <em>Menu</em></h1>
   <p>Each dish made fresh every morning. The board changes with season, market, and memory.</p>
+  <div class="header-chips">
+    <span class="header-chip"><i class="fa-regular fa-clock"></i> Updated <strong>8:42 AM</strong> today</span>
+    <span class="header-chip"><span class="fssai-mark"></span> <strong>9</strong> veg dishes</span>
+    <span class="header-chip"><span class="fssai-mark non"></span> <strong>6</strong> non-veg dishes</span>
+    <span class="header-chip"><i class="fa-solid fa-leaf"></i> Seasonal · Jul – Sep board</span>
+    <span class="header-chip"><i class="fa-solid fa-utensils"></i> Avg meal <strong>₹350 – ₹450</strong></span>
+  </div>
+</div>
+
+<!-- JUMP NAV -->
+<div class="jump-nav" aria-label="Jump to menu section">
+  <div class="jump-nav-inner">
+    <a class="jump-link" href="#starters"><i class="fa-solid fa-leaf"></i> Starters</a>
+    <a class="jump-link" href="#veg-thali"><i class="fa-solid fa-plate-wheat"></i> Veg Thali</a>
+    <a class="jump-link" href="#fish"><i class="fa-solid fa-fish"></i> Fish</a>
+    <a class="jump-link" href="#meat"><i class="fa-solid fa-drumstick-bite"></i> Meat</a>
+    <a class="jump-link" href="#rice"><i class="fa-solid fa-bowl-rice"></i> Rice &amp; Bread</a>
+    <a class="jump-link" href="#desserts"><i class="fa-solid fa-candy-cane"></i> Desserts</a>
+  </div>
 </div>
 
 <section class="section">
@@ -53,7 +112,7 @@
     </div>
 
     <!-- Starters -->
-    <div class="menu-section reveal">
+    <div class="menu-section reveal" id="starters" style="scroll-margin-top:140px;">
       <div class="menu-section-title">
         <i class="fa-solid fa-leaf"></i> Starters &amp; Snacks
       </div>
@@ -62,38 +121,34 @@
           <div class="menu-item-info">
             <div class="menu-item-name">Nimki</div>
             <div class="menu-item-desc">Diamond-cut crispy flour pastry, fried golden. The classic Bengali tea snack.</div>
-            <div class="menu-item-tags">
-              <span class="menu-tag veg">Veg</span>
-            </div>
+            <div class="menu-item-tags" style="display:flex;align-items:center;gap:12px;margin-top:8px"><span class="fssai-mark" title="Vegetarian" aria-label="Vegetarian"></span><span style="font-size:11px;color:var(--text-3)">Veg</span></div>
           </div>
           <div class="menu-item-price">₹80</div>
+          <a class="row-action" style="position:absolute;bottom:14px;right:14px" href="https://wa.me/919830010001" target="_blank" rel="noopener" data-wa-prefill="Hi Aangan — is this available today?"><i class="fa-brands fa-whatsapp"></i> Ask</a>
         </div>
         <div class="menu-item">
           <div class="menu-item-info">
             <div class="menu-item-name">Alur Dom</div>
             <div class="menu-item-desc">Bengali-style slow-cooked baby potatoes in a spiced tomato-mustard gravy.</div>
-            <div class="menu-item-tags">
-              <span class="menu-tag veg">Veg</span>
-              <span class="menu-tag spicy">Spicy</span>
-            </div>
+            <div class="menu-item-tags" style="display:flex;align-items:center;gap:12px;margin-top:8px"><span class="fssai-mark" title="Vegetarian" aria-label="Vegetarian"></span><span style="font-size:11px;color:var(--text-3)">Veg</span><span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#D9823C"><i class="fa-solid fa-pepper-hot" style="font-size:10px"></i> Spicy</span></div>
           </div>
           <div class="menu-item-price">₹120</div>
+          <a class="row-action" style="position:absolute;bottom:14px;right:14px" href="https://wa.me/919830010001" target="_blank" rel="noopener" data-wa-prefill="Hi Aangan — is this available today?"><i class="fa-brands fa-whatsapp"></i> Ask</a>
         </div>
         <div class="menu-item">
           <div class="menu-item-info">
             <div class="menu-item-name">Muri Ghonto</div>
             <div class="menu-item-desc">Fish head cooked with gobindobhog rice — a delicacy from the heart of Bengali kitchen tradition.</div>
-            <div class="menu-item-tags">
-              <span class="menu-tag spicy">Spicy</span>
-            </div>
+            <div class="menu-item-tags" style="display:flex;align-items:center;gap:12px;margin-top:8px"><span class="fssai-mark non" title="Non-vegetarian" aria-label="Non-vegetarian"></span><span style="font-size:11px;color:var(--text-3)">Non-veg</span><span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#D9823C"><i class="fa-solid fa-pepper-hot" style="font-size:10px"></i> Spicy</span></div>
           </div>
           <div class="menu-item-price">₹180</div>
+          <a class="row-action" style="position:absolute;bottom:14px;right:14px" href="https://wa.me/919830010001" target="_blank" rel="noopener" data-wa-prefill="Hi Aangan — is this available today?"><i class="fa-brands fa-whatsapp"></i> Ask</a>
         </div>
       </div>
     </div>
 
     <!-- Veg Thali -->
-    <div class="menu-section reveal">
+    <div class="menu-section reveal" id="veg-thali" style="scroll-margin-top:140px;">
       <div class="menu-section-title">
         <i class="fa-solid fa-plate-wheat"></i> Main — Veg Thali
       </div>
@@ -102,17 +157,16 @@
           <div class="menu-item-info">
             <div class="menu-item-name">Full Veg Thali</div>
             <div class="menu-item-desc">A full platter of eight items: Gobindobhog rice, Shukto (bitter-sweet veg starter), Moong Dal, Aloo Posto (potato in poppy seed paste), Chhanar Dalna (cottage cheese curry), Begun Bhaja (fried aubergine), Papad, and Mishti Doi. The complete Bengali vegetarian experience.</div>
-            <div class="menu-item-tags">
-              <span class="menu-tag veg">Veg</span>
-            </div>
+            <div class="menu-item-tags" style="display:flex;align-items:center;gap:12px;margin-top:8px"><span class="fssai-mark" title="Vegetarian" aria-label="Vegetarian"></span><span style="font-size:11px;color:var(--text-3)">Veg</span></div>
           </div>
           <div class="menu-item-price">₹280</div>
+          <a class="row-action" style="position:absolute;bottom:14px;right:14px" href="https://wa.me/919830010001" target="_blank" rel="noopener" data-wa-prefill="Hi Aangan — is this available today?"><i class="fa-brands fa-whatsapp"></i> Ask</a>
         </div>
       </div>
     </div>
 
     <!-- Fish -->
-    <div class="menu-section section-alt reveal" style="padding:32px; border-radius:12px; margin-bottom:48px">
+    <div class="menu-section section-alt reveal" id="fish" style="scroll-margin-top:140px;padding:32px; border-radius:12px; margin-bottom:48px">
       <div class="menu-section-title">
         <i class="fa-solid fa-fish"></i> Main — Fish
       </div>
@@ -121,37 +175,34 @@
           <div class="menu-item-info">
             <div class="menu-item-name">Shorshe Ilish</div>
             <div class="menu-item-desc">Hilsa fish in a thick mustard-turmeric gravy. Bengal's queen fish, cooked the old way.</div>
-            <div class="menu-item-tags">
-              <span class="menu-tag spicy">Spicy</span>
-            </div>
+            <div class="menu-item-tags" style="display:flex;align-items:center;gap:12px;margin-top:8px"><span class="fssai-mark non" title="Non-vegetarian" aria-label="Non-vegetarian"></span><span style="font-size:11px;color:var(--text-3)">Non-veg</span><span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#D9823C"><i class="fa-solid fa-pepper-hot" style="font-size:10px"></i> Spicy</span></div>
           </div>
           <div class="menu-item-price">₹420</div>
+          <a class="row-action" style="position:absolute;bottom:14px;right:14px" href="https://wa.me/919830010001" target="_blank" rel="noopener" data-wa-prefill="Hi Aangan — is this available today?"><i class="fa-brands fa-whatsapp"></i> Ask</a>
         </div>
         <div class="menu-item">
           <div class="menu-item-info">
             <div class="menu-item-name">Chingri Malai Curry</div>
             <div class="menu-item-desc">Tiger prawns in a rich coconut milk and mustard gravy. Coastal Bengal at its finest.</div>
-            <div class="menu-item-tags">
-              <span class="menu-tag spicy">Spicy</span>
-            </div>
+            <div class="menu-item-tags" style="display:flex;align-items:center;gap:12px;margin-top:8px"><span class="fssai-mark non" title="Non-vegetarian" aria-label="Non-vegetarian"></span><span style="font-size:11px;color:var(--text-3)">Non-veg</span><span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#D9823C"><i class="fa-solid fa-pepper-hot" style="font-size:10px"></i> Spicy</span></div>
           </div>
           <div class="menu-item-price">₹560</div>
+          <a class="row-action" style="position:absolute;bottom:14px;right:14px" href="https://wa.me/919830010001" target="_blank" rel="noopener" data-wa-prefill="Hi Aangan — is this available today?"><i class="fa-brands fa-whatsapp"></i> Ask</a>
         </div>
         <div class="menu-item">
           <div class="menu-item-info">
             <div class="menu-item-name">Doi Maach</div>
             <div class="menu-item-desc">Rohu fish pieces slow-cooked in a creamy yogurt-mustard gravy with golden fried onions.</div>
-            <div class="menu-item-tags">
-              <span class="menu-tag spicy">Spicy</span>
-            </div>
+            <div class="menu-item-tags" style="display:flex;align-items:center;gap:12px;margin-top:8px"><span class="fssai-mark non" title="Non-vegetarian" aria-label="Non-vegetarian"></span><span style="font-size:11px;color:var(--text-3)">Non-veg</span><span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#D9823C"><i class="fa-solid fa-pepper-hot" style="font-size:10px"></i> Spicy</span></div>
           </div>
           <div class="menu-item-price">₹340</div>
+          <a class="row-action" style="position:absolute;bottom:14px;right:14px" href="https://wa.me/919830010001" target="_blank" rel="noopener" data-wa-prefill="Hi Aangan — is this available today?"><i class="fa-brands fa-whatsapp"></i> Ask</a>
         </div>
       </div>
     </div>
 
     <!-- Meat -->
-    <div class="menu-section reveal">
+    <div class="menu-section reveal" id="meat" style="scroll-margin-top:140px;">
       <div class="menu-section-title">
         <i class="fa-solid fa-drumstick-bite"></i> Main — Meat
       </div>
@@ -160,26 +211,25 @@
           <div class="menu-item-info">
             <div class="menu-item-name">Kosha Mangsho</div>
             <div class="menu-item-desc">Slow-cooked mutton in a dark, reduced spice gravy. The same recipe since 1968. The signature of Aangan.</div>
-            <div class="menu-item-tags">
-              <span class="menu-tag spicy">Spicy</span>
-            </div>
+            <div class="menu-item-tags" style="display:flex;align-items:center;gap:12px;margin-top:8px"><span class="fssai-mark non" title="Non-vegetarian" aria-label="Non-vegetarian"></span><span style="font-size:11px;color:var(--text-3)">Non-veg</span><span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#D9823C"><i class="fa-solid fa-pepper-hot" style="font-size:10px"></i> Spicy</span></div>
           </div>
           <div class="menu-item-price">₹380</div>
+          <a class="row-action" style="position:absolute;bottom:14px;right:14px" href="https://wa.me/919830010001" target="_blank" rel="noopener" data-wa-prefill="Hi Aangan — is this available today?"><i class="fa-brands fa-whatsapp"></i> Ask</a>
         </div>
         <div class="menu-item">
           <div class="menu-item-info">
             <div class="menu-item-name">Chicken Rezala</div>
             <div class="menu-item-desc">Chicken in a delicate white Mughlai gravy with yogurt, cardamom, and rose water. Aromatic and mild.</div>
-            <div class="menu-item-tags">
-            </div>
+            <div class="menu-item-tags" style="display:flex;align-items:center;gap:12px;margin-top:8px"><span class="fssai-mark non" title="Non-vegetarian" aria-label="Non-vegetarian"></span><span style="font-size:11px;color:var(--text-3)">Non-veg</span></div>
           </div>
           <div class="menu-item-price">₹320</div>
+          <a class="row-action" style="position:absolute;bottom:14px;right:14px" href="https://wa.me/919830010001" target="_blank" rel="noopener" data-wa-prefill="Hi Aangan — is this available today?"><i class="fa-brands fa-whatsapp"></i> Ask</a>
         </div>
       </div>
     </div>
 
     <!-- Rice & Bread -->
-    <div class="menu-section section-alt reveal" style="padding:32px; border-radius:12px; margin-bottom:48px">
+    <div class="menu-section section-alt reveal" id="rice" style="scroll-margin-top:140px;padding:32px; border-radius:12px; margin-bottom:48px">
       <div class="menu-section-title">
         <i class="fa-solid fa-bowl-rice"></i> Rice &amp; Bread
       </div>
@@ -188,37 +238,34 @@
           <div class="menu-item-info">
             <div class="menu-item-name">Gobindobhog Rice</div>
             <div class="menu-item-desc">Bengal's own short-grain aromatic rice, steamed to perfection. Served plain or with ghee.</div>
-            <div class="menu-item-tags">
-              <span class="menu-tag veg">Veg</span>
-            </div>
+            <div class="menu-item-tags" style="display:flex;align-items:center;gap:12px;margin-top:8px"><span class="fssai-mark" title="Vegetarian" aria-label="Vegetarian"></span><span style="font-size:11px;color:var(--text-3)">Veg</span></div>
           </div>
           <div class="menu-item-price">₹60</div>
+          <a class="row-action" style="position:absolute;bottom:14px;right:14px" href="https://wa.me/919830010001" target="_blank" rel="noopener" data-wa-prefill="Hi Aangan — is this available today?"><i class="fa-brands fa-whatsapp"></i> Ask</a>
         </div>
         <div class="menu-item">
           <div class="menu-item-info">
             <div class="menu-item-name">Luchi</div>
             <div class="menu-item-desc">Deep-fried puffed flour bread — the beloved Bengali counterpart to puri. Served in sets of four.</div>
-            <div class="menu-item-tags">
-              <span class="menu-tag veg">Veg</span>
-            </div>
+            <div class="menu-item-tags" style="display:flex;align-items:center;gap:12px;margin-top:8px"><span class="fssai-mark" title="Vegetarian" aria-label="Vegetarian"></span><span style="font-size:11px;color:var(--text-3)">Veg</span></div>
           </div>
           <div class="menu-item-price">₹80 <small style="font-size:12px;color:var(--text-3)">/4 pcs</small></div>
+          <a class="row-action" style="position:absolute;bottom:14px;right:14px" href="https://wa.me/919830010001" target="_blank" rel="noopener" data-wa-prefill="Hi Aangan — is this available today?"><i class="fa-brands fa-whatsapp"></i> Ask</a>
         </div>
         <div class="menu-item">
           <div class="menu-item-info">
             <div class="menu-item-name">Paratha</div>
             <div class="menu-item-desc">Layered, flaky whole wheat flatbread cooked on the tawa with ghee. Served in pairs.</div>
-            <div class="menu-item-tags">
-              <span class="menu-tag veg">Veg</span>
-            </div>
+            <div class="menu-item-tags" style="display:flex;align-items:center;gap:12px;margin-top:8px"><span class="fssai-mark" title="Vegetarian" aria-label="Vegetarian"></span><span style="font-size:11px;color:var(--text-3)">Veg</span></div>
           </div>
           <div class="menu-item-price">₹60 <small style="font-size:12px;color:var(--text-3)">/2 pcs</small></div>
+          <a class="row-action" style="position:absolute;bottom:14px;right:14px" href="https://wa.me/919830010001" target="_blank" rel="noopener" data-wa-prefill="Hi Aangan — is this available today?"><i class="fa-brands fa-whatsapp"></i> Ask</a>
         </div>
       </div>
     </div>
 
     <!-- Desserts -->
-    <div class="menu-section reveal">
+    <div class="menu-section reveal" id="desserts" style="scroll-margin-top:140px;">
       <div class="menu-section-title">
         <i class="fa-solid fa-candy-cane"></i> Desserts &amp; Sweets
       </div>
@@ -227,41 +274,37 @@
           <div class="menu-item-info">
             <div class="menu-item-name">Mishti Doi</div>
             <div class="menu-item-desc">Set yogurt sweetened with date palm jaggery, slow-set in earthen clay pots overnight.</div>
-            <div class="menu-item-tags">
-              <span class="menu-tag veg">Veg</span>
-            </div>
+            <div class="menu-item-tags" style="display:flex;align-items:center;gap:12px;margin-top:8px"><span class="fssai-mark" title="Vegetarian" aria-label="Vegetarian"></span><span style="font-size:11px;color:var(--text-3)">Veg</span></div>
           </div>
           <div class="menu-item-price">₹60</div>
+          <a class="row-action" style="position:absolute;bottom:14px;right:14px" href="https://wa.me/919830010001" target="_blank" rel="noopener" data-wa-prefill="Hi Aangan — is this available today?"><i class="fa-brands fa-whatsapp"></i> Ask</a>
         </div>
         <div class="menu-item">
           <div class="menu-item-info">
             <div class="menu-item-name">Sandesh</div>
             <div class="menu-item-desc">Hand-pressed fresh cottage cheese sweets flavoured with cardamom and saffron. Traditional Bengali mithai.</div>
-            <div class="menu-item-tags">
-              <span class="menu-tag veg">Veg</span>
-            </div>
+            <div class="menu-item-tags" style="display:flex;align-items:center;gap:12px;margin-top:8px"><span class="fssai-mark" title="Vegetarian" aria-label="Vegetarian"></span><span style="font-size:11px;color:var(--text-3)">Veg</span></div>
           </div>
           <div class="menu-item-price">₹80 <small style="font-size:12px;color:var(--text-3)">/4 pcs</small></div>
+          <a class="row-action" style="position:absolute;bottom:14px;right:14px" href="https://wa.me/919830010001" target="_blank" rel="noopener" data-wa-prefill="Hi Aangan — is this available today?"><i class="fa-brands fa-whatsapp"></i> Ask</a>
         </div>
         <div class="menu-item">
           <div class="menu-item-info">
             <div class="menu-item-name">Payesh</div>
             <div class="menu-item-desc">Gobindobhog rice pudding with full cream milk, date palm jaggery, and bay leaf. Soul food.</div>
-            <div class="menu-item-tags">
-              <span class="menu-tag veg">Veg</span>
-            </div>
+            <div class="menu-item-tags" style="display:flex;align-items:center;gap:12px;margin-top:8px"><span class="fssai-mark" title="Vegetarian" aria-label="Vegetarian"></span><span style="font-size:11px;color:var(--text-3)">Veg</span></div>
           </div>
           <div class="menu-item-price">₹120</div>
+          <a class="row-action" style="position:absolute;bottom:14px;right:14px" href="https://wa.me/919830010001" target="_blank" rel="noopener" data-wa-prefill="Hi Aangan — is this available today?"><i class="fa-brands fa-whatsapp"></i> Ask</a>
         </div>
         <div class="menu-item">
           <div class="menu-item-info">
             <div class="menu-item-name">Rosogolla</div>
             <div class="menu-item-desc">Soft spongy cottage cheese balls poached in light sugar syrup. The original Kolkata rosogolla.</div>
-            <div class="menu-item-tags">
-              <span class="menu-tag veg">Veg</span>
-            </div>
+            <div class="menu-item-tags" style="display:flex;align-items:center;gap:12px;margin-top:8px"><span class="fssai-mark" title="Vegetarian" aria-label="Vegetarian"></span><span style="font-size:11px;color:var(--text-3)">Veg</span></div>
           </div>
           <div class="menu-item-price">₹80 <small style="font-size:12px;color:var(--text-3)">/6 pcs</small></div>
+          <a class="row-action" style="position:absolute;bottom:14px;right:14px" href="https://wa.me/919830010001" target="_blank" rel="noopener" data-wa-prefill="Hi Aangan — is this available today?"><i class="fa-brands fa-whatsapp"></i> Ask</a>
         </div>
       </div>
     </div>

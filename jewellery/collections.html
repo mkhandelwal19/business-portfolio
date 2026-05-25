@@ -36,13 +36,45 @@
   </div>
 </nav>
 <div class="page-header">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+    <i class="fa-solid fa-chevron-right"></i>
+    <span aria-current="page">Collections</span>
+  </nav>
   <div class="eyebrow">Our Collections</div>
   <h1>Jewellery made to <em>last</em>.</h1>
   <p>BIS hallmarked gold. IGI certified diamonds. Every piece, without exception.</p>
+  <div class="header-chips">
+    <span class="header-chip"><i class="fa-solid fa-certificate"></i> <strong>BIS</strong> hallmarked · <strong>IGI</strong> certified</span>
+    <span class="header-chip"><i class="fa-solid fa-coins"></i> 22K gold today · <strong>₹7,420</strong>/g</span>
+    <span class="header-chip"><i class="fa-solid fa-house-chimney"></i> <strong>Try-at-home</strong> in Kolkata</span>
+    <span class="header-chip"><i class="fa-solid fa-rotate-left"></i> Lifetime buy-back</span>
+  </div>
 </div>
+
+<!-- TRUST STRIP -->
+<div class="trust-strip">
+  <div class="trust-chip"><i class="fa-solid fa-certificate"></i><div class="stack"><strong>BIS Hallmark</strong><span>Every gold piece</span></div></div>
+  <div class="trust-chip"><i class="fa-solid fa-gem"></i><div class="stack"><strong>IGI Certified</strong><span>Every diamond</span></div></div>
+  <div class="trust-chip"><i class="fa-solid fa-rotate-left"></i><div class="stack"><strong>Lifetime Buy-back</strong><span>At today's rate</span></div></div>
+  <div class="trust-chip"><i class="fa-solid fa-shield-halved"></i><div class="stack"><strong>Insured Delivery</strong><span>Pan-India shipping</span></div></div>
+  <div class="trust-chip"><i class="fa-solid fa-headset"></i><div class="stack"><strong>4 Generations</strong><span>Bow Bazaar, since 1962</span></div></div>
+</div>
+
 <section class="section">
   <div class="wrap">
-    <div class="filter-tabs" style="margin-bottom:40px">
+    <div class="listing-toolbar">
+      <div class="listing-count" data-count data-label="pieces"><strong>6</strong> pieces</div>
+      <div class="listing-sort"><span>Sort</span>
+        <select data-target=".product-grid" aria-label="Sort pieces">
+          <option value="featured">Featured</option>
+          <option value="price-asc">Price · low to high</option>
+          <option value="price-desc">Price · high to low</option>
+          <option value="name">Name · A to Z</option>
+        </select>
+      </div>
+    </div>
+    <div class="filter-tabs" style="margin-bottom:32px">
       <button class="filter-btn active" data-filter="all">All</button>
       <button class="filter-btn" data-filter="gold">Gold</button>
       <button class="filter-btn" data-filter="diamond">Diamond</button>

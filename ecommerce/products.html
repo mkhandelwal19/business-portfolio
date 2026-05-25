@@ -36,13 +36,37 @@
   </div>
 </nav>
 <div class="page-header">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+    <i class="fa-solid fa-chevron-right"></i>
+    <a href="categories.html">Categories</a>
+    <i class="fa-solid fa-chevron-right"></i>
+    <span aria-current="page">All Products</span>
+  </nav>
   <div class="eyebrow">All Products</div>
   <h1>208 products. All <em>handmade</em>.</h1>
   <p>Each item comes with artisan details, craft origin, and a care guide.</p>
+  <div class="header-chips">
+    <span class="header-chip"><i class="fa-solid fa-truck-fast"></i> <strong>Free shipping</strong> over ₹2,000</span>
+    <span class="header-chip"><i class="fa-solid fa-rotate-left"></i> 7-day easy returns</span>
+    <span class="header-chip"><i class="fa-solid fa-hands-praying"></i> <strong>120+</strong> artisan partners</span>
+    <span class="header-chip"><i class="fa-solid fa-shield-halved"></i> 100% authentic, GI-tagged where applicable</span>
+  </div>
 </div>
 <section class="section">
   <div class="wrap">
-    <div class="filter-tabs" style="margin-bottom:40px">
+    <div class="listing-toolbar">
+      <div class="listing-count" data-count data-label="products"><strong>6</strong> products</div>
+      <div class="listing-sort"><span>Sort</span>
+        <select data-target=".product-grid" aria-label="Sort products">
+          <option value="featured">Featured</option>
+          <option value="price-asc">Price · low to high</option>
+          <option value="price-desc">Price · high to low</option>
+          <option value="name">Name · A to Z</option>
+        </select>
+      </div>
+    </div>
+    <div class="filter-tabs" style="margin-bottom:32px">
       <button class="filter-btn active" data-filter="all">All</button>
       <button class="filter-btn" data-filter="handloom">Handloom</button>
       <button class="filter-btn" data-filter="dhokra">Dhokra</button>

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio Uplift — May 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="demo.css">
+<style>
+  body { padding-top: 60px }
+  .release-hero {
+    padding: clamp(60px, 8vw, 120px) var(--gutter) 80px;
+    text-align: center;
+    border-bottom: 1px solid var(--line);
+  }
+  .release-hero .eyebrow { justify-content: center; margin-bottom: 18px }
+  .release-hero .eyebrow::after { display: none }
+  .release-hero h1 {
+    font-family: var(--f-serif); font-weight: 500;
+    font-size: clamp(36px, 5vw, 64px); line-height: 1.05;
+    letter-spacing: -.015em; max-width: 18ch; margin: 0 auto 22px;
+  }
+  .release-hero h1 em { font-style: italic; color: var(--accent) }
+  .release-hero p { font-size: 16px; color: var(--text-2); max-width: 56ch; margin: 0 auto; line-height: 1.7 }
+
+  .release-meta {
+    display: flex; gap: 28px; justify-content: center; flex-wrap: wrap;
+    margin-top: 32px; padding-top: 28px; border-top: 1px solid var(--line);
+    max-width: 800px; margin-left: auto; margin-right: auto;
+  }
+  .release-meta-item { text-align: center }
+  .release-meta-num { font-family: var(--f-serif); font-size: 36px; color: var(--accent); line-height: 1 }
+  .release-meta-label { font-family: var(--f-mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--text-3); margin-top: 8px }
+
+  .change-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;
+    margin: 56px 0 32px;
+  }
+  @media (max-width: 768px) { .change-grid { grid-template-columns: 1fr } }
+  .change-card {
+    background: var(--bg-card); border: 1px solid var(--line); border-radius: var(--r);
+    padding: 28px; position: relative;
+  }
+  .change-card.critical { border-color: rgba(217,130,60,.4); background: linear-gradient(180deg, rgba(217,130,60,.05), var(--bg-card)) }
+  .change-card .tag {
+    font-family: var(--f-mono); font-size: 9px; letter-spacing: .2em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .change-card.critical .tag { color: #D9823C }
+  .change-card.critical .tag::before {
+    content: ''; display: inline-block; width: 6px; height: 6px;
+    border-radius: 50%; background: #D9823C;
+    animation: livePulse 2.2s infinite;
+  }
+  .change-card h3 {
+    font-family: var(--f-serif); font-size: 22px; font-weight: 500;
+    margin-bottom: 10px; line-height: 1.25;
+  }
+  .change-card h3 em { font-style: italic; color: var(--accent) }
+  .change-card p { font-size: 14px; color: var(--text-2); line-height: 1.65; margin-bottom: 14px }
+  .change-card .filelist {
+    list-style: none; display: flex; flex-wrap: wrap; gap: 6px;
+    margin-top: 12px;
+  }
+  .change-card .filelist code {
+    font-family: var(--f-mono); font-size: 11px; padding: 3px 10px;
+    background: var(--bg-2); border: 1px solid var(--line); border-radius: 999px;
+    color: var(--text-2);
+  }
+
+  .demo-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;
+    margin-top: 32px;
+  }
+  .demo-card {
+    background: var(--bg-card); border: 1px solid var(--line); border-radius: var(--r);
+    padding: 24px; transition: transform .25s, border-color .25s;
+    display: flex; flex-direction: column; gap: 14px;
+    position: relative; overflow: hidden;
+  }
+  .demo-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--theme-accent, var(--accent));
+  }
+  .demo-card:hover { transform: translateY(-3px); border-color: var(--line-a) }
+  .demo-card .theme-pill {
+    font-family: var(--f-mono); font-size: 9px; letter-spacing: .2em;
+    text-transform: uppercase; color: var(--theme-accent, var(--accent));
+  }
+  .demo-card h4 { font-family: var(--f-serif); font-size: 20px; font-weight: 500; line-height: 1.25 }
+  .demo-card .changes { font-size: 12px; color: var(--text-2); line-height: 1.65 }
+  .demo-card .changes b { color: var(--text); font-weight: 600 }
+  .demo-card .demo-links {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto; padding-top: 8px;
+  }
+  .demo-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 7px 14px; border: 1px solid var(--line);
+    border-radius: 999px; font-size: 11px; font-weight: 500;
+    color: var(--text); transition: all .2s;
+  }
+  .demo-link:hover {
+    background: var(--theme-accent, var(--accent));
+    color: var(--bg); border-color: var(--theme-accent, var(--accent));
+  }
+  .demo-link.primary {
+    background: var(--theme-accent, var(--accent)); color: var(--bg);
+    border-color: var(--theme-accent, var(--accent));
+  }
+  .demo-link.primary:hover { opacity: .85 }
+  .demo-link i { font-size: 10px }
+
+  .demo-card.ember { --theme-accent: #D9823C }
+  .demo-card.mint  { --theme-accent: #4DA99A }
+  .demo-card.plum  { --theme-accent: #9B59B6 }
+  .demo-card.pearl { --theme-accent: #C9A07A }
+  .demo-card.sage  { --theme-accent: #6B9E7A }
+  .demo-card.gold  { --theme-accent: #C9A84C }
+  .demo-card.saffron { --theme-accent: #E8A13E }
+  .demo-card.cocoa { --theme-accent: #B8895A }
+
+  .section-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px; margin-bottom: 8px;
+  }
+  .section-head h2 {
+    font-family: var(--f-serif); font-size: clamp(28px, 3.5vw, 40px);
+    font-weight: 500; letter-spacing: -.01em;
+  }
+  .section-head h2 em { font-style: italic; color: var(--accent) }
+  .section-head .count {
+    font-family: var(--f-mono); font-size: 11px; letter-spacing: .15em;
+    text-transform: uppercase; color: var(--text-3);
+  }
+
+  .next-steps {
+    background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--r-lg);
+    padding: 48px; margin: 48px 0;
+  }
+  .next-steps h2 {
+    font-family: var(--f-serif); font-size: 30px; font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .next-steps h2 em { font-style: italic; color: var(--accent) }
+  .next-steps > p { color: var(--text-2); margin-bottom: 28px; max-width: 60ch }
+  .next-list {
+    list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 18px 28px;
+  }
+  @media (max-width: 768px) { .next-list { grid-template-columns: 1fr } }
+  .next-list li {
+    display: flex; align-items: flex-start; gap: 14px;
+    font-size: 14px; color: var(--text-2); line-height: 1.6;
+  }
+  .next-list li::before {
+    content: ''; flex-shrink: 0; margin-top: 6px;
+    width: 6px; height: 6px; border: 1.5px solid var(--accent);
+    transform: rotate(45deg);
+  }
+  .next-list li b { color: var(--text); font-weight: 600 }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Mayank<em>.</em></a>
+    <ul class="nav-links">
+      <li><a href="uplift.html" class="active">Uplift Notes</a></li>
+      <li><a href="index.html">Portfolio</a></li>
+      <li><a href="https://github.com/mkhandelwal19/business-portfolio" target="_blank" rel="noopener" class="nav-cta"><i class="fa-brands fa-github"></i> Repo</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="release-hero">
+  <div class="eyebrow">v2.0 · May 21, 2026</div>
+  <h1>Demo portfolio <em>uplift</em>.</h1>
+  <p>One review pass across <strong>8 category demos</strong> — fixing real bugs, lifting the sub-category page system, and adding the trust signals Indian small-business buyers actually look for.</p>
+  <div class="release-meta">
+    <div class="release-meta-item">
+      <div class="release-meta-num">5</div>
+      <div class="release-meta-label">Bugs fixed</div>
+    </div>
+    <div class="release-meta-item">
+      <div class="release-meta-num">9</div>
+      <div class="release-meta-label">Pages upgraded</div>
+    </div>
+    <div class="release-meta-item">
+      <div class="release-meta-num">8</div>
+      <div class="release-meta-label">New components</div>
+    </div>
+    <div class="release-meta-item">
+      <div class="release-meta-num">2</div>
+      <div class="release-meta-label">Shared files patched</div>
+    </div>
+  </div>
+</section>
+
+<!-- BUGS FIXED -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Real bugs <em>fixed</em>.</h2>
+      <span class="count">5 / 5</span>
+    </div>
+    <p class="section-sub" style="margin-bottom:0">These were broken across the live demos — the kind of things a prospective client would notice in the first minute and quietly close the tab.</p>
+
+    <div class="change-grid">
+      <div class="change-card critical">
+        <div class="tag">Bug · Highest impact</div>
+        <h3>Filter tabs now <em>actually filter</em>.</h3>
+        <p>Every category page advertised filters (Diamond, Pottery, Commercial, Bridal…) but clicking them only toggled the active class — never hid a card. Fixed with proper <code style="font-family:var(--f-mono);font-size:12px;color:var(--accent)">data-cat</code> matching, sibling-scoped, with full keyboard tab-list ARIA.</p>
+        <ul class="filelist"><li><code>demo.js</code></li><li><code>boutique/collections.html</code></li></ul>
+      </div>
+
+      <div class="change-card critical">
+        <div class="tag">Bug · Unstyled UI</div>
+        <h3>The <em>.filter-btn</em> class was unstyled everywhere.</h3>
+        <p>Three of four listing pages used <code style="font-family:var(--f-mono);font-size:12px;color:var(--accent)">.filter-btn</code>, but the CSS only defined <code style="font-family:var(--f-mono);font-size:12px;color:var(--accent)">.filter-tab</code>. Result: default browser buttons on jewellery, ecommerce, realestate. Aliased so both classes render identically.</p>
+        <ul class="filelist"><li><code>demo.css</code></li></ul>
+      </div>
+
+      <div class="change-card critical">
+        <div class="tag">Bug · Silent CSS failure</div>
+        <h3>Yoga schedule referenced <em>undefined</em> CSS variables.</h3>
+        <p>The table used <code style="font-family:var(--f-mono);font-size:12px;color:var(--accent)">--fg-2 / --fg-3 / --fg-4 / --font-mono</code> — none exist. Browser fell back to currentColor, killing the entire visual hierarchy. Remapped to the real tokens.</p>
+        <ul class="filelist"><li><code>yoga/classes.html</code></li></ul>
+      </div>
+
+      <div class="change-card">
+        <div class="tag">Bug · Dead component</div>
+        <h3>Breadcrumb defined but <em>never used</em>.</h3>
+        <p>Styles for <code style="font-family:var(--f-mono);font-size:12px;color:var(--accent)">.breadcrumb</code> sat in demo.css with zero instances on any sub-page. Now rendered on every upgraded sub-page above the H1.</p>
+        <ul class="filelist"><li><code>7 sub-pages</code></li></ul>
+      </div>
+
+      <div class="change-card">
+        <div class="tag">Bug · Low contrast</div>
+        <h3>Body copy was reading as a <em>label</em>.</h3>
+        <p>Core descriptions (menu items, services, product categories) all used <code style="font-family:var(--f-mono);font-size:12px;color:var(--accent)">--text-3</code> (#8A8578 on near-black) — barely WCAG AA. Bumped to <code style="font-family:var(--f-mono);font-size:12px;color:var(--accent)">--text-2</code>. <code style="font-family:var(--f-mono);font-size:12px;color:var(--accent)">--text-3</code> now reserved for labels/meta only.</p>
+        <ul class="filelist"><li><code>demo.css</code></li></ul>
+      </div>
+
+      <div class="change-card">
+        <div class="tag">A11y</div>
+        <h3>No <em>focus indicators</em> anywhere.</h3>
+        <p>Keyboard users had no idea where focus was. Added a single global <code style="font-family:var(--f-mono);font-size:12px;color:var(--accent)">:focus-visible</code> rule with accent-coloured ring, plus arrow-key navigation for filter tabs and Esc-to-close mobile nav.</p>
+        <ul class="filelist"><li><code>demo.css</code></li><li><code>demo.js</code></li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEW COMPONENTS -->
+<section class="section section-alt">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>New shared <em>components</em>.</h2>
+      <span class="count">8 modules</span>
+    </div>
+    <p class="section-sub" style="margin-bottom:0">Drop-in additions to <code style="font-family:var(--f-mono);font-size:12px;color:var(--accent)">demo.css</code> + <code style="font-family:var(--f-mono);font-size:12px;color:var(--accent)">demo.js</code>. Reusable across all 8 category demos and ready to ship with new client builds.</p>
+
+    <div class="change-grid">
+      <div class="change-card">
+        <div class="tag"><i class="fa-solid fa-circle-dot"></i> Local bar</div>
+        <h3>Sticky <em>open-now</em> + hours strip.</h3>
+        <p>Live-pulse dot, hours, address, phone, WhatsApp. Auto-detects open/closed from a <code style="font-family:var(--f-mono);font-size:12px;color:var(--accent)">data-hours</code> attribute (handles multi-window like 9–1 + 5–8 PM). Sticks below the nav.</p>
+      </div>
+
+      <div class="change-card">
+        <div class="tag"><i class="fa-solid fa-anchor"></i> Jump nav</div>
+        <h3>Sticky <em>section pills</em> with scroll-spy.</h3>
+        <p>Horizontal scrolling pill row that tracks active section on scroll. Smooth-scrolls with nav offset compensation. Used on long pages — restaurant menu, healthcare services, yoga classes.</p>
+      </div>
+
+      <div class="change-card">
+        <div class="tag"><i class="fa-solid fa-tag"></i> Header chips</div>
+        <h3>Contextual metadata in the <em>page header</em>.</h3>
+        <p>Solves the "empty page-header" problem. Each sub-page now shows what matters — counts, gold rate, today's hours, free-consultation chip — instead of just a title.</p>
+      </div>
+
+      <div class="change-card">
+        <div class="tag"><i class="fa-solid fa-shield-halved"></i> Trust strip</div>
+        <h3>BIS / IGI / shipping / returns row.</h3>
+        <p>5-chip horizontal strip for trust signals. Critical for jewellery and ecommerce; designed to drop above the footer on any page that needs to close the deal.</p>
+      </div>
+
+      <div class="change-card">
+        <div class="tag"><i class="fa-solid fa-arrow-down-wide-short"></i> Listing toolbar</div>
+        <h3>Live <em>count</em> + sort dropdown.</h3>
+        <p>"6 of 6 products" updates as filters apply. Sort by price asc/desc/name reorders the grid in place. Targets any grid via <code style="font-family:var(--f-mono);font-size:12px;color:var(--accent)">data-target</code> selector.</p>
+      </div>
+
+      <div class="change-card">
+        <div class="tag"><i class="fa-solid fa-circle-dot"></i> FSSAI veg mark</div>
+        <h3>Canonical Indian <em>veg/non-veg</em> square.</h3>
+        <p>The green-square-in-square / red-square-in-square every Indian diner recognises. Replaces the generic "Veg" pill on the restaurant menu.</p>
+      </div>
+
+      <div class="change-card">
+        <div class="tag"><i class="fa-solid fa-bolt"></i> Row action</div>
+        <h3>Inline <em>book / ask</em> CTA per row.</h3>
+        <p>Tiny outline-pill action on every service row, menu item, and class card. Closes the gap between "I'm interested" and "I'm scrolling to the bottom CTA".</p>
+      </div>
+
+      <div class="change-card">
+        <div class="tag"><i class="fa-solid fa-code"></i> Schema.org</div>
+        <h3>Structured <em>data</em> for local SEO.</h3>
+        <p>Restaurant, MedicalBusiness, with opening hours, address, rating, specialties. Free Google rich-result eligibility on every client launch.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UPGRADED PAGES -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Upgraded <em>pages</em>.</h2>
+      <span class="count">Open each to compare</span>
+    </div>
+    <p class="section-sub" style="margin-bottom:0">All 8 main category index pages still work as before (the shared CSS/JS upgrades apply universally). The sub-category pages below got dedicated content uplifts — click through to see the changes in context.</p>
+
+    <div class="demo-grid">
+      <div class="demo-card ember">
+        <span class="theme-pill">Restaurant · Ember</span>
+        <h4>Aangan Thali House</h4>
+        <p class="changes"><b>Menu:</b> jump nav, FSSAI veg marks, header chips, row-action Ask-on-WhatsApp, full Restaurant schema. <b>Home:</b> live "open now" local bar, schema.</p>
+        <div class="demo-links">
+          <a href="restaurant/index.html" class="demo-link primary"><i class="fa-solid fa-house"></i> Home</a>
+          <a href="restaurant/menu.html" class="demo-link"><i class="fa-solid fa-utensils"></i> Menu</a>
+        </div>
+      </div>
+
+      <div class="demo-card mint">
+        <span class="theme-pill">Healthcare · Mint</span>
+        <h4>Basu Family Clinic</h4>
+        <p class="changes"><b>Services:</b> 4-department jump nav, header chips, sticky open-now (multi-window hours), inline Book row-action, MedicalBusiness schema.</p>
+        <div class="demo-links">
+          <a href="healthcare/index.html" class="demo-link primary"><i class="fa-solid fa-house"></i> Home</a>
+          <a href="healthcare/services.html" class="demo-link"><i class="fa-solid fa-stethoscope"></i> Services</a>
+        </div>
+      </div>
+
+      <div class="demo-card plum">
+        <span class="theme-pill">Salon · Plum</span>
+        <h4>Lumière Salon &amp; Spa</h4>
+        <p class="changes"><b>Services:</b> jump nav for 5 categories, header chips with walk-in availability, per-row Book action across all 28 services, breadcrumb.</p>
+        <div class="demo-links">
+          <a href="salon/index.html" class="demo-link primary"><i class="fa-solid fa-house"></i> Home</a>
+          <a href="salon/services.html" class="demo-link"><i class="fa-solid fa-scissors"></i> Services</a>
+        </div>
+      </div>
+
+      <div class="demo-card pearl">
+        <span class="theme-pill">Boutique · Pearl</span>
+        <h4>Riyaaz Boutique</h4>
+        <p class="changes"><b>Collections:</b> functional filters (added <code>data-cat</code>), listing count + sort, breadcrumb, header chips with shipping &amp; exchange terms.</p>
+        <div class="demo-links">
+          <a href="boutique/index.html" class="demo-link primary"><i class="fa-solid fa-house"></i> Home</a>
+          <a href="boutique/collections.html" class="demo-link"><i class="fa-solid fa-shirt"></i> Collections</a>
+        </div>
+      </div>
+
+      <div class="demo-card sage">
+        <span class="theme-pill">Yoga · Sage</span>
+        <h4>Praana Yoga Studio</h4>
+        <p class="changes"><b>Classes:</b> fixed undefined CSS vars in schedule, jump nav for 6 class types, header chips with next-class info, per-class Book action.</p>
+        <div class="demo-links">
+          <a href="yoga/index.html" class="demo-link primary"><i class="fa-solid fa-house"></i> Home</a>
+          <a href="yoga/classes.html" class="demo-link"><i class="fa-solid fa-spa"></i> Classes</a>
+        </div>
+      </div>
+
+      <div class="demo-card gold">
+        <span class="theme-pill">Jewellery · Gold</span>
+        <h4>Mallika Jewels</h4>
+        <p class="changes"><b>Collections:</b> filters now work, BIS+IGI trust strip, header chips with live gold rate, listing toolbar with count &amp; sort.</p>
+        <div class="demo-links">
+          <a href="jewellery/index.html" class="demo-link primary"><i class="fa-solid fa-house"></i> Home</a>
+          <a href="jewellery/collections.html" class="demo-link"><i class="fa-solid fa-gem"></i> Collections</a>
+        </div>
+      </div>
+
+      <div class="demo-card saffron">
+        <span class="theme-pill">Ecommerce · Saffron</span>
+        <h4>Kolkata Craft Co.</h4>
+        <p class="changes"><b>Products:</b> filters fixed, count + 4-option sort, breadcrumb to Categories, header chips with shipping &amp; returns policy.</p>
+        <div class="demo-links">
+          <a href="ecommerce/index.html" class="demo-link primary"><i class="fa-solid fa-house"></i> Home</a>
+          <a href="ecommerce/products.html" class="demo-link"><i class="fa-solid fa-bag-shopping"></i> Products</a>
+        </div>
+      </div>
+
+      <div class="demo-card cocoa">
+        <span class="theme-pill">Real Estate · Cocoa</span>
+        <h4>Saha Properties</h4>
+        <p class="changes"><b>Properties:</b> filters fixed (residential/commercial), price-sort dropdown, breadcrumb, header chips with verified-doc &amp; brokerage policy.</p>
+        <div class="demo-links">
+          <a href="realestate/index.html" class="demo-link primary"><i class="fa-solid fa-house"></i> Home</a>
+          <a href="realestate/properties.html" class="demo-link"><i class="fa-solid fa-building"></i> Properties</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT'S NEXT -->
+<section class="section section-alt">
+  <div class="wrap">
+    <div class="next-steps">
+      <h2>What's <em>next</em>.</h2>
+      <p>Things I flagged in the review but didn't ship in this pass — flagged here so you can decide what's worth a second round.</p>
+      <ul class="next-list">
+        <li><b>Replace SVG listing thumbs with real photography.</b> The hand-drawn SVGs work great on the homepage hero but read as wireframes on listing grids. Single biggest "demo → real site" upgrade.</li>
+        <li><b>Per-item detail page or modal.</b> Cards aren't clickable yet. Wrap each in an anchor + lightweight modal would add huge realism.</li>
+        <li><b>Schema for the remaining 6 categories.</b> Salon (HairSalon), Yoga (LocalBusiness + Event for classes), Real estate (RealEstateListing), etc.</li>
+        <li><b>Sticky CTA buttons on mobile.</b> The bottom WhatsApp float is good; a "Book / Visit / Order" anchor button next to it would close more.</li>
+        <li><b>Cookie consent + Razorpay/UPI logos.</b> Required for real Indian launches; placeholders now, swap when live.</li>
+        <li><b>Phase 2 portal scaffolding.</b> The PHASE2_ROADMAP.md plan is solid — Supabase auth + admin lead table is a 3-weekend project.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="name">Mayank<em>.</em></div>
+      <p>Websites for Indian small businesses. Fast, beautiful, affordable — across India.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Navigate</h5>
+      <ul>
+        <li><a href="index.html">Portfolio</a></li>
+        <li><a href="uplift.html">Uplift Notes</a></li>
+        <li><a href="https://github.com/mkhandelwal19/business-portfolio">Source on GitHub</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Demos</h5>
+      <ul>
+        <li><a href="restaurant/index.html">Restaurant</a></li>
+        <li><a href="boutique/index.html">Boutique</a></li>
+        <li><a href="jewellery/index.html">Jewellery</a></li>
+        <li><a href="healthcare/index.html">Healthcare</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>More demos</h5>
+      <ul>
+        <li><a href="salon/index.html">Salon</a></li>
+        <li><a href="yoga/index.html">Yoga</a></li>
+        <li><a href="ecommerce/index.html">Ecommerce</a></li>
+        <li><a href="realestate/index.html">Real Estate</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>v2.0 · 21 May 2026 · Uplift release notes</span>
+    <span>Site by <a href="index.html">Mayank Khandelwal</a></span>
+  </div>
+</footer>
+
+<script src="demo.js"></script>
+</body>
+</html>

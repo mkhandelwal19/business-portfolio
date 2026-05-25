@@ -10,6 +10,28 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="../demo.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MedicalBusiness",
+  "name": "Basu Family Clinic",
+  "telephone": "+91-98300-20002",
+  "priceRange": "₹₹",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "CF-12, Salt Lake, Sector III",
+    "addressLocality": "Kolkata",
+    "postalCode": "700106",
+    "addressCountry": "IN"
+  },
+  "openingHoursSpecification": [
+    {"@type":"OpeningHoursSpecification","dayOfWeek":["Mon","Tue","Wed","Thu","Fri","Sat"],"opens":"09:00","closes":"13:00"},
+    {"@type":"OpeningHoursSpecification","dayOfWeek":["Mon","Tue","Wed","Thu","Fri","Sat"],"opens":"17:00","closes":"20:00"},
+    {"@type":"OpeningHoursSpecification","dayOfWeek":"Sun","opens":"09:00","closes":"13:00"}
+  ],
+  "medicalSpecialty": ["GeneralPractice","Pediatric","Gynecology","Pathology"]
+}
+</script>
 </head>
 <body class="theme-mint">
 
@@ -27,9 +49,8 @@
       <li><a href="services.html">Services</a></li>
       <li><a href="doctors.html">Doctors</a></li>
       <li><a href="about.html">About</a></li>
-      <li><a href="gallery.html">Facilities</a></li>
       <li><a href="testimonials.html">Reviews</a></li>
-      <li><a href="health-tips.html">Health Tips</a></li>
+      <li><a href="health-tips.html">Tips</a></li>
       <li><a href="contact.html">Contact</a></li>
       <li><a href="appointments.html" class="nav-cta">Book Appointment</a></li>
     </ul>
@@ -39,14 +60,46 @@
   </div>
 </nav>
 
+<!-- LOCAL BAR -->
+<div class="local-bar" data-hours="Mon-Sat 09:00-13:00,17:00-20:00;Sun 09:00-13:00">
+  <span class="local-bar-item"><span class="live-dot"></span> <span data-open-label>Mon–Sat · 9–1 &amp; 5–8 PM</span></span>
+  <span class="local-bar-sep"></span>
+  <span class="local-bar-item"><i class="fa-solid fa-location-dot"></i> CF-12, Salt Lake Sector III</span>
+  <span class="local-bar-sep"></span>
+  <a class="local-bar-item" href="tel:+919830020002"><i class="fa-solid fa-phone"></i> +91 98300 20002</a>
+  <span class="local-bar-sep"></span>
+  <a class="local-bar-item" href="appointments.html"><i class="fa-regular fa-calendar-check"></i> Book appointment</a>
+</div>
+
 <div class="page-header">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+    <i class="fa-solid fa-chevron-right"></i>
+    <span aria-current="page">Services</span>
+  </nav>
   <div class="eyebrow">What We Treat</div>
   <h1>Our <em>Services</em></h1>
   <p>From routine check-ups to specialist care — all services under one roof at CF-12, Salt Lake Sector III.</p>
+  <div class="header-chips">
+    <span class="header-chip"><i class="fa-solid fa-user-doctor"></i> <span class="num">4</span> departments</span>
+    <span class="header-chip"><i class="fa-solid fa-stethoscope"></i> <strong>Same-day</strong> reports for most panels</span>
+    <span class="header-chip"><i class="fa-solid fa-house-medical"></i> Home sample collection</span>
+    <span class="header-chip"><i class="fa-solid fa-indian-rupee-sign"></i> Consults from <strong>₹300</strong></span>
+  </div>
+</div>
+
+<!-- JUMP NAV -->
+<div class="jump-nav" aria-label="Jump to department">
+  <div class="jump-nav-inner">
+    <a class="jump-link" href="#general"><i class="fa-solid fa-stethoscope"></i> General Medicine</a>
+    <a class="jump-link" href="#paediatrics"><i class="fa-solid fa-baby"></i> Paediatrics</a>
+    <a class="jump-link" href="#gynae"><i class="fa-solid fa-venus"></i> Gynaecology</a>
+    <a class="jump-link" href="#diagnostics"><i class="fa-solid fa-vial"></i> Diagnostics</a>
+  </div>
 </div>
 
 <!-- GENERAL MEDICINE -->
-<section class="section">
+<section class="section" id="general" style="scroll-margin-top:160px">
   <div class="wrap">
     <div class="split reveal">
       <div class="split-text">
@@ -87,9 +140,12 @@
           <div class="service-name">Fever &amp; Infection Management</div>
           <div class="service-desc">Diagnosis and treatment of viral, bacterial and fungal infections</div>
         </div>
-        <div style="text-align:right">
-          <div class="service-price">&#8377;400</div>
-          <div class="service-duration">20–30 min</div>
+        <div class="service-actions">
+          <div style="text-align:right">
+            <div class="service-price">&#8377;400</div>
+            <div class="service-duration">20–30 min</div>
+          </div>
+          <a class="row-action" href="appointments.html"><i class="fa-regular fa-calendar-check"></i> Book</a>
         </div>
       </div>
       <div class="service-item">
@@ -97,9 +153,12 @@
           <div class="service-name">Chronic Disease Management</div>
           <div class="service-desc">Ongoing care for diabetes, hypertension, thyroid, asthma and more</div>
         </div>
-        <div style="text-align:right">
-          <div class="service-price">&#8377;500</div>
-          <div class="service-duration">30–45 min</div>
+        <div class="service-actions">
+          <div style="text-align:right">
+            <div class="service-price">&#8377;500</div>
+            <div class="service-duration">30–45 min</div>
+          </div>
+          <a class="row-action" href="appointments.html"><i class="fa-regular fa-calendar-check"></i> Book</a>
         </div>
       </div>
       <div class="service-item">
@@ -107,9 +166,12 @@
           <div class="service-name">Full Body Health Check-Up</div>
           <div class="service-desc">Clinical examination + BMI + vitals + referral for blood work if required</div>
         </div>
-        <div style="text-align:right">
-          <div class="service-price">&#8377;800</div>
-          <div class="service-duration">45–60 min</div>
+        <div class="service-actions">
+          <div style="text-align:right">
+            <div class="service-price">&#8377;800</div>
+            <div class="service-duration">45–60 min</div>
+          </div>
+          <a class="row-action" href="appointments.html"><i class="fa-regular fa-calendar-check"></i> Book</a>
         </div>
       </div>
       <div class="service-item">
@@ -117,9 +179,12 @@
           <div class="service-name">Prescription Renewal</div>
           <div class="service-desc">Renewal of ongoing prescriptions for stable, established patients</div>
         </div>
-        <div style="text-align:right">
-          <div class="service-price">&#8377;300</div>
-          <div class="service-duration">10–15 min</div>
+        <div class="service-actions">
+          <div style="text-align:right">
+            <div class="service-price">&#8377;300</div>
+            <div class="service-duration">10–15 min</div>
+          </div>
+          <a class="row-action" href="appointments.html"><i class="fa-regular fa-calendar-check"></i> Book</a>
         </div>
       </div>
       <div class="service-item">
@@ -127,9 +192,12 @@
           <div class="service-name">Blood Pressure &amp; Diabetes Management</div>
           <div class="service-desc">Monitoring, medication adjustment, lifestyle counselling</div>
         </div>
-        <div style="text-align:right">
-          <div class="service-price">&#8377;500</div>
-          <div class="service-duration">30 min</div>
+        <div class="service-actions">
+          <div style="text-align:right">
+            <div class="service-price">&#8377;500</div>
+            <div class="service-duration">30 min</div>
+          </div>
+          <a class="row-action" href="appointments.html"><i class="fa-regular fa-calendar-check"></i> Book</a>
         </div>
       </div>
     </div>
@@ -137,7 +205,7 @@
 </section>
 
 <!-- PAEDIATRICS -->
-<section class="section section-alt">
+<section class="section section-alt" id="paediatrics" style="scroll-margin-top:160px">
   <div class="wrap">
     <div class="split reveal">
       <div>
@@ -180,9 +248,12 @@
           <div class="service-name">Child Health Check-Up</div>
           <div class="service-desc">Comprehensive assessment — growth, nutrition, development milestones</div>
         </div>
-        <div style="text-align:right">
-          <div class="service-price">&#8377;500</div>
-          <div class="service-duration">30–40 min</div>
+        <div class="service-actions">
+          <div style="text-align:right">
+            <div class="service-price">&#8377;500</div>
+            <div class="service-duration">30–40 min</div>
+          </div>
+          <a class="row-action" href="appointments.html"><i class="fa-regular fa-calendar-check"></i> Book</a>
         </div>
       </div>
       <div class="service-item">
@@ -190,9 +261,12 @@
           <div class="service-name">Vaccination</div>
           <div class="service-desc">All vaccines as per IAP schedule — consultation + administration</div>
         </div>
-        <div style="text-align:right">
-          <div class="service-price">&#8377;400 + vaccine</div>
-          <div class="service-duration">15–20 min</div>
+        <div class="service-actions">
+          <div style="text-align:right">
+            <div class="service-price">&#8377;400 + vaccine</div>
+            <div class="service-duration">15–20 min</div>
+          </div>
+          <a class="row-action" href="appointments.html"><i class="fa-regular fa-calendar-check"></i> Book</a>
         </div>
       </div>
       <div class="service-item">
@@ -200,9 +274,12 @@
           <div class="service-name">Growth &amp; Developmental Assessment</div>
           <div class="service-desc">Height, weight, BMI tracking with percentile charting and counselling</div>
         </div>
-        <div style="text-align:right">
-          <div class="service-price">&#8377;500</div>
-          <div class="service-duration">30 min</div>
+        <div class="service-actions">
+          <div style="text-align:right">
+            <div class="service-price">&#8377;500</div>
+            <div class="service-duration">30 min</div>
+          </div>
+          <a class="row-action" href="appointments.html"><i class="fa-regular fa-calendar-check"></i> Book</a>
         </div>
       </div>
       <div class="service-item">
@@ -210,9 +287,12 @@
           <div class="service-name">Common Illness Consultation</div>
           <div class="service-desc">Fever, cough, cold, diarrhoea, rash — rapid diagnosis and treatment</div>
         </div>
-        <div style="text-align:right">
-          <div class="service-price">&#8377;400</div>
-          <div class="service-duration">15–25 min</div>
+        <div class="service-actions">
+          <div style="text-align:right">
+            <div class="service-price">&#8377;400</div>
+            <div class="service-duration">15–25 min</div>
+          </div>
+          <a class="row-action" href="appointments.html"><i class="fa-regular fa-calendar-check"></i> Book</a>
         </div>
       </div>
     </div>
@@ -220,7 +300,7 @@
 </section>
 
 <!-- GYNAECOLOGY -->
-<section class="section">
+<section class="section" id="gynae" style="scroll-margin-top:160px">
   <div class="wrap">
     <div class="split reveal">
       <div class="split-text">
@@ -256,9 +336,12 @@
           <div class="service-name">Antenatal Check-Up</div>
           <div class="service-desc">Routine pregnancy monitoring — BP, weight, foetal heartbeat, advice</div>
         </div>
-        <div style="text-align:right">
-          <div class="service-price">&#8377;600</div>
-          <div class="service-duration">30–45 min</div>
+        <div class="service-actions">
+          <div style="text-align:right">
+            <div class="service-price">&#8377;600</div>
+            <div class="service-duration">30–45 min</div>
+          </div>
+          <a class="row-action" href="appointments.html"><i class="fa-regular fa-calendar-check"></i> Book</a>
         </div>
       </div>
       <div class="service-item">
@@ -266,9 +349,12 @@
           <div class="service-name">Gynaecological Consultation</div>
           <div class="service-desc">PCOD, irregular periods, discharge, fibroids and related concerns</div>
         </div>
-        <div style="text-align:right">
-          <div class="service-price">&#8377;600</div>
-          <div class="service-duration">30 min</div>
+        <div class="service-actions">
+          <div style="text-align:right">
+            <div class="service-price">&#8377;600</div>
+            <div class="service-duration">30 min</div>
+          </div>
+          <a class="row-action" href="appointments.html"><i class="fa-regular fa-calendar-check"></i> Book</a>
         </div>
       </div>
       <div class="service-item">
@@ -276,9 +362,12 @@
           <div class="service-name">Pap Smear</div>
           <div class="service-desc">Cervical cancer screening — sample collection &amp; test requisition</div>
         </div>
-        <div style="text-align:right">
-          <div class="service-price">&#8377;800</div>
-          <div class="service-duration">20–30 min</div>
+        <div class="service-actions">
+          <div style="text-align:right">
+            <div class="service-price">&#8377;800</div>
+            <div class="service-duration">20–30 min</div>
+          </div>
+          <a class="row-action" href="appointments.html"><i class="fa-regular fa-calendar-check"></i> Book</a>
         </div>
       </div>
       <div class="service-item">
@@ -286,9 +375,12 @@
           <div class="service-name">Menstrual Health Consultation</div>
           <div class="service-desc">Cycle tracking, hormonal assessment, lifestyle counselling</div>
         </div>
-        <div style="text-align:right">
-          <div class="service-price">&#8377;500</div>
-          <div class="service-duration">30 min</div>
+        <div class="service-actions">
+          <div style="text-align:right">
+            <div class="service-price">&#8377;500</div>
+            <div class="service-duration">30 min</div>
+          </div>
+          <a class="row-action" href="appointments.html"><i class="fa-regular fa-calendar-check"></i> Book</a>
         </div>
       </div>
     </div>
@@ -296,7 +388,7 @@
 </section>
 
 <!-- DIAGNOSTICS -->
-<section class="section section-alt">
+<section class="section section-alt" id="diagnostics" style="scroll-margin-top:160px">
   <div class="wrap">
     <div class="split reveal">
       <div>
@@ -336,9 +428,12 @@
           <div class="service-name">ECG (Electrocardiogram)</div>
           <div class="service-desc">12-lead ECG with immediate trace and clinical interpretation</div>
         </div>
-        <div style="text-align:right">
-          <div class="service-price">&#8377;300</div>
-          <div class="service-duration">15 min</div>
+        <div class="service-actions">
+          <div style="text-align:right">
+            <div class="service-price">&#8377;300</div>
+            <div class="service-duration">15 min</div>
+          </div>
+          <a class="row-action" href="appointments.html"><i class="fa-regular fa-calendar-check"></i> Book</a>
         </div>
       </div>
       <div class="service-item">
@@ -346,9 +441,12 @@
           <div class="service-name">Pathology Panel</div>
           <div class="service-desc">CBC, lipid profile, liver function, kidney function, HbA1c and more</div>
         </div>
-        <div style="text-align:right">
-          <div class="service-price">&#8377;500+</div>
-          <div class="service-duration">Results in 4–6 hrs</div>
+        <div class="service-actions">
+          <div style="text-align:right">
+            <div class="service-price">&#8377;500+</div>
+            <div class="service-duration">Results in 4–6 hrs</div>
+          </div>
+          <a class="row-action" href="appointments.html"><i class="fa-regular fa-calendar-check"></i> Book</a>
         </div>
       </div>
       <div class="service-item">
@@ -356,9 +454,12 @@
           <div class="service-name">Ultrasonography</div>
           <div class="service-desc">Abdomen, pelvis, obstetric — with printed report and clinical discussion</div>
         </div>
-        <div style="text-align:right">
-          <div class="service-price">&#8377;700</div>
-          <div class="service-duration">20–30 min</div>
+        <div class="service-actions">
+          <div style="text-align:right">
+            <div class="service-price">&#8377;700</div>
+            <div class="service-duration">20–30 min</div>
+          </div>
+          <a class="row-action" href="appointments.html"><i class="fa-regular fa-calendar-check"></i> Book</a>
         </div>
       </div>
       <div class="service-item">
@@ -366,9 +467,12 @@
           <div class="service-name">Blood Tests (Individual)</div>
           <div class="service-desc">Blood sugar fasting/PP, thyroid, uric acid, ESR, and other single tests</div>
         </div>
-        <div style="text-align:right">
-          <div class="service-price">&#8377;200+</div>
-          <div class="service-duration">Results next morning</div>
+        <div class="service-actions">
+          <div style="text-align:right">
+            <div class="service-price">&#8377;200+</div>
+            <div class="service-duration">Results next morning</div>
+          </div>
+          <a class="row-action" href="appointments.html"><i class="fa-regular fa-calendar-check"></i> Book</a>
         </div>
       </div>
     </div>
