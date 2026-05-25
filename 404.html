@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page not found — Mayank Khandelwal</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="demo.css">
+<style>
+  .error-page {
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    text-align:center; padding:40px var(--gutter);
+  }
+  .error-inner { max-width:480px }
+  .error-code {
+    font-family:var(--f-serif); font-size:clamp(80px,15vw,140px);
+    font-weight:500; color:var(--accent); line-height:1;
+    margin-bottom:16px; letter-spacing:-.02em;
+  }
+  .error-inner h1 {
+    font-family:var(--f-serif); font-size:clamp(22px,3vw,32px);
+    font-weight:500; margin-bottom:14px;
+  }
+  .error-inner h1 em { font-style:italic; color:var(--accent) }
+  .error-inner p { font-size:15px; color:var(--text-2); line-height:1.7; margin-bottom:32px }
+  .error-links { display:flex; gap:12px; justify-content:center; flex-wrap:wrap }
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Mayank<em>.</em></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Portfolio</a></li>
+      <li><a href="uplift.html">Uplift Notes</a></li>
+      <li><a href="https://github.com/mkhandelwal19/business-portfolio" target="_blank" rel="noopener" class="nav-cta"><i class="fa-brands fa-github"></i> GitHub</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<main class="error-page">
+  <div class="error-inner">
+    <div class="error-code">404</div>
+    <h1>Page <em>not found</em>.</h1>
+    <p>This page doesn't exist or has been moved. Head back to the portfolio or explore one of the demo sites below.</p>
+    <div class="error-links">
+      <a href="index.html" class="btn btn-primary"><i class="fa-solid fa-house"></i> Portfolio</a>
+      <a href="restaurant/index.html" class="btn btn-ghost">Restaurant</a>
+      <a href="healthcare/index.html" class="btn btn-ghost">Healthcare</a>
+      <a href="salon/index.html" class="btn btn-ghost">Salon</a>
+    </div>
+  </div>
+</main>
+
+<script src="demo.js"></script>
+</body>
+</html>

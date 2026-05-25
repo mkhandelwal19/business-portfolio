@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mkhandelwal19.github.io/business-portfolio/sitemap.xml

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Portfolio -->
+  <url>
+    <loc>https://mkhandelwal19.github.io/business-portfolio/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://mkhandelwal19.github.io/business-portfolio/uplift.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Restaurant -->
+  <url>
+    <loc>https://mkhandelwal19.github.io/business-portfolio/restaurant/index.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mkhandelwal19.github.io/business-portfolio/restaurant/menu.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Healthcare -->
+  <url>
+    <loc>https://mkhandelwal19.github.io/business-portfolio/healthcare/index.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mkhandelwal19.github.io/business-portfolio/healthcare/services.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Salon -->
+  <url>
+    <loc>https://mkhandelwal19.github.io/business-portfolio/salon/index.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mkhandelwal19.github.io/business-portfolio/salon/services.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Yoga -->
+  <url>
+    <loc>https://mkhandelwal19.github.io/business-portfolio/yoga/index.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mkhandelwal19.github.io/business-portfolio/yoga/classes.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Jewellery -->
+  <url>
+    <loc>https://mkhandelwal19.github.io/business-portfolio/jewellery/index.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mkhandelwal19.github.io/business-portfolio/jewellery/collections.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Ecommerce -->
+  <url>
+    <loc>https://mkhandelwal19.github.io/business-portfolio/ecommerce/index.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mkhandelwal19.github.io/business-portfolio/ecommerce/products.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Real Estate -->
+  <url>
+    <loc>https://mkhandelwal19.github.io/business-portfolio/realestate/index.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mkhandelwal19.github.io/business-portfolio/realestate/properties.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Boutique -->
+  <url>
+    <loc>https://mkhandelwal19.github.io/business-portfolio/boutique/index.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mkhandelwal19.github.io/business-portfolio/boutique/collections.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+</urlset>

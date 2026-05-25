@@ -317,4 +317,50 @@
     } catch {}
   });
 
+  // ── Skip-to-main link (a11y) ──
+  const main = document.querySelector('main, .section, section');
+  if (main) {
+    if (!main.id) main.id = 'main-content';
+    const skip = document.createElement('a');
+    skip.href = '#' + main.id;
+    skip.className = 'skip-link';
+    skip.textContent = 'Skip to main content';
+    document.body.insertBefore(skip, document.body.firstChild);
+  }
+
+  // ── Mobile sticky CTA bar (reads data-mobile-cta on body) ──
+  const ctaText = document.body.dataset.mobileCta;
+  const ctaHref = document.body.dataset.mobileCtatarget || '#';
+  const ctaIcon = document.body.dataset.mobileCtagicon || 'fa-regular fa-calendar';
+  if (ctaText) {
+    const bar = document.createElement('div');
+    bar.className = 'mobile-cta-bar';
+    bar.innerHTML = `<a href="${ctaHref}" class="mobile-cta-btn"><i class="${ctaIcon}"></i> ${ctaText}</a>`;
+    document.body.appendChild(bar);
+  }
+
+  // ── Cookie consent banner ──
+  if (!localStorage.getItem('cookie_consent')) {
+    const banner = document.createElement('div');
+    banner.className = 'cookie-banner';
+    banner.innerHTML = `
+      <p>We use cookies to improve your experience. By continuing you agree to our <a href="/privacy.html">privacy policy</a>.</p>
+      <div class="cookie-banner-actions">
+        <button class="btn-cookie-decline">Decline</button>
+        <button class="btn-cookie-accept">Accept</button>
+      </div>`;
+    document.body.appendChild(banner);
+    requestAnimationFrame(() => banner.classList.add('visible'));
+    banner.querySelector('.btn-cookie-accept').addEventListener('click', () => {
+      localStorage.setItem('cookie_consent', 'accepted');
+      banner.classList.remove('visible');
+      setTimeout(() => banner.remove(), 300);
+    });
+    banner.querySelector('.btn-cookie-decline').addEventListener('click', () => {
+      localStorage.setItem('cookie_consent', 'declined');
+      banner.classList.remove('visible');
+      setTimeout(() => banner.remove(), 300);
+    });
+  }
+
 })();
