@@ -9,4 +9,4 @@ Allow: /
 # Internal tooling: not HTML, cannot carry a meta tag, must never be crawled.
 Disallow: /outreach/
 
-Sitemap: https://mkhandelwal19.github.io/business-portfolio/sitemap.xml
+Sitemap: https://netloom.in/sitemap.xml
