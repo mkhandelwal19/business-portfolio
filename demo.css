@@ -270,6 +270,23 @@ body::after {
   max-width:var(--max); margin:0 auto; width:100%;
   display:grid; grid-template-columns:1.1fr 1fr; gap:64px; align-items:center;
 }
+
+/* Jewellery / ecommerce / realestate use .hero-content + .hero-visual instead of
+   .hero-inner. Those two classes had no rules at all, so .hero-visual collapsed to
+   zero width and its SVG art never showed. Mirror the .hero-inner grid here. */
+.hero:has(> .hero-visual) {
+  display:grid; grid-template-columns:1.1fr 1fr; gap:64px; align-items:center;
+  max-width:calc(var(--max) + var(--gutter) * 2); margin:0 auto; width:100%;
+}
+.hero-content { min-width:0 }
+.hero-visual {
+  min-width:0; width:100%;
+  border-radius:var(--r-lg); overflow:hidden;
+  border:1px solid var(--line);
+  box-shadow:var(--shadow);
+  background:var(--bg-2);
+}
+.hero-visual > svg { display:block; width:100%; height:auto }
 .hero-eyebrow {
   font-family:var(--f-mono); font-size:10px; letter-spacing:.3em; text-transform:uppercase;
   color:var(--accent); margin-bottom:24px;
@@ -765,7 +782,9 @@ body::after {
 /* ── RESPONSIVE ── */
 @media (max-width:1024px) {
   .hero-inner { grid-template-columns:1fr }
+  .hero:has(> .hero-visual) { grid-template-columns:1fr }
   .hero-art { display:none }
+  .hero-visual { display:none }
   .features { grid-template-columns:1fr 1fr }
   .grid-4,.product-grid { grid-template-columns:1fr 1fr }
   .stats { grid-template-columns:1fr 1fr }
