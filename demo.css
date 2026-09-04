@@ -527,6 +527,52 @@ body::after {
 .team-role { font-family:var(--f-mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); margin-bottom:10px }
 .team-bio { font-size:13px; color:var(--text-2); line-height:1.65 }
 
+/* ============================================================
+   PHOTOGRAPHY
+   Real photos replace the placeholder SVGs in every media slot.
+   Each slot already sets its own aspect-ratio and overflow:hidden,
+   so the image just fills it. A theme-toned scrim keeps photos
+   sitting inside each vertical's palette instead of on top of it.
+   ============================================================ */
+.hero-art img,
+.gallery-item img,
+.team-photo img,
+.blog-thumb img,
+.product-img img,
+.photo-slot img {
+  width:100%; height:100%;
+  object-fit:cover; object-position:center;
+  display:block;
+  background:var(--bg-2);
+}
+
+/* Scrim: ties the photo to the theme accent and keeps overlaid text legible. */
+.hero-art, .gallery-item, .blog-thumb, .product-img, .team-photo { position:relative }
+.hero-art::after,
+.gallery-item::after,
+.team-photo::after {
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:linear-gradient(to bottom, transparent 45%, rgba(0,0,0,.55) 100%);
+}
+.gallery-item img { transition:transform .6s cubic-bezier(.2,.7,.3,1) }
+.gallery-item:hover img { transform:scale(1.05) }
+.gallery-caption { z-index:2 }
+
+.product-img { aspect-ratio:1/1; background:var(--bg-2); overflow:hidden }
+.product-img img { transition:transform .5s cubic-bezier(.2,.7,.3,1) }
+.product-card:hover .product-img img { transform:scale(1.04) }
+
+.blog-card:hover .blog-thumb img { transform:scale(1.03) }
+.blog-thumb img { transition:transform .5s cubic-bezier(.2,.7,.3,1) }
+
+/* Photos load lazily; reserve the box so nothing shifts as they arrive. */
+.gallery-item img, .blog-thumb img, .product-img img, .team-photo img { min-height:100% }
+
+@media (prefers-reduced-motion:reduce){
+  .gallery-item img, .product-img img, .blog-thumb img { transition:none }
+  .gallery-item:hover img, .product-card:hover .product-img img, .blog-card:hover .blog-thumb img { transform:none }
+}
+
 /* ── BLOG ── */
 .blog-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:28px }
 .blog-card {
