@@ -1,11 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <!-- Portfolio home -->
   <url>
     <loc>https://netloom.in/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://netloom.in/work</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://netloom.in/services</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://netloom.in/pricing</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://netloom.in/about</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://netloom.in/contact</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://netloom.in/projects/boutique.html</loc>
@@ -48,6 +72,5 @@
     <priority>0.8</priority>
   </url>
 
-  <!-- Demo sites (/restaurant, /salon, ...) and concept case studies are
-       intentionally excluded: they are noindex fictional businesses. -->
+  <!-- Demo verticals and concept case studies are noindex by design. -->
 </urlset>
