@@ -1,1 +1,11 @@
 .playwright-cli/
+node_modules/
+
+# Outreach tooling is INTERNAL — never publish scraped business data.
+# leads.json contains names/addresses/phones of real businesses (DPDP Act 2023,
+# Google Places ToS). targeting-guide.md is internal sales strategy.
+outreach/lead-scanner/leads.json
+outreach/lead-scanner/leads.csv
+outreach/lead-scanner/dashboard.html
+outreach/targeting-guide.md
+**/.env

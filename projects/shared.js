@@ -1,6 +1,12 @@
 /* Shared subpage 3D hero scene + reveals */
 (function(){
-  const THREE = window.THREE;
+  let THREE = window.THREE;
+  // three.js is loaded conditionally (skipped on phones, slow links, reduced motion).
+  // Run scene code only once it actually arrives; the page is complete without it.
+  function whenThree(fn){
+    if (window.THREE) { THREE = window.THREE; return fn(); }
+    window.addEventListener('three-ready', function(){ THREE = window.THREE; fn(); }, { once:true });
+  }
 
   // Scroll progress bar
   const bar = document.createElement('div');
@@ -252,7 +258,7 @@
 
   // Hero canvas — floating particles + dodecahedron
   const canvas = document.getElementById('p-hero-canvas');
-  if (canvas && THREE){
+  whenThree(function(){ if (!(canvas && window.THREE)) return;
     const scene = new THREE.Scene();
     scene.fog = new THREE.FogExp2(0x0A0F1E, 0.08);
     const cam = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 100);
@@ -317,11 +323,11 @@
       rn.render(scene,cam);
       requestAnimationFrame(loop);
     })();
-  }
+  });
 
   // Product visual — rich 3D website mockup card
   const vcanvas = document.getElementById('p-visual-canvas');
-  if (vcanvas && THREE && window.PRODUCT_CONFIG){
+  whenThree(function(){ if (!(vcanvas && window.THREE && window.PRODUCT_CONFIG)) return;
     const cfg = window.PRODUCT_CONFIG;
     const goldColor = cfg.accentColor || 0xC9A84C;
     const w = () => vcanvas.clientWidth || 400;
@@ -468,5 +474,5 @@
       rn.render(scene,cam);
       requestAnimationFrame(loop);
     })();
-  }
+  });
 })();

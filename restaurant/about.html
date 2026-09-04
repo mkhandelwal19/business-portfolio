@@ -3,20 +3,91 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Demo site: fictional business. Must not be indexed as a real entity. -->
+<meta name="robots" content="noindex, nofollow">
 <title>Our Story — Aangan Thali House</title>
 <meta name="description" content="The story of Aangan Thali House — four generations of Bengali cooking at Gariahat, Kolkata, since 1968.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400&family=DM+Sans:opsz,wght@9..40,400..700&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="../demo.css">
 </head>
 <body class="theme-ember">
 
 <div class="preview-bar">
-  <span>Demo site · Built by <a href="../index.html">Mayank Khandelwal</a></span>
-  <span class="sep">·</span>
-  <a href="../index.html#work">View full portfolio</a>
+  <span class="pb-left">
+    <span class="pb-badge">Demo</span>
+    <span class="pb-tagline">Built by <a href="../index.html">Mayank Khandelwal</a></span>
+  </span>
+  <span class="pb-spacer"></span>
+  <div class="pb-switch" id="pbSwitch">
+    <button class="pb-switch-btn" id="pbSwitchBtn" aria-expanded="false" aria-haspopup="true">
+      <i class="fa-solid fa-grid-2" style="font-size:9px"></i>
+      <span>Restaurant & Cafe</span>
+      <i class="fa-solid fa-chevron-down chev"></i>
+    </button>
+    <div class="pb-menu" role="menu" aria-label="Browse demo sites by industry">
+      <div class="pb-menu-head">See a demo for your industry</div>
+      <a class="pb-item current" href="../restaurant/index.html">
+        <i class="fa-solid fa-utensils"></i>
+        <span class="pb-item-txt">
+          <span class="pb-item-name">Restaurant & Cafe</span>
+          <span class="pb-item-biz">Aangan Thali House</span>
+        </span>
+      </a>
+      <a class="pb-item" href="../healthcare/index.html">
+        <i class="fa-solid fa-stethoscope"></i>
+        <span class="pb-item-txt">
+          <span class="pb-item-name">Clinic & Healthcare</span>
+          <span class="pb-item-biz">Basu Family Clinic</span>
+        </span>
+      </a>
+      <a class="pb-item" href="../salon/index.html">
+        <i class="fa-solid fa-scissors"></i>
+        <span class="pb-item-txt">
+          <span class="pb-item-name">Salon & Spa</span>
+          <span class="pb-item-biz">Lumiere Salon & Spa</span>
+        </span>
+      </a>
+      <a class="pb-item" href="../boutique/index.html">
+        <i class="fa-solid fa-shirt"></i>
+        <span class="pb-item-txt">
+          <span class="pb-item-name">Boutique & Fashion</span>
+          <span class="pb-item-biz">Riyaaz Boutique</span>
+        </span>
+      </a>
+      <a class="pb-item" href="../yoga/index.html">
+        <i class="fa-solid fa-spa"></i>
+        <span class="pb-item-txt">
+          <span class="pb-item-name">Yoga & Wellness</span>
+          <span class="pb-item-biz">Praana Yoga Studio</span>
+        </span>
+      </a>
+      <a class="pb-item" href="../jewellery/index.html">
+        <i class="fa-solid fa-gem"></i>
+        <span class="pb-item-txt">
+          <span class="pb-item-name">Jewellery</span>
+          <span class="pb-item-biz">Mallika Jewels</span>
+        </span>
+      </a>
+      <a class="pb-item" href="../ecommerce/index.html">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span class="pb-item-txt">
+          <span class="pb-item-name">Online Store</span>
+          <span class="pb-item-biz">Kolkata Craft Co.</span>
+        </span>
+      </a>
+      <a class="pb-item" href="../realestate/index.html">
+        <i class="fa-solid fa-building"></i>
+        <span class="pb-item-txt">
+          <span class="pb-item-name">Real Estate</span>
+          <span class="pb-item-biz">Saha Properties</span>
+        </span>
+      </a>
+    </div>
+  </div>
+  <a class="pb-cta" href="../index.html#contact"><i class="fa-solid fa-bolt" style="font-size:9px"></i><span>Get mine</span></a>
 </div>
 
 <nav class="nav" id="nav">
@@ -25,9 +96,10 @@
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html">Home</a></li>
       <li><a href="menu.html">Menu</a></li>
-      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="about.html" class="active" aria-current="page">About</a></li>
       <li><a href="gallery.html">Gallery</a></li>
       <li><a href="testimonials.html">Reviews</a></li>
+      <li><a href="faq.html">FAQ</a></li>
       <li><a href="blog.html">Blog</a></li>
       <li><a href="team.html">Team</a></li>
       <li><a href="contact.html">Contact</a></li>

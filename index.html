@@ -14,17 +14,46 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400&family=DM+Sans:opsz,wght@9..40,400..700&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+<!-- three.js powers a decorative background only. It is 670 KB, so it is loaded
+     conditionally: never on small screens, never on save-data or slow connections,
+     never when the visitor prefers reduced motion. The page is complete without it. -->
+<script>
+(function(){
+  var nav = navigator, c = nav.connection || {};
+  var slow = c.saveData === true || /(^|-)2g$/.test(c.effectiveType || '');
+  var small = window.matchMedia('(max-width: 900px)').matches;
+  var calm  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var weak  = (nav.deviceMemory && nav.deviceMemory <= 2) ||
+              (nav.hardwareConcurrency && nav.hardwareConcurrency <= 2);
+  if (slow || small || calm || weak) return;
+  var s = document.createElement('script');
+  s.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js';
+  s.integrity = 'sha384-qOkzR5Ke/XkQxuGVJ9hpFEpDlcoLtWwVYhnJf06cLIZa2vaIptSqaubivErzmD5O';
+  s.crossOrigin = 'anonymous';
+  s.referrerPolicy = 'no-referrer';
+  s.async = true;
+  s.onload = function(){ window.dispatchEvent(new Event('three-ready')); };
+  document.head.appendChild(s);
+})();
+</script>
 
 <!-- Production meta -->
-<link rel="canonical" href="https://mayank.in/" />
+<link rel="canonical" href="https://mkhandelwal19.github.io/business-portfolio/" />
 <meta name="theme-color" content="#0A0F1E" />
 <meta name="robots" content="index, follow" />
-<meta property="og:image" content="https://mayank.in/og-cover.jpg" />
-<meta property="og:url" content="https://mayank.in/" />
+<meta property="og:image" content="https://mkhandelwal19.github.io/business-portfolio/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Mayank Khandelwal — websites for Indian small businesses" />
+<meta property="og:url" content="https://mkhandelwal19.github.io/business-portfolio/" />
+<meta property="og:site_name" content="Mayank Khandelwal" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Mayank Khandelwal — Websites for Indian Small Businesses" />
+<meta name="twitter:description" content="Fast, beautiful, affordable websites for Indian local businesses. WhatsApp-ready, Google-ready, live in 7 days." />
+<meta name="twitter:image" content="https://mkhandelwal19.github.io/business-portfolio/og-cover.png" />
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%230A0F1E'/><rect x='12' y='12' width='76' height='76' rx='10' fill='none' stroke='%23C9A84C' stroke-width='2'/><text y='.9em' x='50%' text-anchor='middle' font-size='58' font-family='Georgia,serif' fill='%23C9A84C' dominant-baseline='middle' dy='.1em'>M</text></svg>" />
 <script type="application/ld+json">
 {
@@ -33,7 +62,7 @@
   "name": "Mayank Khandelwal",
   "jobTitle": "Web Designer — Indian Small Businesses",
   "description": "Web designer building fast, beautiful, affordable websites for Indian restaurants, clinics, boutiques, salons, jewellers and local businesses across India.",
-  "url": "https://mayank.in",
+  "url": "https://mkhandelwal19.github.io/business-portfolio/",
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "Kolkata",
@@ -1022,47 +1051,50 @@ section{
 .surf-restaurant{
   background:
     linear-gradient(to bottom, rgba(26,15,10,0.04) 0%, rgba(26,15,10,0.76) 100%),
-    url('https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=800&q=80&fit=crop&auto=format') center/cover no-repeat;
+    url('https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=800&q=80&fit=crop&auto=format') center/cover no-repeat,
+    #2a1408;
+}
+.surf-healthcare{
+  background:
+    linear-gradient(to bottom, rgba(8,20,16,0.04) 0%, rgba(8,20,16,0.76) 100%),
+    url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80&fit=crop&auto=format') center/cover no-repeat,
+    #071a14;
+}
+.surf-ecommerce{
+  background:
+    linear-gradient(to bottom, rgba(24,10,6,0.04) 0%, rgba(24,10,6,0.76) 100%),
+    url('https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=800&q=80&fit=crop&auto=format') center/cover no-repeat,
+    #1e1208;
 }
 .surf-boutique{
   background:
     linear-gradient(to bottom, rgba(20,14,30,0.04) 0%, rgba(20,14,30,0.76) 100%),
-    url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800&q=80&fit=crop&auto=format') center/cover no-repeat;
+    url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800&q=80&fit=crop&auto=format') center/cover no-repeat,
+    #160e22;
 }
-.surf-clinic{
-  background:
-    linear-gradient(to bottom, rgba(24,10,6,0.04) 0%, rgba(24,10,6,0.76) 100%),
-    url('https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=800&q=80&fit=crop&auto=format') center/cover no-repeat;
-}
-.surf-craft{
-  background:
-    radial-gradient(circle at 40% 70%, rgba(201,130,60,0.35), transparent 60%),
-    linear-gradient(150deg, #1e1208, #0c0804);
-}
-.surf-sweets{
+.surf-realestate{
   background:
     linear-gradient(to bottom, rgba(10,14,24,0.04) 0%, rgba(10,14,24,0.76) 100%),
-    url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80&fit=crop&auto=format') center/cover no-repeat;
+    url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80&fit=crop&auto=format') center/cover no-repeat,
+    #0b1220;
 }
-.surf-biryani{
-  background:
-    linear-gradient(to bottom, rgba(8,20,16,0.04) 0%, rgba(8,20,16,0.76) 100%),
-    url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80&fit=crop&auto=format') center/cover no-repeat;
-}
-.surf-cafe{
+.surf-salon{
   background:
     linear-gradient(to bottom, rgba(20,8,12,0.04) 0%, rgba(20,8,12,0.76) 100%),
-    url('https://images.unsplash.com/photo-1562322140-8baeececf3df?w=800&q=80&fit=crop&auto=format') center/cover no-repeat;
+    url('https://images.unsplash.com/photo-1562322140-8baeececf3df?w=800&q=80&fit=crop&auto=format') center/cover no-repeat,
+    #1c0a10;
 }
-.surf-jewel{
+.surf-jewellery{
   background:
     linear-gradient(to bottom, rgba(14,11,28,0.04) 0%, rgba(14,11,28,0.76) 100%),
-    url('https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&q=80&fit=crop&auto=format') center/cover no-repeat;
+    url('https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&q=80&fit=crop&auto=format') center/cover no-repeat,
+    #120e24;
 }
 .surf-yoga{
   background:
     linear-gradient(to bottom, rgba(10,20,16,0.04) 0%, rgba(10,20,16,0.76) 100%),
-    url('https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&q=80&fit=crop&auto=format') center/cover no-repeat;
+    url('https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&q=80&fit=crop&auto=format') center/cover no-repeat,
+    #0a1610;
 }
 
 /* City filter */
@@ -1238,264 +1270,91 @@ section{
   margin-top: 8px;
 }
 
-/* ==================== TESTIMONIALS ==================== */
-.testis{
-  overflow: hidden;
-  position: relative;
-  padding: 10px 0;
+/* ==================== TRUST / RISK REVERSAL ==================== */
+.trust-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-top:8px;
 }
-.testis-track{
-  display:flex;
-  gap: 24px;
-  transition: transform .7s cubic-bezier(.2,.8,.2,1);
+.trust-card{
+  position:relative;
+  padding:32px 28px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:linear-gradient(160deg, rgba(20,28,52,0.65), rgba(14,21,39,0.35));
+  backdrop-filter:blur(8px);
+  transition:transform .45s cubic-bezier(.2,.7,.3,1), border-color .45s, box-shadow .45s;
 }
-.testi{
-  flex: 0 0 min(440px, 85vw);
-  padding: 40px 36px;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background:
-    linear-gradient(160deg, rgba(20,28,52,0.7), rgba(14,21,39,0.4));
-  backdrop-filter: blur(10px);
-  position: relative;
+.trust-card:hover{
+  transform:translateY(-5px);
+  border-color:rgba(201,168,76,0.45);
+  box-shadow:var(--shadow-gold);
 }
-.testi .stars{ color: var(--gold); font-size: 14px; letter-spacing: 2px; margin-bottom: 20px }
-.testi blockquote{
-  font-family: var(--f-serif);
-  font-style: italic;
-  font-size: 20px;
-  line-height: 1.5;
-  color: var(--ivory);
-  margin-bottom: 28px;
-}
-.testi-author{ display:flex; align-items:center; gap: 14px }
-.testi-avatar{
-  width: 44px; height: 44px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--gold), var(--ember));
+.trust-card-wide{ grid-column:span 2 }
+.trust-icon{
+  width:46px; height:46px;
   display:grid; place-items:center;
-  font-family: var(--f-serif);
-  color: var(--bg);
-  font-weight: 600;
-  font-size: 18px;
+  border-radius:12px;
+  margin-bottom:20px;
+  background:rgba(201,168,76,0.10);
+  border:1px solid var(--line);
+  color:var(--gold);
+  font-size:18px;
 }
-.testi-name{ font-size: 14px; font-weight: 500 }
-.testi-biz{ font-family: var(--f-mono); font-size: 11px; color: var(--ivory-dim); letter-spacing: 0.1em }
+.trust-card h3{
+  font-family:var(--f-serif);
+  font-size:21px;
+  font-weight:500;
+  line-height:1.25;
+  margin-bottom:12px;
+  letter-spacing:-0.01em;
+}
+.trust-card p{
+  font-size:14.5px;
+  line-height:1.7;
+  color:var(--ivory-dim);
+}
+.trust-card p strong{ color:var(--ivory); font-weight:600 }
+.trust-card p em{ color:var(--gold); font-style:normal }
+.trust-tag{
+  position:absolute; top:26px; right:26px;
+  font-family:var(--f-mono);
+  font-size:10px;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--gold);
+  border:1px solid var(--line);
+  border-radius:99px;
+  padding:5px 11px;
+  background:rgba(201,168,76,0.07);
+}
+.trust-cta{
+  margin-top:40px;
+  padding:34px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  text-align:center;
+  background:radial-gradient(600px 200px at 50% 0%, rgba(201,168,76,0.09), transparent 70%);
+}
+.trust-cta p{
+  font-family:var(--f-serif);
+  font-size:clamp(18px,2.4vw,24px);
+  color:var(--ivory);
+  margin-bottom:22px;
+}
+.trust-cta p em{ color:var(--gold); font-style:italic }
 
-.testi-controls{
-  display:flex; gap: 10px;
-  margin-top: 40px;
-  justify-content: flex-end;
+@media (max-width:900px){
+  .trust-grid{ grid-template-columns:repeat(2,1fr) }
+  .trust-card-wide{ grid-column:span 2 }
 }
-.testi-btn{
-  width: 48px; height: 48px;
-  border-radius: 50%;
-  border: 1px solid var(--line);
-  color: var(--ivory);
-  display:grid; place-items:center;
-  transition: all .3s;
+@media (max-width:620px){
+  .trust-grid{ grid-template-columns:1fr }
+  .trust-card-wide{ grid-column:span 1 }
+  .trust-card{ padding:26px 22px }
+  .trust-tag{ position:static; display:inline-block; margin-top:14px }
 }
-.testi-btn:hover{
-  border-color: var(--gold); color: var(--gold);
-  background: rgba(201,168,76,0.06);
-}
-
-/* ==================== CONTACT ==================== */
-.contact{
-  padding: 140px 48px 120px;
-  border-top: 1px solid var(--line-soft);
-  border-bottom: 1px solid var(--line-soft);
-  position: relative;
-  overflow: hidden;
-}
-.contact::before{
-  content:""; position:absolute; inset:0;
-  background:
-    radial-gradient(800px 400px at 50% 0%, rgba(201,168,76,0.1), transparent 60%);
-  pointer-events: none;
-}
-.contact-grid{
-  display:grid; grid-template-columns: 1fr 1fr;
-  gap: 80px;
-  align-items: start;
-  position: relative;
-}
-.contact-left h2{
-  font-family: var(--f-serif);
-  font-size: clamp(40px, 5vw, 72px);
-  font-weight: 500;
-  line-height: 1.05;
-  letter-spacing: -0.01em;
-  margin-bottom: 28px;
-}
-.contact-left h2 em{ font-style: italic; color: var(--gold); font-weight: 400 }
-.contact-left p{ color: var(--ivory-dim); font-size: 17px; max-width: 44ch; line-height: 1.65 }
-.contact-channels{
-  margin-top: 40px;
-  display:flex; flex-direction: column; gap: 14px;
-}
-.channel{
-  display:flex; align-items:center; gap: 16px;
-  padding: 18px 22px;
-  border: 1px solid var(--line-soft);
-  border-radius: 14px;
-  transition: all .3s;
-  background: rgba(20,28,52,0.4);
-}
-.channel:hover{
-  border-color: var(--gold);
-  transform: translateX(4px);
-  background: rgba(20,28,52,0.7);
-}
-.channel i{
-  width: 40px; height: 40px; border-radius: 10px;
-  display:grid; place-items:center;
-  color: var(--gold); font-size: 16px;
-  background: rgba(201,168,76,0.1);
-  border: 1px solid var(--line);
-}
-.channel-text .k{ font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted) }
-.channel-text .v{ font-size: 15px; color: var(--ivory); margin-top: 2px }
-
-.form{
-  background: linear-gradient(160deg, rgba(20,28,52,0.7), rgba(14,21,39,0.3));
-  border: 1px solid var(--line-soft);
-  backdrop-filter: blur(14px);
-  border-radius: 20px;
-  padding: 40px;
-}
-.form-row{ display:grid; grid-template-columns: 1fr 1fr; gap: 16px }
-.form-field{ margin-bottom: 18px }
-.form-field label{
-  display:block;
-  font-family: var(--f-mono);
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 8px;
-}
-.form-field input, .form-field select, .form-field textarea{
-  width: 100%;
-  background: rgba(10,15,30,0.6);
-  border: 1px solid var(--line-soft);
-  border-radius: 10px;
-  padding: 14px 16px;
-  color: var(--ivory);
-  font-family: var(--f-sans);
-  font-size: 15px;
-  transition: border-color .3s, background .3s;
-}
-.form-field textarea{ min-height: 120px; resize: vertical }
-.form-field input:focus, .form-field select:focus, .form-field textarea:focus{
-  outline: none;
-  border-color: var(--gold);
-  background: rgba(10,15,30,0.9);
-}
-.form-field select{ appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C9A84C' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: calc(100% - 16px) center; padding-right: 40px }
-.form .btn-primary{ width: 100%; justify-content: center; margin-top: 8px }
-.form-note{
-  margin-top: 14px;
-  font-family: var(--f-mono);
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  color: var(--muted);
-  text-align: center;
-}
-.form-success{
-  display:none;
-  padding: 20px;
-  border: 1px solid var(--gold);
-  border-radius: 12px;
-  background: rgba(201,168,76,0.06);
-  color: var(--gold-soft);
-  font-size: 14px;
-  margin-top: 16px;
-  text-align: center;
-}
-.form-success.show{ display:block }
-.form-error{
-  display:none;
-  padding: 16px 20px;
-  border: 1px solid rgba(220,50,50,0.4);
-  border-radius: 12px;
-  background: rgba(220,50,50,0.06);
-  color: #e06c6c;
-  font-size: 14px;
-  margin-top: 16px;
-  text-align: center;
-}
-.form-error.show{ display:block }
-
-/* ==================== FOOTER ==================== */
-footer{
-  padding: 72px 48px 48px;
-  position: relative;
-}
-footer::before{
-  content:""; position: absolute; top:0; left: 10%; right: 10%;
-  height: 1px;
-  background: linear-gradient(to right, transparent, var(--gold), transparent);
-  opacity: 0.4;
-}
-.foot{
-  max-width: 1280px; margin: 0 auto;
-  display:grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px;
-}
-.foot-brand p{
-  color: var(--ivory-dim);
-  font-size: 14px;
-  max-width: 38ch;
-  margin-top: 14px;
-  line-height: 1.6;
-}
-.foot h5{
-  font-family: var(--f-mono);
-  font-size: 11px;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 18px;
-}
-.foot ul{ list-style:none; display:flex; flex-direction: column; gap: 10px; font-size: 14px }
-.foot ul a{ color: var(--ivory-dim); transition: color .3s }
-.foot ul a:hover{ color: var(--gold) }
-.foot-social{ display:flex; gap: 10px; margin-top: 6px }
-.foot-social a{
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  border: 1px solid var(--line-soft);
-  display:grid; place-items:center;
-  color: var(--ivory-dim);
-  transition: all .3s;
-}
-.foot-social a:hover{
-  border-color: var(--gold); color: var(--gold);
-  transform: translateY(-2px);
-}
-.foot-bottom{
-  max-width: 1280px; margin: 60px auto 0;
-  padding-top: 28px;
-  border-top: 1px solid var(--line-soft);
-  display:flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
-  font-family: var(--f-mono);
-  font-size: 11px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-/* ==================== GUARANTEE ROW ==================== */
-.guarantee-row{
-  display:flex; align-items:center; gap:14px;
-  max-width: 680px; margin: 28px auto 0;
-  padding: 18px 24px;
-  border: 1px solid rgba(201,168,76,0.22);
-  border-radius: 14px;
-  background: rgba(201,168,76,0.04);
-  font-size: 14px; color: var(--ivory-dim); line-height: 1.6;
-}
-.guarantee-row i{ font-size: 22px; color: var(--gold); flex-shrink:0 }
 
 /* ==================== FAQ ==================== */
 #faq{ background: var(--bg) }
@@ -2045,34 +1904,6 @@ footer::before{
   0%,100%{ opacity:1 } 50%{ opacity:.3 }
 }
 
-/* ==================== TOAST NOTIFICATIONS ==================== */
-.toast-stack{
-  position: fixed; bottom: 96px; left: 24px;
-  z-index: 180; display: flex; flex-direction: column; gap: 8px;
-  pointer-events: none;
-}
-.toast{
-  display: flex; align-items: center; gap: 12px;
-  background: rgba(14,21,39,0.92); backdrop-filter: blur(14px);
-  border: 1px solid var(--line); border-radius: 12px;
-  padding: 12px 16px; max-width: 280px;
-  transform: translateX(-110%); opacity: 0;
-  transition: transform .45s cubic-bezier(0.16,1,0.3,1), opacity .35s ease;
-  pointer-events: auto;
-}
-.toast.show{ transform: translateX(0); opacity: 1 }
-.toast-avatar{
-  width: 34px; height: 34px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--gold-deep), var(--gold));
-  display: flex; align-items: center; justify-content: center;
-  font-size: 14px; font-weight: 700; color: var(--bg); flex-shrink: 0;
-}
-.toast-text{ font-size: 13px; line-height: 1.4 }
-.toast-text strong{ color: var(--ivory); display: block; font-size: 13px }
-.toast-text span{ color: var(--muted); font-size: 12px }
-.toast-icon{ color: #25D366; font-size: 16px; flex-shrink: 0 }
-@media(max-width: 480px){ .toast-stack{ left: 12px; bottom: 84px } .toast{ max-width: 230px } }
-
 /* ==================== WORK CARD METRICS OVERLAY ==================== */
 .work-metric{
   position: absolute; bottom: 12px; right: 12px;
@@ -2085,16 +1916,71 @@ footer::before{
   z-index: 5; pointer-events: none;
 }
 .work:hover .work-metric{ opacity: 1; transform: translateY(0) }
+
+/* ==================== ACCESSIBILITY ==================== */
+.skip-link{
+  position:absolute; left:-9999px; top:0; z-index:9999;
+  background:var(--gold); color:var(--bg); padding:12px 20px;
+  font-weight:600; border-radius:0 0 8px 0;
+}
+.skip-link:focus{ left:0 }
+
+/* Visible keyboard focus everywhere (was missing outside form fields) */
+:focus-visible{
+  outline:2px solid var(--gold);
+  outline-offset:3px;
+  border-radius:4px;
+}
+:focus:not(:focus-visible){ outline:none }
+
+/* Respect the OS "reduce motion" setting. Without this the particle field,
+   marquee, magnetic buttons and reveals can trigger motion sickness. */
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+    scroll-behavior:auto !important;
+  }
+  html{ scroll-behavior:auto }
+  .marquee-track{ animation:none !important; transform:none !important }
+  .reveal{ opacity:1 !important; transform:none !important }
+  #hero-canvas{ display:none }
+  .cursor-dot,.cursor-ring{ display:none !important }
+}
+
+/* Custom cursor is pointer-only: never hide the real cursor on touch/hybrid */
+@media (hover:none),(pointer:coarse){
+  .cursor-dot,.cursor-ring{ display:none !important }
+  body{ cursor:auto !important }
+}
 </style>
+<script>
+/* ============================================================
+   SITE CONFIG  —  ⚠️  EDIT THESE THREE LINES, NOTHING ELSE.
+   Every WhatsApp link, phone number and social icon on this
+   page is generated from here. Change once, applies everywhere.
+   ============================================================ */
+window.SITE_CONFIG = {
+  // Your WhatsApp number, country code first, digits only.
+  waNumber : '919830000000',          // <-- REPLACE with your real number
+  waMessage: 'Hi Mayank, I want a website for my business',
+  email    : 'imayank.khandelwal@gmail.com',
+  socials  : {
+    instagram: '',                    // e.g. 'https://instagram.com/yourhandle'
+    linkedin : '',                    // e.g. 'https://linkedin.com/in/yourhandle'
+    behance  : ''                     // leave '' to hide the icon entirely
+  }
+};
+</script>
 </head>
 <body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
 
 <!-- Custom cursor -->
 <div class="cursor-dot" id="cursorDot"></div>
 <div class="cursor-ring" id="cursorRing"></div>
-
-<!-- Toast notification stack -->
-<div class="toast-stack" id="toastStack"></div>
 
 <!-- ==================== NAV ==================== -->
 <nav class="nav" id="nav">
@@ -2107,7 +1993,7 @@ footer::before{
     <li><a href="#about" data-nav-link>About</a></li>
     <li><a href="#services" data-nav-link>Services</a></li>
     <li><a href="#pricing" data-nav-link>Pricing</a></li>
-    <li><a href="#testimonials" data-nav-link>Testimonials</a></li>
+    <li><a href="#testimonials" data-nav-link>Why Me</a></li>
     <li><a href="#faq" data-nav-link>FAQ</a></li>
     <li><a href="#contact" data-nav-link>Contact</a></li>
   </ul>
@@ -2116,6 +2002,7 @@ footer::before{
 </nav>
 
 <!-- ==================== HERO ==================== -->
+<main id="main">
 <section class="hero" id="top">
   <canvas id="hero-canvas"></canvas>
   <div class="hero-container">
@@ -2124,7 +2011,7 @@ footer::before{
     <div class="hero-inner">
       <div class="hero-eyebrow reveal">
         <span class="dot"></span>
-        Open for 3 projects · June – July 2026
+        <span id="heroSlots">Open for 3 projects this month</span>
       </div>
       <h1 class="reveal" data-delay="1">
         I build websites that make<br/>
@@ -2152,7 +2039,7 @@ footer::before{
       <div class="hero-meta reveal" data-delay="5">
         <span><i class="fa-solid fa-location-dot" style="color:var(--gold)"></i> India-wide · Remote-friendly</span>
         <span class="dash"></span>
-        <span>50+ businesses shipped</span>
+        <span>8 industry templates, live</span>
         <span class="dash"></span>
         <span>10-day delivery</span>
       </div>
@@ -2222,15 +2109,15 @@ footer::before{
   <div class="ss-grid">
     <div class="ss-item reveal">
       <div class="ss-num-wrap">
-        <span class="ss-num" data-count="50">0</span><span class="ss-plus">+</span>
+        <span class="ss-num" data-count="8">0</span>
       </div>
-      <div class="ss-lbl">Businesses<br/>Built</div>
+      <div class="ss-lbl">Industry<br/>Templates</div>
     </div>
     <div class="ss-item reveal" data-delay="1">
       <div class="ss-num-wrap">
-        <span class="ss-num" data-count="12">0</span>
+        <span class="ss-num" data-count="80">0</span>
       </div>
-      <div class="ss-lbl">Cities &amp;<br/>Towns</div>
+      <div class="ss-lbl">Pages You<br/>Can Open Now</div>
     </div>
     <div class="ss-item reveal" data-delay="2">
       <div class="ss-num-wrap">
@@ -2643,7 +2530,7 @@ footer::before{
 
     <div class="work-grid" id="workGrid">
       <!-- Restaurant & Café -->
-      <a href="projects/restaurant.html" class="work work-1 reveal tilt" data-city="hospitality" data-metric="3× more table bookings">
+      <a href="projects/restaurant.html" class="work work-1 reveal tilt" data-city="hospitality" data-metric="Menu · Table booking · WhatsApp orders">
         <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">restaurant-demo.in</span></div>
         <div class="work-thumb">
           <div class="surface surf-restaurant"></div>
@@ -2681,10 +2568,10 @@ footer::before{
       </a>
 
       <!-- Healthcare -->
-      <a href="projects/healthcare.html" class="work work-2 reveal tilt" data-delay="1" data-city="wellness" data-metric="Ranked #1 on Google Maps">
+      <a href="projects/healthcare.html" class="work work-2 reveal tilt" data-delay="1" data-city="wellness" data-metric="Appointments · Doctor profiles · Maps">
         <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">clinic-demo.in</span></div>
         <div class="work-thumb">
-          <div class="surface surf-biryani"></div>
+          <div class="surface surf-healthcare"></div>
           <div class="motif">
             <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
               <g stroke="#C9A84C" stroke-width=".6" fill="none" opacity=".5">
@@ -2710,10 +2597,10 @@ footer::before{
       </a>
 
       <!-- E-commerce -->
-      <a href="projects/ecommerce.html" class="work work-3 reveal tilt" data-delay="2" data-city="retail" data-metric="Site paid back in 3 weeks">
+      <a href="projects/ecommerce.html" class="work work-3 reveal tilt" data-delay="2" data-city="retail" data-metric="Catalogue · Cart · UPI checkout">
         <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">shop-demo.in</span></div>
         <div class="work-thumb">
-          <div class="surface surf-clinic"></div>
+          <div class="surface surf-ecommerce"></div>
           <div class="motif">
             <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
               <g stroke="#90C8BE" stroke-width=".5" fill="none" opacity=".5">
@@ -2739,7 +2626,7 @@ footer::before{
       </a>
 
       <!-- Boutique & Studio -->
-      <a href="projects/boutique.html" class="work work-4 reveal tilt" data-delay="1" data-city="lifestyle" data-metric="Instagram orders up 5×">
+      <a href="projects/boutique.html" class="work work-4 reveal tilt" data-delay="1" data-city="lifestyle" data-metric="Lookbook · Collections · Instagram feed">
         <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">boutique-demo.in</span></div>
         <div class="work-thumb">
           <div class="surface surf-boutique"></div>
@@ -2770,10 +2657,10 @@ footer::before{
       </a>
 
       <!-- Real Estate -->
-      <a href="projects/realestate.html" class="work work-5 reveal tilt" data-delay="2" data-city="lifestyle" data-metric="4× more property enquiries">
+      <a href="projects/realestate.html" class="work work-5 reveal tilt" data-delay="2" data-city="lifestyle" data-metric="Listings · EMI calculator · Site visits">
         <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">realestate-demo.in</span></div>
         <div class="work-thumb">
-          <div class="surface surf-sweets"></div>
+          <div class="surface surf-realestate"></div>
           <div class="motif">
             <svg viewBox="0 0 500 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
               <g stroke="#C9A84C" stroke-width=".6" fill="none" opacity=".5">
@@ -2800,10 +2687,10 @@ footer::before{
       </a>
 
       <!-- Salon & Spa -->
-      <a href="projects/salon.html" class="work work-6 reveal tilt" data-city="wellness" data-metric="Fully booked weekdays in 30 days">
+      <a href="projects/salon.html" class="work work-6 reveal tilt" data-city="wellness" data-metric="Service menu · Slot booking · Team">
         <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">salon-demo.in</span></div>
         <div class="work-thumb">
-          <div class="surface surf-cafe"></div>
+          <div class="surface surf-salon"></div>
           <div class="motif">
             <svg viewBox="0 0 500 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
               <g stroke="#C9A84C" stroke-width=".6" fill="none" opacity=".55">
@@ -2825,10 +2712,10 @@ footer::before{
       </a>
 
       <!-- Jewellery -->
-      <a href="projects/jewellery.html" class="work work-7 reveal tilt" data-delay="1" data-city="retail" data-metric="Bridal leads from 8 cities">
+      <a href="projects/jewellery.html" class="work work-7 reveal tilt" data-delay="1" data-city="retail" data-metric="Collections · Bridal · Custom orders">
         <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">jewellery-demo.in</span></div>
         <div class="work-thumb">
-          <div class="surface surf-jewel"></div>
+          <div class="surface surf-jewellery"></div>
           <div class="motif">
             <svg viewBox="0 0 500 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
               <g stroke="#C9A84C" stroke-width=".6" fill="none" opacity=".5">
@@ -2851,7 +2738,7 @@ footer::before{
       </a>
 
       <!-- Yoga & Wellness -->
-      <a href="projects/yoga.html" class="work work-8 reveal tilt" data-delay="2" data-city="wellness" data-metric="Weekday classes filled in 6 weeks">
+      <a href="projects/yoga.html" class="work work-8 reveal tilt" data-delay="2" data-city="wellness" data-metric="Class calendar · Trial pass · Teachers">
         <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">yoga-demo.in</span></div>
         <div class="work-thumb">
           <div class="surface surf-yoga"></div>
@@ -3009,8 +2896,8 @@ footer::before{
       <div class="why-visual reveal" data-delay="2">
         <canvas id="why-canvas"></canvas>
         <div class="why-badge">
-          <div class="num">50+</div>
-          <div class="lbl">Businesses · 12 cities · since 2021</div>
+          <div class="num">8</div>
+          <div class="lbl">Industry templates · 80 pages · all live</div>
         </div>
       </div>
     </div>
@@ -3096,94 +2983,75 @@ footer::before{
   </div>
 </section>
 
-<!-- ==================== TESTIMONIALS ==================== -->
+<!-- ==================== TRUST / RISK REVERSAL ==================== -->
 <section id="testimonials">
   <div class="container">
     <div class="section-head">
       <div>
-        <div class="eyebrow reveal">05 — Kind Words</div>
-        <h2 class="reveal" data-delay="1">What owners say after<br/> <em>launch day.</em></h2>
+        <div class="eyebrow reveal">05 &mdash; Why Trust Me</div>
+        <h2 class="reveal" data-delay="1">I'm new to freelancing.<br/> So I <em>de-risked it</em> for you.</h2>
       </div>
       <p class="reveal" data-delay="2">
-        Small businesses trust me because I treat their website like my own signboard.
-        These are the shopkeepers who stuck around.
+        I'm not going to show you testimonials you can't verify. Instead, here's everything
+        I've put in place so that hiring me costs you nothing if it doesn't work out.
       </p>
     </div>
 
-    <div class="testis reveal">
-      <div class="testis-track" id="testisTrack">
-        <figure class="testi">
-          <div class="stars">★★★★★</div>
-          <blockquote>"Mayank understood our shop in one sitting. The site looks like our sweets taste — warm, proud, unmistakably Bengali. My grandson uses it for wedding orders now."</blockquote>
-          <figcaption class="testi-author">
-            <div class="testi-avatar">R</div>
-            <div>
-              <div class="testi-name">Ranajit Mondal</div>
-              <div class="testi-biz">Mondal &amp; Sons Mishti · Kolkata</div>
-            </div>
-          </figcaption>
-        </figure>
-        <figure class="testi">
-          <div class="stars">★★★★★</div>
-          <blockquote>"Before the site, patients walked past our clinic. Now they find us on Google Maps and book on WhatsApp. Our receptionist finally has time to breathe."</blockquote>
-          <figcaption class="testi-author">
-            <div class="testi-avatar">R</div>
-            <div>
-              <div class="testi-name">Dr. Ramya Rao</div>
-              <div class="testi-biz">Sanjeevini Clinic · Bangalore</div>
-            </div>
-          </figcaption>
-        </figure>
-        <figure class="testi">
-          <div class="stars">★★★★★</div>
-          <blockquote>"Honest pricing, zero jargon. He explained hosting like I was his mother. Our boutique's online store paid for itself in the first month."</blockquote>
-          <figcaption class="testi-author">
-            <div class="testi-avatar">I</div>
-            <div>
-              <div class="testi-name">Indrani Sen</div>
-              <div class="testi-biz">Studio Indu · Gurugram</div>
-            </div>
-          </figcaption>
-        </figure>
-        <figure class="testi">
-          <div class="stars">★★★★★</div>
-          <blockquote>"We're a 60-year-old biryani house. Mayank made the site feel as royal as our food. Orders now come from across Hyderabad and even Dubai."</blockquote>
-          <figcaption class="testi-author">
-            <div class="testi-avatar">M</div>
-            <div>
-              <div class="testi-name">Mohammed Aziz</div>
-              <div class="testi-biz">Nizami Biryani · Hyderabad</div>
-            </div>
-          </figcaption>
-        </figure>
-        <figure class="testi">
-          <div class="stars">★★★★★</div>
-          <blockquote>"I was skeptical a website would help a Rajasthani jewellery shop. Now brides from Mumbai and Delhi contact us weeks before their wedding. The ROI is unreal."</blockquote>
-          <figcaption class="testi-author">
-            <div class="testi-avatar">P</div>
-            <div>
-              <div class="testi-name">Priya Singhania</div>
-              <div class="testi-biz">Singhania Jewels · Jaipur</div>
-            </div>
-          </figcaption>
-        </figure>
-        <figure class="testi">
-          <div class="stars">★★★★★</div>
-          <blockquote>"Our yoga studio was full on weekends, empty on weekdays. The online class calendar and trial-week flow turned that around in the first month after launch."</blockquote>
-          <figcaption class="testi-author">
-            <div class="testi-avatar">A</div>
-            <div>
-              <div class="testi-name">Ananya Krishnan</div>
-              <div class="testi-biz">Prana Yoga Studio · Chennai</div>
-            </div>
-          </figcaption>
-        </figure>
+    <div class="trust-grid">
+
+      <div class="trust-card trust-card-wide reveal">
+        <div class="trust-icon"><i class="fa-solid fa-shield-halved"></i></div>
+        <h3>You don't pay until you've seen it</h3>
+        <p>
+          I build your homepage <strong>first</strong>, with your real photos, your real menu or
+          price list, your real name &mdash; before you pay a single rupee. If you don't like it,
+          you walk away and owe me nothing. No deposit, no contract, no awkward conversation.
+        </p>
+        <div class="trust-tag">₹0 upfront</div>
       </div>
-      <div class="testi-controls">
-        <button class="testi-btn" id="testiPrev" aria-label="Previous"><i class="fa-solid fa-arrow-left"></i></button>
-        <button class="testi-btn" id="testiNext" aria-label="Next"><i class="fa-solid fa-arrow-right"></i></button>
+
+      <div class="trust-card reveal" data-delay="1">
+        <div class="trust-icon"><i class="fa-solid fa-rotate-left"></i></div>
+        <h3>Full refund, two rounds in</h3>
+        <p>If the design still isn't right after two full revision rounds, I refund everything you've paid. In writing, before we start.</p>
       </div>
+
+      <div class="trust-card reveal" data-delay="2">
+        <div class="trust-icon"><i class="fa-solid fa-key"></i></div>
+        <h3>You own everything</h3>
+        <p>Domain and hosting are registered <em>in your name, on your card</em> &mdash; not mine. If we part ways, your site keeps running. You are never locked in.</p>
+      </div>
+
+      <div class="trust-card reveal" data-delay="1">
+        <div class="trust-icon"><i class="fa-solid fa-user"></i></div>
+        <h3>You talk to me. Always.</h3>
+        <p>No agency, no account manager, no ticket queue. The person who answers your WhatsApp is the person writing your code.</p>
+      </div>
+
+      <div class="trust-card reveal" data-delay="2">
+        <div class="trust-icon"><i class="fa-solid fa-code"></i></div>
+        <h3>Judge the work, not the résumé</h3>
+        <p>Every template below is live and clickable right now &mdash; open one on your phone, test the booking flow, check how fast it loads. That's the standard you'll get.</p>
+      </div>
+
+      <div class="trust-card trust-card-wide reveal" data-delay="1">
+        <div class="trust-icon"><i class="fa-solid fa-handshake-angle"></i></div>
+        <h3>Being my early client is worth something</h3>
+        <p>
+          I'm building my portfolio, and that's an advantage for you: you get founder-level
+          attention, my direct number, and honest launch pricing &mdash; in exchange for a review
+          and permission to show your site in my work. That's the whole deal, stated plainly.
+        </p>
+        <div class="trust-tag">Launch pricing</div>
+      </div>
+
     </div>
+
+    <div class="trust-cta reveal" data-delay="2">
+      <p>Still deciding? Ask me for a free homepage mockup of <em>your</em> business. No cost, no obligation.</p>
+      <a href="#contact" class="btn btn-primary">Get My Free Mockup <span class="arrow">&rarr;</span></a>
+    </div>
+
   </div>
 </section>
 
@@ -3303,7 +3171,7 @@ footer::before{
             <i class="fa-brands fa-whatsapp"></i>
             <div class="channel-text">
               <div class="k">WhatsApp · Fastest</div>
-              <div class="v">+91 98300 00000</div>
+              <div class="v" data-wa-display>+91 98300 00000</div>
             </div>
           </a>
           <a class="channel" href="mailto:imayank.khandelwal@gmail.com">
@@ -3372,9 +3240,9 @@ footer::before{
             <label>Interested in</label>
             <select name="package" required>
               <option value="">Select a package</option>
-              <option value="starter">Starter — ₹7,999</option>
-              <option value="business">Business — ₹14,999</option>
-              <option value="premium">Premium — ₹24,999</option>
+              <option value="starter">Starter — ₹12,999</option>
+              <option value="business">Business — ₹24,999</option>
+              <option value="premium">Premium — ₹44,999</option>
             </select>
           </div>
           <div class="form-field">
@@ -3415,6 +3283,8 @@ footer::before{
   </div>
 </section>
 
+</main>
+
 <!-- ==================== FOOTER ==================== -->
 <footer>
   <div class="foot">
@@ -3425,10 +3295,10 @@ footer::before{
       </a>
       <p>Helping local Indian businesses shine online. Website design, e-commerce, and ongoing care — working remotely across India.</p>
       <div class="foot-social">
-        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-        <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-        <a href="#" aria-label="Behance"><i class="fa-brands fa-behance"></i></a>
-        <a href="#" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="#" data-social="instagram" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" data-social="linkedin" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+        <a href="#" data-social="behance" aria-label="Behance"><i class="fa-brands fa-behance"></i></a>
+        <a href="https://wa.me/919830000000" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
       </div>
     </div>
     <div>
@@ -3438,7 +3308,7 @@ footer::before{
         <li><a href="#about">About</a></li>
         <li><a href="#services">Services</a></li>
         <li><a href="#pricing">Pricing</a></li>
-        <li><a href="#testimonials">Testimonials</a></li>
+        <li><a href="#testimonials">Why Trust Me</a></li>
         <li><a href="#faq">FAQ</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
@@ -3446,15 +3316,15 @@ footer::before{
     <div>
       <h5>Elsewhere</h5>
       <ul>
-        <li><a href="#">Instagram</a></li>
-        <li><a href="#">LinkedIn</a></li>
-        <li><a href="#">Behance</a></li>
-        <li><a href="#">Read.cv</a></li>
+        <li><a href="#" data-social="instagram">Instagram</a></li>
+        <li><a href="#" data-social="linkedin">LinkedIn</a></li>
+        <li><a href="#" data-social="behance">Behance</a></li>
+        <li><a href="mailto:imayank.khandelwal@gmail.com">Email me</a></li>
       </ul>
     </div>
   </div>
   <div class="foot-bottom">
-    <div>© 2026 Mayank Khandelwal · India</div>
+    <div>© <span id="footYear">2026</span> Mayank Khandelwal · India</div>
     <div>Designed &amp; built with pride · for every Indian business</div>
   </div>
 </footer>
@@ -3468,7 +3338,7 @@ footer::before{
 <div class="sticky-wa-bar" id="stickyWaBar" role="complementary" aria-label="Contact prompt">
   <div class="sticky-wa-bar-text">
     <strong>Get your website built</strong>
-    Live in 7 days · starts ₹12,999
+    Live in 5–7 days · from ₹12,999
   </div>
   <a href="https://wa.me/919830000000?text=Hi%20Mayank%2C%20I%20want%20a%20website%20for%20my%20business" target="_blank" rel="noopener" class="sticky-wa-btn">
     <i class="fa-brands fa-whatsapp"></i> Chat Now
@@ -3476,11 +3346,18 @@ footer::before{
   <button class="sticky-wa-close" id="stickyWaClose" aria-label="Dismiss">×</button>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
+/* Runs fn once three.js is available; no-ops if it was never loaded
+   (small screens, reduced motion, save-data). */
+function whenThree(fn){
+  if (window.THREE) return fn();
+  window.addEventListener('three-ready', function(){ fn(); }, { once:true });
+}
+
 /* ============================================
    HERO — THREE.JS GOLD PARTICLE FIELD + ORBIT
    ============================================ */
-(function heroScene(){
+whenThree(function heroScene(){
   const canvas = document.getElementById('hero-canvas');
   if (!window.THREE || !canvas) return;
 
@@ -3593,12 +3470,12 @@ footer::before{
     requestAnimationFrame(loop);
   }
   loop();
-})();
+});
 
 /* ============================================
    WHY-SECTION — 3D CARD STACK (Three.js)
    ============================================ */
-(function whyScene(){
+whenThree(function whyScene(){
   const canvas = document.getElementById('why-canvas');
   if (!window.THREE || !canvas) return;
 
@@ -3682,7 +3559,7 @@ footer::before{
     requestAnimationFrame(loop);
   }
   loop();
-})();
+});
 
 /* ============================================
    NAV SCROLL STATE
@@ -3816,24 +3693,6 @@ document.querySelectorAll('.city-chip').forEach(chip => {
 });
 
 /* ============================================
-   TESTIMONIALS CAROUSEL
-   ============================================ */
-(function testis(){
-  const track = document.getElementById('testisTrack');
-  const prev = document.getElementById('testiPrev');
-  const next = document.getElementById('testiNext');
-  if (!track) return;
-  let idx = 0;
-  const items = track.children;
-  const total = items.length;
-  const step = () => items[0].getBoundingClientRect().width + 24;
-  const update = () => { track.style.transform = `translateX(${-idx * step()}px)` };
-  next.addEventListener('click', () => { idx = Math.min(idx+1, total-1); update() });
-  prev.addEventListener('click', () => { idx = Math.max(idx-1, 0); update() });
-  window.addEventListener('resize', update);
-})();
-
-/* ============================================
    CONTACT FORM — FORMSPREE SUBMIT
    Sign up at formspree.io → create form → replace YOUR_FORMSPREE_ID below
    ============================================ */
@@ -3952,14 +3811,67 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 })();
 
 /* ============================================
+   APPLY SITE CONFIG — single source of truth
+   Rewrites every wa.me link, the displayed number,
+   and the social icons from window.SITE_CONFIG.
+   ============================================ */
+(function applyConfig(){
+  var C = window.SITE_CONFIG || {};
+  var num = (C.waNumber || '').replace(/[^0-9]/g,'');
+  var isPlaceholder = !num || num === '919830000000';
+
+  // Pretty format: +91 98300 00000
+  var pretty = num.length === 12
+    ? '+' + num.slice(0,2) + ' ' + num.slice(2,7) + ' ' + num.slice(7)
+    : '+' + num;
+
+  document.querySelectorAll('a[href*="wa.me"]').forEach(function(a){
+    if (isPlaceholder){
+      // Never ship a dead CTA: fall back to email rather than a wrong number.
+      a.setAttribute('href','mailto:' + (C.email||'') +
+        '?subject=' + encodeURIComponent('Website enquiry'));
+      a.setAttribute('data-wa-fallback','email');
+      return;
+    }
+    var keepText = a.getAttribute('href').indexOf('?text=') > -1;
+    a.setAttribute('href','https://wa.me/' + num +
+      (keepText ? '?text=' + encodeURIComponent(C.waMessage||'') : ''));
+  });
+
+  if (!isPlaceholder){
+    document.querySelectorAll('[data-wa-display]').forEach(function(el){
+      el.textContent = pretty;
+    });
+  }
+
+  // Hide social icons that have no destination yet, instead of linking to "#"
+  var S = C.socials || {};
+  document.querySelectorAll('[data-social]').forEach(function(a){
+    var url = S[a.getAttribute('data-social')];
+    if (url) { a.setAttribute('href',url); a.setAttribute('target','_blank'); a.setAttribute('rel','noopener'); }
+    else { a.remove(); }
+  });
+
+  if (isPlaceholder && location.hostname === 'localhost'){
+    console.warn('[SITE_CONFIG] waNumber is still the placeholder — WhatsApp CTAs are falling back to email.');
+  }
+})();
+
+/* ============================================
+   FOOTER YEAR
+   ============================================ */
+(function(){ var y=document.getElementById('footYear'); if(y) y.textContent=new Date().getFullYear(); })();
+
+/* ============================================
    SCARCITY BADGE — auto month
    ============================================ */
 (function slotsBadge(){
-  const el = document.getElementById('slotsText');
-  if (!el) return;
   const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  const next = new Date(); next.setMonth(next.getMonth() + 1);
-  el.textContent = `Only 3 project slots open for ${months[next.getMonth()]}`;
+  const now = new Date();
+  const el = document.getElementById('slotsText');
+  if (el) el.textContent = `Only 3 project slots open for ${months[now.getMonth()]}`;
+  const hero = document.getElementById('heroSlots');
+  if (hero) hero.textContent = `Open for 3 projects · ${months[now.getMonth()]} ${now.getFullYear()}`;
 })();
 
 /* ============================================
@@ -3987,45 +3899,6 @@ document.querySelectorAll('.btn-primary,.btn-ghost').forEach(btn => {
     btn.style.transform = '';
   });
 });
-
-/* ============================================
-   TOAST SOCIAL PROOF
-   ============================================ */
-(function toastProof(){
-  const stack = document.getElementById('toastStack');
-  if (!stack || window.innerWidth < 600) return;
-  const entries = [
-    { init: 'P', name: 'Priya S.', city: 'Mumbai', type: 'restaurant website' },
-    { init: 'R', name: 'Rajesh K.', city: 'Bangalore', type: 'clinic site' },
-    { init: 'A', name: 'Ananya M.', city: 'Delhi', type: 'boutique store' },
-    { init: 'S', name: 'Suresh N.', city: 'Hyderabad', type: 'biryani house' },
-    { init: 'M', name: 'Meera R.', city: 'Chennai', type: 'yoga studio' },
-    { init: 'K', name: 'Kiran J.', city: 'Pune', type: 'jewellery shop' },
-    { init: 'D', name: 'Deepa V.', city: 'Ahmedabad', type: 'salon website' },
-    { init: 'V', name: 'Vikram T.', city: 'Jaipur', type: 'real estate site' },
-  ];
-  let idx = 0;
-  const show = () => {
-    const e = entries[idx % entries.length]; idx++;
-    const t = document.createElement('div');
-    t.className = 'toast';
-    t.innerHTML = `
-      <div class="toast-avatar">${e.init}</div>
-      <div class="toast-text">
-        <strong>${e.name} from ${e.city}</strong>
-        <span>just enquired about a ${e.type}</span>
-      </div>
-      <i class="fa-brands fa-whatsapp toast-icon"></i>`;
-    stack.appendChild(t);
-    requestAnimationFrame(() => { t.classList.add('show') });
-    setTimeout(() => {
-      t.classList.remove('show');
-      setTimeout(() => t.remove(), 500);
-    }, 5000);
-  };
-  setTimeout(show, 6000);
-  setInterval(show, 12000);
-})();
 
 /* ============================================
    STICKY MOBILE WA BAR

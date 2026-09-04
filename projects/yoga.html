@@ -7,10 +7,31 @@
 <meta name="description" content="Website template for yoga studios, wellness centres, meditation apps, retreats. Class calendar, memberships, teacher profiles." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400&family=DM+Sans:opsz,wght@9..40,400..700&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 <link rel="stylesheet" href="shared.css?v=6" />
-<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+<!-- three.js powers a decorative background only. It is 670 KB, so it is loaded
+     conditionally: never on small screens, never on save-data or slow connections,
+     never when the visitor prefers reduced motion. The page is complete without it. -->
+<script>
+(function(){
+  var nav = navigator, c = nav.connection || {};
+  var slow = c.saveData === true || /(^|-)2g$/.test(c.effectiveType || '');
+  var small = window.matchMedia('(max-width: 900px)').matches;
+  var calm  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var weak  = (nav.deviceMemory && nav.deviceMemory <= 2) ||
+              (nav.hardwareConcurrency && nav.hardwareConcurrency <= 2);
+  if (slow || small || calm || weak) return;
+  var s = document.createElement('script');
+  s.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js';
+  s.integrity = 'sha384-qOkzR5Ke/XkQxuGVJ9hpFEpDlcoLtWwVYhnJf06cLIZa2vaIptSqaubivErzmD5O';
+  s.crossOrigin = 'anonymous';
+  s.referrerPolicy = 'no-referrer';
+  s.async = true;
+  s.onload = function(){ window.dispatchEvent(new Event('three-ready')); };
+  document.head.appendChild(s);
+})();
+</script>
 </head>
 <body>
 <nav class="pnav">

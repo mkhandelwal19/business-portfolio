@@ -1,4 +1,12 @@
 User-agent: *
 Allow: /
 
+# NOTE: the 8 demo verticals (/restaurant/, /salon/, ...) and the concept case
+# studies each carry <meta name="robots" content="noindex,nofollow">.
+# They are deliberately NOT disallowed here — a crawler must be able to fetch a
+# page to read its noindex. Blocking them would leave them indexable by link alone.
+
+# Internal tooling: not HTML, cannot carry a meta tag, must never be crawled.
+Disallow: /outreach/
+
 Sitemap: https://mkhandelwal19.github.io/business-portfolio/sitemap.xml

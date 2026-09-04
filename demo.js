@@ -7,6 +7,40 @@
 (function () {
   'use strict';
 
+
+  // ── Industry switcher (preview bar) ──
+  const pbSwitch = document.getElementById('pbSwitch');
+  const pbBtn    = document.getElementById('pbSwitchBtn');
+  if (pbSwitch && pbBtn) {
+    const setOpen = (open) => {
+      pbSwitch.classList.toggle('open', open);
+      pbBtn.setAttribute('aria-expanded', String(open));
+    };
+    pbBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setOpen(!pbSwitch.classList.contains('open'));
+    });
+    document.addEventListener('click', (e) => {
+      if (!pbSwitch.contains(e.target)) setOpen(false);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') setOpen(false);
+    });
+    // Keyboard: arrow through the industry list
+    pbSwitch.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+      const items = [...pbSwitch.querySelectorAll('.pb-item')];
+      if (!items.length) return;
+      e.preventDefault();
+      setOpen(true);
+      const i = items.indexOf(document.activeElement);
+      const nextI = e.key === 'ArrowDown'
+        ? (i + 1) % items.length
+        : (i <= 0 ? items.length - 1 : i - 1);
+      items[nextI].focus();
+    });
+  }
+
   // ── Nav scroll state ──
   const nav = document.querySelector('.nav');
   if (nav) {

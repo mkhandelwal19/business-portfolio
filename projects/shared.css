@@ -755,3 +755,17 @@ body::after{
   .gallery{grid-template-columns:1fr}
   .process{grid-template-columns:1fr}
 }
+
+/* Concept-work disclosure bar */
+.concept-bar{
+  position:relative; z-index:60;
+  display:flex; align-items:flex-start; gap:12px;
+  padding:12px 22px;
+  background:rgba(201,168,76,0.10);
+  border-bottom:1px solid rgba(201,168,76,0.28);
+  font-size:13px; line-height:1.55; color:#E8E2D6;
+}
+.concept-bar i{ color:#C9A84C; margin-top:3px }
+.concept-bar strong{ color:#C9A84C }
+.concept-bar a{ color:#C9A84C; text-decoration:underline; text-underline-offset:2px }
+@media (max-width:600px){ .concept-bar{ font-size:12px; padding:10px 16px } }
