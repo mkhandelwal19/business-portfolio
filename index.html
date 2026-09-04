@@ -14,7 +14,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400&family=DM+Sans:opsz,wght@9..40,400..700&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400&family=DM+Sans:opsz,wght@9..40,400..700&family=JetBrains+Mono:wght@400..500&family=Manrope:wght@800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
 <!-- three.js powers a decorative background only. It is 670 KB, so it is loaded
@@ -54,7 +54,7 @@
 <meta name="twitter:title" content="Netloom — Websites for Indian Small Businesses" />
 <meta name="twitter:description" content="Fast, beautiful, affordable websites for Indian local businesses. WhatsApp-ready, Google-ready, live in 7 days." />
 <meta name="twitter:image" content="https://netloom.in/og-cover.png" />
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='16' fill='%23C9A84C'/><g stroke='%230A0F1E' stroke-width='2.2' opacity='.3'><path d='M13 24 H51'/><path d='M13 32 H51'/><path d='M13 40 H51'/></g><g stroke='%230A0F1E' stroke-width='4.6' stroke-linecap='round'><path d='M21 46 V18'/><path d='M43 46 V18'/><path d='M21 18 L43 46'/></g></svg>" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230A0F1E'/><path d='M31 24 L69 76' stroke='%23E0A94A' stroke-width='15'/><rect x='17' y='18' width='15' height='64' fill='%23F5F2EC'/><rect x='68' y='18' width='15' height='64' fill='%23F5F2EC'/><path d='M31 24 L45 43' stroke='%23E0A94A' stroke-width='15'/></svg>" />
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -173,21 +173,25 @@ body::after{
   letter-spacing: 0.01em;
   display:flex; align-items:center; gap: 12px;
 }
-/* Netloom mark: an N drawn on a loom — two warp stems and the thread pulled
-   between them, with the weft running behind. Inline SVG so it stays crisp at
-   every size and picks up the gold tokens. */
+/* Netloom mark — "Woven N": two ivory warp stems with a gold thread that passes
+   under the left stem and back over it. The interlace lives in the draw order,
+   so the second thread segment must stay last. */
 .logo-mark{
-  width: 36px; height: 36px;
+  width: 34px; height: 34px;
   display: block; flex: none;
   transition: transform .5s cubic-bezier(.2,.7,.3,1);
 }
-.logo:hover .logo-mark{ transform: rotate(-6deg) scale(1.05) }
-.logo-mark .weft{ stroke: var(--gold); opacity: .4 }
-.logo-mark .frame{ stroke: var(--gold) }
-.logo-mark .warp{ stroke: var(--gold-soft) }
+.logo:hover .logo-mark{ transform: translateY(-1px) scale(1.04) }
+.logo-mark .thread{ stroke: var(--gold) }
+.logo-mark .stem{ fill: var(--ivory) }
 @media (prefers-reduced-motion: reduce){
   .logo:hover .logo-mark{ transform: none }
 }
+
+/* Wordmark: Manrope 800, tightly tracked, with the gold terminal dot. */
+.logo{ font-family: 'Manrope', var(--f-sans) !important; font-weight: 800 !important;
+       font-size: 25px !important; letter-spacing: -.04em !important; }
+.logo em{ color: var(--gold); font-style: normal }
 .logo em{
   font-style: normal;
   color: var(--gold);
@@ -2191,7 +2195,7 @@ window.SITE_CONFIG = {
 <!-- ==================== NAV ==================== -->
 <nav class="nav" id="nav">
   <a href="#top" class="logo" data-nav-link>
-    <svg class="logo-mark" viewBox="0 0 64 64" fill="none" aria-hidden="true"><rect class="frame" x="3" y="3" width="58" height="58" rx="16" stroke-width="2.6"/><g class="weft" stroke-width="2" stroke-linecap="round"><path d="M13 24 H51"/><path d="M13 32 H51"/><path d="M13 40 H51"/></g><g class="warp" stroke-width="4.4" stroke-linecap="round"><path d="M21 46 V18"/><path d="M43 46 V18"/><path d="M21 18 L43 46"/></g></svg>
+    <svg class="logo-mark" viewBox="0 0 100 100" fill="none" aria-hidden="true"><path class="thread" d="M31 24 L69 76" stroke-width="15"/><rect class="stem" x="17" y="18" width="15" height="64"/><rect class="stem" x="68" y="18" width="15" height="64"/><path class="thread" d="M31 24 L45 43" stroke-width="15"/></svg>
     <span>Netloom<em>.</em></span>
   </a>
   <ul class="nav-links" id="site-menu">
@@ -3496,7 +3500,7 @@ window.SITE_CONFIG = {
   <div class="foot">
     <div class="foot-brand">
       <a href="#top" class="logo">
-        <svg class="logo-mark" viewBox="0 0 64 64" fill="none" aria-hidden="true"><rect class="frame" x="3" y="3" width="58" height="58" rx="16" stroke-width="2.6"/><g class="weft" stroke-width="2" stroke-linecap="round"><path d="M13 24 H51"/><path d="M13 32 H51"/><path d="M13 40 H51"/></g><g class="warp" stroke-width="4.4" stroke-linecap="round"><path d="M21 46 V18"/><path d="M43 46 V18"/><path d="M21 18 L43 46"/></g></svg>
+        <svg class="logo-mark" viewBox="0 0 100 100" fill="none" aria-hidden="true"><path class="thread" d="M31 24 L69 76" stroke-width="15"/><rect class="stem" x="17" y="18" width="15" height="64"/><rect class="stem" x="68" y="18" width="15" height="64"/><path class="thread" d="M31 24 L45 43" stroke-width="15"/></svg>
         <span>Netloom<em>.</em></span>
       </a>
       <p>Helping local Indian businesses shine online. Website design, e-commerce, and ongoing care — working remotely across India.</p>
