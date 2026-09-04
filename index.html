@@ -1917,6 +1917,20 @@ section{
 }
 .work:hover .work-metric{ opacity: 1; transform: translateY(0) }
 
+/* Social icon that is on the page but not yet linked: present, not clickable,
+   and visibly quieter so it does not read as a broken link. */
+.foot-social a[aria-disabled="true"],
+.foot ul a[aria-disabled="true"]{
+  opacity:.45;
+  cursor:default;
+}
+.foot-social a[aria-disabled="true"]:hover,
+.foot ul a[aria-disabled="true"]:hover{
+  opacity:.45;
+  color:inherit;
+  border-color:var(--line-soft);
+}
+
 /* ==================== ACCESSIBILITY ==================== */
 .skip-link{
   position:absolute; left:-9999px; top:0; z-index:9999;
@@ -1963,13 +1977,13 @@ section{
    ============================================================ */
 window.SITE_CONFIG = {
   // Your WhatsApp number, country code first, digits only.
-  waNumber : '919830000000',          // <-- REPLACE with your real number
+  waNumber : '918249992869',          // +91 82499 92869
   waMessage: 'Hi Mayank, I want a website for my business',
   email    : 'imayank.khandelwal@gmail.com',
   socials  : {
-    instagram: '',                    // e.g. 'https://instagram.com/yourhandle'
+    instagram: '',                    // icon stays visible; add URL to make it clickable
     linkedin : '',                    // e.g. 'https://linkedin.com/in/yourhandle'
-    behance  : ''                     // leave '' to hide the icon entirely
+    behance  : ''                     // '' hides the icon (unless data-social-keep)
   }
 };
 </script>
@@ -3167,11 +3181,11 @@ window.SITE_CONFIG = {
         </p>
 
         <div class="contact-channels reveal" data-delay="3">
-          <a class="channel" href="https://wa.me/919830000000" target="_blank" rel="noopener">
+          <a class="channel" href="https://wa.me/918249992869" target="_blank" rel="noopener">
             <i class="fa-brands fa-whatsapp"></i>
             <div class="channel-text">
               <div class="k">WhatsApp · Fastest</div>
-              <div class="v" data-wa-display>+91 98300 00000</div>
+              <div class="v" data-wa-display>+91 82499 92869</div>
             </div>
           </a>
           <a class="channel" href="mailto:imayank.khandelwal@gmail.com">
@@ -3295,10 +3309,10 @@ window.SITE_CONFIG = {
       </a>
       <p>Helping local Indian businesses shine online. Website design, e-commerce, and ongoing care — working remotely across India.</p>
       <div class="foot-social">
-        <a href="#" data-social="instagram" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" data-social="instagram" data-social-keep aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
         <a href="#" data-social="linkedin" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
         <a href="#" data-social="behance" aria-label="Behance"><i class="fa-brands fa-behance"></i></a>
-        <a href="https://wa.me/919830000000" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="https://wa.me/918249992869" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
       </div>
     </div>
     <div>
@@ -3316,7 +3330,7 @@ window.SITE_CONFIG = {
     <div>
       <h5>Elsewhere</h5>
       <ul>
-        <li><a href="#" data-social="instagram">Instagram</a></li>
+        <li><a href="#" data-social="instagram" data-social-keep>Instagram</a></li>
         <li><a href="#" data-social="linkedin">LinkedIn</a></li>
         <li><a href="#" data-social="behance">Behance</a></li>
         <li><a href="mailto:imayank.khandelwal@gmail.com">Email me</a></li>
@@ -3330,7 +3344,7 @@ window.SITE_CONFIG = {
 </footer>
 
 <!-- ==================== WHATSAPP FLOAT ==================== -->
-<a href="https://wa.me/919830000000" target="_blank" rel="noopener" class="wa-float" aria-label="Chat on WhatsApp">
+<a href="https://wa.me/918249992869" target="_blank" rel="noopener" class="wa-float" aria-label="Chat on WhatsApp">
   <i class="fa-brands fa-whatsapp"></i>
 </a>
 
@@ -3340,7 +3354,7 @@ window.SITE_CONFIG = {
     <strong>Get your website built</strong>
     Live in 5–7 days · from ₹12,999
   </div>
-  <a href="https://wa.me/919830000000?text=Hi%20Mayank%2C%20I%20want%20a%20website%20for%20my%20business" target="_blank" rel="noopener" class="sticky-wa-btn">
+  <a href="https://wa.me/918249992869?text=Hi%20Mayank%2C%20I%20want%20a%20website%20for%20my%20business" target="_blank" rel="noopener" class="sticky-wa-btn">
     <i class="fa-brands fa-whatsapp"></i> Chat Now
   </a>
   <button class="sticky-wa-close" id="stickyWaClose" aria-label="Dismiss">×</button>
@@ -3844,12 +3858,23 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     });
   }
 
-  // Hide social icons that have no destination yet, instead of linking to "#"
+  // Social icons: link them when a URL exists. With no URL yet, an icon marked
+  // data-social-keep stays visible but inert (no href) rather than becoming a
+  // dead "#" that jumps the page; every other empty icon is removed.
   var S = C.socials || {};
   document.querySelectorAll('[data-social]').forEach(function(a){
     var url = S[a.getAttribute('data-social')];
-    if (url) { a.setAttribute('href',url); a.setAttribute('target','_blank'); a.setAttribute('rel','noopener'); }
-    else { a.remove(); }
+    if (url) {
+      a.setAttribute('href',url);
+      a.setAttribute('target','_blank');
+      a.setAttribute('rel','noopener');
+      a.removeAttribute('aria-disabled');
+    } else if (a.hasAttribute('data-social-keep')) {
+      a.removeAttribute('href');
+      a.setAttribute('aria-disabled','true');
+    } else {
+      a.remove();
+    }
   });
 
   if (isPlaceholder && location.hostname === 'localhost'){

@@ -84,7 +84,13 @@
       "Bash(git remote *)",
       "Bash(gh api *)",
       "Bash(git commit -m 'Fix WhatsApp message encoding — remove emojis that corrupt on Windows *)",
-      "Bash(grep -Ev \"\\(projects/|outreach/|/index\\\\.html$|Mayank|v1|v2\\)\")"
+      "Bash(grep -Ev \"\\(projects/|outreach/|/index\\\\.html$|Mayank|v1|v2\\)\")",
+      "WebFetch(domain:www.namecheap.com)",
+      "WebFetch(domain:who.is)",
+      "Read(//c/Users/Mayank/Downloads/Website/**)",
+      "Bash(git checkout *)",
+      "Bash(grep -v \"^Only in C:\\\\\\\\\\\\\\\\Users\\\\\\\\\\\\\\\\Mayank\\\\\\\\\\\\\\\\Desktop\")",
+      "Bash(git merge claude-design --no-ff -m ' *)"
     ],
     "additionalDirectories": [
       "c:\\Users\\Mayank\\.claude\\projects\\c--Users-Mayank-Desktop-Tech-Project-Website-Portfolio"
