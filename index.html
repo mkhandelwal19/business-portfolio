@@ -17,29 +17,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400&family=DM+Sans:opsz,wght@9..40,400..700&family=JetBrains+Mono:wght@400..500&family=Manrope:wght@800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-<!-- three.js powers a decorative background only. It is 670 KB, so it is loaded
-     conditionally: never on small screens, never on save-data or slow connections,
-     never when the visitor prefers reduced motion. The page is complete without it. -->
-<script>
-(function(){
-  var nav = navigator, c = nav.connection || {};
-  var slow = c.saveData === true || /(^|-)2g$/.test(c.effectiveType || '');
-  var small = window.matchMedia('(max-width: 900px)').matches;
-  var calm  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var weak  = (nav.deviceMemory && nav.deviceMemory <= 2) ||
-              (nav.hardwareConcurrency && nav.hardwareConcurrency <= 2);
-  if (slow || small || calm || weak) return;
-  var s = document.createElement('script');
-  s.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js';
-  s.integrity = 'sha384-qOkzR5Ke/XkQxuGVJ9hpFEpDlcoLtWwVYhnJf06cLIZa2vaIptSqaubivErzmD5O';
-  s.crossOrigin = 'anonymous';
-  s.referrerPolicy = 'no-referrer';
-  s.async = true;
-  s.onload = function(){ window.dispatchEvent(new Event('three-ready')); };
-  document.head.appendChild(s);
-})();
-</script>
-
 <!-- Production meta -->
 <link rel="canonical" href="https://netloom.in/" />
 <meta name="theme-color" content="#0A0F1E" />
@@ -1637,7 +1614,10 @@ footer::before{
   .nav.nav-open .nav-links a{ font-size: 15px; color: var(--ivory); }
   .nav.nav-open .nav-cta{ display:inline-flex; width:100%; order:4; justify-content:center; }
 
-  .hero{ padding: 120px 24px 60px }
+  /* Hero content is taller than the viewport on a phone, and centring a flex
+     child that overflows pushes it up under the fixed nav. Start it from the
+     top instead and let the padding hold it clear. */
+  .hero{ padding: 104px 24px 56px; justify-content: flex-start; min-height: auto }
   .hero-container{ grid-template-columns: 1fr; gap: 48px; }
   .hero h1{ font-size: clamp(36px, 8vw, 56px); }
   .hero-visual{ min-height: 340px; }
@@ -2127,6 +2107,67 @@ footer::before{
   border-color:var(--line-soft);
 }
 
+
+/* ==================== VIEWS / ROUTER ==================== */
+:root{ --nav-h: 82px }
+@media (max-width:760px){ :root{ --nav-h: 70px } }
+
+.view{ display:none }
+.view.is-active{
+  display:block;
+  padding-top: var(--nav-h);           /* clear the fixed nav */
+  animation: viewIn .42s cubic-bezier(.2,.7,.3,1) both;
+}
+/* The hero is full-bleed and carries its own top padding. */
+#view-home.is-active{ padding-top:0 }
+@keyframes viewIn{ from{ opacity:0; transform: translateY(10px) } to{ opacity:1; transform:none } }
+/* Sections sit either directly in a view or inside a tab panel — both need the
+   tighter rhythm, otherwise the nested ones keep the old 140px scroll spacing. */
+.view > section:not(.hero),
+.view .tabpanel > section{ padding-top:64px; padding-bottom:76px }
+.view > section:first-child:not(.hero),
+.view .tabpanel > section:first-child{ padding-top:24px }
+.view:focus{ outline:none }
+.nav-links a.is-current{ color: var(--gold) }
+.nav-links a.is-current::after{ width:100% }
+@media (max-width:760px){
+  .view > section:not(.hero),
+  .view .tabpanel > section{ padding-top:44px; padding-bottom:52px }
+  .view > section:first-child:not(.hero),
+  .view .tabpanel > section:first-child{ padding-top:14px }
+}
+
+/* ==================== TABS ==================== */
+/* Sticky under the nav so the switcher stays reachable inside a long panel. */
+.tabs{
+  position: sticky; top: calc(var(--nav-h) + 8px); z-index: 60;
+  display:flex; gap:6px; flex-wrap:wrap; padding:6px; margin:0 auto 34px;
+  border:1px solid var(--line); border-radius:99px;
+  background: rgba(10,15,30,.86);
+  backdrop-filter: blur(14px) saturate(140%);
+  width:max-content; max-width:100%;
+  box-shadow: 0 10px 30px -18px rgba(0,0,0,.9);
+}
+.tab{
+  appearance:none; border:0; cursor:pointer; padding:10px 20px; border-radius:99px;
+  font-family:var(--f-sans); font-size:13.5px; font-weight:500;
+  color:var(--ivory-dim); background:transparent; white-space:nowrap;
+  transition:color .25s, background .25s;
+}
+.tab:hover{ color:var(--ivory) }
+.tab[aria-selected="true"]{ background:var(--gold); color:var(--bg); font-weight:600 }
+.tabpanel[hidden]{ display:none }
+.tabpanel{ animation: viewIn .34s cubic-bezier(.2,.7,.3,1) both }
+@media (max-width:760px){
+  .tabs{ width:100%; justify-content:flex-start; overflow-x:auto; border-radius:14px;
+         flex-wrap:nowrap; -webkit-overflow-scrolling:touch; scrollbar-width:none;
+         top: calc(var(--nav-h) + 4px); margin-bottom:24px }
+  .tabs::-webkit-scrollbar{ display:none }
+  .tab{ padding:9px 15px; font-size:13px }
+}
+.why-art{ position:absolute; inset:0; width:100%; height:100%; display:block }
+@media (prefers-reduced-motion: reduce){ .view.is-active, .tabpanel{ animation:none } }
+
 /* ==================== ACCESSIBILITY ==================== */
 .skip-link{
   position:absolute; left:-9999px; top:0; z-index:9999;
@@ -2194,25 +2235,26 @@ window.SITE_CONFIG = {
 
 <!-- ==================== NAV ==================== -->
 <nav class="nav" id="nav">
-  <a href="#top" class="logo" data-nav-link>
+  <a href="/" class="logo" data-route="home">
     <svg class="logo-mark" viewBox="0 0 100 100" fill="none" aria-hidden="true"><path class="thread" d="M31 24 L69 76" stroke-width="15"/><rect class="stem" x="17" y="18" width="15" height="64"/><rect class="stem" x="68" y="18" width="15" height="64"/><path class="thread" d="M31 24 L45 43" stroke-width="15"/></svg>
     <span>Netloom<em>.</em></span>
   </a>
   <ul class="nav-links" id="site-menu">
-    <li><a href="#work" data-nav-link>Work</a></li>
-    <li><a href="#about" data-nav-link>About</a></li>
-    <li><a href="#services" data-nav-link>Services</a></li>
-    <li><a href="#pricing" data-nav-link>Pricing</a></li>
-    <li><a href="#testimonials" data-nav-link>Why Me</a></li>
-    <li><a href="#faq" data-nav-link>FAQ</a></li>
-    <li><a href="#contact" data-nav-link>Contact</a></li>
+    <li><a href="/work" data-route="work">Work</a></li>
+    <li><a href="/services" data-route="services">Services</a></li>
+    <li><a href="/pricing" data-route="pricing">Pricing</a></li>
+    <li><a href="/about" data-route="about">About</a></li>
+    <li><a href="/contact" data-route="contact">Contact</a></li>
   </ul>
-  <a href="#contact" class="nav-cta" data-nav-link>Let's Talk</a>
+  <a href="/contact" class="nav-cta" data-route="contact">Let's Talk</a>
   <button class="hamburger" aria-label="Toggle navigation" aria-controls="site-menu" aria-expanded="false"><span></span></button>
 </nav>
 
-<!-- ==================== HERO ==================== -->
 <main id="main">
+
+<!-- ============ VIEW: HOME ============ -->
+<div class="view is-active" id="view-home" data-view="home" role="region" aria-label="Home">
+<!-- ==================== HERO ==================== -->
 <section class="hero" id="top">
   <canvas id="hero-canvas"></canvas>
   <div class="hero-container">
@@ -2233,10 +2275,10 @@ window.SITE_CONFIG = {
         Full handholding from Day 1 to launch and beyond.
       </p>
       <div class="hero-ctas reveal" data-delay="3">
-        <a href="#work" class="btn btn-primary">
+        <a href="/work" data-route="work" class="btn btn-primary">
           See My Work <span class="arrow">→</span>
         </a>
-        <a href="#contact" class="btn btn-ghost">
+        <a href="/contact" data-route="contact" class="btn btn-ghost">
           Get a Free Demo
         </a>
       </div>
@@ -2313,7 +2355,6 @@ window.SITE_CONFIG = {
   </div>
   <div class="scroll-indicator">Scroll</div>
 </section>
-
 <!-- ==================== STATS STRIP ==================== -->
 <div class="stats-strip">
   <div class="ss-grid">
@@ -2343,7 +2384,6 @@ window.SITE_CONFIG = {
     </div>
   </div>
 </div>
-
 <!-- ==================== MARQUEE TICKER ==================== -->
 <div class="marquee-strip" aria-hidden="true">
   <div class="marquee-track" id="marqueeTrack">
@@ -2374,349 +2414,17 @@ window.SITE_CONFIG = {
     <span class="marquee-item"><i class="fa-solid fa-store"></i> Jaipur Kirana Store <span class="marquee-sep">·</span></span>
   </div>
 </div>
+</div>
 
-<!-- ==================== MISSION / VISION ==================== -->
-<section id="about">
-  <div class="container">
-    <div class="section-head">
-      <div>
-        <div class="eyebrow reveal">01 — Purpose</div>
-        <h2 class="reveal" data-delay="1">Every Indian shop<br/> deserves a website <em>as proud as its owner.</em></h2>
-      </div>
-      <p class="reveal" data-delay="2">
-        I've sat in the back of chai stalls in Jaipur, visited handloom boutiques in Ahmedabad, and waited
-        in clinic lobbies in Chennai. Every owner I meet has a story worth telling online — and a Google
-        search that doesn't find them yet. That's what I'm here to fix.
-      </p>
-    </div>
-
-    <div class="mv-grid">
-      <article class="mv-card reveal tilt" data-delay="1">
-        <div class="mv-quote">&ldquo;</div>
-        <div class="mv-icon"><i class="fa-solid fa-compass"></i></div>
-        <div class="mv-label">Mission</div>
-        <h3>Make every small business in India look world-class on the internet.</h3>
-        <p>
-          Affordable sites. Fast pages. GST-ready, mobile-first, WhatsApp-connected.
-          Built with the care of local craftsmanship and the polish of global design.
-        </p>
-      </article>
-
-      <article class="mv-card reveal tilt" data-delay="2">
-        <div class="mv-quote">&ldquo;</div>
-        <div class="mv-icon"><i class="fa-solid fa-mountain-sun"></i></div>
-        <div class="mv-label">Vision</div>
-        <h3>A digitally empowered India where the corner shop competes with the chain.</h3>
-        <p>
-          Where a tailor in Surat, a café in Pune, and a clinic in Kochi all have
-          beautiful online homes — ones their customers are proud to share.
-        </p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- ==================== SERVICES ==================== -->
-<section id="services">
-  <div class="container">
-    <div class="section-head">
-      <div>
-        <div class="eyebrow reveal">02 — Services</div>
-        <h2 class="reveal" data-delay="1">Everything you need to<br/> <em>go digital</em>, handled.</h2>
-      </div>
-      <p class="reveal" data-delay="2">
-        From your first domain name to the Sunday-evening WhatsApp message — I take care of
-        every technical step so you can focus on what you do best: running your business.
-        No jargon. No ghosting. End-to-end handholding, in your language.
-      </p>
-    </div>
-
-    <div class="services-grid reveal">
-      <div class="service" data-service>
-        <div class="service-num">S/01</div>
-        <div>
-          <div class="service-icon"><i class="fa-regular fa-window-maximize"></i></div>
-          <h4>Mobile Store Design</h4>
-          <p>A fast, beautiful site that works as your digital storefront on every phone — WhatsApp bookings, UPI payments, and a shareable link your customers will actually open.</p>
-        </div>
-        <div class="service-arrow"><i class="fa-solid fa-arrow-right"></i></div>
-      </div>
-
-      <div class="service" data-service>
-        <div class="service-num">S/02</div>
-        <div>
-          <div class="service-icon"><i class="fa-solid fa-bag-shopping"></i></div>
-          <h4>E-Commerce Setup</h4>
-          <p>Razorpay, UPI, COD — start taking orders online. Inventory, GST invoices, delivery zones, all sorted.</p>
-        </div>
-        <div class="service-arrow"><i class="fa-solid fa-arrow-right"></i></div>
-      </div>
-
-      <div class="service" data-service>
-        <div class="service-num">S/03</div>
-        <div>
-          <div class="service-icon"><i class="fa-brands fa-google"></i></div>
-          <h4>Google Business Profile</h4>
-          <p>Show up on Maps. Verified photos, hours, menu, reviews — so customers find you before they find anyone else.</p>
-        </div>
-        <div class="service-arrow"><i class="fa-solid fa-arrow-right"></i></div>
-      </div>
-
-      <div class="service" data-service>
-        <div class="service-num">S/04</div>
-        <div>
-          <div class="service-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
-          <h4>SEO Basics</h4>
-          <p>Rank in your own neighbourhood. Local keywords, schema, sitemap — so the right customers find you.</p>
-        </div>
-        <div class="service-arrow"><i class="fa-solid fa-arrow-right"></i></div>
-      </div>
-
-      <div class="service" data-service>
-        <div class="service-num">S/05</div>
-        <div>
-          <div class="service-icon"><i class="fa-solid fa-shield-halved"></i></div>
-          <h4>Monthly Maintenance</h4>
-          <p>Updates, backups, content changes, new photos during festivals. Like a retainer — a friend you can WhatsApp.</p>
-        </div>
-        <div class="service-arrow"><i class="fa-solid fa-arrow-right"></i></div>
-      </div>
-
-      <div class="service" data-service>
-        <div class="service-num">S/06</div>
-        <div>
-          <div class="service-icon"><i class="fa-brands fa-whatsapp"></i></div>
-          <h4>WhatsApp Business</h4>
-          <p>Click-to-chat buttons, catalog setup, auto-replies. Where your customers already are — that's where your shop opens.</p>
-        </div>
-        <div class="service-arrow"><i class="fa-solid fa-arrow-right"></i></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ==================== PROCESS TIMELINE ==================== -->
-<section id="process">
-  <div class="container">
-    <div class="section-head">
-      <div>
-        <div class="eyebrow reveal">02B — How It Works</div>
-        <h2 class="reveal" data-delay="1">From first chat to<br/> <em>live website</em> in 7 days.</h2>
-      </div>
-      <p class="reveal" data-delay="2">
-        No long discovery calls. No waiting weeks. Here's exactly what happens after you say yes — step by step, day by day.
-      </p>
-    </div>
-    <div class="process-track">
-      <div class="process-step reveal" data-delay="1">
-        <div class="ps-day">Day 1</div>
-        <div class="ps-dot"></div>
-        <div class="ps-icon"><i class="fa-solid fa-mug-hot"></i></div>
-        <div class="ps-content">
-          <h4>Brief Call</h4>
-          <p>30-minute WhatsApp or video call. I learn your business, your customers, and your dream site.</p>
-        </div>
-      </div>
-      <div class="process-step reveal" data-delay="2">
-        <div class="ps-day">Days 2–3</div>
-        <div class="ps-dot"></div>
-        <div class="ps-icon"><i class="fa-solid fa-pen-nib"></i></div>
-        <div class="ps-content">
-          <h4>Design</h4>
-          <p>Full layout, colour palette, fonts, and content tailored to your industry and personality.</p>
-        </div>
-      </div>
-      <div class="process-step reveal" data-delay="3">
-        <div class="ps-day">Days 4–6</div>
-        <div class="ps-dot"></div>
-        <div class="ps-icon"><i class="fa-solid fa-code"></i></div>
-        <div class="ps-content">
-          <h4>Build &amp; Review</h4>
-          <p>I build the site and share a live preview link. One round of feedback, incorporated same day.</p>
-        </div>
-      </div>
-      <div class="process-step reveal" data-delay="4">
-        <div class="ps-day">Day 7</div>
-        <div class="ps-dot gold"></div>
-        <div class="ps-icon gold"><i class="fa-solid fa-rocket"></i></div>
-        <div class="ps-content">
-          <h4>Launch Day</h4>
-          <p>Your domain goes live. Google Business is set up, WhatsApp is connected. You're open online.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ==================== PRICING ==================== -->
-<section id="pricing">
-  <div class="container">
-    <div class="section-head">
-      <div>
-        <div class="slots-badge reveal" id="slotsBadge">
-          <span class="slot-dot"></span>
-          <span id="slotsText">Only 3 project slots open for June</span>
-        </div>
-        <div class="eyebrow reveal">03 — Pricing</div>
-        <h2 class="reveal" data-delay="1">Simple, <em>honest pricing.</em><br/>No hidden charges.</h2>
-      </div>
-      <p class="reveal" data-delay="2">
-        Every pack includes domain setup, hosting guidance, mobile optimisation, and a free strategy call.
-        Add-ons available à la carte after we talk.
-      </p>
-    </div>
-
-    <div class="delivery-badge reveal" data-delay="3">
-      <i class="fa-solid fa-bolt"></i>
-      <span><strong>Starter sites go live in 5–7 days.</strong> Every pack includes a free 30-min strategy call.</span>
-    </div>
-
-    <div class="pricing-grid reveal">
-
-      <!-- Starter -->
-      <div class="price-card">
-        <div class="price-tag">S/01</div>
-        <h4>Starter</h4>
-        <div class="price-amount">₹12,999</div>
-        <div class="price-sub">one-time · delivery 5–7 days</div>
-        <ul class="price-list">
-          <li>1-page landing site</li>
-          <li>Mobile-first responsive</li>
-          <li>WhatsApp click-to-chat</li>
-          <li>Google Maps & Hours</li>
-          <li>Basic enquiry form</li>
-          <li>1 month support</li>
-        </ul>
-        <div class="price-best">Best for: Salon, Coaching, Gym, Sweet Shop</div>
-        <a href="#contact" class="btn btn-ghost price-cta">Get Started <span class="arrow">→</span></a>
-      </div>
-
-      <!-- Business (most popular) -->
-      <div class="price-card price-featured">
-        <div class="price-badge">Most Popular</div>
-        <div class="price-tag">S/02</div>
-        <h4>Business</h4>
-        <div class="price-amount">₹24,999</div>
-        <div class="price-sub">one-time · delivery 10–14 days</div>
-        <ul class="price-list">
-          <li>5-page full website</li>
-          <li>SEO + speed optimised</li>
-          <li>Gallery / Menu / Portfolio</li>
-          <li>Online booking & enquiry</li>
-          <li>Google Business setup</li>
-          <li>WhatsApp catalog</li>
-          <li>3 months support</li>
-        </ul>
-        <div class="price-best">Best for: Restaurant, Boutique, Clinic, Yoga</div>
-        <a href="#contact" class="btn btn-primary price-cta">Get Started <span class="arrow">→</span></a>
-      </div>
-
-      <!-- Premium -->
-      <div class="price-card">
-        <div class="price-tag">S/03</div>
-        <h4>Premium</h4>
-        <div class="price-amount">₹44,999</div>
-        <div class="price-sub">one-time · delivery 21–30 days</div>
-        <ul class="price-list">
-          <li>Unlimited pages</li>
-          <li>E-commerce / Online ordering</li>
-          <li>Razorpay / UPI / COD</li>
-          <li>Inventory management</li>
-          <li>SEO + Google Ads setup</li>
-          <li>WhatsApp Business API</li>
-          <li>6 months support</li>
-        </ul>
-        <div class="price-best">Best for: Jewellery, Real Estate, D2C Brand</div>
-        <a href="#contact" class="btn btn-ghost price-cta">Get Started <span class="arrow">→</span></a>
-      </div>
-
-    </div>
-
-    <!-- Add-ons -->
-    <div class="addons-row reveal" data-delay="2">
-      <div class="addons-label">Popular add-ons</div>
-      <div class="addons-chips">
-        <span class="addon-chip">QR Menu / Table Ordering <em>+₹2,999</em></span>
-        <span class="addon-chip">Appointment Booking System <em>+₹3,999</em></span>
-        <span class="addon-chip">Instagram Shop Sync <em>+₹2,499</em></span>
-        <span class="addon-chip">Property Listings Module <em>+₹5,999</em></span>
-        <span class="addon-chip">Monthly Maintenance <em>₹1,999/mo</em></span>
-        <span class="addon-chip">Logo + Brand Kit <em>+₹4,999</em></span>
-      </div>
-    </div>
-
-    <!-- Guarantee -->
-    <div class="guarantee-row reveal" data-delay="3">
-      <i class="fa-solid fa-shield-halved"></i>
-      <span><strong>Satisfaction guarantee:</strong> If after two full revision rounds the design isn't right for you, I'll refund every rupee — no questions asked. <a href="#faq" style="color:var(--gold)">Read the FAQ →</a></span>
-    </div>
-
-  </div>
-</section>
-
-<!-- ==================== ROI CALCULATOR ==================== -->
-<section id="roi-calc">
-  <div class="container">
-    <div class="section-head">
-      <div>
-        <div class="eyebrow reveal">— ROI Check</div>
-        <h2 class="reveal" data-delay="1">Will a website<br/> <em>pay for itself?</em></h2>
-      </div>
-      <p class="reveal" data-delay="2">
-        Run the numbers for your business type. Most Starter sites break even in the first month.
-      </p>
-    </div>
-    <div class="roi-card reveal" data-delay="1">
-      <div class="roi-inputs">
-        <div class="roi-field">
-          <label>Business type</label>
-          <select id="roiType">
-            <option value="restaurant">Restaurant / Café</option>
-            <option value="clinic">Clinic / Hospital</option>
-            <option value="boutique">Boutique / Shop</option>
-            <option value="salon">Salon / Spa</option>
-            <option value="yoga">Yoga / Fitness Studio</option>
-            <option value="jewellery">Jewellery</option>
-            <option value="realestate">Real Estate</option>
-          </select>
-        </div>
-        <div class="roi-field">
-          <label id="roiMetricLabel">New customers / month from website</label>
-          <div class="roi-range-wrap">
-            <input type="range" id="roiSlider" min="2" max="40" value="8" />
-            <span class="roi-range-val" id="roiSliderVal">8</span>
-          </div>
-        </div>
-        <div class="roi-field">
-          <label id="roiAvgLabel">Average spend per visit (₹)</label>
-          <div class="roi-range-wrap">
-            <input type="range" id="roiAvgSlider" min="200" max="3000" step="50" value="600" />
-            <span class="roi-range-val" id="roiAvgVal">₹600</span>
-          </div>
-        </div>
-      </div>
-      <div class="roi-result">
-        <div class="roi-math">
-          <span class="roi-num" id="roiCustomers">8</span>
-          <span class="roi-op">×</span>
-          <span class="roi-num" id="roiAvgDisp">₹600</span>
-          <span class="roi-op">=</span>
-          <span class="roi-total-wrap">
-            <span class="roi-total" id="roiTotal">₹4,800</span>
-            <span class="roi-total-lbl">extra per month</span>
-          </span>
-        </div>
-        <div class="roi-payback">
-          Your <strong>Starter site (₹12,999)</strong> pays back in <strong id="roiMonths">3 months</strong>.
-          Everything after that is profit — every single month.
-        </div>
-        <a href="#contact" class="btn btn-primary">Let's build yours <span class="arrow">→</span></a>
-      </div>
-    </div>
-  </div>
-</section>
-
+<!-- ============ VIEW: WORK ============ -->
+<div class="view" id="view-work" data-view="work" role="region" aria-label="Work" hidden>
 <!-- ==================== PORTFOLIO ==================== -->
+<div class="tabs" role="tablist" data-tabs="tabs-work" aria-label="work sections">
+  <button class="tab" role="tab" data-tab="templates" aria-selected="true" tabindex="0">Templates</button>
+  <button class="tab" role="tab" data-tab="ba" aria-selected="false" tabindex="-1">Before / after</button>
+</div>
+<div id="tabs-work">
+  <div class="tabpanel" data-panel="templates">
 <section id="work">
   <div class="container">
     <div class="section-head">
@@ -2976,8 +2684,8 @@ window.SITE_CONFIG = {
     </div>
   </div>
 </section>
-
-<!-- ==================== BEFORE / AFTER SLIDER ==================== -->
+  </div>
+  <div class="tabpanel" data-panel="ba" hidden>
 <section id="ba-section">
   <div class="container">
     <div class="section-head">
@@ -3056,8 +2764,155 @@ window.SITE_CONFIG = {
     </div>
   </div>
 </section>
+  </div>
+</div>
+<!-- ==================== BEFORE / AFTER SLIDER ==================== -->
 
-<!-- ==================== WHY ==================== -->
+</div>
+
+<!-- ============ VIEW: SERVICES ============ -->
+<div class="view" id="view-services" data-view="services" role="region" aria-label="Services" hidden>
+<!-- ==================== SERVICES ==================== -->
+<div class="tabs" role="tablist" data-tabs="tabs-services" aria-label="services sections">
+  <button class="tab" role="tab" data-tab="build" aria-selected="true" tabindex="0">What I build</button>
+  <button class="tab" role="tab" data-tab="process" aria-selected="false" tabindex="-1">How I work</button>
+  <button class="tab" role="tab" data-tab="why" aria-selected="false" tabindex="-1">Why Netloom</button>
+  <button class="tab" role="tab" data-tab="compare" aria-selected="false" tabindex="-1">Compare</button>
+</div>
+<div id="tabs-services">
+  <div class="tabpanel" data-panel="build">
+<section id="services">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow reveal">02 — Services</div>
+        <h2 class="reveal" data-delay="1">Everything you need to<br/> <em>go digital</em>, handled.</h2>
+      </div>
+      <p class="reveal" data-delay="2">
+        From your first domain name to the Sunday-evening WhatsApp message — I take care of
+        every technical step so you can focus on what you do best: running your business.
+        No jargon. No ghosting. End-to-end handholding, in your language.
+      </p>
+    </div>
+
+    <div class="services-grid reveal">
+      <div class="service" data-service>
+        <div class="service-num">S/01</div>
+        <div>
+          <div class="service-icon"><i class="fa-regular fa-window-maximize"></i></div>
+          <h4>Mobile Store Design</h4>
+          <p>A fast, beautiful site that works as your digital storefront on every phone — WhatsApp bookings, UPI payments, and a shareable link your customers will actually open.</p>
+        </div>
+        <div class="service-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+      </div>
+
+      <div class="service" data-service>
+        <div class="service-num">S/02</div>
+        <div>
+          <div class="service-icon"><i class="fa-solid fa-bag-shopping"></i></div>
+          <h4>E-Commerce Setup</h4>
+          <p>Razorpay, UPI, COD — start taking orders online. Inventory, GST invoices, delivery zones, all sorted.</p>
+        </div>
+        <div class="service-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+      </div>
+
+      <div class="service" data-service>
+        <div class="service-num">S/03</div>
+        <div>
+          <div class="service-icon"><i class="fa-brands fa-google"></i></div>
+          <h4>Google Business Profile</h4>
+          <p>Show up on Maps. Verified photos, hours, menu, reviews — so customers find you before they find anyone else.</p>
+        </div>
+        <div class="service-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+      </div>
+
+      <div class="service" data-service>
+        <div class="service-num">S/04</div>
+        <div>
+          <div class="service-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+          <h4>SEO Basics</h4>
+          <p>Rank in your own neighbourhood. Local keywords, schema, sitemap — so the right customers find you.</p>
+        </div>
+        <div class="service-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+      </div>
+
+      <div class="service" data-service>
+        <div class="service-num">S/05</div>
+        <div>
+          <div class="service-icon"><i class="fa-solid fa-shield-halved"></i></div>
+          <h4>Monthly Maintenance</h4>
+          <p>Updates, backups, content changes, new photos during festivals. Like a retainer — a friend you can WhatsApp.</p>
+        </div>
+        <div class="service-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+      </div>
+
+      <div class="service" data-service>
+        <div class="service-num">S/06</div>
+        <div>
+          <div class="service-icon"><i class="fa-brands fa-whatsapp"></i></div>
+          <h4>WhatsApp Business</h4>
+          <p>Click-to-chat buttons, catalog setup, auto-replies. Where your customers already are — that's where your shop opens.</p>
+        </div>
+        <div class="service-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+      </div>
+    </div>
+  </div>
+</section>
+  </div>
+  <div class="tabpanel" data-panel="process" hidden>
+<section id="process">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow reveal">02B — How It Works</div>
+        <h2 class="reveal" data-delay="1">From first chat to<br/> <em>live website</em> in 7 days.</h2>
+      </div>
+      <p class="reveal" data-delay="2">
+        No long discovery calls. No waiting weeks. Here's exactly what happens after you say yes — step by step, day by day.
+      </p>
+    </div>
+    <div class="process-track">
+      <div class="process-step reveal" data-delay="1">
+        <div class="ps-day">Day 1</div>
+        <div class="ps-dot"></div>
+        <div class="ps-icon"><i class="fa-solid fa-mug-hot"></i></div>
+        <div class="ps-content">
+          <h4>Brief Call</h4>
+          <p>30-minute WhatsApp or video call. I learn your business, your customers, and your dream site.</p>
+        </div>
+      </div>
+      <div class="process-step reveal" data-delay="2">
+        <div class="ps-day">Days 2–3</div>
+        <div class="ps-dot"></div>
+        <div class="ps-icon"><i class="fa-solid fa-pen-nib"></i></div>
+        <div class="ps-content">
+          <h4>Design</h4>
+          <p>Full layout, colour palette, fonts, and content tailored to your industry and personality.</p>
+        </div>
+      </div>
+      <div class="process-step reveal" data-delay="3">
+        <div class="ps-day">Days 4–6</div>
+        <div class="ps-dot"></div>
+        <div class="ps-icon"><i class="fa-solid fa-code"></i></div>
+        <div class="ps-content">
+          <h4>Build &amp; Review</h4>
+          <p>I build the site and share a live preview link. One round of feedback, incorporated same day.</p>
+        </div>
+      </div>
+      <div class="process-step reveal" data-delay="4">
+        <div class="ps-day">Day 7</div>
+        <div class="ps-dot gold"></div>
+        <div class="ps-icon gold"><i class="fa-solid fa-rocket"></i></div>
+        <div class="ps-content">
+          <h4>Launch Day</h4>
+          <p>Your domain goes live. Google Business is set up, WhatsApp is connected. You're open online.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+  </div>
+  <div class="tabpanel" data-panel="why" hidden>
 <section id="why">
   <div class="container">
     <div class="section-head">
@@ -3104,7 +2959,24 @@ window.SITE_CONFIG = {
       </div>
 
       <div class="why-visual reveal" data-delay="2">
-        <canvas id="why-canvas"></canvas>
+        <!-- Was a three.js card stack; inline SVG renders identically on phone and desktop. -->
+        <svg class="why-art" viewBox="0 0 400 500" fill="none" aria-hidden="true">
+          <defs><linearGradient id="wg1" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#C9A84C" stop-opacity=".22"/>
+            <stop offset="100%" stop-color="#C9A84C" stop-opacity="0"/></linearGradient></defs>
+          <rect x="62" y="96" width="230" height="300" rx="14" fill="#141C34" stroke="#C9A84C" stroke-opacity=".16" opacity=".5"/>
+          <rect x="82" y="76" width="230" height="300" rx="14" fill="#0E1527" stroke="#C9A84C" stroke-opacity=".24" opacity=".75"/>
+          <rect x="102" y="56" width="230" height="300" rx="14" fill="#141C34" stroke="#C9A84C" stroke-opacity=".45"/>
+          <rect x="102" y="56" width="230" height="300" rx="14" fill="url(#wg1)"/>
+          <circle cx="120" cy="74" r="3.4" fill="#E06C65"/><circle cx="132" cy="74" r="3.4" fill="#E2B756"/><circle cx="144" cy="74" r="3.4" fill="#64C267"/>
+          <rect x="118" y="104" width="150" height="9" rx="4.5" fill="#C9A84C" opacity=".85"/>
+          <rect x="118" y="122" width="104" height="7" rx="3.5" fill="#F4EFE6" opacity=".28"/>
+          <rect x="118" y="146" width="198" height="72" rx="9" fill="#C9A84C" opacity=".10"/>
+          <rect x="118" y="234" width="198" height="7" rx="3.5" fill="#F4EFE6" opacity=".2"/>
+          <rect x="118" y="250" width="164" height="7" rx="3.5" fill="#F4EFE6" opacity=".14"/>
+          <rect x="118" y="266" width="128" height="7" rx="3.5" fill="#F4EFE6" opacity=".1"/>
+          <rect x="118" y="298" width="86" height="26" rx="13" fill="#C9A84C"/>
+        </svg>
         <div class="why-badge">
           <div class="num">8</div>
           <div class="lbl">Industry templates · 80 pages · all live</div>
@@ -3113,8 +2985,8 @@ window.SITE_CONFIG = {
     </div>
   </div>
 </section>
-
-<!-- ==================== COMPARISON TABLE ==================== -->
+  </div>
+  <div class="tabpanel" data-panel="compare" hidden>
 <section id="compare">
   <div class="container">
     <div class="section-head">
@@ -3192,7 +3064,239 @@ window.SITE_CONFIG = {
     </div>
   </div>
 </section>
+  </div>
+</div>
+<!-- ==================== PROCESS TIMELINE ==================== -->
 
+<!-- ==================== WHY ==================== -->
+
+<!-- ==================== COMPARISON TABLE ==================== -->
+
+</div>
+
+<!-- ============ VIEW: PRICING ============ -->
+<div class="view" id="view-pricing" data-view="pricing" role="region" aria-label="Pricing" hidden>
+<!-- ==================== PRICING ==================== -->
+<div class="tabs" role="tablist" data-tabs="tabs-pricing" aria-label="pricing sections">
+  <button class="tab" role="tab" data-tab="packs" aria-selected="true" tabindex="0">Packages</button>
+  <button class="tab" role="tab" data-tab="roi" aria-selected="false" tabindex="-1">What it returns</button>
+</div>
+<div id="tabs-pricing">
+  <div class="tabpanel" data-panel="packs">
+<section id="pricing">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="slots-badge reveal" id="slotsBadge">
+          <span class="slot-dot"></span>
+          <span id="slotsText">Only 3 project slots open for June</span>
+        </div>
+        <div class="eyebrow reveal">03 — Pricing</div>
+        <h2 class="reveal" data-delay="1">Simple, <em>honest pricing.</em><br/>No hidden charges.</h2>
+      </div>
+      <p class="reveal" data-delay="2">
+        Every pack includes domain setup, hosting guidance, mobile optimisation, and a free strategy call.
+        Add-ons available à la carte after we talk.
+      </p>
+    </div>
+
+    <div class="delivery-badge reveal" data-delay="3">
+      <i class="fa-solid fa-bolt"></i>
+      <span><strong>Starter sites go live in 5–7 days.</strong> Every pack includes a free 30-min strategy call.</span>
+    </div>
+
+    <div class="pricing-grid reveal">
+
+      <!-- Starter -->
+      <div class="price-card">
+        <div class="price-tag">S/01</div>
+        <h4>Starter</h4>
+        <div class="price-amount">₹12,999</div>
+        <div class="price-sub">one-time · delivery 5–7 days</div>
+        <ul class="price-list">
+          <li>1-page landing site</li>
+          <li>Mobile-first responsive</li>
+          <li>WhatsApp click-to-chat</li>
+          <li>Google Maps & Hours</li>
+          <li>Basic enquiry form</li>
+          <li>1 month support</li>
+        </ul>
+        <div class="price-best">Best for: Salon, Coaching, Gym, Sweet Shop</div>
+        <a href="/contact" data-route="contact" class="btn btn-ghost price-cta">Get Started <span class="arrow">→</span></a>
+      </div>
+
+      <!-- Business (most popular) -->
+      <div class="price-card price-featured">
+        <div class="price-badge">Most Popular</div>
+        <div class="price-tag">S/02</div>
+        <h4>Business</h4>
+        <div class="price-amount">₹24,999</div>
+        <div class="price-sub">one-time · delivery 10–14 days</div>
+        <ul class="price-list">
+          <li>5-page full website</li>
+          <li>SEO + speed optimised</li>
+          <li>Gallery / Menu / Portfolio</li>
+          <li>Online booking & enquiry</li>
+          <li>Google Business setup</li>
+          <li>WhatsApp catalog</li>
+          <li>3 months support</li>
+        </ul>
+        <div class="price-best">Best for: Restaurant, Boutique, Clinic, Yoga</div>
+        <a href="/contact" data-route="contact" class="btn btn-primary price-cta">Get Started <span class="arrow">→</span></a>
+      </div>
+
+      <!-- Premium -->
+      <div class="price-card">
+        <div class="price-tag">S/03</div>
+        <h4>Premium</h4>
+        <div class="price-amount">₹44,999</div>
+        <div class="price-sub">one-time · delivery 21–30 days</div>
+        <ul class="price-list">
+          <li>Unlimited pages</li>
+          <li>E-commerce / Online ordering</li>
+          <li>Razorpay / UPI / COD</li>
+          <li>Inventory management</li>
+          <li>SEO + Google Ads setup</li>
+          <li>WhatsApp Business API</li>
+          <li>6 months support</li>
+        </ul>
+        <div class="price-best">Best for: Jewellery, Real Estate, D2C Brand</div>
+        <a href="/contact" data-route="contact" class="btn btn-ghost price-cta">Get Started <span class="arrow">→</span></a>
+      </div>
+
+    </div>
+
+    <!-- Add-ons -->
+    <div class="addons-row reveal" data-delay="2">
+      <div class="addons-label">Popular add-ons</div>
+      <div class="addons-chips">
+        <span class="addon-chip">QR Menu / Table Ordering <em>+₹2,999</em></span>
+        <span class="addon-chip">Appointment Booking System <em>+₹3,999</em></span>
+        <span class="addon-chip">Instagram Shop Sync <em>+₹2,499</em></span>
+        <span class="addon-chip">Property Listings Module <em>+₹5,999</em></span>
+        <span class="addon-chip">Monthly Maintenance <em>₹1,999/mo</em></span>
+        <span class="addon-chip">Logo + Brand Kit <em>+₹4,999</em></span>
+      </div>
+    </div>
+
+    <!-- Guarantee -->
+    <div class="guarantee-row reveal" data-delay="3">
+      <i class="fa-solid fa-shield-halved"></i>
+      <span><strong>Satisfaction guarantee:</strong> If after two full revision rounds the design isn't right for you, I'll refund every rupee — no questions asked. <a href="/contact" data-route="contact" style="color:var(--gold)">Read the FAQ →</a></span>
+    </div>
+
+  </div>
+</section>
+  </div>
+  <div class="tabpanel" data-panel="roi" hidden>
+<section id="roi-calc">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow reveal">— ROI Check</div>
+        <h2 class="reveal" data-delay="1">Will a website<br/> <em>pay for itself?</em></h2>
+      </div>
+      <p class="reveal" data-delay="2">
+        Run the numbers for your business type. Most Starter sites break even in the first month.
+      </p>
+    </div>
+    <div class="roi-card reveal" data-delay="1">
+      <div class="roi-inputs">
+        <div class="roi-field">
+          <label>Business type</label>
+          <select id="roiType">
+            <option value="restaurant">Restaurant / Café</option>
+            <option value="clinic">Clinic / Hospital</option>
+            <option value="boutique">Boutique / Shop</option>
+            <option value="salon">Salon / Spa</option>
+            <option value="yoga">Yoga / Fitness Studio</option>
+            <option value="jewellery">Jewellery</option>
+            <option value="realestate">Real Estate</option>
+          </select>
+        </div>
+        <div class="roi-field">
+          <label id="roiMetricLabel">New customers / month from website</label>
+          <div class="roi-range-wrap">
+            <input type="range" id="roiSlider" min="2" max="40" value="8" />
+            <span class="roi-range-val" id="roiSliderVal">8</span>
+          </div>
+        </div>
+        <div class="roi-field">
+          <label id="roiAvgLabel">Average spend per visit (₹)</label>
+          <div class="roi-range-wrap">
+            <input type="range" id="roiAvgSlider" min="200" max="3000" step="50" value="600" />
+            <span class="roi-range-val" id="roiAvgVal">₹600</span>
+          </div>
+        </div>
+      </div>
+      <div class="roi-result">
+        <div class="roi-math">
+          <span class="roi-num" id="roiCustomers">8</span>
+          <span class="roi-op">×</span>
+          <span class="roi-num" id="roiAvgDisp">₹600</span>
+          <span class="roi-op">=</span>
+          <span class="roi-total-wrap">
+            <span class="roi-total" id="roiTotal">₹4,800</span>
+            <span class="roi-total-lbl">extra per month</span>
+          </span>
+        </div>
+        <div class="roi-payback">
+          Your <strong>Starter site (₹12,999)</strong> pays back in <strong id="roiMonths">3 months</strong>.
+          Everything after that is profit — every single month.
+        </div>
+        <a href="/contact" data-route="contact" class="btn btn-primary">Let's build yours <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+  </div>
+</div>
+<!-- ==================== ROI CALCULATOR ==================== -->
+
+</div>
+
+<!-- ============ VIEW: ABOUT ============ -->
+<div class="view" id="view-about" data-view="about" role="region" aria-label="About" hidden>
+<!-- ==================== MISSION / VISION ==================== -->
+<section id="about">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow reveal">01 — Purpose</div>
+        <h2 class="reveal" data-delay="1">Every Indian shop<br/> deserves a website <em>as proud as its owner.</em></h2>
+      </div>
+      <p class="reveal" data-delay="2">
+        I've sat in the back of chai stalls in Jaipur, visited handloom boutiques in Ahmedabad, and waited
+        in clinic lobbies in Chennai. Every owner I meet has a story worth telling online — and a Google
+        search that doesn't find them yet. That's what I'm here to fix.
+      </p>
+    </div>
+
+    <div class="mv-grid">
+      <article class="mv-card reveal tilt" data-delay="1">
+        <div class="mv-quote">&ldquo;</div>
+        <div class="mv-icon"><i class="fa-solid fa-compass"></i></div>
+        <div class="mv-label">Mission</div>
+        <h3>Make every small business in India look world-class on the internet.</h3>
+        <p>
+          Affordable sites. Fast pages. GST-ready, mobile-first, WhatsApp-connected.
+          Built with the care of local craftsmanship and the polish of global design.
+        </p>
+      </article>
+
+      <article class="mv-card reveal tilt" data-delay="2">
+        <div class="mv-quote">&ldquo;</div>
+        <div class="mv-icon"><i class="fa-solid fa-mountain-sun"></i></div>
+        <div class="mv-label">Vision</div>
+        <h3>A digitally empowered India where the corner shop competes with the chain.</h3>
+        <p>
+          Where a tailor in Surat, a café in Pune, and a clinic in Kochi all have
+          beautiful online homes — ones their customers are proud to share.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
 <!-- ==================== TRUST / RISK REVERSAL ==================== -->
 <section id="testimonials">
   <div class="container">
@@ -3259,111 +3363,15 @@ window.SITE_CONFIG = {
 
     <div class="trust-cta reveal" data-delay="2">
       <p>Still deciding? Ask me for a free homepage mockup of <em>your</em> business. No cost, no obligation.</p>
-      <a href="#contact" class="btn btn-primary">Get My Free Mockup <span class="arrow">&rarr;</span></a>
+      <a href="/contact" data-route="contact" class="btn btn-primary">Get My Free Mockup <span class="arrow">&rarr;</span></a>
     </div>
 
   </div>
 </section>
+</div>
 
-<!-- ==================== FAQ ==================== -->
-<section id="faq">
-  <div class="container">
-    <div class="section-head">
-      <div>
-        <div class="eyebrow reveal">06 — FAQ</div>
-        <h2 class="reveal" data-delay="1">Questions you'll<br/> <em>definitely have.</em></h2>
-      </div>
-      <p class="reveal" data-delay="2">
-        Answered honestly — no sales spin. If something isn't listed here, just WhatsApp me.
-      </p>
-    </div>
-
-    <div class="faq-list reveal" data-delay="1">
-
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">
-          Do I own the website after I pay?
-          <span class="faq-icon" aria-hidden="true">+</span>
-        </button>
-        <div class="faq-body" role="region">
-          <p>Yes, 100%. Once the project is complete and the final payment is cleared, the domain, hosting account, and all website files are entirely yours. I don't hold anything hostage.</p>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">
-          What about domain and hosting costs — are they extra?
-          <span class="faq-icon" aria-hidden="true">+</span>
-        </button>
-        <div class="faq-body" role="region">
-          <p>My prices cover design and development only. Domain registration costs roughly ₹800–₹1,200/year and basic hosting is ₹350–₹700/month. I'll set everything up for you, recommend the right provider for your budget, and walk you through the renewal process so you're never dependent on me.</p>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">
-          How many design revisions do I get?
-          <span class="faq-icon" aria-hidden="true">+</span>
-        </button>
-        <div class="faq-body" role="region">
-          <p>As many as it takes to get it right — within the agreed project scope. After the initial design is approved, further structural changes (adding new pages, rethinking the layout) are treated as new work. Most clients need 1–2 rounds. I've never had a project go past 3.</p>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">
-          Do I need to provide photos and content?
-          <span class="faq-icon" aria-hidden="true">+</span>
-        </button>
-        <div class="faq-body" role="region">
-          <p>Yes — your photos, your words, your story. Most business owners already have good photos on their phones; I'll tell you exactly which ones work. I can write the copy myself if needed (small extra charge). Using your real photos always beats stock — clients trust what looks like you.</p>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">
-          What if I'm not happy with the final result?
-          <span class="faq-icon" aria-hidden="true">+</span>
-        </button>
-        <div class="faq-body" role="region">
-          <p>I iterate until you love it. If after two full revision rounds the design still isn't working for you, I'll refund the full amount — no questions, no awkwardness. In three years I've never had to honour that policy, but it stands regardless.</p>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">
-          Will my website rank on Google?
-          <span class="faq-icon" aria-hidden="true">+</span>
-        </button>
-        <div class="faq-body" role="region">
-          <p>Every site ships with on-page SEO (meta titles, descriptions, schema markup, image alt tags) and I set up your Google Business Profile so you appear on Maps. Organic rankings take 4–12 weeks depending on your city and competition. I'll tell you honestly what to expect for your specific niche — I don't over-promise.</p>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">
-          Can I update the website myself after launch?
-          <span class="faq-icon" aria-hidden="true">+</span>
-        </button>
-        <div class="faq-body" role="region">
-          <p>For most updates (new photos, changed hours, festival offers) — just WhatsApp me. It's faster than any CMS. If you want full editorial control, I can build on a simple CMS. During the support period all changes are free; after that, updates take 15–30 minutes and cost less than a cup of chai at a five-star hotel.</p>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">
-          I'm in [city] — do you work with businesses outside Kolkata?
-          <span class="faq-icon" aria-hidden="true">+</span>
-        </button>
-        <div class="faq-body" role="region">
-          <p>Entirely remote — I've worked with businesses in Mumbai, Hyderabad, Delhi, Bangalore, Chennai, Jaipur, Pune, and many more. The initial call is on Google Meet or WhatsApp video. Everything else runs through screen shares and chat. Location has never been a problem.</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
+<!-- ============ VIEW: CONTACT ============ -->
+<div class="view" id="view-contact" data-view="contact" role="region" aria-label="Contact" hidden>
 <!-- ==================== CONTACT ==================== -->
 <section id="contact" class="contact">
   <div class="container">
@@ -3492,6 +3500,105 @@ window.SITE_CONFIG = {
     </div>
   </div>
 </section>
+<!-- ==================== FAQ ==================== -->
+<section id="faq">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow reveal">06 — FAQ</div>
+        <h2 class="reveal" data-delay="1">Questions you'll<br/> <em>definitely have.</em></h2>
+      </div>
+      <p class="reveal" data-delay="2">
+        Answered honestly — no sales spin. If something isn't listed here, just WhatsApp me.
+      </p>
+    </div>
+
+    <div class="faq-list reveal" data-delay="1">
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          Do I own the website after I pay?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-body" role="region">
+          <p>Yes, 100%. Once the project is complete and the final payment is cleared, the domain, hosting account, and all website files are entirely yours. I don't hold anything hostage.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          What about domain and hosting costs — are they extra?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-body" role="region">
+          <p>My prices cover design and development only. Domain registration costs roughly ₹800–₹1,200/year and basic hosting is ₹350–₹700/month. I'll set everything up for you, recommend the right provider for your budget, and walk you through the renewal process so you're never dependent on me.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          How many design revisions do I get?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-body" role="region">
+          <p>As many as it takes to get it right — within the agreed project scope. After the initial design is approved, further structural changes (adding new pages, rethinking the layout) are treated as new work. Most clients need 1–2 rounds. I've never had a project go past 3.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          Do I need to provide photos and content?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-body" role="region">
+          <p>Yes — your photos, your words, your story. Most business owners already have good photos on their phones; I'll tell you exactly which ones work. I can write the copy myself if needed (small extra charge). Using your real photos always beats stock — clients trust what looks like you.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          What if I'm not happy with the final result?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-body" role="region">
+          <p>I iterate until you love it. If after two full revision rounds the design still isn't working for you, I'll refund the full amount — no questions, no awkwardness. In three years I've never had to honour that policy, but it stands regardless.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          Will my website rank on Google?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-body" role="region">
+          <p>Every site ships with on-page SEO (meta titles, descriptions, schema markup, image alt tags) and I set up your Google Business Profile so you appear on Maps. Organic rankings take 4–12 weeks depending on your city and competition. I'll tell you honestly what to expect for your specific niche — I don't over-promise.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          Can I update the website myself after launch?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-body" role="region">
+          <p>For most updates (new photos, changed hours, festival offers) — just WhatsApp me. It's faster than any CMS. If you want full editorial control, I can build on a simple CMS. During the support period all changes are free; after that, updates take 15–30 minutes and cost less than a cup of chai at a five-star hotel.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          I'm in [city] — do you work with businesses outside Kolkata?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-body" role="region">
+          <p>Entirely remote — I've worked with businesses in Mumbai, Hyderabad, Delhi, Bangalore, Chennai, Jaipur, Pune, and many more. The initial call is on Google Meet or WhatsApp video. Everything else runs through screen shares and chat. Location has never been a problem.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+</div>
 
 </main>
 
@@ -3499,7 +3606,7 @@ window.SITE_CONFIG = {
 <footer>
   <div class="foot">
     <div class="foot-brand">
-      <a href="#top" class="logo">
+      <a href="/" data-route="home" class="logo">
         <svg class="logo-mark" viewBox="0 0 100 100" fill="none" aria-hidden="true"><path class="thread" d="M31 24 L69 76" stroke-width="15"/><rect class="stem" x="17" y="18" width="15" height="64"/><rect class="stem" x="68" y="18" width="15" height="64"/><path class="thread" d="M31 24 L45 43" stroke-width="15"/></svg>
         <span>Netloom<em>.</em></span>
       </a>
@@ -3515,13 +3622,13 @@ window.SITE_CONFIG = {
     <div>
       <h5>Navigate</h5>
       <ul>
-        <li><a href="#work">Selected Work</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#pricing">Pricing</a></li>
-        <li><a href="#testimonials">Why Trust Me</a></li>
-        <li><a href="#faq">FAQ</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="/work" data-route="work">Selected Work</a></li>
+        <li><a href="/about" data-route="about">About</a></li>
+        <li><a href="/services" data-route="services">Services</a></li>
+        <li><a href="/pricing" data-route="pricing">Pricing</a></li>
+        <li><a href="/about" data-route="about">Why Trust Me</a></li>
+        <li><a href="/contact" data-route="contact">FAQ</a></li>
+        <li><a href="/contact" data-route="contact">Contact</a></li>
       </ul>
     </div>
     <div>
@@ -3558,219 +3665,6 @@ window.SITE_CONFIG = {
 </div>
 
 <script>
-/* Runs fn once three.js is available; no-ops if it was never loaded
-   (small screens, reduced motion, save-data). */
-function whenThree(fn){
-  if (window.THREE) return fn();
-  window.addEventListener('three-ready', function(){ fn(); }, { once:true });
-}
-
-/* ============================================
-   HERO — THREE.JS GOLD PARTICLE FIELD + ORBIT
-   ============================================ */
-whenThree(function heroScene(){
-  const canvas = document.getElementById('hero-canvas');
-  if (!window.THREE || !canvas) return;
-
-  const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x0A0F1E, 0.08);
-
-  const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 100);
-  camera.position.set(0, 0, 8);
-
-  const renderer = new THREE.WebGLRenderer({canvas, antialias: true, alpha: true});
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setClearColor(0x000000, 0);
-
-  /* --- Floating gold particles --- */
-  const count = 1800;
-  const geom = new THREE.BufferGeometry();
-  const positions = new Float32Array(count * 3);
-  const sizes = new Float32Array(count);
-  for (let i=0; i<count; i++){
-    const r = 6 + Math.random() * 14;
-    const theta = Math.random() * Math.PI * 2;
-    const phi = Math.acos(2*Math.random()-1);
-    positions[i*3] = r * Math.sin(phi) * Math.cos(theta);
-    positions[i*3+1] = r * Math.sin(phi) * Math.sin(theta) * 0.55;
-    positions[i*3+2] = r * Math.cos(phi) - 4;
-    sizes[i] = 0.4 + Math.random() * 1.6;
-  }
-  geom.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  geom.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
-
-  // sprite texture (round, soft)
-  const spriteCanvas = document.createElement('canvas');
-  spriteCanvas.width = spriteCanvas.height = 64;
-  const sctx = spriteCanvas.getContext('2d');
-  const grad = sctx.createRadialGradient(32,32,0,32,32,32);
-  grad.addColorStop(0, 'rgba(232,201,119,1)');
-  grad.addColorStop(0.3, 'rgba(201,168,76,0.8)');
-  grad.addColorStop(1, 'rgba(201,168,76,0)');
-  sctx.fillStyle = grad;
-  sctx.fillRect(0,0,64,64);
-  const tex = new THREE.CanvasTexture(spriteCanvas);
-
-  const mat = new THREE.PointsMaterial({
-    size: 0.12,
-    map: tex,
-    transparent: true,
-    depthWrite: false,
-    blending: THREE.AdditiveBlending,
-    sizeAttenuation: true,
-    color: 0xE8C977,
-  });
-  const points = new THREE.Points(geom, mat);
-  scene.add(points);
-
-  /* --- Wireframe ring (represents a "globe / reach") --- */
-  const ringGeom1 = new THREE.TorusGeometry(3.2, 0.005, 16, 120);
-  const ringMat = new THREE.MeshBasicMaterial({color: 0xC9A84C, transparent:true, opacity:0.35});
-  const ring1 = new THREE.Mesh(ringGeom1, ringMat);
-  scene.add(ring1);
-  const ring2 = new THREE.Mesh(new THREE.TorusGeometry(3.2, 0.005, 16, 120), new THREE.MeshBasicMaterial({color: 0xC9A84C, transparent:true, opacity:0.2}));
-  ring2.rotation.x = Math.PI/2.5;
-  scene.add(ring2);
-  const ring3 = new THREE.Mesh(new THREE.TorusGeometry(3.2, 0.005, 16, 120), new THREE.MeshBasicMaterial({color: 0xC9A84C, transparent:true, opacity:0.18}));
-  ring3.rotation.y = Math.PI/2.2;
-  scene.add(ring3);
-
-  /* --- Wireframe dodecahedron --- */
-  const dodGeo = new THREE.IcosahedronGeometry(2.2, 1);
-  const edges = new THREE.EdgesGeometry(dodGeo);
-  const dod = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({color:0xC9A84C, transparent:true, opacity:0.18}));
-  scene.add(dod);
-
-  let mx = 0, my = 0, tmx = 0, tmy = 0;
-  window.addEventListener('mousemove', e => {
-    tmx = (e.clientX/window.innerWidth - 0.5);
-    tmy = (e.clientY/window.innerHeight - 0.5);
-  });
-
-  let scrollY = 0;
-  window.addEventListener('scroll', () => { scrollY = window.scrollY });
-
-  function onResize(){
-    camera.aspect = window.innerWidth/window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-  }
-  window.addEventListener('resize', onResize);
-
-  const start = performance.now();
-  function loop(){
-    const t = (performance.now() - start)/1000;
-    mx += (tmx - mx) * 0.04;
-    my += (tmy - my) * 0.04;
-
-    points.rotation.y = t * 0.04 + mx * 0.3;
-    points.rotation.x = my * 0.2;
-    ring1.rotation.y = t * 0.15;
-    ring2.rotation.x = t * 0.12 + Math.PI/2.5;
-    ring3.rotation.z = t * 0.1;
-    dod.rotation.x = t * 0.08;
-    dod.rotation.y = t * 0.12;
-
-    // parallax on scroll
-    camera.position.y = -scrollY * 0.0015;
-    camera.position.x = mx * 0.5;
-    camera.lookAt(0, -scrollY * 0.001, 0);
-
-    renderer.render(scene, camera);
-    requestAnimationFrame(loop);
-  }
-  loop();
-});
-
-/* ============================================
-   WHY-SECTION — 3D CARD STACK (Three.js)
-   ============================================ */
-whenThree(function whyScene(){
-  const canvas = document.getElementById('why-canvas');
-  if (!window.THREE || !canvas) return;
-
-  const w = () => canvas.clientWidth || 400;
-  const h = () => canvas.clientHeight || 500;
-
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(45, w()/h(), 0.1, 100);
-  camera.position.set(0, 0, 6);
-
-  const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setSize(w(), h(), false);
-
-  // Create stacked "device cards"
-  const group = new THREE.Group();
-  scene.add(group);
-  const cardColors = [0x1a2340, 0x0E1527, 0x141C34];
-  for (let i=0; i<3; i++){
-    const geo = new THREE.BoxGeometry(2.2, 3.2, 0.06);
-    const mat = new THREE.MeshStandardMaterial({
-      color: cardColors[i], metalness: 0.4, roughness: 0.5,
-      emissive: 0x0c1328, emissiveIntensity: 0.2
-    });
-    const mesh = new THREE.Mesh(geo, mat);
-    mesh.position.set((i-1)*0.4, (i-1)*-0.2, i * -0.25);
-    mesh.rotation.y = (i-1) * 0.2;
-
-    // Gold edge
-    const edges = new THREE.EdgesGeometry(geo);
-    const line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({color:0xC9A84C, transparent:true, opacity:0.55}));
-    mesh.add(line);
-
-    // Gold accent stripe across top
-    const stripe = new THREE.Mesh(new THREE.PlaneGeometry(1.6, 0.04), new THREE.MeshBasicMaterial({color:0xC9A84C}));
-    stripe.position.set(0, 1.3, 0.031);
-    mesh.add(stripe);
-
-    // Content dots (mocked ui)
-    for (let j=0; j<4; j++){
-      const bar = new THREE.Mesh(new THREE.PlaneGeometry(1.4 - j*0.15, 0.08), new THREE.MeshBasicMaterial({color:0xF4EFE6, transparent:true, opacity:0.35}));
-      bar.position.set(-0.1, 0.8 - j*0.25, 0.031);
-      mesh.add(bar);
-    }
-
-    group.add(mesh);
-  }
-
-  const ambient = new THREE.AmbientLight(0xffffff, 0.6);
-  scene.add(ambient);
-  const dir = new THREE.DirectionalLight(0xC9A84C, 0.8);
-  dir.position.set(5,5,5);
-  scene.add(dir);
-  const dir2 = new THREE.DirectionalLight(0xffffff, 0.3);
-  dir2.position.set(-5,-3,3);
-  scene.add(dir2);
-
-  let tmx=0, tmy=0, mx=0, my=0;
-  canvas.addEventListener('mousemove', e => {
-    const r = canvas.getBoundingClientRect();
-    tmx = ((e.clientX - r.left)/r.width - 0.5);
-    tmy = ((e.clientY - r.top)/r.height - 0.5);
-  });
-  canvas.addEventListener('mouseleave', () => { tmx = 0; tmy = 0 });
-
-  function resize(){
-    renderer.setSize(w(), h(), false);
-    camera.aspect = w()/h();
-    camera.updateProjectionMatrix();
-  }
-  new ResizeObserver(resize).observe(canvas);
-
-  const start = performance.now();
-  function loop(){
-    const t = (performance.now() - start)/1000;
-    mx += (tmx - mx) * 0.06;
-    my += (tmy - my) * 0.06;
-    group.rotation.y = Math.sin(t*0.4) * 0.15 + mx * 0.6;
-    group.rotation.x = Math.cos(t*0.3) * 0.08 + my * -0.4;
-    renderer.render(scene, camera);
-    requestAnimationFrame(loop);
-  }
-  loop();
-});
 
 /* ============================================
    NAV SCROLL STATE
@@ -3805,6 +3699,134 @@ if (menuButton){
   });
 }
 
+
+/* ============================================
+   ROUTER — six views, no page reload
+   Clean URLs via the History API; 404.html restores the route on a direct hit
+   or refresh, because GitHub Pages has no server-side rewrites.
+   ============================================ */
+(function router(){
+  var VIEWS = ['home','work','services','pricing','about','contact'];
+  var TITLES = {
+    home:     'Netloom — Websites for Indian Small Businesses',
+    work:     'Work — Netloom',
+    services: 'Services — Netloom',
+    pricing:  'Pricing — Netloom',
+    about:    'About — Netloom',
+    contact:  'Contact — Netloom'
+  };
+  if (!document.getElementById('main')) return;
+
+  function pathToView(p){
+    var seg = (p || '/').replace(/^\/+|\/+$/g, '').split('/').pop();
+    if (!seg || seg === 'index.html') return 'home';
+    return VIEWS.indexOf(seg) > -1 ? seg : 'home';
+  }
+
+  function show(view, opts){
+    opts = opts || {};
+    if (VIEWS.indexOf(view) === -1) view = 'home';
+
+    document.querySelectorAll('.view').forEach(function(v){
+      var on = v.dataset.view === view;
+      v.classList.toggle('is-active', on);
+      if (on) v.removeAttribute('hidden');
+      else v.setAttribute('hidden','');
+    });
+
+    document.querySelectorAll('.nav-links a[data-route]').forEach(function(a){
+      var on = a.dataset.route === view;
+      a.classList.toggle('is-current', on);
+      if (on) a.setAttribute('aria-current','page');
+      else a.removeAttribute('aria-current');
+    });
+
+    document.title = TITLES[view] || TITLES.home;
+    var canon = document.querySelector('link[rel="canonical"]');
+    if (canon) canon.setAttribute('href','https://netloom.in/' + (view === 'home' ? '' : view));
+
+    if (!opts.keepScroll) window.scrollTo({ top: 0, behavior: opts.instant ? 'auto' : 'smooth' });
+
+    if (window.__reobserveReveals) window.__reobserveReveals();
+
+    if (!opts.silent){
+      var el = document.getElementById('view-' + view);
+      if (el){ el.setAttribute('tabindex','-1'); el.focus({ preventScroll:true }); }
+    }
+    window.__activeView = view;
+  }
+
+  function navigate(view, push){
+    if (push !== false){
+      history.pushState({ view: view }, '', view === 'home' ? '/' : '/' + view);
+    }
+    show(view);
+  }
+
+  document.addEventListener('click', function(e){
+    var a = e.target.closest ? e.target.closest('a[data-route]') : null;
+    if (!a) return;
+    if (a.target === '_blank' || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+    e.preventDefault();
+    navigate(a.dataset.route);
+    var links = document.getElementById('site-menu');
+    if (links) links.classList.remove('open');
+    document.body.classList.remove('nav-open');
+  });
+
+  window.addEventListener('popstate', function(e){
+    show((e.state && e.state.view) || pathToView(location.pathname), { instant:true, silent:true });
+  });
+
+  // 404.html stashes the requested path so a direct link or refresh lands on
+  // the right view instead of dropping the visitor on the home page.
+  var redirected = null;
+  try { redirected = sessionStorage.getItem('netloom:route'); } catch(err){}
+  if (redirected){
+    try { sessionStorage.removeItem('netloom:route'); } catch(err){}
+    history.replaceState({ view: pathToView(redirected) }, '', redirected);
+  }
+
+  var start = pathToView(location.pathname);
+  history.replaceState({ view: start }, '',
+    location.pathname === '/index.html' ? '/' : location.pathname);
+  show(start, { instant:true, silent:true, keepScroll:true });
+})();
+
+/* ============================================
+   TABS — parallel content inside one view
+   ============================================ */
+(function tabs(){
+  document.querySelectorAll('[data-tabs]').forEach(function(group){
+    var btns = group.querySelectorAll('.tab');
+    var panels = document.querySelectorAll('#' + group.dataset.tabs + ' > .tabpanel');
+    function select(name, focus){
+      btns.forEach(function(b){
+        var on = b.dataset.tab === name;
+        b.setAttribute('aria-selected', on ? 'true' : 'false');
+        b.setAttribute('tabindex', on ? '0' : '-1');
+        if (on && focus) b.focus();
+      });
+      panels.forEach(function(p){
+        if (p.dataset.panel === name) p.removeAttribute('hidden');
+        else p.setAttribute('hidden','');
+      });
+      if (window.__reobserveReveals) window.__reobserveReveals();
+    }
+    btns.forEach(function(b){
+      b.addEventListener('click', function(){ select(b.dataset.tab); });
+    });
+    group.addEventListener('keydown', function(e){
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      var arr = [].slice.call(btns);
+      var i = arr.findIndex(function(b){ return b.getAttribute('aria-selected') === 'true'; });
+      e.preventDefault();
+      var next = e.key === 'ArrowRight' ? (i + 1) % arr.length : (i <= 0 ? arr.length - 1 : i - 1);
+      select(arr[next].dataset.tab, true);
+    });
+  });
+})();
+
 /* ============================================
    INTERSECTION OBSERVER — REVEALS
    ============================================ */
@@ -3816,7 +3838,21 @@ const io = new IntersectionObserver((entries) => {
     }
   });
 }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+/* A .reveal inside a hidden view never intersects, so it would stay at opacity 0
+   forever once that view is finally shown. After every route or tab change,
+   reveal what is already on screen and re-observe the rest. */
+window.__reobserveReveals = function(){
+  requestAnimationFrame(function(){
+    document.querySelectorAll('.view.is-active .reveal:not(.in)').forEach(function(el){
+      var r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) el.classList.add('in');
+      else io.observe(el);
+    });
+  });
+};
 document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+window.__reobserveReveals();
 
 /* ============================================
    3D TILT ON CARDS
@@ -4077,6 +4113,114 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   if (isPlaceholder && location.hostname === 'localhost'){
     console.warn('[SITE_CONFIG] waNumber is still the placeholder — WhatsApp CTAs are falling back to email.');
   }
+})();
+
+/* ============================================
+   AMBIENT HERO FIELD — canvas 2D
+   Replaces three.js (670 KB), which the mobile perf guard skipped entirely —
+   so phones got a flat hero while desktop got the particle field. This renders
+   the same thing on every device for a few KB. Honours reduced-motion and stops
+   when the hero is off-screen or the tab is hidden.
+   ============================================ */
+(function heroField(){
+  var canvas = document.getElementById('hero-canvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d', { alpha: true });
+  if (!ctx) return;
+
+  var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  var W = 0, H = 0, cx = 0, cy = 0, pts = [], rings = [];
+  var mx = 0, my = 0, tmx = 0, tmy = 0, raf = null, t = 0;
+
+  function build(){
+    var n = Math.round(Math.min(Math.max((W * H) / 5200, 70), 300));
+    pts = [];
+    for (var i = 0; i < n; i++){
+      pts.push({
+        a: Math.random() * Math.PI * 2,
+        r: Math.pow(Math.random(), 0.62) * Math.max(W, H) * 0.62,
+        z: 0.25 + Math.random() * 0.75,
+        sp: 0.00007 + Math.random() * 0.00022,
+        tw: Math.random() * Math.PI * 2,
+        yj: (Math.random() - 0.5) * 0.55
+      });
+    }
+    var base = Math.min(W, H) * 0.36;
+    rings = [
+      { r: base,        tilt: 0.30, rot: 0.10, a: 0.30 },
+      { r: base * 1.34, tilt: 0.70, rot: -0.07, a: 0.20 },
+      { r: base * 0.72, tilt: 1.15, rot: 0.14, a: 0.16 }
+    ];
+  }
+
+  function size(){
+    var r = canvas.getBoundingClientRect();
+    W = Math.max(r.width, 1); H = Math.max(r.height, 1);
+    canvas.width = Math.round(W * dpr);
+    canvas.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cx = W / 2; cy = H / 2;
+    build();
+  }
+
+  function frame(){
+    t += calm ? 0 : 1;
+    mx += (tmx - mx) * 0.045;
+    my += (tmy - my) * 0.045;
+    ctx.clearRect(0, 0, W, H);
+
+    for (var i = 0; i < rings.length; i++){
+      var g = rings[i];
+      ctx.save();
+      ctx.translate(cx + mx * 26, cy + my * 18);
+      ctx.rotate(g.rot + (calm ? 0 : t * 0.00035 * (i % 2 ? -1 : 1)));
+      ctx.beginPath();
+      ctx.ellipse(0, 0, g.r, g.r * Math.max(Math.cos(g.tilt), 0.08), 0, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(201,168,76,' + g.a + ')';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    for (var j = 0; j < pts.length; j++){
+      var p = pts[j];
+      if (!calm) p.a += p.sp;
+      var px = cx + Math.cos(p.a) * p.r * (0.55 + p.z * 0.45) + mx * 44 * p.z;
+      var py = cy + Math.sin(p.a) * p.r * (0.30 + p.yj * 0.3) * (0.55 + p.z * 0.45) + my * 30 * p.z;
+      var tw = calm ? 1 : (0.62 + 0.38 * Math.sin(t * 0.02 + p.tw));
+      var rad = (0.55 + p.z * 1.7) * 3.2;
+      var al = (0.16 + p.z * 0.52) * tw;
+      var grd = ctx.createRadialGradient(px, py, 0, px, py, rad);
+      grd.addColorStop(0, 'rgba(232,201,119,' + al + ')');
+      grd.addColorStop(0.4, 'rgba(201,168,76,' + (al * 0.55) + ')');
+      grd.addColorStop(1, 'rgba(201,168,76,0)');
+      ctx.fillStyle = grd;
+      ctx.beginPath();
+      ctx.arc(px, py, rad, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    raf = requestAnimationFrame(frame);
+  }
+
+  function start(){ if (!raf) raf = requestAnimationFrame(frame); }
+  function stop(){ if (raf){ cancelAnimationFrame(raf); raf = null; } }
+
+  window.addEventListener('resize', size, { passive: true });
+  window.addEventListener('mousemove', function(e){
+    tmx = (e.clientX / window.innerWidth - 0.5);
+    tmy = (e.clientY / window.innerHeight - 0.5);
+  }, { passive: true });
+  document.addEventListener('visibilitychange', function(){
+    document.hidden ? stop() : start();
+  });
+  if ('IntersectionObserver' in window){
+    new IntersectionObserver(function(en){ en[0].isIntersecting ? start() : stop(); },
+      { threshold: 0 }).observe(canvas);
+  }
+
+  size();
+  if (calm){ frame(); stop(); } else { start(); }
 })();
 
 /* ============================================
