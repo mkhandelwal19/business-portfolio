@@ -1,211 +1,209 @@
-# Business email on netloom.in — Zoho Mail setup
+# Business email on netloom.in — Zoho Mail
 
-Goal: enquiries arrive at **hello@netloom.in** instead of a Gmail address, without
-ever showing visitors an inbox that bounces.
+**Status: live since 5 September 2026.** Enquiries arrive at **hello@netloom.in**.
+This file is now a record of what is deployed and the traps encountered on the
+way, not a to-do list. Read it before touching DNS or setting the same thing up
+on another domain.
 
-The site is already built for this. `window.SITE_CONFIG` near the top of
-`index.html` holds:
+---
+
+## What is deployed
+
+**Zoho Mail Forever Free Plan**, India data centre (`zoho.in`). 5 users, 5 GB
+each, one domain. Registrar and DNS host: **GoDaddy**.
+
+| Address | Role |
+|---------|------|
+| `hello@netloom.in`   | primary mailbox, default From, shown on the site |
+| `mayank@netloom.in`  | alias — personal 1:1 threads |
+| `info@netloom.in`    | alias |
+| `contact@netloom.in` | alias |
+
+All four deliver to one inbox. Display names are set per alias under
+*Settings → Send Mail As*.
+
+`window.SITE_CONFIG` in `index.html`:
 
 ```js
-email        : 'imayank.khandelwal@gmail.com',  // the inbox that works today
-workEmail    : 'hello@netloom.in',              // the Zoho address
-workEmailLive: false,                           // flip to true at the very end
+email        : 'imayank.khandelwal@gmail.com',  // fallback, never blank
+workEmail    : 'hello@netloom.in',
+workEmailLive: true,                            // flipped 5 Sep 2026
 ```
 
-While `workEmailLive` is `false` the whole site keeps showing the Gmail address.
-Nothing below changes what visitors see until the last step.
+`workEmailLive: false` reverts the whole site to the Gmail address in one line.
+After changing it, run `node build-routes.js` and push.
 
 ---
 
-## On `info@` vs `hello@`
+## Live DNS records
 
-You asked whether `info@` would be better. My honest read: **`hello@` is the
-better fit, and it is what the config is set to** — but the difference is small
-and this is a matter of taste, so overrule me freely.
+Verified at GoDaddy's authoritative nameservers and on Google + Cloudflare.
 
-- `hello@` matches the voice already on your site ("your Digital Sathi", "just a
-  reply from me"). `info@` is the address of a company that does not want to talk
-  to you.
-- `info@` is the single most scraped local-part on the web. Spam bots guess it
-  first, so it collects noise from day one.
-- `info@` reads as a form-letter destination. For a studio whose pitch is
-  personal service, that works against you.
+| Type | Host | Value |
+|------|------|-------|
+| MX   | `@` | `mx.zoho.in` (10), `mx2.zoho.in` (20), `mx3.zoho.in` (50) |
+| TXT  | `@` | `v=spf1 include:zoho.in ~all` |
+| TXT  | `@` | `zoho-verification=zb79680069.zmverify.zoho.in` |
+| TXT  | `zmail._domainkey` | `v=DKIM1; k=rsa; p=MIGfMA0GCSq…` |
+| TXT  | `_dmarc` | `v=DMARC1; p=none; rua=mailto:hello@netloom.in; adkim=r; aspf=r` |
 
-You do not have to choose, though. **Zoho's free plan gives each mailbox up to 30
-aliases.** Create `hello@netloom.in` as the real mailbox and add `info@` and
-`contact@` as aliases on it. All three deliver to the same place, mail sent to
-any of them is answered, and the site shows only `hello@`. That is the setup I
-would run.
+Untouched, and must stay that way — these serve the website from GitHub Pages:
 
----
+| Type | Host | Value |
+|------|------|-------|
+| A     | `@`   | `185.199.108.153`, `.109.153`, `.110.153`, `.111.153` |
+| CNAME | `www` | `mkhandelwal19.github.io` |
 
-## Step 1 — Create the Zoho account
-
-1. Go to **zoho.com/mail** → *Sign Up Now* → **Business Email** (not Personal).
-2. Choose the **Forever Free Plan** (5 users, 5 GB each, one domain). It is on
-   the pricing page but not always the first option shown — look for the "Free
-   Plan" tab at the bottom.
-3. Enter **netloom.in** as your existing domain.
-4. Pick the data centre when asked. Signing up from India through **zoho.in**
-   puts you in the India DC; **zoho.com** puts you in the US DC. **Write down
-   which one you got** — every hostname below differs between them, and you
-   cannot move a domain between data centres later without recreating it.
+Mail uses MX/TXT, the site uses A/CNAME. They coexist. Never delete the A
+records while cleaning up mail records.
 
 ---
 
-## Step 2 — Verify the domain
+## Four traps, all of which bit
 
-Zoho will show you a verification record. It is one of:
+### 1. The free plan is hidden
 
-| Type  | Host / Name          | Value                              |
-|-------|----------------------|------------------------------------|
-| TXT   | `@`                  | `zoho-verification=zb……zmverify.zoho.in` |
-| CNAME | the code Zoho shows  | `zmverify.zoho.in`                 |
+Zoho's admin console (`mailadmin.zoho.in/hosting`) shows **only paid plans**.
+There is no free option on that screen and no link to one. The free plan is
+reached by URL:
 
-Add it at whoever hosts DNS for netloom.in (your registrar, unless you moved
-nameservers to Cloudflare). Then press **Verify** in Zoho.
+```
+https://workplace.zoho.in/signup?type=org&plan=free     (India DC)
+https://workplace.zoho.com/signup?type=org&plan=free    (US DC)
+```
 
-> Use the exact string from your own Zoho console. The value is unique per
-> domain, and the `.zoho.in` / `.zoho.com` suffix depends on your data centre.
+Appending `?plan=free` to the hosting URL also works if an org already exists.
+Zoho notes the free plan is "available only in select data centers" — India is
+one of them as of September 2026.
 
-**This does not affect the website.** GitHub Pages serves netloom.in from `A` /
-`CNAME` records; mail uses `MX` and `TXT`. They coexist without touching each
-other. Do not delete or edit the existing GitHub Pages records.
+**The free plan has no IMAP, POP or ActiveSync.** Webmail and Zoho's own apps
+only; it cannot be added to the Gmail app or Outlook. Upgrading to Mail Lite
+(₹75/user/month billed annually) restores IMAP and keeps the same org, domain,
+mailbox and DNS — purely a billing change.
 
----
+### 2. GoDaddy's SPF Merge silently corrupts SPF
 
-## Step 3 — Create the mailbox and aliases
+This is the one that actually broke things. GoDaddy has an "SPF Merge" feature
+that replaces a plain SPF record with a delegated wrapper:
 
-1. In Zoho, create the first user as **hello@netloom.in**.
-2. Then *Mail Settings → Mail Accounts → hello@netloom.in → Email Aliases*, and
-   add `info@netloom.in` and `contact@netloom.in`.
+```
+@                              TXT  v=spf1 include:dc-XXXX._spfm.netloom.in ~all
+dc-XXXX._spfm.netloom.in       TXT  v=spf1 include:zoho.in ~all
+```
 
----
+That much works. But running Zoho's **"Configure automatically"** a second time
+made GoDaddy *append* rather than replace, producing:
 
-## Step 4 — MX records (this is what actually routes mail)
+```
+@                         v=spf1 include:dc-XXXX._spfm… include:dc-XXXX._spfm… ~all
+dc-XXXX._spfm             v=spf1 include:zoho.in include:dc-XXXX._spfm… ~all
+dc-XXXX._spfm             v=spf1 include:zoho.in ~all
+```
 
-Delete any existing MX records for netloom.in first — leftovers from a registrar
-default will silently steal mail.
+Two `v=spf1` records at one name, one of them **including itself**. RFC 7208 §4.5
+requires a **PermError** when more than one SPF record exists at a name — so SPF
+stopped evaluating entirely. Mail still delivered, but only because DKIM was
+carrying DMARC alone.
 
-**India DC (zoho.in):**
-
-| Type | Host | Priority | Value          |
-|------|------|----------|----------------|
-| MX   | `@`  | 10       | `mx.zoho.in`   |
-| MX   | `@`  | 20       | `mx2.zoho.in`  |
-| MX   | `@`  | 50       | `mx3.zoho.in`  |
-
-**US DC (zoho.com):** identical, but `mx.zoho.com`, `mx2.zoho.com`,
-`mx3.zoho.com`.
-
-Zoho's setup wizard prints the correct set for your account — if it disagrees
-with the table above, trust the wizard.
-
----
-
-## Step 5 — SPF, DKIM, DMARC (so you land in inboxes, not spam)
-
-Skipping these is the single most common reason a new business address goes
-straight to Gmail's spam folder. Do all three.
-
-**SPF** — TXT record on `@`:
+**Fix, and the shape to keep:** delete every `_spfm` record, and set exactly one
+record on `@`:
 
 ```
 v=spf1 include:zoho.in ~all
 ```
 
-(`include:zoho.com` on the US DC.) If netloom.in already has an SPF record,
-**merge** — a domain may only have one. Add `include:zoho.in` to the existing
-one rather than creating a second TXT.
+That resolves `zoho.in` → `spf.zoho.in` → four IPv4 ranges. Two DNS lookups of
+the ten allowed. After fixing, use Zoho's **Verify** button — never "Configure
+automatically", which reintroduces the wrapper.
 
-**DKIM** — Zoho generates this for you: *Mail Admin → Domains → netloom.in →
-Email Configuration → DKIM → Add Selector*. Use selector `zoho`. It gives you a
-long public key. Add:
+### 3. The DKIM selector is `zmail`, not `zoho`
 
-| Type | Host                        | Value                    |
-|------|-----------------------------|--------------------------|
-| TXT  | `zoho._domainkey`           | `v=DKIM1; k=rsa; p=…`    |
+GoDaddy Domain Connect creates the selector itself. The record lives at
+`zmail._domainkey`. Do not hand-create a `zoho` selector; there is nothing at
+that host.
 
-Then press **Verify** in Zoho. The key is long; paste it whole, and if your
-registrar's field has a length limit, split it into quoted chunks.
+DNS alone is not enough — the selector must also show **verified inside Zoho**
+(*Mail Admin → Domains → netloom.in → Email Configuration → DKIM*) or Zoho will
+not sign outbound mail even though the public key resolves.
 
-**DMARC** — TXT record on `_dmarc`, start permissive:
+### 4. GoDaddy pre-installs its own DMARC record
+
+Before Zoho was involved, `_dmarc` already held:
 
 ```
-v=DMARC1; p=none; rua=mailto:hello@netloom.in
+v=DMARC1; p=quarantine; adkim=r; aspf=r; rua=mailto:dmarc_rua@onsecureserver.net;
 ```
 
-Once mail has flowed cleanly for a few weeks, tighten `p=none` to
-`p=quarantine`.
+Two problems: `p=quarantine` from day one on an unproven domain, and aggregate
+reports going to **GoDaddy** rather than to you — no visibility into who is
+failing authentication on your own domain. It was replaced with `p=none` and
+`rua=mailto:hello@netloom.in`.
+
+Tighten to `p=quarantine` once the reports show a few clean weeks. Only one
+`_dmarc` record may exist; edit it, never add a second.
 
 ---
 
-## Step 6 — Point the enquiry form at the new inbox
+## Domain Connect vs. manual
 
-The website cannot send mail itself — GitHub Pages serves static files only.
-The contact form posts to **Formspree**, which then emails you. So the form's
-destination lives in Formspree, not in the code.
+GoDaddy Domain Connect handled both the verification TXT and, later, MX + SPF +
+DKIM in one click. It did **not** touch the GitHub Pages A or CNAME records
+either time — verified after each run.
 
-1. Log in to **formspree.io** → the form with ID `meevwvvd` (it is in
-   `index.html`, in the contact form script).
-2. **Settings → Notification emails** → change to `hello@netloom.in`.
-3. Formspree will send a confirmation link to that address. **You must click it**
-   — until you do, the form keeps delivering to the old address.
+It does **not** create DMARC. That is manual.
 
-The form already sets `_replyto` to the enquirer's address and builds a subject
-line like `Netloom enquiry — Priya Sharma, Kolkata (business)`, so replying from
-Zoho goes straight back to the customer.
+Given trap 2, the safe pattern is: let Domain Connect run **once**, then audit
+the records and fix by hand. Do not re-run it.
 
 ---
 
-## Step 7 — Test before you switch the site over
+## Where the enquiry form goes
 
-1. From your phone's personal Gmail, send a mail to **hello@netloom.in**. It must
-   arrive in Zoho.
-2. Reply from Zoho. It must arrive at the Gmail, **not** in its spam folder.
-3. Submit the live contact form on netloom.in. The enquiry must reach Zoho.
-4. Run the address through **mail-tester.com** — send a mail from Zoho to the
-   address it gives you. Aim for 9/10 or better. Anything lower usually means
-   SPF or DKIM is not verified yet.
+The site is static on GitHub Pages and cannot send mail. The contact form posts
+to **Formspree** (form `meevwvvd`), which emails the notification address set in
+*Formspree → Settings → Notification emails* — currently `hello@netloom.in`.
+That destination lives in Formspree, not in this repo.
 
-Do not skip step 4. A domain that fails SPF/DKIM will deliver fine to your own
-test Gmail and still land in spam for a stranger.
+Changing it sends a confirmation link to the new address that **must be clicked**,
+or Formspree keeps delivering to the old one.
+
+The form sets `_replyto` to the enquirer's address and builds a subject like
+`Netloom enquiry — Priya Sharma, Kolkata (business)`, so replying from Zoho goes
+straight back to the customer.
 
 ---
 
-## Step 8 — Flip the site over
-
-Only after all four tests pass, in `index.html`:
-
-```js
-workEmailLive: true,
-```
-
-Then regenerate the route pages so /about, /work, /services, /pricing and
-/contact carry the change too:
+## Verifying
 
 ```bash
-node build-routes.js
+nslookup -type=MX  netloom.in 8.8.8.8
+nslookup -type=TXT netloom.in 8.8.8.8
+nslookup -type=TXT zmail._domainkey.netloom.in 8.8.8.8
+nslookup -type=TXT _dmarc.netloom.in 8.8.8.8
 ```
 
-Commit and push. Every mailto link, the address shown on the contact page, and
-the footer switch to `hello@netloom.in` in one move. If anything goes wrong, set
-it back to `false` and push — that is a one-line rollback.
+Query `ns69.domaincontrol.com` directly to bypass caching and see what GoDaddy
+actually holds.
+
+Then [mail-tester.com](https://www.mail-tester.com) — **10/10 on 5 Sep 2026**.
+
+One gotcha there: send a *realistic* message. A blank test mail triggers
+SpamAssassin's `EMPTY_MESSAGE` rule at **-2.344**, which alone drops a perfect
+domain to 7.8/10 and looks like a DNS problem. It is not. Only the
+"You're properly authenticated" panel reflects your DNS; check `SPF_PASS`,
+`DKIM_VALID`, `DKIM_VALID_AU` and `DKIM_VALID_EF`.
+
+Zoho's own dashboard status lags reality — it cached "Yet to point MX Records"
+for a while after the MX records were live and correct worldwide. Trust `nslookup`
+and a real test mail over the badge.
 
 ---
 
-## What still points at Gmail after this
+## Still outside this repo
 
-- `index.html` line ~48, the `ProfessionalService` JSON-LD block, has a
-  hardcoded `"email"`. Update it by hand when you flip the switch — search for
-  `imayank.khandelwal@gmail.com`.
-- Your Google Business Profile, Instagram bio, and any outreach templates in
-  `outreach/` are outside this repo's control.
-
-## Timing
-
-DNS changes are not instant. Verification usually works within 15–30 minutes;
-MX and DKIM can take up to 24 hours to propagate fully, occasionally 48. If Zoho
-says "not verified" straight after you add a record, wait an hour before
-assuming you typed it wrong. `dig netloom.in MX` (or mxtoolbox.com) shows you
-what the world currently sees.
+- Google Business Profile, Instagram bio, and any outreach templates in
+  `outreach/` still need the address updated by hand.
+- `index.html` carries `imayank.khandelwal@gmail.com` in six places. Five are
+  markup fallbacks that the runtime swaps via `[data-email-display]` and
+  `a[href^="mailto:"]`; the sixth is `SITE_CONFIG.email`, the deliberate
+  fallback. None need editing.
