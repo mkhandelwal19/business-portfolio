@@ -1832,10 +1832,22 @@ body.bizmodal-open{ overflow:hidden }
   .hero{ padding: 104px 24px 56px; justify-content: flex-start; min-height: auto }
   .hero-container{ grid-template-columns: 1fr; gap: 48px; }
   .hero h1{ font-size: clamp(36px, 8vw, 56px); }
-  .hero-visual{ min-height: 340px; }
+  /* Single column here, so .hero-visual would stretch the full content width
+     while .hv-browser stays capped at 340px and centred. The badge is
+     positioned against .hero-visual, so on anything wider than ~380px it
+     detached from the mockup and floated in empty space to its right.
+     Constraining the column to the mockup keeps the two together at every
+     width. */
+  .hero-visual{ min-height: 340px; width: 100%; max-width: 340px; margin-inline: auto; }
   .hv-browser{ max-width: 340px; transform: none !important; animation: none !important; }
   .hv-chip{ display: none; }
-  .hv-badge{ bottom: auto; top: 16px; right: 16px; animation: none; }
+  /* Sit on the mockup's corner, the way the desktop badge overhangs it. */
+  .hv-badge{ bottom: auto; top: -10px; right: -10px; animation: none; }
+
+  /* The hero is 100vh on desktop, so bottom:32px lands below the content. Here
+     min-height is auto and the hero ends at the mockup, so the indicator was
+     printing on top of it. Scrolling needs no prompt on a phone anyway. */
+  .scroll-indicator{ display: none; }
 
   .stats-strip{ padding: 48px 24px; }
   .ss-grid{ grid-template-columns: 1fr 1fr; }
