@@ -1,0 +1,13 @@
+{
+  "name": "netloom-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "netloom.in — static site for GitHub Pages, plus its build and test tooling.",
+  "scripts": {
+    "build": "node build-routes.js",
+    "test": "node test/run.js"
+  },
+  "devDependencies": {
+    "jsdom": "^30.0.1"
+  }
+}

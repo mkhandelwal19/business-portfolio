@@ -14,3 +14,6 @@ outreach/targeting-guide.md
 .wrangler/
 worker/.dev.vars
 worker/preview/
+
+# Root tooling deps (test harness)
+/node_modules/
