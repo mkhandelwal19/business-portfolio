@@ -1576,6 +1576,86 @@ footer::before{
 .price-wa:hover{ color:#25D366 }
 .price-wa i{ font-size:14px }
 
+/* ==================== LIVE PREVIEW MODAL ==================== */
+.bizmodal{ position:fixed; inset:0; z-index:4000; display:grid; place-items:center; padding:24px }
+.bizmodal[hidden]{ display:none }
+.bizmodal-backdrop{
+  position:absolute; inset:0; background:rgba(4,7,16,.82);
+  backdrop-filter:blur(6px); animation:bmFade .25s ease both;
+}
+@keyframes bmFade{ from{opacity:0} to{opacity:1} }
+.bizmodal-panel{
+  position:relative; width:min(1080px,100%); height:min(88vh,860px);
+  display:flex; flex-direction:column;
+  background:var(--bg-2); border:1px solid var(--line); border-radius:18px;
+  box-shadow:0 40px 120px -40px rgba(0,0,0,.95); overflow:hidden;
+  animation:bmIn .32s cubic-bezier(.2,.7,.3,1) both;
+}
+@keyframes bmIn{ from{opacity:0; transform:translateY(14px) scale(.99)} to{opacity:1; transform:none} }
+@media (prefers-reduced-motion: reduce){
+  .bizmodal-backdrop,.bizmodal-panel{ animation:none }
+}
+.bizmodal-head{
+  display:flex; align-items:flex-start; justify-content:space-between; gap:16px;
+  padding:20px 22px 14px; border-bottom:1px solid var(--line-soft);
+}
+.bizmodal-eyebrow{
+  font-family:var(--f-mono); font-size:10px; letter-spacing:.22em;
+  text-transform:uppercase; color:var(--gold);
+}
+.bizmodal-head h3{
+  font-family:var(--f-display); font-size:clamp(21px,2.6vw,30px);
+  font-weight:400; margin-top:5px; line-height:1.15;
+}
+.bizmodal-x{
+  appearance:none; border:1px solid var(--line-soft); background:none;
+  color:var(--ivory-dim); width:34px; height:34px; border-radius:50%;
+  font-size:22px; line-height:1; cursor:pointer; flex-shrink:0;
+  transition:color .25s, border-color .25s;
+}
+.bizmodal-x:hover{ color:var(--gold); border-color:var(--gold) }
+.bizmodal-tabs{
+  display:flex; gap:6px; padding:12px 22px; overflow-x:auto;
+  scrollbar-width:none; border-bottom:1px solid var(--line-soft);
+}
+.bizmodal-tabs::-webkit-scrollbar{ display:none }
+.bizmodal-tab{
+  appearance:none; border:1px solid var(--line-soft); background:none; cursor:pointer;
+  padding:8px 15px; border-radius:99px; white-space:nowrap;
+  font-family:var(--f-sans); font-size:12.5px; color:var(--ivory-dim);
+  transition:color .25s, background .25s, border-color .25s;
+}
+.bizmodal-tab:hover{ color:var(--ivory); border-color:var(--line) }
+.bizmodal-tab.is-current{ background:var(--gold); border-color:var(--gold); color:var(--bg); font-weight:600 }
+.bizmodal-stage{ position:relative; flex:1; min-height:0; background:var(--bg) }
+#bizModalFrame{ width:100%; height:100%; border:0; display:block; background:var(--bg) }
+.bizmodal-loading{
+  position:absolute; inset:0; display:none; align-items:center; justify-content:center; gap:10px;
+  background:var(--bg); color:var(--muted); z-index:2;
+  font-family:var(--f-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+}
+.bizmodal-loading.show{ display:flex }
+.bml-dot{
+  width:7px; height:7px; border-radius:50%; background:var(--gold);
+  animation:bmPulse 1.1s ease-in-out infinite;
+}
+@keyframes bmPulse{ 0%,100%{opacity:.3; transform:scale(.8)} 50%{opacity:1; transform:scale(1.15)} }
+.bizmodal-foot{
+  display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap;
+  padding:14px 22px; border-top:1px solid var(--line-soft); background:var(--bg-2);
+}
+.bizmodal-note{ font-size:13px; color:var(--muted); max-width:46ch }
+.bizmodal-actions{ display:flex; gap:10px; flex-wrap:wrap }
+.bizmodal-actions .btn{ padding:11px 20px; font-size:13px }
+body.bizmodal-open{ overflow:hidden }
+@media (max-width:760px){
+  .bizmodal{ padding:0 }
+  .bizmodal-panel{ width:100%; height:100%; border-radius:0; border:0 }
+  .bizmodal-note{ display:none }
+  .bizmodal-actions{ width:100%; }
+  .bizmodal-actions .btn{ flex:1; justify-content:center }
+}
+
 /* ==================== FLAGSHIP BAND ==================== */
 .flagship-band{
   display:grid; grid-template-columns: 220px 1fr; gap:34px; align-items:center;
@@ -3828,6 +3908,32 @@ window.SITE_CONFIG = {
   </div>
 </footer>
 
+<!-- ==================== LIVE PREVIEW MODAL ==================== -->
+<div class="bizmodal" id="bizModal" hidden role="dialog" aria-modal="true" aria-labelledby="bizModalTitle">
+  <div class="bizmodal-backdrop" data-bizmodal-close></div>
+  <div class="bizmodal-panel">
+    <div class="bizmodal-head">
+      <div>
+        <div class="bizmodal-eyebrow">Live preview</div>
+        <h3 id="bizModalTitle"><span id="bizModalName">Your business</span></h3>
+      </div>
+      <button type="button" class="bizmodal-x" id="bizModalClose" aria-label="Close preview" data-bizmodal-close>&times;</button>
+    </div>
+    <div class="bizmodal-tabs" id="bizModalTabs" role="tablist" aria-label="Choose an industry"></div>
+    <div class="bizmodal-stage">
+      <div class="bizmodal-loading show" id="bizModalLoading"><span class="bml-dot"></span> Building your preview…</div>
+      <iframe id="bizModalFrame" title="Live website preview" referrerpolicy="no-referrer"></iframe>
+    </div>
+    <div class="bizmodal-foot">
+      <div class="bizmodal-note">A real template running live, with your name on it. Yours can look like this in 7 days.</div>
+      <div class="bizmodal-actions">
+        <a class="btn btn-ghost" id="bizModalOpen" target="_blank" rel="noopener">Open full <span class="arrow">&#8599;</span></a>
+        <a class="btn btn-primary" href="/contact" data-route="contact" data-bizmodal-close>Get this site <span class="arrow">&rarr;</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ==================== WHATSAPP FLOAT ==================== -->
 <a href="https://wa.me/918249992869" target="_blank" rel="noopener" class="wa-float" aria-label="Chat on WhatsApp">
   <i class="fa-brands fa-whatsapp"></i>
@@ -4661,14 +4767,124 @@ document.querySelectorAll('.btn-primary,.btn-ghost').forEach(btn => {
     personaliseDemoLinks(name);
 
     if (hint){
-      hint.textContent = 'Showing the templates as ' + name + ' — open any one.';
+      hint.textContent = 'Opening a live preview for ' + name + '…';
       hint.classList.remove('is-error');
     }
 
-    // Send them to the template picker, which is what there is to preview.
-    if (window.__netloomNavigate) window.__netloomNavigate('work');
-    else location.href = '/work';
+    // Show them their own site, which is what the hint promises. Routing to
+    // the template gallery was the wrong read of "see how your site could
+    // look — instantly".
+    if (window.__netloomOpenPreview) window.__netloomOpenPreview(name);
+    else if (window.__netloomNavigate) window.__netloomNavigate('work');
   });
+})();
+
+/* ============================================
+   LIVE PREVIEW MODAL
+   Loads a real demo site in an iframe with ?biz= applied, so the visitor sees
+   their own name on a working template without leaving the page.
+   ============================================ */
+(function bizModal(){
+  var modal = document.getElementById('bizModal');
+  if (!modal) return;
+
+  var frame  = document.getElementById('bizModalFrame');
+  var tabsEl = document.getElementById('bizModalTabs');
+  var nameEl = document.getElementById('bizModalName');
+  var loadEl = document.getElementById('bizModalLoading');
+  var openEl = document.getElementById('bizModalOpen');
+  var closeB = document.getElementById('bizModalClose');
+
+  /* Root-absolute paths: this markup is also served from /about/, /work/ etc,
+     where a relative path would resolve into the subdirectory. */
+  var INDUSTRIES = [
+    { key:'restaurant', label:'Restaurant & Café', path:'/restaurant/index.html',
+      re:/restaurant|cafe|café|kitchen|biryani|thali|dhaba|food|sweet|mishti|bakery|bakes|chai|tiffin|cater|pizza|juice|resto/i },
+    { key:'salon',      label:'Salon & Spa',       path:'/salon/index.html',
+      re:/salon|spa|beauty|hair|makeup|make-up|parlour|parlor|nail|barber|groom|studio/i },
+    { key:'healthcare', label:'Clinic',            path:'/healthcare/index.html',
+      re:/clinic|hospital|dental|dentist|doctor|medical|diagnost|physio|health|pharma|ortho|neuro|child|nursing/i },
+    { key:'boutique',   label:'Boutique',          path:'/boutique/index.html',
+      re:/boutique|fashion|saree|sari|cloth|apparel|textile|handloom|designer|tailor|garment|wear|couture/i },
+    { key:'yoga',       label:'Yoga & Fitness',    path:'/yoga/index.html',
+      re:/yoga|fitness|gym|wellness|pilates|meditat|ayurved|zumba|crossfit/i },
+    { key:'jewellery',  label:'Jewellery',         path:'/jewellery/index.html',
+      re:/jewel|gold|diamond|silver|ornament|bangle|alanka|ratna|gems/i },
+    { key:'ecommerce',  label:'Online Store',      path:'/ecommerce/index.html',
+      re:/store|shop|mart|craft|emporium|trader|enterprise|online|bazaar|bazar/i },
+    { key:'realestate', label:'Real Estate',       path:'/realestate/index.html',
+      re:/propert|realty|estate|builder|construct|housing|infra|develop|land/i }
+  ];
+
+  // A name often says the industry outright; opening on the right one makes
+  // the preview feel instant rather than like a menu to work through.
+  function guess(name){
+    for (var i = 0; i < INDUSTRIES.length; i++){
+      if (INDUSTRIES[i].re.test(name)) return INDUSTRIES[i].key;
+    }
+    return 'restaurant';
+  }
+
+  var current = null, bizName = '', lastFocus = null;
+
+  INDUSTRIES.forEach(function(ind){
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'bizmodal-tab';
+    b.setAttribute('role', 'tab');
+    b.textContent = ind.label;
+    b.addEventListener('click', function(){ select(ind.key); });
+    ind.btn = b;
+    tabsEl.appendChild(b);
+  });
+
+  function select(key){
+    var ind = null;
+    INDUSTRIES.forEach(function(x){ if (x.key === key) ind = x; });
+    if (!ind || current === key) return;
+    current = key;
+    INDUSTRIES.forEach(function(x){
+      var on = x.key === key;
+      x.btn.classList.toggle('is-current', on);
+      x.btn.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    var q = '?biz=' + encodeURIComponent(bizName);
+    loadEl.classList.add('show');
+    frame.src   = ind.path + q + '&embed=1';   // embed=1 drops the demo's own preview bar
+    openEl.href = ind.path + q;
+  }
+
+  frame.addEventListener('load', function(){
+    if (frame.src && frame.src.indexOf('about:blank') === -1) loadEl.classList.remove('show');
+  });
+
+  function open(name){
+    bizName = name;
+    nameEl.textContent = name;
+    lastFocus = document.activeElement;
+    modal.hidden = false;
+    document.body.classList.add('bizmodal-open');
+    current = null;
+    select(guess(name));
+    closeB.focus();
+  }
+
+  function close(){
+    modal.hidden = true;
+    document.body.classList.remove('bizmodal-open');
+    frame.src = 'about:blank';     // stop the demo animating behind the page
+    current = null;
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  modal.addEventListener('click', function(e){
+    if (e.target.closest && e.target.closest('[data-bizmodal-close]')) close();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && !modal.hidden) close();
+  });
+
+  window.__netloomOpenPreview = open;
 })();
 
 /* ============================================

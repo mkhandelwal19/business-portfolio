@@ -380,10 +380,22 @@
      carry the parameter across the demo's own pages.
      Everything here is presentation only — the name is never stored or sent. */
   (function netloomBizPreview(){
-    var biz = '';
+    var biz = '', embed = false;
     try {
-      biz = (new URLSearchParams(location.search).get('biz') || '').trim().slice(0, 40);
+      var qs = new URLSearchParams(location.search);
+      biz   = (qs.get('biz') || '').trim().slice(0, 40);
+      embed = qs.get('embed') === '1';
     } catch (e) { return; }
+
+    // Embedded in the homepage preview modal: drop this page's own preview bar
+    // and collapse the space it reserved, so the visitor sees only the site.
+    if (embed) {
+      document.documentElement.classList.add('is-embedded');
+      document.documentElement.style.setProperty('--preview-h', '0px');
+      var pb = document.querySelector('.preview-bar');
+      if (pb) pb.remove();
+    }
+
     if (!biz) return;
 
     // The name lands in the DOM as text only — never innerHTML — so a crafted
@@ -417,7 +429,8 @@
   })();
 
   // ── Cookie consent banner ──
-  if (!localStorage.getItem('cookie_consent')) {
+  if (!localStorage.getItem('cookie_consent') &&
+      !document.documentElement.classList.contains('is-embedded')) {
     const banner = document.createElement('div');
     banner.className = 'cookie-banner';
     banner.innerHTML = `

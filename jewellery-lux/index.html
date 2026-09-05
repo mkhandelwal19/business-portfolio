@@ -1012,8 +1012,20 @@ footer{ padding:64px 0 34px; border-top:1px solid var(--line-soft) }
 
   /* ── ?biz= personalisation, same contract as the other demos ── */
   (function(){
-    var biz = '';
-    try { biz = (new URLSearchParams(location.search).get('biz') || '').trim().slice(0,40); } catch(e){ return; }
+    var biz = '', embed = false;
+    try {
+      var qs = new URLSearchParams(location.search);
+      biz   = (qs.get('biz') || '').trim().slice(0,40);
+      embed = qs.get('embed') === '1';
+    } catch(e){ return; }
+
+    if (embed) {
+      document.documentElement.classList.add('is-embedded');
+      document.documentElement.style.setProperty('--preview-h', '0px');
+      var pb = document.querySelector('.preview-bar');
+      if (pb) pb.remove();
+    }
+
     if (!biz) return;
     document.querySelectorAll('.nav-logo').forEach(function(el){
       var em = el.querySelector('em');
