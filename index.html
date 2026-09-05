@@ -1423,6 +1423,42 @@ section{
   transition: border-color .3s, background .3s;
 }
 .form-field textarea{ min-height: 120px; resize: vertical }
+/* Autofill: Chrome repaints the control with its own pale background and dark
+   text and ignores background-color. An inset shadow is the only fill it still
+   honours; -webkit-text-fill-color the only way to set the text. The very long
+   transition parks its yellow fade so it never appears. */
+.form-field input:autofill,
+.form-field select:autofill,
+.form-field textarea:autofill{
+  background: var(--bg-2);
+  color: var(--ivory);
+  filter: none;
+}
+.form-field input:-webkit-autofill,
+.form-field input:-webkit-autofill:hover,
+.form-field input:-webkit-autofill:focus,
+.form-field input:-webkit-autofill:active,
+.form-field select:-webkit-autofill,
+.form-field select:-webkit-autofill:hover,
+.form-field select:-webkit-autofill:focus,
+.form-field textarea:-webkit-autofill,
+.form-field textarea:-webkit-autofill:hover,
+.form-field textarea:-webkit-autofill:focus{
+  -webkit-text-fill-color: var(--ivory);
+  -webkit-box-shadow: 0 0 0 1000px var(--bg-2) inset;
+          box-shadow: 0 0 0 1000px var(--bg-2) inset;
+  caret-color: var(--ivory);
+  border-color: var(--line-soft);
+  -webkit-transition: background-color 100000s ease-in-out 0s;
+          transition: background-color 100000s ease-in-out 0s;
+}
+.form-field input:-webkit-autofill:focus,
+.form-field select:-webkit-autofill:focus,
+.form-field textarea:-webkit-autofill:focus{ border-color: var(--gold) }
+/* Chrome's autofill dropdown is its own chrome and cannot be restyled, but the
+   field it sits under can at least match. */
+.form-field select option{ background: var(--bg-3); color: var(--ivory) }
+
 .form-field input:focus, .form-field select:focus, .form-field textarea:focus{
   outline: none;
   border-color: var(--gold);

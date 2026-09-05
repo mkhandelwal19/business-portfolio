@@ -498,6 +498,35 @@ body::after {
 .form-group textarea { resize:vertical; min-height:110px }
 .form-group select option { background:#0E1527 }
 
+/* Autofill — see the note on the main site: Chrome ignores background-color on
+   an autofilled control, so the fill has to come from an inset shadow. Uses the
+   theme vars, so each demo's palette carries through. */
+.form-group input:autofill,
+.form-group select:autofill,
+.form-group textarea:autofill {
+  background:var(--bg-2); color:var(--text); filter:none;
+}
+.form-group input:-webkit-autofill,
+.form-group input:-webkit-autofill:hover,
+.form-group input:-webkit-autofill:focus,
+.form-group select:-webkit-autofill,
+.form-group select:-webkit-autofill:hover,
+.form-group select:-webkit-autofill:focus,
+.form-group textarea:-webkit-autofill,
+.form-group textarea:-webkit-autofill:hover,
+.form-group textarea:-webkit-autofill:focus {
+  -webkit-text-fill-color:var(--text);
+  -webkit-box-shadow:0 0 0 1000px var(--bg-2) inset;
+          box-shadow:0 0 0 1000px var(--bg-2) inset;
+  caret-color:var(--text);
+  border-color:var(--line);
+  -webkit-transition:background-color 100000s ease-in-out 0s;
+          transition:background-color 100000s ease-in-out 0s;
+}
+.form-group input:-webkit-autofill:focus,
+.form-group select:-webkit-autofill:focus,
+.form-group textarea:-webkit-autofill:focus { border-color:var(--accent) }
+
 /* ── BOOKING / CALENDAR ── */
 .cal {
   background:var(--bg-card); border:1px solid var(--line); border-radius:var(--r); padding:28px;

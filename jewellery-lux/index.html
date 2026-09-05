@@ -390,6 +390,32 @@ section{ padding:110px 0; position:relative }
 }
 .field textarea{ min-height:110px; resize:vertical }
 .field input:focus, .field select:focus, .field textarea:focus{ border-color:var(--gold) }
+/* Autofill: Chrome paints its own pale background over the control and ignores
+   background-color, so the fill comes from an inset shadow instead. */
+.field input:autofill, .field select:autofill, .field textarea:autofill{
+  background:var(--ink-2); color:var(--cream); filter:none;
+}
+.field input:-webkit-autofill,
+.field input:-webkit-autofill:hover,
+.field input:-webkit-autofill:focus,
+.field select:-webkit-autofill,
+.field select:-webkit-autofill:hover,
+.field select:-webkit-autofill:focus,
+.field textarea:-webkit-autofill,
+.field textarea:-webkit-autofill:hover,
+.field textarea:-webkit-autofill:focus{
+  -webkit-text-fill-color:var(--cream);
+  -webkit-box-shadow:0 0 0 1000px var(--ink-2) inset;
+          box-shadow:0 0 0 1000px var(--ink-2) inset;
+  caret-color:var(--cream);
+  border-color:var(--line-soft);
+  -webkit-transition:background-color 100000s ease-in-out 0s;
+          transition:background-color 100000s ease-in-out 0s;
+}
+.field input:-webkit-autofill:focus,
+.field select:-webkit-autofill:focus,
+.field textarea:-webkit-autofill:focus{ border-color:var(--gold) }
+.field select option{ background:var(--ink-3); color:var(--cream) }
 .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:14px }
 @media(max-width:560px){ .field-row{ grid-template-columns:1fr } }
 .form-note{
