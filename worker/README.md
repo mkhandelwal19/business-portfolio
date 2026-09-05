@@ -35,14 +35,25 @@ need to move netloom.in's DNS to Cloudflare — the Worker is reachable on its o
 From this directory:
 
 ```bash
-npx wrangler login
-npx wrangler secret put SMTP_USER     # hello@netloom.in
-npx wrangler secret put SMTP_PASS     # the app password from step 1
-npx wrangler deploy
+npm install               # once
+npm run login
+npm run secret -- SMTP_USER     # hello@netloom.in
+npm run secret -- SMTP_PASS     # the app password from step 1
+npm run deploy
 ```
 
 `deploy` prints the live URL, e.g.
 `https://netloom-enquiry.<your-subdomain>.workers.dev`.
+
+> **Why `npm run` and not `npx`.** A stale global npx from an old npm 6 sits in
+> `%APPDATA%\npm` and shadows the one bundled with Node, failing with
+> `npm ERR! cb.apply is not a function`. `npm run` puts `node_modules/.bin` on
+> PATH and never invokes npx, so it sidesteps the problem entirely. Deleting
+> `%APPDATA%\npm\npx*` would also fix it, but that is a global change; the
+> scripts keep the fix local to this project.
+>
+> Note the `--` in the secret commands — it passes the argument through to
+> wrangler rather than to npm.
 
 ### 4. Point the form at it
 
@@ -59,7 +70,7 @@ Commit and push.
 ## Verifying
 
 ```bash
-npx wrangler tail          # live logs, in another terminal
+npm run tail          # live logs, in another terminal
 ```
 
 Then submit the real form at <https://netloom.in/contact/>. Two mails should
@@ -89,15 +100,15 @@ curl -i -X POST https://netloom-enquiry.<subdomain>.workers.dev \
   submission.
 - **Header injection** is blocked by stripping CR/LF from every field that
   reaches a header.
-- **Rotating the password:** `npx wrangler secret put SMTP_PASS` then
-  `npx wrangler deploy`. Revoke the old one in Zoho.
+- **Rotating the password:** `npm run secret -- SMTP_PASS` then
+  `npm run deploy`. Revoke the old one in Zoho.
 - **Zoho sending limits** apply to the free plan. Ordinary enquiry volume is
   nowhere near them, but a burst of spam getting past the honeypot could be. If
   that ever happens, add a Cloudflare Rate Limiting rule on the Worker route.
 
 ## If mail stops arriving
 
-1. `npx wrangler tail` and submit the form — the failing SMTP command is logged.
+1. `npm run tail` and submit the form — the failing SMTP command is logged.
 2. `AUTH` failing means the app password was revoked or regenerated.
 3. Everything succeeding but nothing arriving means the problem is DNS, not this
    Worker — see `../ZOHO_EMAIL_SETUP.md` for the record set and how to verify it.
