@@ -9,3 +9,7 @@ outreach/lead-scanner/leads.csv
 outreach/lead-scanner/dashboard.html
 outreach/targeting-guide.md
 **/.env
+
+# Wrangler build cache and local secret overrides for the enquiry Worker.
+.wrangler/
+worker/.dev.vars
