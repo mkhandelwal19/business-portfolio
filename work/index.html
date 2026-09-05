@@ -4188,10 +4188,29 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   var W = 0, H = 0, cx = 0, cy = 0, pts = [], rings = [];
   var mx = 0, my = 0, tmx = 0, tmy = 0, raf = null, t = 0;
 
+  // One baked sprite: a bright core with a tight halo. Blitting this is far
+  // cheaper than building a gradient per particle per frame.
+  var sprite = (function(){
+    var S = 64, c = document.createElement('canvas');
+    c.width = c.height = S;
+    var g = c.getContext('2d');
+    var mid = S / 2;
+    var grd = g.createRadialGradient(mid, mid, 0, mid, mid, mid);
+    grd.addColorStop(0.00, 'rgba(255,240,200,1)');
+    grd.addColorStop(0.16, 'rgba(240,219,152,0.95)');
+    grd.addColorStop(0.34, 'rgba(201,168,76,0.34)');
+    grd.addColorStop(1.00, 'rgba(201,168,76,0)');
+    g.fillStyle = grd;
+    g.beginPath(); g.arc(mid, mid, mid, 0, Math.PI * 2); g.fill();
+    return c;
+  })();
+
   var vSpread = 0.30;   // recomputed per size; portrait heroes need more
   function build(){
     vSpread = H > W ? Math.min(1.0, 0.30 + (H / W - 1) * 0.36) : 0.30;
-    var n = Math.round(Math.min(Math.max((W * H) / 5200, 70), 300));
+    // Crisp points cover less area than the old soft blobs, so carry more of
+    // them. Still scales with viewport area to keep phones light.
+    var n = Math.round(Math.min(Math.max((W * H) / 3000, 110), 520));
     pts = [];
     for (var i = 0; i < n; i++){
       pts.push({
@@ -4234,8 +4253,8 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
       ctx.rotate(g.rot + (calm ? 0 : t * 0.00035 * (i % 2 ? -1 : 1)));
       ctx.beginPath();
       ctx.ellipse(0, 0, g.r, g.r * Math.max(Math.cos(g.tilt), 0.08), 0, 0, Math.PI * 2);
-      ctx.strokeStyle = 'rgba(201,168,76,' + g.a + ')';
-      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(201,168,76,' + (g.a * 0.9) + ')';
+      ctx.lineWidth = 0.9;
       ctx.stroke();
       ctx.restore();
     }
@@ -4246,17 +4265,12 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
       var px = cx + Math.cos(p.a) * p.r * (0.55 + p.z * 0.45) + mx * 44 * p.z;
       var py = cy + Math.sin(p.a) * p.r * (vSpread + p.yj * 0.3) * (0.55 + p.z * 0.45) + my * 30 * p.z;
       var tw = calm ? 1 : (0.62 + 0.38 * Math.sin(t * 0.02 + p.tw));
-      var rad = (0.55 + p.z * 1.7) * 3.2;
-      var al = (0.16 + p.z * 0.52) * tw;
-      var grd = ctx.createRadialGradient(px, py, 0, px, py, rad);
-      grd.addColorStop(0, 'rgba(232,201,119,' + al + ')');
-      grd.addColorStop(0.4, 'rgba(201,168,76,' + (al * 0.55) + ')');
-      grd.addColorStop(1, 'rgba(201,168,76,0)');
-      ctx.fillStyle = grd;
-      ctx.beginPath();
-      ctx.arc(px, py, rad, 0, Math.PI * 2);
-      ctx.fill();
+      var al = (0.20 + p.z * 0.62) * tw;
+      var d = (0.45 + p.z * 1.05) * 5.2;      // sprite covers core + halo
+      ctx.globalAlpha = al > 1 ? 1 : al;
+      ctx.drawImage(sprite, px - d / 2, py - d / 2, d, d);
     }
+    ctx.globalAlpha = 1;
     raf = requestAnimationFrame(frame);
   }
 
