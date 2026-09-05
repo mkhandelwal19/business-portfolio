@@ -122,8 +122,10 @@ three times. Refactor `jewellery-lux` onto the module as the proof it works.
 
 1. **`realestate-lux`** — 3D floor-plan walkthrough, unit selector, orbit around a
    building massing model. Highest-ticket clients, clearest ROI story.
-2. **`ecommerce-lux`** — rotatable product viewer with variant/colour switching.
-   Most reusable, since it maps to any physical-product client.
+2. **`boutique-lux`** — fabric/drape treatment and a 3D lookbook carousel.
+   *(This was `ecommerce-lux`. Reassigned on 5 Sep because the ₹44,999 tier in §3
+   is now a full commerce platform and owns ecommerce outright — the two would
+   have been the same build twice.)*
 
 Each is a **single self-contained page**, like `jewellery-lux` — not a 10-page
 site. A flagship's job is to win the meeting, not to be a complete website.
@@ -149,22 +151,46 @@ site. A flagship's job is to win the meeting, not to be a complete website.
 
 ---
 
-## 3. The ₹44,999 tier — it has no demo
+## 3. The ₹44,999 tier — `commerce/`, a store that actually takes money
 
-This is the real gap. Starter and Business both have something to show; Premium
-has nothing, so there is no way to sell it.
+**Decided by Mayank on 5 Sep 2026: this is being built.** Sequenced last, after
+Track A and Track B. Full spec in `DEMO_UPGRADE_PLAN.md` §5A — read it before
+starting; only the essentials are repeated here.
 
-**Proposed: a real-time product configurator.** Choose metal, stone, size,
-engraving — the piece rebuilds live, with pricing updating as you go, and a
-WhatsApp handoff carrying the configured spec.
+Tiers one and two are brochures. This one **transacts** — a categorical jump,
+which is what holds the price.
 
-That is a genuinely different product from "a website with a 3D hero", which is
-what makes ₹44,999 defensible rather than arbitrary. It also demos in fifteen
-seconds, which matters in a pitch.
+Note the existing `ecommerce/` demo has a cart *page* but no cart *logic*. The
+premium demo must be genuinely clickable end to end or it demos worse than the
+tier it upsells from.
 
-Build it on `3d-core.js` from Track B. **Do not start it before a client is
-actually asking** — building a third flagship nobody requested is the same trap
-as building eight.
+### Architecture — no new vendor
+
+```
+Static front end  →  GitHub Pages       (as everything else)
+Data / auth       →  Supabase           (already chosen in PHASE2_ROADMAP.md)
+Payments          →  Razorpay           (test mode for the demo)
+Server logic      →  Cloudflare Worker  (extends the existing worker/)
+Order email       →  Zoho SMTP          (already working in worker/)
+```
+
+**Verify Razorpay signatures in the Worker, never in the browser** — a
+client-side "payment succeeded" check is trivially forged.
+
+### Three things that must not be forgotten
+
+1. **A store is an operational relationship, not a delivery.** Failed payments,
+   stock discrepancies, refunds and delivery disputes continue forever. Flat
+   ₹44,999 with no retainer could make this the least profitable item on the
+   price list. The plan recommends a mandatory monthly retainer quoted as part
+   of the tier.
+2. **Ownership promise still applies.** The site says *"you own everything"* and
+   *"never locked in."* The Supabase project and Razorpay account must be in the
+   **client's** name, exactly as domains already are.
+3. **Legal pages are a launch blocker, not a nicety.** Shipping, refund and
+   cancellation, terms, privacy, and GST-compliant invoicing. Razorpay demands
+   several of these before it will activate an account. Build them as real pages
+   in the demo.
 
 ---
 
