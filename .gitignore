@@ -13,3 +13,4 @@ outreach/targeting-guide.md
 # Wrangler build cache and local secret overrides for the enquiry Worker.
 .wrangler/
 worker/.dev.vars
+worker/preview/

@@ -12,6 +12,13 @@ MAIL_TO         = "hello@netloom.in"
 FROM_NAME       = "Netloom"
 ALLOWED_ORIGINS = "https://netloom.in,https://www.netloom.in"
 
+# Used by the HTML templates. LOGO_URL must stay publicly reachable — email
+# clients fetch it at read time, so a broken path shows as a broken image in
+# every message ever sent. Regenerate the file with `node build-email-logo.js`.
+SITE_URL        = "https://netloom.in"
+LOGO_URL        = "https://netloom.in/assets/email-logo.png"
+WA_NUMBER       = "918249992869"
+
 # Observability is off by default on the free plan; turn it on so
 # `wrangler tail` and the dashboard show the console.error lines the Worker
 # writes when a send fails.

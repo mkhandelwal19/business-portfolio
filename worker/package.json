@@ -10,9 +10,11 @@
     "secret": "wrangler secret put",
     "deploy": "wrangler deploy",
     "tail": "wrangler tail",
-    "dev": "wrangler dev"
+    "dev": "wrangler dev",
+    "preview": "node preview.js"
   },
   "devDependencies": {
     "wrangler": "^4.129.0"
-  }
+  },
+  "type": "module"
 }

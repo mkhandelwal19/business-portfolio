@@ -5,7 +5,7 @@
    Formspree entirely.
 
    On each submission it opens ONE authenticated SMTP session to Zoho and sends
-   two messages:
+   two messages, each as multipart/alternative (plain text + HTML):
 
      1. the enquiry        -> hello@netloom.in, with Reply-To set to the
                               enquirer so hitting reply in the inbox goes
@@ -16,43 +16,16 @@
    second message possible without paying a form backend for an autoresponder.
 
    Secrets are set with `wrangler secret put`, never committed:
-     SMTP_USER   hello@netloom.in
+     SMTP_USER   the Zoho account login
      SMTP_PASS   Zoho app-specific password (NOT the account password)
 */
 
 import { connect } from 'cloudflare:sockets';
 
-/* ── helpers ─────────────────────────────────────────────────────────────── */
-
-/* btoa() works on binary strings, not UTF-8 text, so a name carrying any
-   non-Latin character would throw. Encode to bytes first. */
-function b64(str) {
-  const bytes = new TextEncoder().encode(str);
-  let bin = '';
-  for (const byte of bytes) bin += String.fromCharCode(byte);
-  return btoa(bin);
-}
-
-/* Non-ASCII in a Subject header has to be RFC 2047 encoded or it arrives as
-   mojibake. Indian names and the rupee sign both need this. */
-function encodeHeader(str) {
-  return /^[\x20-\x7E]*$/.test(str) ? str : '=?UTF-8?B?' + b64(str) + '?=';
-}
-
-/* Base64 bodies sidestep SMTP line-length limits and dot-stuffing entirely. */
-function wrap76(str) {
-  return (str.match(/.{1,76}/g) || []).join('\r\n');
-}
-
-function esc(value) {
-  return String(value == null ? '' : value).slice(0, 4000);
-}
-
-/* Header injection: a newline smuggled into a name or subject would let a
-   submitter add arbitrary headers (Bcc, for instance). Strip CR and LF. */
-function oneLine(str) {
-  return str.replace(/[\r\n]+/g, ' ').trim();
-}
+import {
+  b64, encodeHeader, wrap76, esc, oneLine,
+  enquiryHtml, enquiryText, ackHtml, ackText
+} from './templates.js';
 
 /* ── minimal SMTP client ─────────────────────────────────────────────────── */
 
@@ -106,7 +79,10 @@ class Smtp {
   }
 }
 
-function buildMessage({ fromName, from, to, subject, replyTo, body }) {
+/* multipart/alternative: clients that cannot render HTML — and the plain-text
+   scrapers that decide whether you look like spam — get the text part. */
+function buildMessage({ fromName, from, to, subject, replyTo, text, html }) {
+  const boundary = '--=_netloom_' + crypto.randomUUID().replace(/-/g, '');
   const headers = [
     'From: ' + encodeHeader(oneLine(fromName)) + ' <' + from + '>',
     'To: ' + oneLine(to),
@@ -114,11 +90,20 @@ function buildMessage({ fromName, from, to, subject, replyTo, body }) {
     'Date: ' + new Date().toUTCString(),
     'Message-ID: <' + crypto.randomUUID() + '@netloom.in>',
     'MIME-Version: 1.0',
-    'Content-Type: text/plain; charset=UTF-8',
-    'Content-Transfer-Encoding: base64'
+    'Content-Type: multipart/alternative; boundary="' + boundary + '"'
   ];
   if (replyTo) headers.splice(3, 0, 'Reply-To: ' + oneLine(replyTo));
-  return headers.join('\r\n') + '\r\n\r\n' + wrap76(b64(body));
+
+  const part = (type, body) =>
+    '--' + boundary + '\r\n' +
+    'Content-Type: ' + type + '; charset=UTF-8\r\n' +
+    'Content-Transfer-Encoding: base64\r\n\r\n' +
+    wrap76(b64(body)) + '\r\n';
+
+  return headers.join('\r\n') + '\r\n\r\n' +
+         part('text/plain', text) +
+         part('text/html', html) +
+         '--' + boundary + '--';
 }
 
 /* Both messages go over a single session — connecting twice doubles the TLS
@@ -207,82 +192,47 @@ export default {
        Answer 200 so the bot records a success and does not retry or adapt. */
     if (esc(f._gotcha).trim()) return json({ ok: true }, 200, head);
 
-    const name    = oneLine(esc(f.name));
-    const email   = oneLine(esc(f.email));
-    const city    = oneLine(esc(f.city));
-    const phone   = oneLine(esc(f.phone));
-    const pack    = oneLine(esc(f.package));
-    const type    = oneLine(esc(f.type));
-    const message = esc(f.message).trim();
+    const d = {
+      name:    oneLine(esc(f.name)),
+      email:   oneLine(esc(f.email)),
+      city:    oneLine(esc(f.city)),
+      phone:   oneLine(esc(f.phone)),
+      package: oneLine(esc(f.package)),
+      type:    oneLine(esc(f.type)),
+      message: esc(f.message).trim()
+    };
 
-    if (!name || !email || !city || !pack || !type || !message) {
+    if (!d.name || !d.email || !d.city || !d.package || !d.type || !d.message) {
       return json({ error: 'missing required fields' }, 422, head);
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(d.email)) {
       return json({ error: 'invalid email' }, 422, head);
     }
-
-    const subject = 'Netloom enquiry — ' + name +
-                    (city ? ', ' + city : '') +
-                    (pack ? ' (' + pack + ')' : '');
 
     const enquiry = buildMessage({
       fromName: env.FROM_NAME,
       from:     env.MAIL_FROM,
       to:       env.MAIL_TO,
-      replyTo:  email,
-      subject,
-      body: [
-        'New enquiry from netloom.in',
-        '',
-        'Name       ' + name,
-        'Email      ' + email,
-        'Phone      ' + (phone || '—'),
-        'City       ' + city,
-        'Business   ' + type,
-        'Package    ' + pack,
-        '',
-        'Message',
-        '-------',
-        message,
-        '',
-        '--',
-        'Sent by the netloom.in enquiry form.',
-        'Reply to this mail to answer ' + name + ' directly.'
-      ].join('\n')
+      replyTo:  d.email,
+      subject:  'Netloom enquiry — ' + d.name + ', ' + d.city + ' (' + d.package + ')',
+      text:     enquiryText(d),
+      html:     enquiryHtml(env, d)
     });
 
     const ack = buildMessage({
       fromName: env.FROM_NAME,
       from:     env.MAIL_FROM,
-      to:       email,
+      to:       d.email,
       replyTo:  env.MAIL_TO,
       subject:  'Thanks for getting in touch — Netloom',
-      body: [
-        'Hi ' + name + ',',
-        '',
-        'Thanks for reaching out about your website. Your enquiry has reached me',
-        'and I will reply personally — usually within a few hours, and always',
-        'the same day.',
-        '',
-        'Here is what you sent:',
-        '',
-        '  City       ' + city,
-        '  Business   ' + type,
-        '  Package    ' + pack,
-        '',
-        'If something has changed or you want to add anything, just reply to',
-        'this email. It comes straight to me, not to a support queue.',
-        '',
-        'Mayank Khandelwal',
-        'Netloom · netloom.in'
-      ].join('\n')
+      text:     ackText(env, d),
+      html:     ackHtml(env, d)
     });
 
     try {
       const sent = await sendAll(env, [
         { label: 'enquiry', to: env.MAIL_TO, data: enquiry },
-        { label: 'ack',     to: email,       data: ack }
+        { label: 'ack',     to: d.email,     data: ack }
       ]);
 
       /* The enquiry is the message that must not be lost. If only the
