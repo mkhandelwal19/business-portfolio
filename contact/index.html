@@ -4307,12 +4307,17 @@ document.querySelectorAll('.city-chip').forEach(chip => {
 });
 
 /* ============================================
-   CONTACT FORM — FORMSPREE SUBMIT
-   Formspree is only the transport: GitHub Pages cannot send mail itself.
-   Where the enquiry LANDS is set in the Formspree dashboard, not here — point
-   it at the Zoho mailbox once that is verified. See ZOHO_EMAIL_SETUP.md.
+   CONTACT FORM — ENQUIRY WORKER
+   GitHub Pages cannot send mail, so the form posts to a Cloudflare Worker that
+   talks to Zoho over authenticated SMTP. The Worker sends two messages: the
+   enquiry to hello@netloom.in with Reply-To set to the enquirer, and an
+   acknowledgement to the enquirer From: hello@netloom.in.
+
+   The subject line and both message bodies live in the Worker, not here. A
+   static page cannot be trusted with them, and the Worker revalidates every
+   field regardless. Source and deploy steps: worker/README.md
    ============================================ */
-const FORMSPREE_ID = 'meevwvvd';
+const ENQUIRY_ENDPOINT = 'https://netloom-enquiry.netloom.workers.dev';
 const form = document.getElementById('contactForm');
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -4324,24 +4329,10 @@ form.addEventListener('submit', async (e) => {
   success.classList.remove('show');
   error.classList.remove('show');
   try {
-    const data = new FormData(form);
-
-    // Hitting reply in the inbox should go straight to the enquirer, and the
-    // subject should say who and what without opening the mail.
-    const who  = (data.get('name') || '').toString().trim();
-    const pack = (data.get('package') || '').toString().trim();
-    const city = (data.get('city') || '').toString().trim();
-    data.set('_replyto', (data.get('email') || '').toString().trim());
-    data.set('_subject',
-      'Netloom enquiry' +
-      (who  ? ' — ' + who : '') +
-      (city ? ', ' + city : '') +
-      (pack ? ' (' + pack + ')' : ''));
-
-    const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+    const res = await fetch(ENQUIRY_ENDPOINT, {
       method: 'POST',
-      body: data,
-      headers: { 'Accept': 'application/json' }
+      body: JSON.stringify(Object.fromEntries(new FormData(form).entries())),
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
     });
     if (res.ok) {
       success.classList.add('show');

@@ -159,19 +159,25 @@ the records and fix by hand. Do not re-run it.
 
 ## Where the enquiry form goes
 
-The site is static on GitHub Pages and cannot send mail. The contact form posts
-to **Formspree** (form `meevwvvd`), which emails the notification address set in
-*Formspree → Settings → Notification emails* — currently `hello@netloom.in`.
-That destination lives in Formspree, not in this repo.
+The site is static on GitHub Pages and cannot send mail, so the contact form
+posts to a **Cloudflare Worker** — `netloom-enquiry`, at
+<https://netloom-enquiry.netloom.workers.dev>. Formspree was removed on
+5 September 2026.
 
-Changing it sends a confirmation link to the new address that **must be clicked**,
-or Formspree keeps delivering to the old one.
+The Worker opens one authenticated SMTP session to Zoho and sends two messages:
 
-The form sets `_replyto` to the enquirer's address and builds a subject like
-`Netloom enquiry — Priya Sharma, Kolkata (business)`, so replying from Zoho goes
-straight back to the customer.
+1. the **enquiry** to `hello@netloom.in`, `Reply-To` set to the enquirer, subject
+   `Netloom enquiry — Priya Sharma, Kolkata (business)`
+2. an **acknowledgement** to the enquirer, genuinely `From: hello@netloom.in`
 
----
+The second one is the reason for the whole exercise: no form backend sends the
+thank-you from your own address below Formspree's $30/month Professional tier.
+Zoho's free plan does permit SMTP — POP, IMAP and Forwards are paid-only, SMTP
+is not — which is what makes it free.
+
+Source, deploy steps and troubleshooting live in `worker/README.md`. The
+endpoint URL is in `index.html` as `ENQUIRY_ENDPOINT`; the credentials are
+Cloudflare secrets and appear nowhere in this repo.
 
 ## Verifying
 
