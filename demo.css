@@ -101,6 +101,20 @@ body::after {
   70%{box-shadow:0 0 0 7px rgba(201,168,76,0)}
   100%{box-shadow:0 0 0 0 rgba(201,168,76,0)}
 }
+.pb-biz {
+  display:inline-flex; align-items:center;
+  padding:4px 10px; border-radius:99px;
+  background:rgba(201,168,76,.13); border:1px solid var(--line-a);
+  color:var(--accent); font-size:9.5px; letter-spacing:.12em; text-transform:uppercase;
+  white-space:nowrap; max-width:38vw; overflow:hidden; text-overflow:ellipsis;
+}
+@media (max-width:720px){ .pb-biz{ display:none } }
+.pb-item-flag .pb-item-name{ color:var(--accent) }
+.pb-new{
+  display:inline-block; margin-left:6px; padding:2px 6px; border-radius:99px;
+  background:var(--accent); color:#0B0906;
+  font-size:8px; letter-spacing:.1em; text-transform:uppercase; vertical-align:1px;
+}
 .pb-spacer { flex:1 }
 
 /* ── Industry switcher ── */

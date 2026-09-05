@@ -476,3 +476,38 @@
     })();
   });
 })();
+
+/* ── Personalised preview (?biz=) ───────────────────────────────────────────
+   The hero preview on netloom.in forwards the visitor's business name here.
+   Show it in the page's own heading area so the template reads as theirs, and
+   keep it on the links out to the live demo. Text-only insertion, never
+   innerHTML, so the value cannot inject markup. */
+(function netloomBizPreview(){
+  var biz = '';
+  try {
+    biz = (new URLSearchParams(location.search).get('biz') || '').trim().slice(0, 40);
+  } catch (e) { return; }
+  if (!biz) return;
+
+  var host = document.querySelector('.hero, header, main') || document.body;
+  var pill = document.createElement('div');
+  pill.className = 'biz-preview-pill';
+  pill.textContent = 'Previewing as ' + biz;
+  host.insertBefore(pill, host.firstChild);
+
+  var css = document.createElement('style');
+  css.textContent = '.biz-preview-pill{' +
+    'display:inline-block;margin:0 0 18px;padding:6px 14px;border-radius:99px;' +
+    'background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.32);' +
+    'color:#C9A84C;font-family:var(--f-mono,monospace);font-size:11px;' +
+    'letter-spacing:.12em;text-transform:uppercase}';
+  document.head.appendChild(css);
+
+  var q = 'biz=' + encodeURIComponent(biz);
+  document.querySelectorAll('a[href]').forEach(function (a) {
+    var href = a.getAttribute('href');
+    if (!href || /^(https?:|mailto:|tel:|#)/i.test(href)) return;
+    if (href.indexOf('biz=') > -1) return;
+    a.setAttribute('href', href + (href.indexOf('?') > -1 ? '&' : '?') + q);
+  });
+})();

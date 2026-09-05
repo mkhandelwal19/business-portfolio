@@ -373,6 +373,49 @@
     document.body.appendChild(bar);
   }
 
+  /* ── Personalised preview (?biz=) ─────────────────────────────────────────
+     The hero on netloom.in asks for a business name and then sends the visitor
+     here with ?biz=<name>. Wearing their own name for thirty seconds sells the
+     template far harder than "Mallika Jewels" does, so swap the wordmark and
+     carry the parameter across the demo's own pages.
+     Everything here is presentation only — the name is never stored or sent. */
+  (function netloomBizPreview(){
+    var biz = '';
+    try {
+      biz = (new URLSearchParams(location.search).get('biz') || '').trim().slice(0, 40);
+    } catch (e) { return; }
+    if (!biz) return;
+
+    // The name lands in the DOM as text only — never innerHTML — so a crafted
+    // ?biz= cannot inject markup into the page.
+    var logo = document.querySelector('.nav-logo');
+    if (logo) {
+      var em = logo.querySelector('em');
+      logo.textContent = biz;
+      if (em) logo.appendChild(em);
+    }
+
+    document.title = biz + ' — website preview by Netloom';
+
+    // Tell them plainly that this is their name on someone else's demo.
+    var bar = document.querySelector('.preview-bar .pb-tagline');
+    if (bar && bar.parentNode) {
+      var pill = document.createElement('span');
+      pill.className = 'pb-biz';
+      pill.textContent = 'Previewing as ' + biz;
+      bar.parentNode.insertBefore(pill, bar.nextSibling);
+    }
+
+    // Keep the name while they click around inside the demo.
+    var q = 'biz=' + encodeURIComponent(biz);
+    document.querySelectorAll('a[href]').forEach(function (a) {
+      var href = a.getAttribute('href');
+      if (!href || /^(https?:|mailto:|tel:|#)/i.test(href)) return;
+      if (href.indexOf('biz=') > -1) return;
+      a.setAttribute('href', href + (href.indexOf('?') > -1 ? '&' : '?') + q);
+    });
+  })();
+
   // ── Cookie consent banner ──
   if (!localStorage.getItem('cookie_consent')) {
     const banner = document.createElement('div');
