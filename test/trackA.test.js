@@ -118,8 +118,7 @@ module.exports = function run() {
         its own hero variant and its own set of components. A page error here
         means every behaviour defined after it in demo.js is dead on that
         category, with no visible symptom beyond a control that does nothing. */
-  const CATEGORIES = ['restaurant', 'healthcare', 'salon', 'boutique',
-                      'yoga', 'jewellery', 'ecommerce', 'realestate'];
+  const CATEGORIES = ['restaurant', 'healthcare', 'salon', 'yoga'];
   CATEGORIES.forEach((cat) => {
     const observed = [];
     const r = loadPage(cat + '/index.html', {

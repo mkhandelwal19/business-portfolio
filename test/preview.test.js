@@ -36,7 +36,7 @@ module.exports = function run(){
 
     [...d.getElementById('bizModalTabs').children]
       .find(b => b.textContent.includes('Jewellery')).click();
-    s.check(/\/jewellery\/index\.html/.test(frame.src), 'switching tab reloads the iframe');
+    s.check(/jewellery-lux\/index\.html/.test(frame.src), 'switching tab reloads the 3D flagship');
 
     d.dispatchEvent(new w.KeyboardEvent('keydown', { key:'Escape', bubbles:true }));
     s.check(modal.hidden === true, 'Escape closes the modal');
@@ -47,13 +47,21 @@ module.exports = function run(){
     s.check(modal.hidden === true, 'empty name does not open the modal');
     s.check(/Type your business name/.test(d.getElementById('bizPreviewHint').textContent), 'empty name shows the inline hint');
 
-    [['Nizami Biryani','restaurant'],['Basu Dental Clinic','healthcare'],
-     ['Mallika Gold','jewellery'],['Saha Properties','realestate'],
-     ['Praana Yoga','yoga'],['Riyaaz Boutique','boutique']]
-      .forEach(([name, want]) => {
+    /* All eight verticals still answer to their own words — a jeweller
+       searching "gold" must still land somewhere. Four of them now open the
+       premium page rather than the retired standard one, so the expected
+       path is listed explicitly instead of derived from the key. */
+    [['Nizami Biryani','restaurant','restaurant'],
+     ['Basu Dental Clinic','healthcare','healthcare'],
+     ['Mallika Gold','jewellery','jewellery-lux'],
+     ['Saha Properties','realestate','realestate-lux'],
+     ['Praana Yoga','yoga','yoga'],
+     ['Riyaaz Boutique','boutique','boutique-lux'],
+     ['Kolkata Craft Store','ecommerce','commerce']]
+      .forEach(([name, want, dir]) => {
         modal.hidden = true; d.body.classList.remove('bizmodal-open');
         w.__netloomOpenPreview(name);
-        s.check(new RegExp('/' + want + '/').test(frame.src), 'guess: "' + name + '" -> ' + want);
+        s.check(new RegExp('/' + dir + '/').test(frame.src), 'guess: "' + name + '" -> ' + dir);
       });
 
     resolve(s.report(errors));

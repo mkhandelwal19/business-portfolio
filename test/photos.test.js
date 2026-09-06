@@ -16,8 +16,11 @@ const path = require('path');
 const { ROOT, suite } = require('./lib');
 const { JSDOM } = require('jsdom');
 
-const CATS = ['restaurant', 'healthcare', 'salon', 'boutique',
-              'yoga', 'jewellery', 'ecommerce', 'realestate'];
+/* Four verticals. The other four — jewellery, real estate, boutique and
+   online store — were retired in favour of their premium replacements
+   (jewellery-lux, realestate-lux, boutique-lux and commerce), which are
+   covered by flagship.test.js and commerce.test.js instead. */
+const CATS = ['restaurant', 'healthcare', 'salon', 'yoga'];
 
 /* The one deliberate exception: jewellery/custom.html numbers its four
    process steps 01-04 in .feature-icon. Those are a sequence, not icons
@@ -25,7 +28,7 @@ const CATS = ['restaurant', 'healthcare', 'salon', 'boutique',
 const NUMBERED_STEPS = 'jewellery/custom.html';
 
 module.exports = function run() {
-  const s = suite('photography across the 8 demos');
+  const s = suite('photography across the demos');
 
   const pages = [];
   for (const c of CATS) {
@@ -33,7 +36,7 @@ module.exports = function run() {
       pages.push(c + '/' + f);
     }
   }
-  s.check(pages.length === 75, `all 75 demo pages found (${pages.length})`);
+  s.check(pages.length === 36, `all 36 demo pages found (${pages.length})`);
 
   const broken = [], svgSlots = [], noAlt = [], fullSize = [], multiEager = [];
 
@@ -122,7 +125,7 @@ module.exports = function run() {
   /* Contact pages carry a real map, and the Google frame is not filtered -
      their terms require the logo and Terms link stay unaltered, so an
      invert() to make it match the dark theme would break them. */
-  const MAPPED = ['restaurant', 'healthcare', 'salon', 'yoga', 'boutique', 'jewellery', 'realestate'];
+  const MAPPED = ['restaurant', 'healthcare', 'salon', 'yoga'];
   const noMap = [], filtered = [];
   for (const c of MAPPED) {
     const rel = c + '/contact.html';

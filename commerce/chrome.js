@@ -27,6 +27,12 @@
     { href: 'privacy.html',  label: 'Privacy' }
   ];
 
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (ch) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch];
+    });
+  }
+
   function el(tag, cls, html) {
     var e = document.createElement(tag);
     if (cls) e.className = cls;
@@ -34,21 +40,52 @@
     return e;
   }
 
+  /* ?biz= and ?embed=1 — the same contract every other Netloom demo honours.
+     The homepage hero sends visitors here with their own business name, and
+     embeds the result in a modal. Read once, before the chrome is built, so
+     the preview bar is never inserted only to be torn out again. */
+  var BIZ = '', EMBED = false;
+  try {
+    var qs = new URLSearchParams(location.search);
+    BIZ = (qs.get('biz') || '').trim().slice(0, 40);
+    EMBED = qs.get('embed') === '1';
+  } catch (e) { /* no URLSearchParams: fall through as a normal visit */ }
+
+  /* Carry the name across the store's own pages, so it survives a click from
+     the shop to a product to the basket. */
+  function keepBiz() {
+    if (!BIZ && !EMBED) return;
+    var q = [];
+    if (BIZ) q.push('biz=' + encodeURIComponent(BIZ));
+    if (EMBED) q.push('embed=1');
+    var extra = q.join('&');
+    document.querySelectorAll('a[href]').forEach(function (a) {
+      var href = a.getAttribute('href');
+      if (!href || /^(https?:|mailto:|tel:|#)/i.test(href)) return;
+      if (href.indexOf('biz=') > -1 || href.indexOf('embed=1') > -1) return;
+      a.setAttribute('href', href + (href.indexOf('?') > -1 ? '&' : '?') + extra);
+    });
+  }
+
   function mount() {
     var page = document.body.getAttribute('data-page') || '';
+
+    if (EMBED) document.documentElement.classList.add('is-embedded');
 
     /* ── preview bar ── */
     var host = document.getElementById('chrome-top');
     if (host) {
       host.insertAdjacentHTML('beforebegin',
         '<a class="skip" href="#main">Skip to main content</a>' +
+        (EMBED ? '' :
         '<div class="preview-bar">' +
           '<span class="pb-badge">Premium demo</span>' +
           '<span class="pb-tagline">Built by <a href="../index.html">Netloom</a></span>' +
+          (BIZ ? '<span class="pb-badge" id="pbBiz"></span>' : '') +
           '<span class="pb-spacer"></span>' +
           '<a class="pb-cta" href="../index.html#contact">' +
             '<i class="fa-solid fa-bolt" style="font-size:9px"></i> Get mine</a>' +
-        '</div>');
+        '</div>'));
 
       var nav = NAV.map(function (n) {
         var here = n.href.split('#')[0] === page;
@@ -58,7 +95,7 @@
       host.outerHTML =
         '<header class="head">' +
           '<div class="head-in">' +
-            '<a class="brand" href="index.html">Kaarigar<em>.</em></a>' +
+            '<a class="brand" href="index.html">' + (BIZ ? esc(BIZ) : 'Kaarigar') + '<em>.</em></a>' +
             '<ul class="head-nav">' + nav + '</ul>' +
             '<div class="search">' +
               '<i class="fa-solid fa-magnifying-glass"></i>' +
@@ -123,6 +160,13 @@
        cannot have found it on DOMContentLoaded — its listener was registered
        first, because its <script> comes first. Wire it now the header exists. */
     if (window.Store && Store.mountBadge) Store.mountBadge();
+
+    /* Text only, never innerHTML — a crafted ?biz= must not be able to inject
+       markup into the page. */
+    var pill = document.getElementById('pbBiz');
+    if (pill) pill.textContent = 'Previewing as ' + BIZ;
+    if (BIZ) document.title = BIZ + ' — store preview by Netloom';
+    keepBiz();
   }
 
   /* Toast, shared by every page that changes the cart. */

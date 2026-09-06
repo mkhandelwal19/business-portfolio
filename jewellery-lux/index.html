@@ -482,6 +482,35 @@ footer{ padding:64px 0 34px; border-top:1px solid var(--line-soft) }
   transition:transform .3s;
 }
 .wa:hover{ transform:scale(1.07) }
+
+/* ══════════════════════ GALLERY ══════════════════════ */
+.gal{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px }
+.gal-item{
+  position:relative; overflow:hidden; border-radius:14px;
+  border:1px solid var(--line-soft); background:rgba(255,255,255,.03);
+  aspect-ratio:1/1;
+}
+/* One 2x2 tile plus eight squares fills three rows of four exactly. */
+.gal-item.lead{ grid-column:span 2; grid-row:span 2; aspect-ratio:auto }
+.gal-item img{
+  width:100%; height:100%; object-fit:cover; display:block;
+  transition:transform .9s cubic-bezier(.2,.7,.3,1);
+}
+.gal-item:hover img{ transform:scale(1.05) }
+.gal-item::after{
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background:linear-gradient(to top, rgba(0,0,0,.55), transparent 52%);
+}
+.gal-cap{
+  position:absolute; left:14px; bottom:12px; z-index:2;
+  font-family:var(--f-mono); font-size:9px; letter-spacing:.16em;
+  text-transform:uppercase; color:#fff; opacity:.88;
+}
+@media(max-width:860px){
+  .gal{ grid-template-columns:repeat(2,1fr); gap:10px }
+  .gal-item.lead{ grid-column:span 2; grid-row:span 1; aspect-ratio:4/3 }
+}
+@media (prefers-reduced-motion: reduce){ .gal-item:hover img{ transform:none } }
 </style>
 </head>
 <body>
@@ -504,6 +533,7 @@ footer{ padding:64px 0 34px; border-top:1px solid var(--line-soft) }
       <li><a href="#collection">Collection</a></li>
       <li><a href="#craft">The Craft</a></li>
       <li><a href="#bridal">Bridal</a></li>
+      <li><a href="#gallery">Gallery</a></li>
       <li><a href="#visit">Visit</a></li>
       <li><a href="#visit" class="nav-cta">Book a viewing</a></li>
     </ul>
@@ -845,6 +875,57 @@ footer{ padding:64px 0 34px; border-top:1px solid var(--line-soft) }
 </section>
 
 <!-- ══════════ VISIT ══════════ -->
+<!-- ══════════ GALLERY ══════════ -->
+<section id="gallery">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow rv">04 — In the Light</div>
+      <h2 class="rv" data-d="1">The same pieces,<br/>on <em>skin</em>.</h2>
+      <p class="rv" data-d="2">The stone above turns because a screen can do that better than a
+      counter can. These are for the other half of the decision — how a piece
+      actually sits, under a lamp, against cloth, on a person.</p>
+    </div>
+    <div class="gal rv" data-d="1">
+        <figure class="gal-item lead">
+          <img src="../assets/photos/md/jewellery-15.webp" alt="Bridal set, worn" loading="lazy" decoding="async">
+          <figcaption class="gal-cap">Bridal set, worn</figcaption>
+        </figure>
+        <figure class="gal-item">
+          <img src="../assets/photos/sm/jewellery-04.webp" alt="Jhumka, close" loading="lazy" decoding="async">
+          <figcaption class="gal-cap">Jhumka, close</figcaption>
+        </figure>
+        <figure class="gal-item">
+          <img src="../assets/photos/sm/jewellery-05.webp" alt="The gold counter" loading="lazy" decoding="async">
+          <figcaption class="gal-cap">The gold counter</figcaption>
+        </figure>
+        <figure class="gal-item">
+          <img src="../assets/photos/sm/jewellery-09.webp" alt="Solitaire line" loading="lazy" decoding="async">
+          <figcaption class="gal-cap">Solitaire line</figcaption>
+        </figure>
+        <figure class="gal-item">
+          <img src="../assets/photos/sm/jewellery-07.webp" alt="Bangle wall" loading="lazy" decoding="async">
+          <figcaption class="gal-cap">Bangle wall</figcaption>
+        </figure>
+        <figure class="gal-item">
+          <img src="../assets/photos/sm/jewellery-30.webp" alt="Kada on silk" loading="lazy" decoding="async">
+          <figcaption class="gal-cap">Kada on silk</figcaption>
+        </figure>
+        <figure class="gal-item">
+          <img src="../assets/photos/sm/jewellery-32.webp" alt="Pendant set" loading="lazy" decoding="async">
+          <figcaption class="gal-cap">Pendant set</figcaption>
+        </figure>
+        <figure class="gal-item">
+          <img src="../assets/photos/sm/jewellery-23.webp" alt="Bridal, gold" loading="lazy" decoding="async">
+          <figcaption class="gal-cap">Bridal, gold</figcaption>
+        </figure>
+        <figure class="gal-item">
+          <img src="../assets/photos/sm/jewellery-01.webp" alt="Flat lay" loading="lazy" decoding="async">
+          <figcaption class="gal-cap">Flat lay</figcaption>
+        </figure>
+    </div>
+  </div>
+</section>
+
 <section id="visit">
   <div class="wrap">
     <div class="sec-head">
@@ -939,9 +1020,9 @@ footer{ padding:64px 0 34px; border-top:1px solid var(--line-soft) }
       <div>
         <h5>Other Netloom demos</h5>
         <ul>
-          <li><a href="../jewellery/index.html">Standard jewellery template</a></li>
+          <li><a href="../boutique-lux/index.html">Handloom flagship</a></li>
           <li><a href="../restaurant/index.html">Restaurant</a></li>
-          <li><a href="../realestate/index.html">Real estate</a></li>
+          <li><a href="../realestate-lux/index.html">Property flagship</a></li>
           <li><a href="../index.html">All templates</a></li>
         </ul>
       </div>

@@ -374,6 +374,38 @@ h1,h2,h3,h4{ font-family:var(--f-display); font-weight:400; line-height:1.08 }
   box-shadow:0 10px 30px -8px rgba(37,211,102,.6); transition:transform .3s;
 }
 .wa:hover{ transform:scale(1.08) }
+
+/* ══════════════════════ GALLERY ══════════════════════ */
+.gal{
+  display:grid; grid-template-columns:repeat(4,1fr);
+  gap:14px; margin-top:44px;
+}
+.gal-item{
+  position:relative; overflow:hidden; border-radius:14px;
+  border:1px solid var(--line-soft); background:rgba(255,255,255,.03);
+  aspect-ratio:1/1;
+}
+/* One 2x2 tile plus eight squares fills three rows of four exactly. */
+.gal-item.lead{ grid-column:span 2; grid-row:span 2; aspect-ratio:auto }
+.gal-item img{
+  width:100%; height:100%; object-fit:cover; display:block;
+  transition:transform .9s cubic-bezier(.2,.7,.3,1);
+}
+.gal-item:hover img{ transform:scale(1.05) }
+.gal-item::after{
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background:linear-gradient(to top, rgba(0,0,0,.55), transparent 52%);
+}
+.gal-cap{
+  position:absolute; left:14px; bottom:12px; z-index:2;
+  font-family:var(--f-mono); font-size:9px; letter-spacing:.16em;
+  text-transform:uppercase; color:#fff; opacity:.88;
+}
+@media(max-width:860px){
+  .gal{ grid-template-columns:repeat(2,1fr); gap:10px }
+  .gal-item.lead{ grid-column:span 2; grid-row:span 1; aspect-ratio:4/3 }
+}
+@media (prefers-reduced-motion: reduce){ .gal-item:hover img{ transform:none } }
 </style>
 </head>
 <body>
@@ -395,6 +427,7 @@ h1,h2,h3,h4{ font-family:var(--f-display); font-weight:400; line-height:1.08 }
       <li><a href="#residences">Residences</a></li>
       <li><a href="#location">Location</a></li>
       <li><a href="#build">The Build</a></li>
+      <li><a href="#gallery">Gallery</a></li>
       <li><a href="#enquire">Enquire</a></li>
       <li><a href="#enquire" class="nav-cta">Book a site visit</a></li>
     </ul>
@@ -589,6 +622,53 @@ h1,h2,h3,h4{ font-family:var(--f-display); font-weight:400; line-height:1.08 }
 </div>
 
 <!-- ══════════ ENQUIRE ══════════ -->
+<!-- ══════════ GALLERY ══════════ -->
+<section class="section" id="gallery" style="padding-top:0">
+  <div class="section-head rv">
+    <div class="eyebrow">The show flat</div>
+    <h2>Finished, and <em>standing in it</em>.</h2>
+    <p>The tower above is the massing. This is the show flat on the fourth floor, photographed the week it was handed over.</p>
+  </div>
+  <div class="gal rv" data-d="1">
+      <figure class="gal-item lead">
+        <img src="../assets/photos/md/realestate-24.webp" alt="Living, 3 BHK" loading="lazy" decoding="async">
+        <figcaption class="gal-cap">Living, 3 BHK</figcaption>
+      </figure>
+      <figure class="gal-item">
+        <img src="../assets/photos/sm/realestate-16.webp" alt="Lounge" loading="lazy" decoding="async">
+        <figcaption class="gal-cap">Lounge</figcaption>
+      </figure>
+      <figure class="gal-item">
+        <img src="../assets/photos/sm/realestate-18.webp" alt="Open kitchen" loading="lazy" decoding="async">
+        <figcaption class="gal-cap">Open kitchen</figcaption>
+      </figure>
+      <figure class="gal-item">
+        <img src="../assets/photos/sm/realestate-23.webp" alt="Corner light" loading="lazy" decoding="async">
+        <figcaption class="gal-cap">Corner light</figcaption>
+      </figure>
+      <figure class="gal-item">
+        <img src="../assets/photos/sm/realestate-27.webp" alt="Kitchen detail" loading="lazy" decoding="async">
+        <figcaption class="gal-cap">Kitchen detail</figcaption>
+      </figure>
+      <figure class="gal-item">
+        <img src="../assets/photos/sm/realestate-28.webp" alt="Dining" loading="lazy" decoding="async">
+        <figcaption class="gal-cap">Dining</figcaption>
+      </figure>
+      <figure class="gal-item">
+        <img src="../assets/photos/sm/realestate-31.webp" alt="Island" loading="lazy" decoding="async">
+        <figcaption class="gal-cap">Island</figcaption>
+      </figure>
+      <figure class="gal-item">
+        <img src="../assets/photos/sm/realestate-19.webp" alt="Second bedroom" loading="lazy" decoding="async">
+        <figcaption class="gal-cap">Second bedroom</figcaption>
+      </figure>
+      <figure class="gal-item">
+        <img src="../assets/photos/sm/realestate-13.webp" alt="The block" loading="lazy" decoding="async">
+        <figcaption class="gal-cap">The block</figcaption>
+      </figure>
+  </div>
+</section>
+
 <section class="section" id="enquire">
   <div class="enquire">
     <div class="rv">
@@ -660,7 +740,7 @@ h1,h2,h3,h4{ font-family:var(--f-display); font-weight:400; line-height:1.08 }
       <ul>
         <li><a href="../index.html">Netloom</a></li>
         <li><a href="../jewellery-lux/index.html">Jewellery flagship</a></li>
-        <li><a href="../realestate/index.html">Standard property template</a></li>
+        <li><a href="../commerce/index.html">The premium store</a></li>
         <li><a href="../index.html#contact">Get one like this</a></li>
       </ul>
     </div>

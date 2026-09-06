@@ -326,6 +326,38 @@ h1,h2,h3,h4{ font-family:var(--f-display); font-weight:400; line-height:1.08 }
   box-shadow:0 10px 30px -8px rgba(37,211,102,.6); transition:transform .3s;
 }
 .wa:hover{ transform:scale(1.08) }
+
+/* ══════════════════════ GALLERY ══════════════════════ */
+.gal{
+  display:grid; grid-template-columns:repeat(4,1fr);
+  gap:14px; margin-top:44px;
+}
+.gal-item{
+  position:relative; overflow:hidden; border-radius:14px;
+  border:1px solid var(--line-soft); background:rgba(255,255,255,.03);
+  aspect-ratio:1/1;
+}
+/* One 2x2 tile plus eight squares fills three rows of four exactly. */
+.gal-item.lead{ grid-column:span 2; grid-row:span 2; aspect-ratio:auto }
+.gal-item img{
+  width:100%; height:100%; object-fit:cover; display:block;
+  transition:transform .9s cubic-bezier(.2,.7,.3,1);
+}
+.gal-item:hover img{ transform:scale(1.05) }
+.gal-item::after{
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background:linear-gradient(to top, rgba(0,0,0,.55), transparent 52%);
+}
+.gal-cap{
+  position:absolute; left:14px; bottom:12px; z-index:2;
+  font-family:var(--f-mono); font-size:9px; letter-spacing:.16em;
+  text-transform:uppercase; color:#fff; opacity:.88;
+}
+@media(max-width:860px){
+  .gal{ grid-template-columns:repeat(2,1fr); gap:10px }
+  .gal-item.lead{ grid-column:span 2; grid-row:span 1; aspect-ratio:4/3 }
+}
+@media (prefers-reduced-motion: reduce){ .gal-item:hover img{ transform:none } }
 </style>
 </head>
 <body>
@@ -346,6 +378,7 @@ h1,h2,h3,h4{ font-family:var(--f-display); font-weight:400; line-height:1.08 }
       <li><a href="#lookbook">Lookbook</a></li>
       <li><a href="#loom">The Loom</a></li>
       <li><a href="#care">Care</a></li>
+      <li><a href="#gallery">Gallery</a></li>
       <li><a href="#enquire">Visit</a></li>
       <li><a href="#enquire" class="nav-cta">Book a fitting</a></li>
     </ul>
@@ -515,6 +548,53 @@ h1,h2,h3,h4{ font-family:var(--f-display); font-weight:400; line-height:1.08 }
 </div>
 
 <!-- ══════════ ENQUIRE ══════════ -->
+<!-- ══════════ GALLERY ══════════ -->
+<section class="section" id="gallery" style="padding-top:0">
+  <div class="section-head rv">
+    <div class="eyebrow">The lookbook</div>
+    <h2>Six yards, <em>worn</em>.</h2>
+    <p>Drape is what the 3D above is for. This is the other half of the decision — how a weave actually reads on a person, in daylight.</p>
+  </div>
+  <div class="gal rv" data-d="1">
+      <figure class="gal-item lead">
+        <img src="../assets/photos/md/boutique-24.webp" alt="Madder, on brick" loading="lazy" decoding="async">
+        <figcaption class="gal-cap">Madder, on brick</figcaption>
+      </figure>
+      <figure class="gal-item">
+        <img src="../assets/photos/sm/boutique-25.webp" alt="Teal jamdani" loading="lazy" decoding="async">
+        <figcaption class="gal-cap">Teal jamdani</figcaption>
+      </figure>
+      <figure class="gal-item">
+        <img src="../assets/photos/sm/boutique-18.webp" alt="Red, in motion" loading="lazy" decoding="async">
+        <figcaption class="gal-cap">Red, in motion</figcaption>
+      </figure>
+      <figure class="gal-item">
+        <img src="../assets/photos/sm/boutique-28.webp" alt="Green silk" loading="lazy" decoding="async">
+        <figcaption class="gal-cap">Green silk</figcaption>
+      </figure>
+      <figure class="gal-item">
+        <img src="../assets/photos/sm/boutique-20.webp" alt="Blue and white" loading="lazy" decoding="async">
+        <figcaption class="gal-cap">Blue and white</figcaption>
+      </figure>
+      <figure class="gal-item">
+        <img src="../assets/photos/sm/boutique-16.webp" alt="Studio drape" loading="lazy" decoding="async">
+        <figcaption class="gal-cap">Studio drape</figcaption>
+      </figure>
+      <figure class="gal-item">
+        <img src="../assets/photos/sm/boutique-06.webp" alt="Two weaves" loading="lazy" decoding="async">
+        <figcaption class="gal-cap">Two weaves</figcaption>
+      </figure>
+      <figure class="gal-item">
+        <img src="../assets/photos/sm/boutique-12.webp" alt="Monochrome" loading="lazy" decoding="async">
+        <figcaption class="gal-cap">Monochrome</figcaption>
+      </figure>
+      <figure class="gal-item">
+        <img src="../assets/photos/sm/boutique-32.webp" alt="Evening" loading="lazy" decoding="async">
+        <figcaption class="gal-cap">Evening</figcaption>
+      </figure>
+  </div>
+</section>
+
 <section class="section" id="enquire">
   <div class="enquire">
     <div class="rv">

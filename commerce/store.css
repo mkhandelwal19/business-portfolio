@@ -90,6 +90,11 @@ button,input,select,textarea{ font-family:inherit; font-size:inherit; color:inhe
 }
 @media(max-width:640px){ .pb-tagline{ display:none } }
 
+/* Embedded in the homepage preview modal: no preview bar, so the space it
+   reserved has to come back too, or the whole store sits 38px too low. */
+html.is-embedded body{ padding-top:0 }
+html.is-embedded .head{ top:0 }
+
 /* ── Header ── */
 .head{
   position:sticky; top:var(--preview-h); z-index:1000; height:var(--head-h);

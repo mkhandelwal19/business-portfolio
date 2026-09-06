@@ -962,6 +962,104 @@ section{
   padding-top: 20px;
   border-top: 1px solid var(--line-soft);
 }
+.price-retainer{
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin: -18px 0 26px;
+  padding: 12px 14px;
+  border: 1px solid var(--line-soft);
+  border-radius: 10px;
+  background: rgba(201,168,76,.05);
+}
+.price-retainer .pr-k{
+  font-family: var(--f-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.price-retainer .pr-v{
+  font-family: var(--f-serif);
+  font-size: 21px;
+  font-weight: 600;
+  color: var(--gold);
+  line-height: 1;
+}
+.price-retainer .pr-v em{
+  font-style: normal;
+  font-size: 12px;
+  color: var(--muted);
+  font-family: var(--f-sans);
+  margin-left: 2px;
+}
+.price-retainer .pr-note{
+  margin-left: auto;
+  font-family: var(--f-mono);
+  font-size: 8.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 99px;
+  background: rgba(201,168,76,.14);
+  color: var(--gold);
+  white-space: nowrap;
+}
+
+/* ── Care plans ── */
+.care{ margin-top: 56px; padding-top: 44px; border-top: 1px solid var(--line-soft) }
+.care-head{ max-width: 62ch; margin-bottom: 30px }
+.care-head h3{
+  font-family: var(--f-serif);
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+.care-head h3 em{ font-style: italic; color: var(--gold) }
+.care-head p{ color: var(--ivory-dim); font-size: 15px; line-height: 1.75 }
+.care-grid{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px }
+@media (max-width: 860px){ .care-grid{ grid-template-columns: 1fr } }
+.care-card{
+  background: var(--panel);
+  border: 1px solid var(--line-soft);
+  border-radius: 16px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+}
+.care-card .cc-top{
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap; margin-bottom: 6px;
+}
+.care-card h4{ font-family: var(--f-serif); font-size: 21px; font-weight: 500 }
+.care-card .cc-price{
+  font-family: var(--f-serif); font-size: 26px; font-weight: 600;
+  color: var(--gold); white-space: nowrap;
+}
+.care-card .cc-price em{
+  font-style: normal; font-size: 12px; color: var(--muted); font-family: var(--f-sans);
+}
+.care-card .cc-for{
+  font-family: var(--f-mono); font-size: 9.5px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 20px;
+}
+.care-card ul{
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column; gap: 10px; flex: 1;
+}
+.care-card li{
+  font-size: 14px; color: var(--ivory-dim);
+  padding-left: 20px; position: relative;
+}
+.care-card li::before{
+  content: '✓'; position: absolute; left: 0; color: var(--gold); font-size: 12px;
+}
+.care-note{
+  margin-top: 26px; font-size: 13.5px; color: var(--muted);
+  line-height: 1.7; max-width: 70ch;
+}
+.care-note strong{ color: var(--ivory-dim); font-weight: 600 }
 .price-cta{ width: 100%; justify-content: center }
 .addons-row{
   margin-top: 56px;
@@ -2494,8 +2592,8 @@ window.SITE_CONFIG = {
     templates : 'Hi Mayank, I was looking at your template demos on netloom.in and I would like one for my business.',
     flagship  : 'Hi Mayank, I saw the 3D flagship demo on netloom.in. I would like to know more about that package.',
     starter   : 'Hi Mayank, I am interested in the Starter package (Rs 12,999). What is included?',
-    business  : 'Hi Mayank, I am interested in the Business package (Rs 24,999). What is included?',
-    premium   : 'Hi Mayank, I am interested in the Premium package (Rs 44,999). What is included?',
+    business  : 'Hi Mayank, I am interested in the Business package (Rs 24,999). What is included, and how does the Rs 1,999/month care plan work?',
+    premium   : 'Hi Mayank, I am interested in the Premium package (Rs 44,999) with the Rs 3,499/month care plan. What is included?',
     pricing   : 'Hi Mayank, I looked at your pricing on netloom.in and I have a few questions.'
   },
 
@@ -3430,6 +3528,11 @@ window.SITE_CONFIG = {
         <h4>Business</h4>
         <div class="price-amount">₹24,999</div>
         <div class="price-sub">one-time · delivery 10–14 days</div>
+        <div class="price-retainer">
+          <span class="pr-k">+ Care plan</span>
+          <span class="pr-v">₹1,999<em>/month</em></span>
+          <span class="pr-note">Optional</span>
+        </div>
         <ul class="price-list">
           <li>5-page full website</li>
           <li>SEO + speed optimised</li>
@@ -3450,6 +3553,11 @@ window.SITE_CONFIG = {
         <h4>Premium</h4>
         <div class="price-amount">₹44,999</div>
         <div class="price-sub">one-time · delivery 21–30 days</div>
+        <div class="price-retainer">
+          <span class="pr-k">+ Care plan</span>
+          <span class="pr-v">₹3,499<em>/month</em></span>
+          <span class="pr-note">Included &amp; required</span>
+        </div>
         <ul class="price-list">
           <li>Unlimited pages</li>
           <li>E-commerce / Online ordering</li>
@@ -3464,6 +3572,66 @@ window.SITE_CONFIG = {
         <a class="price-wa" href="https://wa.me/918249992869" target="_blank" rel="noopener" data-wa-msg="premium"><i class="fa-brands fa-whatsapp"></i> Ask on WhatsApp</a>
       </div>
 
+    </div>
+
+    <!-- Care plans -->
+    <div class="care reveal" data-delay="2">
+      <div class="care-head">
+        <h3>The site goes live. Then it has to <em>keep working</em>.</h3>
+        <p>
+          A one-page brochure can sit still for a year and be fine. A booking system
+          or a shop cannot — payments fail, stock goes out of date, browsers and
+          platforms move underneath you, and somebody has to answer &ldquo;why is my
+          order not showing&rdquo;. That work does not stop on launch day, so we price
+          it instead of pretending it away.
+        </p>
+      </div>
+
+      <div class="care-grid">
+        <div class="care-card">
+          <div class="cc-top">
+            <h4>Care &middot; Business</h4>
+            <div class="cc-price">&#8377;1,999<em>/mo</em></div>
+          </div>
+          <div class="cc-for">Optional with the &#8377;24,999 pack</div>
+          <ul>
+            <li>Hosting and domain renewals handled for you</li>
+            <li>Up to four content or price changes a month</li>
+            <li>Uptime monitoring &mdash; we find breakages before you do</li>
+            <li>Weekly backups, restored on request</li>
+            <li>Security and dependency updates</li>
+            <li>Booking and enquiry forms kept working</li>
+          </ul>
+        </div>
+
+        <div class="care-card">
+          <div class="cc-top">
+            <h4>Care &middot; Commerce</h4>
+            <div class="cc-price">&#8377;3,499<em>/mo</em></div>
+          </div>
+          <div class="cc-for">Required with the &#8377;44,999 store</div>
+          <ul>
+            <li>Everything in Care &middot; Business</li>
+            <li>Failed payments and refunds chased with the gateway</li>
+            <li>Catalogue, stock and pricing changes</li>
+            <li>Order and delivery disputes handled</li>
+            <li>Payment gateway and database platform updates applied</li>
+            <li>Quarterly review of what is actually selling</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="care-note">
+        <strong>Why the store&rsquo;s plan is not optional.</strong> A shop that takes
+        money is an operational relationship, not a delivery. Sold flat with no ongoing
+        arrangement, the support that follows would either be unpaid or refused, and
+        neither is a good outcome for the person whose customers are waiting.
+        <br><br>
+        <strong>Cancel with 30 days&rsquo; notice, any time.</strong> Your domain,
+        hosting, payment gateway and database are registered in your name, exactly as
+        they are on every other pack. Ending a care plan changes who maintains the
+        site &mdash; it does not move, lock or hold anything of yours.
+      </p>
     </div>
 
     <!-- Add-ons -->
@@ -3931,14 +4099,11 @@ window.SITE_CONFIG = {
         <li><a href="restaurant/index.html" data-demo="restaurant/index.html">Restaurant</a></li>
         <li><a href="healthcare/index.html" data-demo="healthcare/index.html">Clinic</a></li>
         <li><a href="salon/index.html" data-demo="salon/index.html">Salon</a></li>
-        <li><a href="boutique/index.html" data-demo="boutique/index.html">Boutique</a></li>
+        <li><a href="boutique-lux/index.html" data-demo="boutique-lux/index.html">Boutique · 3D</a></li>
         <li><a href="yoga/index.html" data-demo="yoga/index.html">Yoga</a></li>
-        <li><a href="jewellery/index.html" data-demo="jewellery/index.html">Jewellery</a></li>
-        <li><a href="ecommerce/index.html" data-demo="ecommerce/index.html">Online Store</a></li>
-        <li><a href="realestate/index.html" data-demo="realestate/index.html">Real Estate</a></li>
-        <li><a href="realestate-lux/index.html" data-demo="realestate-lux/index.html">Property — 3D flagship</a></li>
-        <li><a href="boutique-lux/index.html" data-demo="boutique-lux/index.html">Handloom — 3D flagship</a></li>
-        <li><a href="commerce/index.html" data-demo="commerce/index.html">Online store — premium tier</a></li>
+        <li><a href="jewellery-lux/index.html" data-demo="jewellery-lux/index.html">Jewellery · 3D</a></li>
+        <li><a href="commerce/index.html" data-demo="commerce/index.html">Online Store · full store</a></li>
+        <li><a href="realestate-lux/index.html" data-demo="realestate-lux/index.html">Real Estate · 3D</a></li>
       </ul>
       <a class="foot-flagship" href="jewellery-lux/index.html" data-demo="jewellery-lux/index.html">
         <span class="ff-tag">3D</span> See the flagship
@@ -4848,15 +5013,15 @@ document.querySelectorAll('.btn-primary,.btn-ghost').forEach(btn => {
       re:/salon|spa|beauty|hair|makeup|make-up|parlour|parlor|nail|barber|groom|studio/i },
     { key:'healthcare', label:'Clinic',            path:'/healthcare/index.html',
       re:/clinic|hospital|dental|dentist|doctor|medical|diagnost|physio|health|pharma|ortho|neuro|child|nursing/i },
-    { key:'boutique',   label:'Boutique',          path:'/boutique/index.html',
+    { key:'boutique',   label:'Boutique',          path:'/boutique-lux/index.html',
       re:/boutique|fashion|saree|sari|cloth|apparel|textile|handloom|designer|tailor|garment|wear|couture/i },
     { key:'yoga',       label:'Yoga & Fitness',    path:'/yoga/index.html',
       re:/yoga|fitness|gym|wellness|pilates|meditat|ayurved|zumba|crossfit/i },
-    { key:'jewellery',  label:'Jewellery',         path:'/jewellery/index.html',
+    { key:'jewellery',  label:'Jewellery',         path:'/jewellery-lux/index.html',
       re:/jewel|gold|diamond|silver|ornament|bangle|alanka|ratna|gems/i },
-    { key:'ecommerce',  label:'Online Store',      path:'/ecommerce/index.html',
+    { key:'ecommerce',  label:'Online Store',      path:'/commerce/index.html',
       re:/store|shop|mart|craft|emporium|trader|enterprise|online|bazaar|bazar/i },
-    { key:'realestate', label:'Real Estate',       path:'/realestate/index.html',
+    { key:'realestate', label:'Real Estate',       path:'/realestate-lux/index.html',
       re:/propert|realty|estate|builder|construct|housing|infra|develop|land/i }
   ];
 
