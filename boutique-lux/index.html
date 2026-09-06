@@ -241,8 +241,8 @@ h1,h2,h3,h4{ font-family:var(--f-display); font-weight:400; line-height:1.08 }
 .swatch:hover{ border-color:var(--line); transform:translateY(-2px) }
 .swatch.active{ border-color:var(--madder); background:var(--ink-3) }
 .sw-chip{ width:34px; height:34px; border-radius:9px; border:1px solid rgba(255,255,255,.14) }
-.sw-name{ font-family:var(--f-display); font-size:19px; line-height:1.2 }
-.sw-sub{ font-size:12.5px; color:var(--muted); margin-top:3px }
+.sw-name{ display:block; font-family:var(--f-display); font-size:19px; line-height:1.2 }
+.sw-sub{ display:block; font-size:12.5px; color:var(--muted); margin-top:3px }
 .sw-price{ font-family:var(--f-display); font-size:18px; color:var(--madder-soft); white-space:nowrap }
 
 .weave-row{
@@ -1173,7 +1173,7 @@ h1,h2,h3,h4{ font-family:var(--f-display); font-weight:400; line-height:1.08 }
        keeps the vertex loop off two frames in three. */
     var beat = 0;
     drape.onFrame = function(){
-      if (!heroMesh) return;
+      if (!heroMesh || drape.reduced) return;
       if ((beat++ % 3) !== 0) return;
       phase += 0.012;
       var w = WEAVES[current];

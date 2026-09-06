@@ -1634,18 +1634,9 @@ footer::before{
   grid-template-columns: repeat(2, minmax(0,1fr));
   gap: 10px 16px;
 }
-.foot-flagship{
-  display:inline-flex; align-items:center; gap:8px;
-  margin-top:16px; padding:7px 12px 7px 8px;
-  border:1px solid rgba(201,168,76,.3); border-radius:99px;
-  font-size:12.5px; color:var(--gold-soft);
-  transition: border-color .3s, color .3s, background .3s;
-}
-.foot-flagship:hover{ border-color:var(--gold); color:var(--gold); background:rgba(201,168,76,.07) }
-.ff-tag{
-  font-family:var(--f-mono); font-size:9.5px; font-weight:600; letter-spacing:.08em;
-  background:var(--gold); color:var(--bg);
-  padding:3px 6px; border-radius:99px; line-height:1;
+.foot-note{
+  margin-top:16px; max-width:34ch;
+  font-size:12px; line-height:1.55; color:var(--muted);
 }
 
 .foot-reach{ display:flex; flex-direction:column; align-items:flex-start; gap:10px }
@@ -4099,15 +4090,13 @@ window.SITE_CONFIG = {
         <li><a href="/restaurant/index.html" data-demo="/restaurant/index.html">Restaurant</a></li>
         <li><a href="/healthcare/index.html" data-demo="/healthcare/index.html">Clinic</a></li>
         <li><a href="/salon/index.html" data-demo="/salon/index.html">Salon</a></li>
-        <li><a href="boutique-lux/index.html" data-demo="boutique-lux/index.html">Boutique · 3D</a></li>
         <li><a href="/yoga/index.html" data-demo="/yoga/index.html">Yoga</a></li>
+        <li><a href="commerce/index.html" data-demo="commerce/index.html">Online Store</a></li>
         <li><a href="/jewellery-lux/index.html" data-demo="/jewellery-lux/index.html">Jewellery · 3D</a></li>
-        <li><a href="commerce/index.html" data-demo="commerce/index.html">Online Store · full store</a></li>
+        <li><a href="boutique-lux/index.html" data-demo="boutique-lux/index.html">Boutique · 3D</a></li>
         <li><a href="realestate-lux/index.html" data-demo="realestate-lux/index.html">Real Estate · 3D</a></li>
       </ul>
-      <a class="foot-flagship" href="/jewellery-lux/index.html" data-demo="/jewellery-lux/index.html">
-        <span class="ff-tag">3D</span> See the flagship
-      </a>
+      <p class="foot-note">3D demos build the product in your browser. Drag, pinch, zoom.</p>
     </div>
     <div class="foot-col foot-reach">
       <h5>Start a project</h5>

@@ -77,7 +77,19 @@ window.Netloom3D = (function () {
     return !!(c && (c.saveData || /2g/.test(c.effectiveType || '')));
   }
 
-  function shouldLoad() { return !reducedMotion() && !thinPipe() && webglOK(); }
+  /* Reduced motion is NOT a reason to withhold the viewer.
+
+     It used to be one, and the result was that anyone with Windows animation
+     effects switched off — which is a lot of people, and the default on some
+     machines — got the flat SVG on all three flagships and never knew there
+     was a model there at all. The preference is about involuntary motion: it
+     asks for nothing to move on its own, not for interactive content to be
+     taken away. So the model loads, and makeStage turns off the idle spin and
+     any ambient animation instead. Nothing moves until the visitor moves it.
+
+     save-data and 2G still decline, because that is a bandwidth question and
+     three.js is ~600 KB. */
+  function shouldLoad() { return !thinPipe() && webglOK(); }
 
   /* ── Detail tier ───────────────────────────────────────────────────────────
      One number, decided once, that any builder can ask for a segment count.
@@ -952,6 +964,10 @@ window.Netloom3D = (function () {
     var stage = {
       scene: scene, group: group, env: env, renderer: renderer,
       camera: camera, view: view, key: key,
+      /* Pages read this to suppress their own ambient animation — the cloth
+         breathing on boutique-lux, for one. Anything a visitor started
+         themselves is still fine to animate. */
+      reduced: reducedMotion(),
       tiltLimit: opts.tiltLimit === undefined ? 0.75 : opts.tiltLimit
     };
 
@@ -1069,7 +1085,8 @@ window.Netloom3D = (function () {
        gesture, which is unambiguously aimed at the model. */
     var pts = {}, nPts = 0;
     var velX = 0, velY = 0, idle = 0;
-    var spin = opts.idleSpin === undefined ? 0.0004 : opts.idleSpin;
+    var calm = reducedMotion();
+    var spin = calm ? 0 : (opts.idleSpin === undefined ? 0.0004 : opts.idleSpin);
     var tiltLimit = opts.tiltLimit === undefined ? 0.75 : opts.tiltLimit;
     var pinchDist = 0, pinchMid = null;
     var armed = false, lastTap = 0, tapX = 0, tapY = 0;
