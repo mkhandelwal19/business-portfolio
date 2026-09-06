@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Product — Kaarigar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=DM+Sans:opsz,wght@9..40,300..700&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="store.css">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23B4552F'/><path d='M28 72 V34 h10 v14 l16-14 h14 L64 52 l18 20 H68 L54 56 l-16 16 z' fill='%23FBF8F3'/></svg>">
+</head>
+<body data-page="product.html">
+<div id="chrome-top"></div>
+
+<main id="main">
+  <div class="wrap">
+    <nav class="mono" style="padding:22px 0 0" aria-label="Breadcrumb">
+      <a href="shop.html">Shop</a> · <span id="crumbCat"></span>
+    </nav>
+
+    <div class="pdp" id="pdp"></div>
+
+    <section class="section" id="alsoWrap" hidden>
+      <div class="section-head"><h2 style="font-size:26px">From the same craft</h2></div>
+      <div class="grid" id="also"></div>
+    </section>
+  </div>
+</main>
+
+<div id="chrome-foot"></div>
+
+<script src="catalog.js"></script>
+<script src="store.js"></script>
+<script src="chrome.js"></script>
+<script src="card.js"></script>
+<script>
+(function(){
+  'use strict';
+
+  var sku = new URLSearchParams(location.search).get('sku');
+  var p = sku ? CATALOG.bySku(sku) : null;
+  var pdp = document.getElementById('pdp');
+
+  if (!p){
+    pdp.innerHTML =
+      '<div class="empty" style="grid-column:1/-1">' +
+        '<h3>We cannot find that piece</h3>' +
+        '<p>It may have sold out and been retired.</p>' +
+        '<p style="margin-top:16px"><a class="btn btn-primary" href="shop.html">Back to the shop</a></p>' +
+      '</div>';
+    document.title = 'Not found — Kaarigar';
+    return;
+  }
+
+  document.title = p.name + ' — Kaarigar';
+  var catLabel = (CATALOG.categories.filter(function(c){ return c.id === p.cat; })[0] || {}).label || p.cat;
+  document.getElementById('crumbCat').textContent = catLabel;
+
+  var variant = p.variants[0].id;
+  var qty = 1;
+  var esc = window.escapeHtml;
+
+  function stockLine(){
+    if (p.stock === 0) return '<div class="stock out">Sold out — tell us and we will ask the maker</div>';
+    if (p.stock <= 3)  return '<div class="stock low">Only ' + p.stock + ' left, and each one differs</div>';
+    return '<div class="stock in">In stock · dispatched in 2 working days</div>';
+  }
+
+  function render(){
+    var unit = CATALOG.priceOf(p, variant);
+    var off = Math.round((1 - p.price / p.mrp) * 100);
+    var split = Store.taxSplit(unit, p.gst);
+
+    pdp.innerHTML =
+      '<div class="pdp-media">' +
+        '<img src="' + CATALOG.img(p.photo, 'md') + '" alt="' + esc(p.name) + '" ' +
+             'loading="eager" decoding="async" fetchpriority="high">' +
+      '</div>' +
+      '<div>' +
+        '<div class="mono">' + esc(p.craft) + ' · ' + esc(p.origin) + '</div>' +
+        '<h1>' + esc(p.name) + '</h1>' +
+        '<div class="mono" style="margin-top:10px; letter-spacing:.06em; text-transform:none">' +
+          '★ ' + p.rating.toFixed(1) + ' · ' + p.reviews + ' reviews' +
+        '</div>' +
+        '<div class="pdp-price">' +
+          '<span class="now">' + Store.rupees(unit) + '</span>' +
+          (p.mrp > p.price ? '<span class="was">' + Store.rupees(p.mrp) + '</span>' : '') +
+          (off > 0 ? '<span class="off">' + off + '% off</span>' : '') +
+        '</div>' +
+        '<div class="pdp-tax">Inclusive of ' + p.gst + '% GST (' + Store.rupees(split.tax) + ') · HSN ' + p.hsn + '</div>' +
+        '<p class="pdp-blurb">' + esc(p.blurb) + '</p>' +
+
+        '<div class="opt">' +
+          '<div class="opt-k">Option</div>' +
+          '<div class="opt-row" id="variants" role="group" aria-label="Choose an option">' +
+            p.variants.map(function(v){
+              return '<button type="button" class="opt-btn" data-v="' + v.id + '" ' +
+                     'aria-pressed="' + (v.id === variant) + '">' + esc(v.label) +
+                     (v.delta ? ' <span style="color:var(--muted)">+' + Store.rupees(v.delta) + '</span>' : '') +
+                     '</button>';
+            }).join('') +
+          '</div>' +
+        '</div>' +
+
+        stockLine() +
+
+        '<div class="buy-row">' +
+          '<div class="qty">' +
+            '<button type="button" id="qMinus" aria-label="Reduce quantity">−</button>' +
+            '<input id="qNum" class="tnum" value="' + qty + '" inputmode="numeric" aria-label="Quantity">' +
+            '<button type="button" id="qPlus" aria-label="Increase quantity">+</button>' +
+          '</div>' +
+          '<button class="btn btn-primary" id="addBtn"' + (p.stock === 0 ? ' disabled' : '') + '>' +
+            '<i class="fa-solid fa-basket-shopping"></i> Add to basket</button>' +
+          '<a class="btn btn-ghost" href="cart.html">View basket</a>' +
+        '</div>' +
+
+        '<div class="facts">' +
+          '<div class="fact"><span>Craft</span><span>' + esc(p.craft) + '</span></div>' +
+          '<div class="fact"><span>Made in</span><span>' + esc(p.origin) + '</span></div>' +
+          '<div class="fact"><span>SKU</span><span class="tnum">' + esc(p.sku) + '</span></div>' +
+          '<div class="fact"><span>Delivery</span><span>Free over ' + Store.rupees(Store.FREE_SHIPPING_OVER) + '</span></div>' +
+          '<div class="fact"><span>Returns</span><span>7 days, unused</span></div>' +
+        '</div>' +
+      '</div>';
+
+    document.querySelectorAll('#variants .opt-btn').forEach(function(b){
+      b.addEventListener('click', function(){
+        variant = b.getAttribute('data-v');
+        render();
+      });
+    });
+
+    var num = document.getElementById('qNum');
+    function setQ(n){
+      qty = Math.max(1, Math.min(p.stock || 1, n || 1));
+      num.value = qty;
+    }
+    document.getElementById('qMinus').addEventListener('click', function(){ setQ(qty - 1); });
+    document.getElementById('qPlus').addEventListener('click', function(){ setQ(qty + 1); });
+    num.addEventListener('change', function(){ setQ(parseInt(num.value, 10)); });
+
+    var add = document.getElementById('addBtn');
+    if (add) add.addEventListener('click', function(){
+      var r = Store.add(p.sku, variant, qty);
+      if (r.ok && r.capped) window.toast('Added — that is all ' + r.max + ' we have', 'fa-triangle-exclamation');
+      else if (r.ok)        window.toast(p.name + ' added to your basket');
+      else if (r.reason === 'out-of-stock')  window.toast('Sold out', 'fa-circle-xmark');
+      else if (r.reason === 'stock-capped')  window.toast('Your basket already has all ' + r.max, 'fa-triangle-exclamation');
+    });
+  }
+
+  render();
+
+  /* Same craft, excluding this piece. A related rail that shows the thing you
+     are already looking at is the oldest tell of a template. */
+  var also = CATALOG.products.filter(function(o){ return o.cat === p.cat && o.sku !== p.sku; }).slice(0, 4);
+  if (also.length){
+    document.getElementById('alsoWrap').hidden = false;
+    document.getElementById('also').innerHTML = also.map(window.cardHtml).join('');
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Order confirmed — Kaarigar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=DM+Sans:opsz,wght@9..40,300..700&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="store.css">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23B4552F'/><path d='M28 72 V34 h10 v14 l16-14 h14 L64 52 l18 20 H68 L54 56 l-16 16 z' fill='%23FBF8F3'/></svg>">
+</head>
+<body data-page="order.html">
+<div id="chrome-top"></div>
+
+<main id="main">
+  <div class="wrap">
+    <div class="steps" style="margin-top:26px">
+      <span class="step done"><b><i class="fa-solid fa-check" style="font-size:10px"></i></b> Basket</span><span class="step-sep"></span>
+      <span class="step done"><b><i class="fa-solid fa-check" style="font-size:10px"></i></b> Details &amp; payment</span><span class="step-sep"></span>
+      <span class="step on"><b>3</b> Confirmation</span>
+    </div>
+    <div id="wrap"></div>
+  </div>
+</main>
+
+<div id="chrome-foot"></div>
+
+<script src="catalog.js"></script>
+<script src="store.js"></script>
+<script src="chrome.js"></script>
+<script>
+(function(){
+  'use strict';
+  var esc = function(s){ return String(s).replace(/[&<>"']/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); };
+
+  var ref = new URLSearchParams(location.search).get('ref');
+  var order = Store.orders().filter(function(o){ return o.ref === ref; })[0];
+  var wrap = document.getElementById('wrap');
+
+  if (!order){
+    wrap.innerHTML =
+      '<div class="empty"><h3>We cannot find that order</h3>' +
+      '<p>Orders in this demo live in your browser, so they will not be here on another device.</p>' +
+      '<p style="margin-top:18px"><a class="btn btn-primary" href="account.html">Your orders</a></p></div>';
+    return;
+  }
+
+  var when = new Date(order.placedAt);
+  var eta = new Date(when.getTime() + 5 * 864e5);
+  var fmt = { day:'numeric', month:'long', year:'numeric' };
+
+  wrap.innerHTML =
+    '<div class="conf">' +
+      '<div class="conf-mark"><i class="fa-solid fa-check"></i></div>' +
+      '<h1>Thank you, ' + esc(order.customer.name.split(' ')[0]) + '.</h1>' +
+      '<p style="margin-top:12px; color:var(--ink-2); font-size:17px">' +
+        'Your order is confirmed. We have emailed the invoice to ' +
+        '<strong>' + esc(order.customer.email) + '</strong>.</p>' +
+      '<div class="ref">' + esc(order.ref) + '</div>' +
+
+      '<div class="note test" style="margin-top:22px">' +
+        '<i class="fa-solid fa-flask"></i>' +
+        '<div><strong>Nothing was actually charged.</strong> This is a demonstration store. ' +
+        'On the live version the confirmation email is sent by the same Cloudflare Worker ' +
+        'and Zoho SMTP path that already powers the netloom.in enquiry form.</div>' +
+      '</div>' +
+
+      '<div class="panel" style="margin-top:26px">' +
+        '<h3>Tax invoice</h3>' +
+        '<div class="sum muted"><span>Placed</span><span>' + when.toLocaleDateString('en-IN', fmt) + '</span></div>' +
+        '<div class="sum muted"><span>Expected delivery</span><span>by ' + eta.toLocaleDateString('en-IN', fmt) + '</span></div>' +
+        '<div class="sum muted"><span>Paid by</span><span>' + esc(order.payment.method) + '</span></div>' +
+        '<div class="sum muted"><span>Payment ref</span><span class="tnum">' + esc(order.payment.paymentId) + '</span></div>' +
+
+        '<div class="table-wrap" style="margin:18px 0">' +
+          '<table><thead><tr>' +
+            '<th>Item</th><th>HSN</th><th>Qty</th><th class="num">Rate</th><th class="num">GST</th><th class="num">Amount</th>' +
+          '</tr></thead><tbody>' +
+          order.items.map(function(i){
+            var split = Store.taxSplit(i.gross, i.gstRate);
+            return '<tr>' +
+              '<td>' + esc(i.name) + '<br><span style="color:var(--muted); font-size:12px">' + esc(i.variant) + '</span></td>' +
+              '<td class="tnum">' + esc(i.hsn) + '</td>' +
+              '<td class="tnum">' + i.qty + '</td>' +
+              '<td class="num">' + Store.rupees(split.base) + '</td>' +
+              '<td class="num">' + i.gstRate + '% · ' + Store.rupees(split.tax) + '</td>' +
+              '<td class="num">' + Store.rupees(i.gross) + '</td>' +
+            '</tr>';
+          }).join('') +
+          '</tbody></table>' +
+        '</div>' +
+
+        '<div class="sum"><span>Taxable value</span><span>' + Store.rupees(order.base) + '</span></div>' +
+        Object.keys(order.byRate).sort().map(function(r){
+          return '<div class="sum muted"><span>GST at ' + r + '%</span><span>' + Store.rupees(order.byRate[r]) + '</span></div>';
+        }).join('') +
+        '<div class="sum"><span>Delivery</span><span>' + (order.shipping === 0 ? 'Free' : Store.rupees(order.shipping)) + '</span></div>' +
+        '<div class="sum total"><span>Total paid</span><span>' + Store.rupees(order.total) + '</span></div>' +
+        '<p class="mono" style="margin-top:14px; text-transform:none; letter-spacing:.02em; font-size:11.5px">' +
+          'Kaarigar · GSTIN 19AAAAA0000A1Z5 · 24 Gariahat Road, Kolkata 700019</p>' +
+      '</div>' +
+
+      '<div class="panel" style="margin-top:18px">' +
+        '<h3>Delivering to</h3>' +
+        '<p style="color:var(--ink-2)">' +
+          esc(order.customer.name) + '<br>' +
+          esc(order.customer.address).replace(/\n/g, '<br>') + '<br>' +
+          esc(order.customer.city) + ' ' + esc(order.customer.pin) + '<br>' +
+          esc(order.customer.phone) +
+        '</p>' +
+      '</div>' +
+
+      '<div style="display:flex; gap:12px; margin-top:24px; flex-wrap:wrap">' +
+        '<a class="btn btn-primary" href="shop.html">Keep shopping</a>' +
+        '<a class="btn btn-ghost" href="account.html">All your orders</a>' +
+      '</div>' +
+    '</div>';
+})();
+</script>
+</body>
+</html>

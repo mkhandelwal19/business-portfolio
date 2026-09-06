@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Shop admin — Kaarigar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=DM+Sans:opsz,wght@9..40,300..700&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="store.css">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23B4552F'/><path d='M28 72 V34 h10 v14 l16-14 h14 L64 52 l18 20 H68 L54 56 l-16 16 z' fill='%23FBF8F3'/></svg>">
+</head>
+<body data-page="admin.html">
+<div id="chrome-top"></div>
+
+<main id="main">
+  <div class="wrap">
+    <div style="padding:30px 0 6px">
+      <div class="mono">Owner view</div>
+      <h1 style="font-size:clamp(28px,4vw,42px); letter-spacing:-.02em; margin-top:10px">Shop admin</h1>
+      <p style="color:var(--ink-2); margin-top:10px; max-width:60ch">
+        What the shop owner sees. The point of the premium tier is that they never
+        have to ring anyone to change a price or check what sold.
+      </p>
+    </div>
+
+    <div class="note" style="margin:20px 0 24px">
+      <i class="fa-solid fa-lock"></i>
+      <div><strong>Unprotected in this demo, on purpose</strong> — so you can look around.
+      On the live store this sits behind a Supabase login with row-level security, and
+      the owner is the only account that can read the orders table.</div>
+    </div>
+
+    <div class="grid" style="grid-template-columns:repeat(4,1fr); margin-bottom:28px" id="stats"></div>
+
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" aria-selected="true"  data-t="orders">Orders</button>
+      <button class="tab" role="tab" aria-selected="false" data-t="stock">Stock</button>
+      <button class="tab" role="tab" aria-selected="false" data-t="lowest">Needs attention</button>
+    </div>
+
+    <div id="panel"></div>
+  </div>
+</main>
+
+<div id="chrome-foot"></div>
+
+<script src="catalog.js"></script>
+<script src="store.js"></script>
+<script src="chrome.js"></script>
+<script>
+(function(){
+  'use strict';
+  var esc = function(s){ return String(s).replace(/[&<>"']/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); };
+
+  var STATUS = ['confirmed','packed','shipped','delivered'];
+  var STATUS_KEY = 'netloom_commerce_status_v1';
+
+  function statusMap(){
+    try { return JSON.parse(localStorage.getItem(STATUS_KEY) || '{}'); } catch(e){ return {}; }
+  }
+  function setStatus(ref, s){
+    var m = statusMap(); m[ref] = s;
+    try { localStorage.setItem(STATUS_KEY, JSON.stringify(m)); } catch(e){}
+  }
+  function statusOf(o){ return statusMap()[o.ref] || o.status; }
+
+  function stats(){
+    var orders = Store.orders();
+    var revenue = orders.reduce(function(n,o){ return n + o.total; }, 0);
+    var units = orders.reduce(function(n,o){
+      return n + o.items.reduce(function(m,i){ return m + i.qty; }, 0); }, 0);
+    var lowStock = CATALOG.products.filter(function(p){ return p.stock <= 3; }).length;
+
+    var cards = [
+      ['Orders', orders.length],
+      ['Revenue', Store.rupees(revenue)],
+      ['Units sold', units],
+      ['Low stock', lowStock]
+    ];
+    document.getElementById('stats').innerHTML = cards.map(function(c){
+      return '<div class="panel"><div class="mono">' + c[0] + '</div>' +
+             '<div style="font-family:var(--f-display); font-size:30px; margin-top:8px" class="tnum">' + c[1] + '</div></div>';
+    }).join('');
+  }
+
+  function ordersTable(){
+    var orders = Store.orders();
+    if (!orders.length){
+      return '<div class="empty"><h3>No orders yet</h3>' +
+             '<p>Place one through the shop and it will show up here immediately.</p>' +
+             '<p style="margin-top:16px"><a class="btn btn-primary btn-sm" href="shop.html">Go to the shop</a></p></div>';
+    }
+    return '<div class="table-wrap"><table><thead><tr>' +
+      '<th>Ref</th><th>Placed</th><th>Customer</th><th>Items</th><th class="num">Total</th><th>Status</th>' +
+      '</tr></thead><tbody>' +
+      orders.map(function(o){
+        var st = statusOf(o);
+        return '<tr>' +
+          '<td class="tnum">' + esc(o.ref) + '</td>' +
+          '<td>' + new Date(o.placedAt).toLocaleDateString('en-IN', { day:'numeric', month:'short' }) + '</td>' +
+          '<td>' + esc(o.customer.name) + '<br><span style="color:var(--muted); font-size:12px">' + esc(o.customer.city) + '</span></td>' +
+          '<td class="tnum">' + o.items.reduce(function(n,i){ return n + i.qty; }, 0) + '</td>' +
+          '<td class="num">' + Store.rupees(o.total) + '</td>' +
+          '<td><select class="sort" data-ref="' + esc(o.ref) + '" style="height:32px; font-size:13px">' +
+            STATUS.map(function(s){
+              return '<option' + (s === st ? ' selected' : '') + '>' + s + '</option>';
+            }).join('') +
+          '</select></td>' +
+        '</tr>';
+      }).join('') +
+      '</tbody></table></div>';
+  }
+
+  function stockTable(list){
+    return '<div class="table-wrap"><table><thead><tr>' +
+      '<th>Product</th><th>SKU</th><th>Craft</th><th class="num">Price</th><th class="num">GST</th><th class="num">Stock</th>' +
+      '</tr></thead><tbody>' +
+      list.map(function(p){
+        var pill = p.stock === 0 ? '<span class="pill grey">out</span>'
+                 : p.stock <= 3  ? '<span class="pill warn">' + p.stock + ' left</span>'
+                 : '<span class="pill ok">' + p.stock + '</span>';
+        return '<tr>' +
+          '<td>' + esc(p.name) + '</td>' +
+          '<td class="tnum">' + esc(p.sku) + '</td>' +
+          '<td>' + esc(p.craft) + '</td>' +
+          '<td class="num">' + Store.rupees(p.price) + '</td>' +
+          '<td class="num">' + p.gst + '%</td>' +
+          '<td class="num">' + pill + '</td>' +
+        '</tr>';
+      }).join('') +
+      '</tbody></table></div>';
+  }
+
+  function paint(tab){
+    var panel = document.getElementById('panel');
+    if (tab === 'orders') panel.innerHTML = ordersTable();
+    if (tab === 'stock')  panel.innerHTML = stockTable(CATALOG.products);
+    if (tab === 'lowest') {
+      var low = CATALOG.products.filter(function(p){ return p.stock <= 3; })
+                                .sort(function(a,b){ return a.stock - b.stock; });
+      panel.innerHTML = low.length ? stockTable(low)
+        : '<div class="empty"><h3>Nothing running low</h3><p>Every piece has more than three in stock.</p></div>';
+    }
+
+    panel.querySelectorAll('select[data-ref]').forEach(function(sel){
+      sel.addEventListener('change', function(){
+        setStatus(sel.getAttribute('data-ref'), sel.value);
+        window.toast('Order marked ' + sel.value);
+      });
+    });
+  }
+
+  document.querySelectorAll('.tab').forEach(function(t){
+    t.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(o){
+        o.setAttribute('aria-selected', String(o === t));
+      });
+      paint(t.getAttribute('data-t'));
+    });
+  });
+
+  stats();
+  paint('orders');
+})();
+</script>
+</body>
+</html>

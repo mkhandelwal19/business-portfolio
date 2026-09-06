@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Your basket — Kaarigar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=DM+Sans:opsz,wght@9..40,300..700&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="store.css">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23B4552F'/><path d='M28 72 V34 h10 v14 l16-14 h14 L64 52 l18 20 H68 L54 56 l-16 16 z' fill='%23FBF8F3'/></svg>">
+</head>
+<body data-page="cart.html">
+<div id="chrome-top"></div>
+
+<main id="main">
+  <div class="wrap">
+    <div style="padding:30px 0 0">
+      <div class="mono">Step one of three</div>
+      <h1 style="font-size:clamp(28px,4vw,42px); letter-spacing:-.02em; margin-top:10px">Your basket</h1>
+    </div>
+
+    <div class="steps">
+      <span class="step on"><b>1</b> Basket</span><span class="step-sep"></span>
+      <span class="step"><b>2</b> Details &amp; payment</span><span class="step-sep"></span>
+      <span class="step"><b>3</b> Confirmation</span>
+    </div>
+
+    <div id="cartWrap"></div>
+  </div>
+</main>
+
+<div id="chrome-foot"></div>
+
+<script src="catalog.js"></script>
+<script src="store.js"></script>
+<script src="chrome.js"></script>
+<script>
+(function(){
+  'use strict';
+  var esc = function(s){ return String(s).replace(/[&<>"']/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); };
+
+  function render(){
+    var t = Store.totals();
+    var wrap = document.getElementById('cartWrap');
+
+    if (!t.lines.length){
+      wrap.innerHTML =
+        '<div class="empty">' +
+          '<h3>Nothing in the basket yet</h3>' +
+          '<p>Fourteen pieces are waiting, and three of them are nearly gone.</p>' +
+          '<p style="margin-top:18px"><a class="btn btn-primary" href="shop.html">Go to the shop</a></p>' +
+        '</div>';
+      return;
+    }
+
+    var rateRows = Object.keys(t.byRate).sort().map(function(r){
+      return '<div class="sum muted"><span>GST at ' + r + '%</span><span>' + Store.rupees(t.byRate[r]) + '</span></div>';
+    }).join('');
+
+    wrap.innerHTML =
+      '<div class="cart">' +
+        '<div>' +
+          t.lines.map(function(l){
+            return '<div class="line" data-id="' + esc(l.id) + '">' +
+              '<a class="line-media" href="product.html?sku=' + encodeURIComponent(l.sku) + '">' +
+                '<img src="' + CATALOG.img(l.product.photo, 'xs') + '" alt="' + esc(l.product.name) + '" loading="lazy" decoding="async">' +
+              '</a>' +
+              '<div>' +
+                '<div class="line-name">' + esc(l.product.name) + '</div>' +
+                '<div class="line-var">' + esc(l.variant.label) + ' · ' + Store.rupees(l.unit) + ' each</div>' +
+                '<div class="qty" style="margin-top:9px">' +
+                  '<button type="button" data-act="dec" aria-label="Reduce quantity">−</button>' +
+                  '<input class="tnum" data-act="set" value="' + l.qty + '" inputmode="numeric" aria-label="Quantity">' +
+                  '<button type="button" data-act="inc" aria-label="Increase quantity">+</button>' +
+                '</div>' +
+                '<button class="line-rm" data-act="rm">Remove</button>' +
+              '</div>' +
+              '<div class="line-amt">' + Store.rupees(l.gross) + '</div>' +
+            '</div>';
+          }).join('') +
+        '</div>' +
+
+        '<aside>' +
+          '<div class="panel">' +
+            '<h3>Summary</h3>' +
+            '<div class="sum"><span>' + t.itemCount + ' item' + (t.itemCount === 1 ? '' : 's') + ', before tax</span>' +
+              '<span>' + Store.rupees(t.base) + '</span></div>' +
+            rateRows +
+            '<div class="sum"><span>Delivery</span><span>' +
+              (t.shipping === 0 ? 'Free' : Store.rupees(t.shipping)) + '</span></div>' +
+            '<div class="sum total"><span>Total</span><span>' + Store.rupees(t.total) + '</span></div>' +
+            (t.freeShippingGap > 0
+              ? '<div class="ship-hint">Add ' + Store.rupees(t.freeShippingGap) + ' more for free delivery</div>'
+              : '') +
+            '<a class="btn btn-primary btn-block" href="checkout.html" style="margin-top:18px">' +
+              'Checkout · ' + Store.rupees(t.total) + '</a>' +
+            '<a class="btn btn-ghost btn-block" href="shop.html" style="margin-top:10px">Keep shopping</a>' +
+            '<p class="mono" style="margin-top:16px; text-transform:none; letter-spacing:.02em; font-size:11.5px">' +
+              'Prices include GST. A GST invoice is issued with every order.</p>' +
+          '</div>' +
+        '</aside>' +
+      '</div>';
+  }
+
+  /* One delegated listener for the whole basket rather than three per line —
+     the list is re-rendered on every change, and per-line handlers would be
+     re-bound each time. */
+  document.getElementById('cartWrap').addEventListener('click', function(e){
+    var btn = e.target.closest('[data-act]');
+    if (!btn) return;
+    var row = btn.closest('.line');
+    if (!row) return;
+    var id = row.getAttribute('data-id');
+    var act = btn.getAttribute('data-act');
+    var cur = Store.lines().filter(function(l){ return l.id === id; })[0];
+    if (!cur) return;
+
+    if (act === 'inc') Store.setQty(id, cur.qty + 1);
+    if (act === 'dec') Store.setQty(id, cur.qty - 1);
+    if (act === 'rm'){ Store.remove(id); window.toast('Removed from your basket', 'fa-circle-minus'); }
+  });
+
+  document.getElementById('cartWrap').addEventListener('change', function(e){
+    var input = e.target.closest('input[data-act="set"]');
+    if (!input) return;
+    var row = input.closest('.line');
+    Store.setQty(row.getAttribute('data-id'), parseInt(input.value, 10));
+  });
+
+  Store.onChange(render);
+  render();
+})();
+</script>
+</body>
+</html>

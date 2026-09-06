@@ -15,7 +15,7 @@ const ROOT = path.resolve(__dirname, '..');
 /* Load a page from the repo and run its scripts.
    `inline` substitutes a <script src> for its file contents, because jsdom is
    deliberately not given network or file access. */
-function loadPage(relPath, { url, inline } = {}) {
+function loadPage(relPath, { url, inline, stub } = {}) {
   let html = fs.readFileSync(path.join(ROOT, relPath), 'utf8');
 
   if (inline) {
@@ -49,6 +49,9 @@ function loadPage(relPath, { url, inline } = {}) {
       });
       w.scrollTo = () => {};
       w.HTMLCanvasElement.prototype.getContext = () => null;
+      // Per-suite override, so a test can present the page with a different
+      // set of browser capabilities than the defaults above.
+      if (stub) stub(w);
     }
   });
 

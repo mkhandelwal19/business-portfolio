@@ -956,6 +956,7 @@ footer{ padding:64px 0 34px; border-top:1px solid var(--line-soft) }
 <a class="wa" href="https://wa.me/918249992869?text=Hi%20Mayank%2C%20I%20saw%20the%203D%20flagship%20demo%20on%20netloom.in%20and%20would%20like%20to%20know%20more."
    target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
 
+<script src="../flagship/3d-core.js"></script>
 <script>
 /* ============================================================================
    VAIRA — flagship interactions
@@ -1068,127 +1069,34 @@ footer{ padding:64px 0 34px; border-top:1px solid var(--line-soft) }
     }
   })();
 
-  /* ══════════════════════════════════════════════════════════════════════════
-     WebGL
-     Loaded lazily and only where it will actually help: three.js is ~600 KB,
-     which is real money on an Indian mobile data plan. Everyone else keeps the
-     SVG, which is designed to stand on its own rather than look like a gap.
-     ══════════════════════════════════════════════════════════════════════════ */
-  function webglOK(){
-    try {
-      var c = document.createElement('canvas');
-      return !!(window.WebGLRenderingContext &&
-                (c.getContext('webgl') || c.getContext('experimental-webgl')));
-    } catch (e) { return false; }
-  }
-  var saveData = navigator.connection && (navigator.connection.saveData ||
-                 /2g/.test(navigator.connection.effectiveType || ''));
-
-  if (reduced || saveData || !webglOK()) return;
-
-  var s = document.createElement('script');
-  s.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.147.0/three.min.js';
-  s.async = true;
-  s.onerror = function(){ /* SVG fallback simply stays */ };
-  s.onload  = function(){ try { boot(); } catch (e) { console.warn('3D disabled:', e); } };
-  document.head.appendChild(s);
+  /* ── 3D, via the shared flagship core ────────────────────────────────────
+     The gate (WebGL present, motion not reduced, connection not save-data or
+     2G), the three.js load and the error handling all live in
+     flagship/3d-core.js now. boot() below is called only once three.js is
+     genuinely on the page; if the gate declines or the CDN fails, the SVG
+     fallback simply stays, which is what it was designed for. */
+  window.Netloom3D.boot(boot);
 
   function boot(){
     var T = window.THREE;
     if (!T) return;
 
-    /* A studio environment, painted rather than downloaded — one bright key
-       band and a warm bounce, which is all a faceted stone needs to read as
-       one. Costs nothing and keeps the page to a single network request. */
-    function studioEnv(renderer){
-      var c = document.createElement('canvas');
-      c.width = 1024; c.height = 512;
-      var g = c.getContext('2d');
-
-      // Base falloff, then HARD bands over it. The hard edges are the point:
-      // a smooth gradient reflects as a smooth stone, which is what made the
-      // first version look like white plastic even once it was reflective.
-      var grad = g.createLinearGradient(0, 0, 0, 512);
-      grad.addColorStop(0.00, '#000000');
-      grad.addColorStop(0.40, '#2a2011');
-      grad.addColorStop(0.55, '#0d0a06');
-      grad.addColorStop(1.00, '#000000');
-      g.fillStyle = grad;
-      g.fillRect(0, 0, 1024, 512);
-
-      // Studio strip lights: bright, narrow, hard-edged.
-      var bands = [
-        [ 92, 26, '#ffffff'], [124, 10, '#fff3d6'],
-        [168, 34, '#ffe9b8'], [214,  8, '#ffffff'],
-        [262, 18, '#d9b65f'], [318, 10, '#8a6e2c']
-      ];
-      bands.forEach(function(b){
-        g.fillStyle = b[2];
-        g.fillRect(0, b[0], 1024, b[1]);
-      });
-
-      // A few blown highlights to travel across the facets as it turns.
-      [[200, 108, 78], [640, 150, 62], [860, 96, 50]].forEach(function(h){
-        var r = g.createRadialGradient(h[0], h[1], 0, h[0], h[1], h[2]);
-        r.addColorStop(0, 'rgba(255,255,255,1)');
-        r.addColorStop(0.45, 'rgba(255,240,210,.55)');
-        r.addColorStop(1, 'rgba(255,255,255,0)');
-        g.fillStyle = r;
-        g.fillRect(h[0] - h[2], h[1] - h[2], h[2] * 2, h[2] * 2);
-      });
-
-      // Warm bounce from below, so the pavilion is not dead black.
-      var low = g.createLinearGradient(0, 400, 0, 512);
-      low.addColorStop(0, 'rgba(122, 88, 30, 0)');
-      low.addColorStop(1, 'rgba(168, 124, 44, .55)');
-      g.fillStyle = low;
-      g.fillRect(0, 400, 1024, 112);
-      var tex = new T.CanvasTexture(c);
-      tex.mapping = T.EquirectangularReflectionMapping;
-      var pm = new T.PMREMGenerator(renderer);
-      pm.compileEquirectangularShader();
-      var env = pm.fromEquirectangular(tex).texture;
-      pm.dispose(); tex.dispose();
-      return env;
+    /* The renderer, the painted studio environment, the drag controller and
+       the auto-framing all come from the shared core. They are aliased to
+       their old local names so every call site below reads unchanged — the
+       only things still defined in this file are the ones that are actually
+       about jewellery. */
+    var N3        = window.Netloom3D;
+    var brilliant = N3.brilliant;
+    var makeStage = N3.makeStage;
+    var frame     = N3.frame;
+    var clearGroup= N3.clearGroup;
+    function goldMaterial(env, tone){
+      return N3.metalMaterial(env, { color: tone || 0xd9b65f });
     }
 
-    /* A brilliant cut is a shallow crown over a deep pavilion. Two cones with
-       flat shading and a low segment count give the facets for free. */
-    function brilliant(radius, segments){
-      segments = segments || 16;
-      var crown = new T.CylinderGeometry(radius * 0.56, radius, radius * 0.42, segments, 1, true);
-      crown.translate(0, radius * 0.21, 0);
-      var pav = new T.CylinderGeometry(radius, 0.0001, radius * 1.32, segments, 1, true);
-      pav.translate(0, -radius * 0.66, 0);
-      var table = new T.CircleGeometry(radius * 0.56, segments);
-      table.rotateX(-Math.PI / 2);
-      table.translate(0, radius * 0.42, 0);
-      return mergeGeoms([crown, pav, table]);
-    }
 
     // r128 ships BufferGeometryUtils separately, so merge by hand.
-    function mergeGeoms(list){
-      var pos = [], norm = [];
-      list.forEach(function(g){
-        var gg = g.index ? g.toNonIndexed() : g;
-        var p = gg.attributes.position.array;
-        for (var i = 0; i < p.length; i++) pos.push(p[i]);
-        if (gg.attributes.normal){
-          var n = gg.attributes.normal.array;
-          for (var j = 0; j < n.length; j++) norm.push(n[j]);
-        }
-        if (gg !== g) gg.dispose();
-        g.dispose();
-      });
-      var out = new T.BufferGeometry();
-      out.setAttribute('position', new T.Float32BufferAttribute(pos, 3));
-      if (norm.length === pos.length){
-        out.setAttribute('normal', new T.Float32BufferAttribute(norm, 3));
-      }
-      out.computeVertexNormals();
-      return out;
-    }
-
     /* ── Gem looks ──────────────────────────────────────────────────────────
        Change GEM_LOOK to one of the keys below. That is the only edit needed.
 
@@ -1243,116 +1151,6 @@ footer{ padding:64px 0 34px; border-top:1px solid var(--line-soft) }
       );
       return m;
     }
-    function goldMaterial(env, tone){
-      return new T.MeshStandardMaterial({
-        color: tone || 0xd9b65f,
-        metalness: 1.0,
-        roughness: 0.22,
-        envMap: env,
-        envMapIntensity: 1.9
-      });
-    }
-
-    /* ── A single renderer per canvas, sharing one env map ── */
-    function makeStage(canvas, fallbackEl, opts){
-      opts = opts || {};
-      // Must come off [hidden] before the first resize(): a display:none canvas
-      // measures 0x0 and the renderer would come up one pixel square.
-      canvas.hidden = false;
-      if (fallbackEl) fallbackEl.style.display = 'none';
-
-      var renderer = new T.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-      renderer.outputEncoding = T.sRGBEncoding;
-      renderer.toneMapping = T.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 1.28;
-
-      var scene = new T.Scene();
-      var camera = new T.PerspectiveCamera(38, 1, 0.1, 100);
-      camera.position.set(0, 0, opts.dist || 6.2);
-
-      var env = studioEnv(renderer);
-      scene.environment = env;
-
-      scene.add(new T.AmbientLight(0xffffff, 0.35));
-      var key = new T.DirectionalLight(0xfff3dc, 2.1);
-      key.position.set(4, 6, 5); scene.add(key);
-      var rim = new T.DirectionalLight(0xd9b65f, 1.5);
-      rim.position.set(-5, -2, -4); scene.add(rim);
-      var fill = new T.PointLight(0xffffff, 1.1, 22);
-      fill.position.set(-3, 3, 4); scene.add(fill);
-
-      var group = new T.Group();
-      scene.add(group);
-      var stage = { scene:scene, group:group, env:env, renderer:renderer, camera:camera };
-
-      function resize(){
-        var r = canvas.getBoundingClientRect();
-        var w = Math.max(1, r.width), h = Math.max(1, r.height);
-        renderer.setSize(w, h, false);
-        camera.aspect = w / h;
-        camera.updateProjectionMatrix();
-      }
-      function resizeAndRefit(){ resize(); if (stage.__refit) stage.__refit(); }
-      resize();
-      window.addEventListener('resize', resizeAndRefit, { passive:true });
-      // The grid can still be settling on first paint; measure again after it.
-      requestAnimationFrame(resizeAndRefit);
-      window.addEventListener('load', resizeAndRefit);
-
-      /* Drag to rotate, with inertia; idles into a slow turn so the piece is
-         never sitting dead still when someone scrolls past it. */
-      var velX = 0, velY = 0, dragging = false, lastX = 0, lastY = 0, idle = 0;
-      function down(e){
-        dragging = true; idle = 0;
-        var p = e.touches ? e.touches[0] : e;
-        lastX = p.clientX; lastY = p.clientY;
-        canvas.style.cursor = 'grabbing';
-      }
-      function move(e){
-        if (!dragging) return;
-        var p = e.touches ? e.touches[0] : e;
-        velY += (p.clientX - lastX) * 0.0055;
-        velX += (p.clientY - lastY) * 0.0045;
-        lastX = p.clientX; lastY = p.clientY;
-        if (e.cancelable && e.touches) e.preventDefault();
-      }
-      function up(){ dragging = false; canvas.style.cursor = 'grab'; }
-
-      canvas.style.cursor = 'grab';
-      canvas.addEventListener('mousedown', down);
-      window.addEventListener('mousemove', move, { passive:false });
-      window.addEventListener('mouseup', up);
-      canvas.addEventListener('touchstart', down, { passive:true });
-      canvas.addEventListener('touchmove', move, { passive:false });
-      window.addEventListener('touchend', up);
-
-      // Do not burn battery on an off-screen canvas or a background tab.
-      var visible = true;
-      if ('IntersectionObserver' in window){
-        new IntersectionObserver(function(en){ visible = en[0].isIntersecting; },
-          { threshold:0.02 }).observe(canvas);
-      }
-
-      var raf;
-      function tick(){
-        raf = requestAnimationFrame(tick);
-        if (!visible || document.hidden) return;
-        if (!dragging){
-          idle += 1;
-          velY += (idle > 90 ? 0.0004 : 0);   // settles near 20 deg/sec
-        }
-        velX *= 0.94; velY *= 0.94;
-        group.rotation.y += velY;
-        group.rotation.x += velX;
-        group.rotation.x = Math.max(-0.75, Math.min(0.75, group.rotation.x));
-        renderer.render(scene, camera);
-      }
-      tick();
-
-      return stage;
-    }
-
     /* ── Hero: a single stone, slowly turning ── */
     var heroCanvas = document.getElementById('gemCanvas');
     var hero = makeStage(heroCanvas, document.getElementById('heroFallback'), { dist: 6.4 });
@@ -1391,15 +1189,6 @@ footer{ padding:64px 0 34px; border-top:1px solid var(--line-soft) }
     /* ── Collection viewer: four pieces, rebuilt on switch ── */
     var pieceCanvas = document.getElementById('pieceCanvas');
     var view = makeStage(pieceCanvas, document.getElementById('pieceFallback'), { dist: 6.0 });
-
-    function clearGroup(g){
-      while (g.children.length){
-        var c = g.children.pop();
-        if (c.geometry) c.geometry.dispose();
-        if (c.material) c.material.dispose();
-        g.remove(c);
-      }
-    }
 
     /* brilliant(r) spans y from -1.32r (pavilion tip) to +0.42r (table), with
        the girdle at y = 0. Every seat height below is derived from that rather
@@ -1584,28 +1373,6 @@ footer{ padding:64px 0 34px; border-top:1px solid var(--line-soft) }
         g.add(hook);
       }
     ];
-
-    /* Recentre a piece on its own bounding box and pull the camera back to fit
-       it. Without this, composition depends on every offset above being right:
-       the solitaire's box centre sat between the band and the stone, so it
-       rotated about a point in mid-air and drifted out of frame. */
-    function frame(stage, group, pad){
-      group.updateMatrixWorld(true);
-      var box = new T.Box3().setFromObject(group);
-      if (box.isEmpty()) return;
-      var c = box.getCenter(new T.Vector3());
-      group.children.forEach(function(ch){ ch.position.sub(c); });
-
-      group.updateMatrixWorld(true);
-      var sph = new T.Box3().setFromObject(group).getBoundingSphere(new T.Sphere());
-      var cam = stage.camera;
-      var vFov = cam.fov * Math.PI / 180;
-      var hFov = 2 * Math.atan(Math.tan(vFov / 2) * cam.aspect);
-      var dist = (sph.radius * (pad || 1.3)) / Math.sin(Math.min(vFov, hFov) / 2);
-      cam.position.set(0, 0, dist);
-      cam.lookAt(0, 0, 0);
-      cam.updateProjectionMatrix();
-    }
 
     window.__vairaShowPiece = function(i){
       clearGroup(view.group);

@@ -7,6 +7,27 @@
 (function () {
   'use strict';
 
+  /* ── Track A capability gates ────────────────────────────────────────
+     Read once, then used by the reveal hand-off, the scroll progress bar
+     and the tilt. Every read is wrapped: demo.js also runs under jsdom in
+     the test suite, where matchMedia and CSS.supports are stubs or absent,
+     and a throw at this depth would silently kill every behaviour defined
+     below it — the exact failure mode the test suite exists to catch. */
+  var mq = function (q) {
+    try { return !!(window.matchMedia && window.matchMedia(q).matches); }
+    catch (e) { return false; }
+  };
+  var reducedMotion = mq('(prefers-reduced-motion: reduce)');
+  var finePointer   = mq('(pointer: fine)');
+  var scrollTimelines = false;
+  try {
+    scrollTimelines = !!(window.CSS && window.CSS.supports &&
+                         window.CSS.supports('animation-timeline: view()'));
+  } catch (e) {}
+  /* When true, demo.css drives the reveals on a view() timeline and this
+     file must not also drive them — see TRACK A at the end of demo.css. */
+  var cssDrivesReveals = scrollTimelines && !reducedMotion;
+
 
   // ── Industry switcher (preview bar) ──
   const pbSwitch = document.getElementById('pbSwitch');
@@ -95,7 +116,9 @@
   });
 
   // ── Scroll reveal ──
-  const reveals = document.querySelectorAll('.reveal');
+  // Skipped entirely when demo.css owns this on a scroll timeline: the two
+  // must never drive opacity on the same element at the same time.
+  const reveals = cssDrivesReveals ? [] : document.querySelectorAll('.reveal');
   if (reveals.length) {
     const io = new IntersectionObserver((entries) => {
       entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('visible'); });
@@ -427,6 +450,73 @@
       a.setAttribute('href', href + (href.indexOf('?') > -1 ? '&' : '?') + q);
     });
   })();
+
+  /* ── TRACK A · scroll progress ────────────────────────────────────────
+     The bar is driven entirely by `animation-timeline: scroll(root)` in
+     demo.css. All this does is supply the element, which is why no page
+     markup had to change and why there is no scroll listener here. */
+  if (cssDrivesReveals) {
+    var prog = document.createElement('div');
+    prog.className = 'ntl-progress';
+    prog.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(prog);
+  }
+
+  /* ── TRACK A · cursor-reactive tilt ───────────────────────────────────
+     Reads as 3D and costs no library. Gated on a fine pointer with motion
+     allowed, so touch devices and reduced-motion users keep exactly the
+     hover behaviour they had before.
+
+     One delegated listener, not four per card — a listing page carries
+     forty of these — and the rect is read inside rAF so a pointermove
+     storm cannot force more than one layout per frame. */
+  if (finePointer && !reducedMotion) {
+    var TILT_SEL = '.card,.feature,.blog-card,.product-card,' +
+                   '.property-card,.team-card,.pricing-card,.testimonial';
+    document.documentElement.classList.add('tilt');
+
+    var tiltEl = null, tiltX = 0, tiltY = 0, tiltRaf = 0;
+
+    var clearTilt = function () {
+      if (!tiltEl) return;
+      // Dropping the class restores the long ease, so it settles back flat.
+      tiltEl.classList.remove('ntl-tilting');
+      ['--rx', '--ry', '--mx', '--my'].forEach(function (p) {
+        tiltEl.style.removeProperty(p);
+      });
+      tiltEl = null;
+    };
+
+    var applyTilt = function () {
+      tiltRaf = 0;
+      if (!tiltEl || !tiltEl.isConnected) return;
+      var r = tiltEl.getBoundingClientRect();
+      if (!r.width || !r.height) return;
+      var px = (tiltX - r.left) / r.width;
+      var py = (tiltY - r.top) / r.height;
+      var st = tiltEl.style;
+      st.setProperty('--ry', ((px - 0.5) * 7).toFixed(2) + 'deg');
+      st.setProperty('--rx', ((0.5 - py) * 5).toFixed(2) + 'deg');
+      st.setProperty('--mx', (px * 100).toFixed(1) + '%');
+      st.setProperty('--my', (py * 100).toFixed(1) + '%');
+    };
+
+    document.addEventListener('pointermove', function (e) {
+      if (e.pointerType && e.pointerType !== 'mouse') return;
+      var el = (e.target && e.target.closest) ? e.target.closest(TILT_SEL) : null;
+      if (el !== tiltEl) {
+        clearTilt();
+        tiltEl = el;
+        if (el) el.classList.add('ntl-tilting');
+      }
+      if (!tiltEl) return;
+      tiltX = e.clientX; tiltY = e.clientY;
+      if (!tiltRaf) tiltRaf = requestAnimationFrame(applyTilt);
+    }, { passive: true });
+
+    document.addEventListener('pointerleave', clearTilt);
+    window.addEventListener('blur', clearTilt);
+  }
 
   // ── Cookie consent banner ──
   if (!localStorage.getItem('cookie_consent') &&

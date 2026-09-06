@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Shop — Kaarigar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=DM+Sans:opsz,wght@9..40,300..700&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="store.css">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23B4552F'/><path d='M28 72 V34 h10 v14 l16-14 h14 L64 52 l18 20 H68 L54 56 l-16 16 z' fill='%23FBF8F3'/></svg>">
+</head>
+<body data-page="shop.html">
+<div id="chrome-top"></div>
+
+<main id="main">
+  <div class="wrap">
+    <div style="padding:30px 0 4px">
+      <div class="mono">The shop</div>
+      <h1 style="font-size:clamp(28px,4vw,42px); letter-spacing:-.02em; margin-top:10px" id="shopTitle">Everything</h1>
+    </div>
+
+    <div class="toolbar">
+      <div class="chips" id="catChips" role="group" aria-label="Filter by craft"></div>
+      <div class="tb-sp"></div>
+      <span class="count" id="count"></span>
+      <label class="mono" for="sort" style="margin-left:4px">Sort</label>
+      <select class="sort" id="sort" aria-label="Sort products">
+        <option value="featured">Featured</option>
+        <option value="price-asc">Price, low to high</option>
+        <option value="price-desc">Price, high to low</option>
+        <option value="rating">Best rated</option>
+        <option value="name">Name, A–Z</option>
+      </select>
+    </div>
+
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty" hidden>
+      <h3>Nothing matches that</h3>
+      <p>Try a broader search, or clear the filter.</p>
+      <p style="margin-top:16px"><button class="btn btn-ghost btn-sm" id="clearAll">Clear everything</button></p>
+    </div>
+  </div>
+</main>
+
+<div id="chrome-foot"></div>
+
+<script src="catalog.js"></script>
+<script src="store.js"></script>
+<script src="chrome.js"></script>
+<script src="card.js"></script>
+<script>
+(function(){
+  'use strict';
+
+  /* State lives in the URL, not in a variable. That means a filtered view can
+     be shared, bookmarked and reached by the back button — which is the whole
+     difference between a catalogue and a toy. */
+  function readState(){
+    var q = new URLSearchParams(location.search);
+    return {
+      q:    q.get('q')    || '',
+      cat:  q.get('cat')  || 'all',
+      sort: q.get('sort') || 'featured'
+    };
+  }
+  function writeState(s, replace){
+    var q = new URLSearchParams();
+    if (s.q) q.set('q', s.q);
+    if (s.cat && s.cat !== 'all') q.set('cat', s.cat);
+    if (s.sort && s.sort !== 'featured') q.set('sort', s.sort);
+    var url = location.pathname + (q.toString() ? '?' + q : '');
+    history[replace ? 'replaceState' : 'pushState']({}, '', url);
+  }
+
+  var state = readState();
+
+  var chips = document.getElementById('catChips');
+  CATALOG.categories.forEach(function(c){
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'chip';
+    b.textContent = c.label;
+    b.setAttribute('aria-pressed', String(c.id === state.cat));
+    b.addEventListener('click', function(){
+      state.cat = c.id;
+      writeState(state);
+      render();
+    });
+    chips.appendChild(b);
+  });
+
+  var sortSel = document.getElementById('sort');
+  sortSel.value = state.sort;
+  sortSel.addEventListener('change', function(){
+    state.sort = sortSel.value;
+    writeState(state);
+    render();
+  });
+
+  document.getElementById('clearAll').addEventListener('click', function(){
+    state = { q:'', cat:'all', sort:'featured' };
+    writeState(state);
+    var hs = document.getElementById('headSearch');
+    if (hs) hs.value = '';
+    render();
+  });
+
+  window.addEventListener('popstate', function(){ state = readState(); render(); });
+
+  function render(){
+    [].forEach.call(chips.children, function(b, i){
+      b.setAttribute('aria-pressed', String(CATALOG.categories[i].id === state.cat));
+    });
+    sortSel.value = state.sort;
+
+    var cat = CATALOG.categories.filter(function(c){ return c.id === state.cat; })[0];
+    document.getElementById('shopTitle').textContent =
+      state.q ? '“' + state.q + '”' : (cat ? cat.label : 'Everything');
+
+    var results = Store.search(state);
+    var grid = document.getElementById('grid');
+    var empty = document.getElementById('empty');
+
+    grid.innerHTML = results.map(window.cardHtml).join('');
+    grid.hidden = results.length === 0;
+    empty.hidden = results.length !== 0;
+
+    document.getElementById('count').innerHTML =
+      '<strong>' + results.length + '</strong> of ' + CATALOG.products.length + ' pieces';
+  }
+
+  /* The header search is shared chrome, so wire it to filter in place here
+     rather than reloading the page onto itself. */
+  document.addEventListener('DOMContentLoaded', function(){
+    var hs = document.getElementById('headSearch');
+    if (!hs) return;
+    hs.value = state.q;
+    var t;
+    hs.addEventListener('input', function(){
+      clearTimeout(t);
+      t = setTimeout(function(){
+        state.q = hs.value.trim();
+        writeState(state, true);   // replace: typing should not fill history
+        render();
+      }, 180);
+    });
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

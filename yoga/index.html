@@ -145,7 +145,6 @@
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html" class="active" aria-current="page">Home</a></li>
       <li><a href="classes.html">Classes</a></li>
-      <li><a href="teachers.html">Teachers</a></li>
       <li><a href="about.html">About</a></li>
       <li><a href="gallery.html">Studio</a></li>
       <li><a href="testimonials.html">Reviews</a></li>
@@ -192,104 +191,7 @@
     </div>
     <div class="hero-art">
       <!-- Lotus mandala with sage green glow -->
-      <svg viewBox="0 0 480 600" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="bgGrad" cx="50%" cy="50%" r="70%">
-            <stop offset="0%" stop-color="#0a1a0e"/>
-            <stop offset="100%" stop-color="#051008"/>
-          </radialGradient>
-          <radialGradient id="lotusglow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#6B9E7A" stop-opacity="0.3"/>
-            <stop offset="100%" stop-color="#6B9E7A" stop-opacity="0"/>
-          </radialGradient>
-          <radialGradient id="centreGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#8FBA8C" stop-opacity="0.5"/>
-            <stop offset="100%" stop-color="#6B9E7A" stop-opacity="0"/>
-          </radialGradient>
-        </defs>
-        <!-- Dark background -->
-        <rect width="480" height="600" fill="url(#bgGrad)"/>
-        <!-- Ambient glow -->
-        <ellipse cx="240" cy="300" rx="220" ry="220" fill="url(#lotusglow)"/>
-        <!-- Outer mandala rings -->
-        <circle cx="240" cy="300" r="200" fill="none" stroke="#6B9E7A" stroke-width="0.5" opacity="0.2"/>
-        <circle cx="240" cy="300" r="175" fill="none" stroke="#6B9E7A" stroke-width="0.5" opacity="0.25"/>
-        <circle cx="240" cy="300" r="150" fill="none" stroke="#6B9E7A" stroke-width="1" opacity="0.3"/>
-        <!-- Outer mandala petals (16 spokes) -->
-        <g opacity="0.18" stroke="#6B9E7A" stroke-width="0.8" fill="none">
-          <line x1="240" y1="100" x2="240" y2="500"/>
-          <line x1="40" y1="300" x2="440" y2="300"/>
-          <line x1="99" y1="159" x2="381" y2="441"/>
-          <line x1="381" y1="159" x2="99" y2="441"/>
-          <line x1="63" y1="217" x2="417" y2="383"/>
-          <line x1="417" y1="217" x2="63" y2="383"/>
-          <line x1="168" y1="107" x2="312" y2="493"/>
-          <line x1="312" y1="107" x2="168" y2="493"/>
-        </g>
-        <!-- Decorative dots on mandala circle -->
-        <g fill="#6B9E7A" opacity="0.4">
-          <circle cx="240" cy="100" r="3"/>
-          <circle cx="240" cy="500" r="3"/>
-          <circle cx="40" cy="300" r="3"/>
-          <circle cx="440" cy="300" r="3"/>
-          <circle cx="99" cy="159" r="2.5"/>
-          <circle cx="381" cy="159" r="2.5"/>
-          <circle cx="99" cy="441" r="2.5"/>
-          <circle cx="381" cy="441" r="2.5"/>
-        </g>
-        <!-- Lotus petals — outer layer -->
-        <g fill="#6B9E7A" opacity="0.18">
-          <ellipse cx="240" cy="195" rx="22" ry="52" transform="rotate(0 240 300)"/>
-          <ellipse cx="240" cy="195" rx="22" ry="52" transform="rotate(45 240 300)"/>
-          <ellipse cx="240" cy="195" rx="22" ry="52" transform="rotate(90 240 300)"/>
-          <ellipse cx="240" cy="195" rx="22" ry="52" transform="rotate(135 240 300)"/>
-          <ellipse cx="240" cy="195" rx="22" ry="52" transform="rotate(180 240 300)"/>
-          <ellipse cx="240" cy="195" rx="22" ry="52" transform="rotate(225 240 300)"/>
-          <ellipse cx="240" cy="195" rx="22" ry="52" transform="rotate(270 240 300)"/>
-          <ellipse cx="240" cy="195" rx="22" ry="52" transform="rotate(315 240 300)"/>
-        </g>
-        <!-- Lotus petals — middle layer -->
-        <g fill="#6B9E7A" opacity="0.3">
-          <ellipse cx="240" cy="218" rx="18" ry="42" transform="rotate(22.5 240 300)"/>
-          <ellipse cx="240" cy="218" rx="18" ry="42" transform="rotate(67.5 240 300)"/>
-          <ellipse cx="240" cy="218" rx="18" ry="42" transform="rotate(112.5 240 300)"/>
-          <ellipse cx="240" cy="218" rx="18" ry="42" transform="rotate(157.5 240 300)"/>
-          <ellipse cx="240" cy="218" rx="18" ry="42" transform="rotate(202.5 240 300)"/>
-          <ellipse cx="240" cy="218" rx="18" ry="42" transform="rotate(247.5 240 300)"/>
-          <ellipse cx="240" cy="218" rx="18" ry="42" transform="rotate(292.5 240 300)"/>
-          <ellipse cx="240" cy="218" rx="18" ry="42" transform="rotate(337.5 240 300)"/>
-        </g>
-        <!-- Inner petals -->
-        <g fill="#8FBA8C" opacity="0.45">
-          <ellipse cx="240" cy="240" rx="14" ry="32" transform="rotate(0 240 300)"/>
-          <ellipse cx="240" cy="240" rx="14" ry="32" transform="rotate(60 240 300)"/>
-          <ellipse cx="240" cy="240" rx="14" ry="32" transform="rotate(120 240 300)"/>
-          <ellipse cx="240" cy="240" rx="14" ry="32" transform="rotate(180 240 300)"/>
-          <ellipse cx="240" cy="240" rx="14" ry="32" transform="rotate(240 240 300)"/>
-          <ellipse cx="240" cy="240" rx="14" ry="32" transform="rotate(300 240 300)"/>
-        </g>
-        <!-- Centre glow -->
-        <circle cx="240" cy="300" r="40" fill="url(#centreGlow)"/>
-        <circle cx="240" cy="300" r="28" fill="#6B9E7A" opacity="0.5"/>
-        <circle cx="240" cy="300" r="18" fill="#8FBA8C" opacity="0.7"/>
-        <circle cx="240" cy="300" r="8" fill="#c8e6c9" opacity="0.9"/>
-        <!-- Meditation silhouette at base -->
-        <g opacity="0.55" fill="#6B9E7A">
-          <!-- torso + head -->
-          <ellipse cx="240" cy="490" rx="34" ry="8" fill="#0a1a0e" opacity="1"/>
-          <!-- crossed-legs base -->
-          <path d="M206 492 Q196 480 200 470 Q220 460 240 462 Q260 460 280 470 Q284 480 274 492 Z" fill="#3d6b4a" opacity="0.7"/>
-          <!-- body -->
-          <rect x="228" y="440" width="24" height="32" rx="8" fill="#4a7a56" opacity="0.8"/>
-          <!-- arms in prayer -->
-          <path d="M228 455 Q218 450 215 442 Q220 438 228 445 Z" fill="#4a7a56" opacity="0.7"/>
-          <path d="M252 455 Q262 450 265 442 Q260 438 252 445 Z" fill="#4a7a56" opacity="0.7"/>
-          <!-- head -->
-          <circle cx="240" cy="430" r="14" fill="#4a7a56" opacity="0.85"/>
-        </g>
-        <!-- Om symbol centre subtle -->
-        <text x="240" y="307" text-anchor="middle" font-size="22" fill="#c8e6c9" opacity="0.9" font-family="serif">ॐ</text>
-      </svg>
+      <img src="../assets/photos/yoga-25.webp" alt="Tree pose on a city balcony at first light" loading="eager" decoding="async" fetchpriority="high">
       <div class="float-tag">
         <div class="float-chip"><i class="fa-solid fa-star" style="color:var(--accent)"></i> 4.9 · 600+ Reviews</div>
         <div class="float-chip"><i class="fa-solid fa-clock" style="color:var(--accent)"></i> Morning & Evening Classes</div>
@@ -306,32 +208,32 @@
     <p class="section-sub reveal">Classical disciplines taught with care. Every class rooted in tradition, adapted for the pace of contemporary life.</p>
     <div class="features">
       <div class="feature reveal" data-d="1">
-        <div class="feature-icon"><i class="fa-solid fa-spa"></i></div>
+        <div class="feature-img"><img src="../assets/photos/sm/yoga-17.webp" alt="" loading="lazy" decoding="async"></div>
         <h4>Hatha Yoga</h4>
         <p>The foundation of all yoga. Slow, deliberate postures that build strength, flexibility, and body awareness. Suitable for all ages and levels.</p>
       </div>
       <div class="feature reveal" data-d="2">
-        <div class="feature-icon"><i class="fa-solid fa-wind"></i></div>
+        <div class="feature-img"><img src="../assets/photos/sm/yoga-18.webp" alt="" loading="lazy" decoding="async"></div>
         <h4>Vinyasa Flow</h4>
         <p>Breath-linked movement that builds heat and energy. Dynamic sequences for practitioners ready to deepen their practice.</p>
       </div>
       <div class="feature reveal" data-d="3">
-        <div class="feature-icon"><i class="fa-solid fa-lungs"></i></div>
+        <div class="feature-img"><img src="../assets/photos/sm/yoga-22.webp" alt="" loading="lazy" decoding="async"></div>
         <h4>Pranayama &amp; Breathwork</h4>
         <p>Ancient breathing practices that calm the nervous system, improve lung capacity, and sharpen mental clarity.</p>
       </div>
       <div class="feature reveal" data-d="1">
-        <div class="feature-icon"><i class="fa-solid fa-brain"></i></div>
+        <div class="feature-img"><img src="../assets/photos/sm/yoga-31.webp" alt="" loading="lazy" decoding="async"></div>
         <h4>Guided Meditation</h4>
         <p>Structured stillness. Guided sessions for beginners and experienced meditators to develop a consistent inner practice.</p>
       </div>
       <div class="feature reveal" data-d="2">
-        <div class="feature-icon"><i class="fa-solid fa-children"></i></div>
+        <div class="feature-img"><img src="../assets/photos/sm/yoga-05.webp" alt="" loading="lazy" decoding="async"></div>
         <h4>Kids Yoga</h4>
         <p>Playful, age-appropriate yoga for children aged 5–14. Builds focus, confidence, and physical coordination through movement and breath.</p>
       </div>
       <div class="feature reveal" data-d="3">
-        <div class="feature-icon"><i class="fa-solid fa-briefcase"></i></div>
+        <div class="feature-img"><img src="../assets/photos/sm/yoga-09.webp" alt="" loading="lazy" decoding="async"></div>
         <h4>Corporate Wellness</h4>
         <p>Tailored programmes for workplace teams. Desk-friendly yoga, stress reduction, and breathwork for modern professionals.</p>
       </div>
@@ -372,23 +274,7 @@
     <div class="grid-3">
       <div class="card reveal" data-d="1">
         <div class="card-thumb">
-          <svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
-            <rect width="400" height="250" fill="#071410"/>
-            <ellipse cx="200" cy="125" rx="160" ry="80" fill="#6B9E7A" opacity="0.07"/>
-            <!-- Warrior pose silhouette -->
-            <g fill="#6B9E7A" opacity="0.65">
-              <circle cx="200" cy="60" r="14"/>
-              <rect x="193" y="74" width="14" height="40" rx="5"/>
-              <!-- arms wide -->
-              <path d="M193 90 L155 80 L150 85 L190 97 Z"/>
-              <path d="M207 90 L245 80 L250 85 L210 97 Z"/>
-              <!-- legs lunge -->
-              <path d="M200 114 L175 160 L185 162 L200 130 L215 162 L225 160 Z"/>
-              <path d="M175 160 L165 175 L175 176 L185 162 Z"/>
-              <path d="M225 160 L235 175 L225 176 L215 162 Z"/>
-            </g>
-            <text x="200" y="220" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#6B9E7A" opacity="0.5">Hatha Yoga</text>
-          </svg>
+          <img src="../assets/photos/md/yoga-00.webp" alt="A small class holding a floor posture on their mats" loading="lazy" decoding="async">
         </div>
         <div class="card-body">
           <div class="card-tag">Beginner — All Levels</div>
@@ -407,21 +293,7 @@
 
       <div class="card reveal" data-d="2">
         <div class="card-thumb">
-          <svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
-            <rect width="400" height="250" fill="#071410"/>
-            <ellipse cx="200" cy="125" rx="160" ry="80" fill="#6B9E7A" opacity="0.07"/>
-            <!-- Flowing vinyasa silhouette -->
-            <g fill="#8FBA8C" opacity="0.65">
-              <circle cx="200" cy="55" r="14"/>
-              <!-- Crescent pose -->
-              <path d="M200 69 Q195 90 185 110 Q180 130 175 145 L185 146 Q190 130 196 115 L200 150 L204 115 Q210 130 215 146 L225 145 Q220 130 215 110 Q205 90 200 69 Z"/>
-              <!-- raised arm -->
-              <path d="M200 85 Q210 70 225 60 L228 68 Q215 76 205 90 Z"/>
-              <!-- back leg extended -->
-              <path d="M185 146 L165 170 L172 174 L190 152 Z"/>
-            </g>
-            <text x="200" y="220" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#8FBA8C" opacity="0.5">Vinyasa Flow</text>
-          </svg>
+          <img src="../assets/photos/md/yoga-02.webp" alt="A led flow class in a studio full of morning light" loading="lazy" decoding="async">
         </div>
         <div class="card-body">
           <div class="card-tag">Intermediate</div>
@@ -440,27 +312,7 @@
 
       <div class="card reveal" data-d="3">
         <div class="card-thumb">
-          <svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
-            <rect width="400" height="250" fill="#071410"/>
-            <ellipse cx="200" cy="125" rx="160" ry="80" fill="#6B9E7A" opacity="0.07"/>
-            <!-- Seated pranayama silhouette -->
-            <g fill="#6B9E7A" opacity="0.65">
-              <!-- Seated cross-legged -->
-              <circle cx="200" cy="70" r="14"/>
-              <rect x="194" y="84" width="12" height="36" rx="5"/>
-              <!-- legs -->
-              <path d="M194 110 Q180 128 170 135 Q175 140 185 136 Q193 125 200 120 Q207 125 215 136 Q225 140 230 135 Q220 128 206 110 Z"/>
-              <!-- arms resting on knees -->
-              <path d="M194 95 Q185 105 175 110 L178 116 Q188 110 196 100 Z"/>
-              <path d="M206 95 Q215 105 225 110 L222 116 Q212 110 204 100 Z"/>
-            </g>
-            <!-- breath waves -->
-            <g stroke="#6B9E7A" stroke-width="1.5" fill="none" opacity="0.35">
-              <path d="M140 50 Q160 40 180 50 Q200 60 220 50 Q240 40 260 50"/>
-              <path d="M145 65 Q165 55 185 65 Q205 75 225 65 Q245 55 265 65"/>
-            </g>
-            <text x="200" y="220" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#6B9E7A" opacity="0.5">Pranayama</text>
-          </svg>
+          <img src="../assets/photos/md/yoga-03.webp" alt="Alternate-nostril breathing, seated" loading="lazy" decoding="async">
         </div>
         <div class="card-body">
           <div class="card-tag">All Levels · Daily</div>
@@ -606,8 +458,8 @@
       <div class="name">Ananta<em>.</em></div>
       <p>Fifteen years of classical yoga in Ballygunge. Every class, a practice. Every student, a journey.</p>
       <div class="footer-social">
-        <a aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-        <a aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
         <a href="https://wa.me/919830050005" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
       </div>
     </div>
@@ -615,7 +467,6 @@
       <h5>Navigate</h5>
       <ul>
         <li><a href="classes.html">Our Classes</a></li>
-        <li><a href="teachers.html">Teachers</a></li>
         <li><a href="booking.html">Book a Class</a></li>
         <li><a href="blog.html">Wellness Blog</a></li>
         <li><a href="contact.html">Find Us</a></li>

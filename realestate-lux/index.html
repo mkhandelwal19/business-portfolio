@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Demo site: fictional development. Must not be indexed as a real entity. -->
+<meta name="robots" content="noindex, nofollow">
+<title>Anvaya Residences — Rajarhat, Kolkata</title>
+<meta name="description" content="Anvaya Residences — a flagship 3D property experience. Orbit the tower, walk the floor plan, pick your floor before the site visit.">
+<meta name="theme-color" content="#0B0E13">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=DM+Sans:opsz,wght@9..40,300..700&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230B0E13'/><path d='M26 78 V38 L50 22 L74 38 V78' fill='none' stroke='%23C8A87E' stroke-width='6' stroke-linejoin='round'/><path d='M40 78 V56 H60 V78' fill='none' stroke='%23C8A87E' stroke-width='5'/></svg>">
+
+<style>
+/* ============================================================================
+   ANVAYA — Netloom flagship template, second of three
+   Self-contained like jewellery-lux: the flagship look has to be free to
+   diverge rather than fight demo.css. The 3D, however, is NOT self-contained —
+   it comes from flagship/3d-core.js, which is the whole point of that module.
+   ============================================================================ */
+
+:root{
+  --ink:        #0B0E13;
+  --ink-2:      #10141B;
+  --ink-3:      #171C25;
+  --sand:       #C8A87E;
+  --sand-soft:  #E2C9A6;
+  --sand-deep:  #7A6242;
+  --sky:        #8FB4C9;
+  --paper:      #F2EEE7;
+  --paper-dim:  #BFB8AC;
+  --muted:      #7C8595;
+  --line:       rgba(200,168,126,.16);
+  --line-soft:  rgba(242,238,231,.08);
+  --f-display:  'Fraunces', Georgia, serif;
+  --f-sans:     'DM Sans', system-ui, -apple-system, sans-serif;
+  --f-mono:     'JetBrains Mono', ui-monospace, monospace;
+  --preview-h:  38px;
+  --nav-h:      74px;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box }
+html{ scroll-behavior:smooth; -webkit-text-size-adjust:100% }
+@media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto } }
+
+body{
+  background:var(--ink); color:var(--paper);
+  font-family:var(--f-sans); font-size:16px; line-height:1.65;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+a{ color:inherit; text-decoration:none }
+img,canvas,svg{ display:block; max-width:100% }
+h1,h2,h3,h4{ font-family:var(--f-display); font-weight:400; line-height:1.08 }
+::selection{ background:var(--sand); color:var(--ink) }
+:focus-visible{ outline:2px solid var(--sand); outline-offset:3px; border-radius:4px }
+
+.skip{
+  position:fixed; top:-100%; left:50%; transform:translateX(-50%); z-index:9999;
+  background:var(--sand); color:var(--ink); padding:10px 22px; border-radius:0 0 8px 8px;
+  font-size:13px; font-weight:600;
+}
+.skip:focus{ top:0 }
+
+/* ── Preview bar, same contract as every other Netloom demo ── */
+.preview-bar{
+  position:fixed; top:0; left:0; right:0; z-index:2000; height:var(--preview-h);
+  display:flex; align-items:center; gap:12px; padding:0 16px;
+  background:rgba(7,9,13,.94); backdrop-filter:blur(14px) saturate(140%);
+  border-bottom:1px solid var(--line);
+  font-family:var(--f-mono); font-size:10px; letter-spacing:.1em; color:var(--muted);
+}
+.pb-badge{
+  display:inline-flex; align-items:center; gap:6px; padding:3px 9px; border-radius:99px;
+  background:rgba(200,168,126,.13); border:1px solid var(--line); color:var(--sand);
+  font-size:9px; letter-spacing:.14em; text-transform:uppercase;
+}
+.pb-tagline a{ color:var(--sand) }
+.pb-spacer{ flex:1 }
+.pb-cta{
+  display:inline-flex; align-items:center; gap:7px; height:25px; padding:0 13px;
+  border-radius:99px; background:var(--sand); color:var(--ink);
+  font-size:10px; font-weight:700; letter-spacing:.06em; white-space:nowrap;
+}
+.pb-biz{
+  display:inline-flex; padding:3px 9px; border-radius:99px;
+  background:rgba(200,168,126,.13); border:1px solid var(--line); color:var(--sand);
+  font-size:9px; letter-spacing:.12em; text-transform:uppercase;
+}
+@media(max-width:640px){ .pb-tagline{ display:none } }
+
+/* ── Nav ── */
+.nav{
+  position:fixed; top:var(--preview-h); left:0; right:0; z-index:1000; height:var(--nav-h);
+  display:flex; align-items:center; padding:0 40px;
+  transition:background .4s, border-color .4s, backdrop-filter .4s;
+  border-bottom:1px solid transparent;
+}
+.nav.scrolled{
+  background:rgba(11,14,19,.86); backdrop-filter:blur(18px) saturate(160%);
+  border-bottom-color:var(--line-soft);
+}
+.nav-inner{ max-width:1240px; margin:0 auto; width:100%; display:flex; align-items:center; justify-content:space-between }
+.nav-logo{ font-family:var(--f-display); font-size:25px; letter-spacing:-.01em }
+.nav-logo em{ color:var(--sand); font-style:normal }
+.nav-links{ display:flex; align-items:center; gap:30px; list-style:none }
+.nav-links a{ font-size:13px; color:var(--paper-dim); transition:color .3s }
+.nav-links a:hover{ color:var(--sand) }
+.nav-cta{
+  padding:9px 20px; border-radius:99px; border:1px solid var(--line);
+  color:var(--sand) !important; font-size:12px !important;
+  transition:background .3s, color .3s;
+}
+.nav-cta:hover{ background:var(--sand); color:var(--ink) !important }
+.nav-toggle{ display:none; flex-direction:column; gap:5px; background:none; border:0; cursor:pointer; padding:8px }
+.nav-toggle span{ display:block; width:22px; height:2px; background:var(--paper); border-radius:2px; transition:all .3s }
+@media(max-width:940px){
+  .nav{ padding:0 22px }
+  .nav-toggle{ display:flex }
+  .nav-links{
+    position:fixed; inset:calc(var(--preview-h) + var(--nav-h)) 0 auto 0;
+    flex-direction:column; gap:0; align-items:stretch;
+    background:rgba(11,14,19,.98); backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--line-soft);
+    max-height:0; overflow:hidden; transition:max-height .4s;
+  }
+  .nav-links.open{ max-height:70vh }
+  .nav-links li{ padding:0 22px }
+  .nav-links a{ display:block; padding:16px 0; border-bottom:1px solid var(--line-soft) }
+  .nav-cta{ margin:14px 0; text-align:center; display:block }
+}
+
+/* ══════════════════════ HERO ══════════════════════ */
+.hero{
+  position:relative; min-height:100svh;
+  display:grid; grid-template-columns:1.02fr .98fr; align-items:center;
+  gap:40px; max-width:1240px; margin:0 auto;
+  padding:calc(var(--nav-h) + var(--preview-h) + 40px) 40px 60px;
+}
+@media(max-width:940px){
+  .hero{ grid-template-columns:1fr; min-height:auto; padding:calc(var(--nav-h) + var(--preview-h) + 26px) 22px 50px; gap:8px }
+}
+.eyebrow{
+  font-family:var(--f-mono); font-size:10.5px; letter-spacing:.24em;
+  text-transform:uppercase; color:var(--sand);
+}
+.hero h1{ font-size:clamp(44px,7vw,88px); letter-spacing:-.025em; margin:20px 0 0 }
+.hero h1 em{ font-style:italic; color:var(--sand) }
+.hero-sub{ margin-top:24px; max-width:44ch; font-size:16.5px; line-height:1.75; color:var(--paper-dim) }
+.hero-ctas{ display:flex; flex-wrap:wrap; gap:14px; margin-top:34px }
+.btn{
+  display:inline-flex; align-items:center; gap:10px; padding:15px 30px; border-radius:99px;
+  font-size:13px; letter-spacing:.1em; text-transform:uppercase; font-weight:500; cursor:pointer;
+  transition:transform .3s, background .3s, color .3s, border-color .3s, box-shadow .3s;
+  border:0; font-family:var(--f-sans);
+}
+.btn-primary{ background:var(--sand); color:var(--ink); box-shadow:0 10px 40px -18px rgba(200,168,126,.9) }
+.btn-primary:hover{ background:var(--sand-soft); transform:translateY(-2px) }
+.btn-ghost{ border:1px solid var(--line); color:var(--paper-dim); background:none }
+.btn-ghost:hover{ border-color:var(--sand); color:var(--sand) }
+.hero-meta{
+  display:flex; flex-wrap:wrap; align-items:center; gap:16px; margin-top:44px;
+  font-family:var(--f-mono); font-size:10.5px; letter-spacing:.15em;
+  text-transform:uppercase; color:var(--muted);
+}
+.hero-meta .dot{ width:3px; height:3px; border-radius:50%; background:var(--sand-deep) }
+
+.hero-stage{ position:relative; aspect-ratio:1/1.06; width:100%; display:grid; place-items:center }
+@media(max-width:940px){ .hero-stage{ aspect-ratio:4/3.4; margin-top:26px } }
+#towerCanvas{ position:absolute; inset:0; width:100%; height:100%; touch-action:pan-y }
+.hero-glow{
+  position:absolute; inset:-18%; pointer-events:none;
+  background:radial-gradient(closest-side, rgba(143,180,201,.14), transparent 72%);
+}
+.stage-hint{
+  position:absolute; bottom:3%; left:50%; transform:translateX(-50%);
+  font-family:var(--f-mono); font-size:9.5px; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--muted); white-space:nowrap; pointer-events:none;
+  display:flex; align-items:center; gap:8px; opacity:0; transition:opacity .6s;
+}
+.stage-hint.show{ opacity:1 }
+.stage-hint i{ color:var(--sand) }
+/* Shown until — or unless — WebGL takes over. Has to look deliberate on its
+   own rather than like a missing image. */
+.tower-fallback{ position:absolute; inset:0; display:grid; place-items:center }
+.tower-fallback svg{ width:80%; height:auto; filter:drop-shadow(0 30px 60px rgba(143,180,201,.16)) }
+
+/* ══════════════════════ STRIP ══════════════════════ */
+.strip{
+  border-block:1px solid var(--line-soft); background:var(--ink-2);
+  overflow:hidden; padding:16px 0;
+}
+.strip-track{ display:flex; gap:52px; white-space:nowrap; animation:slide 38s linear infinite; width:max-content }
+@media (prefers-reduced-motion: reduce){ .strip-track{ animation:none } }
+@keyframes slide{ to{ transform:translateX(-50%) } }
+.strip-item{
+  font-family:var(--f-mono); font-size:10.5px; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--muted); display:inline-flex; align-items:center; gap:11px;
+}
+.strip-item i{ color:var(--sand-deep); font-size:11px }
+
+/* ══════════════════════ SECTIONS ══════════════════════ */
+.section{ max-width:1240px; margin:0 auto; padding:110px 40px }
+@media(max-width:940px){ .section{ padding:72px 22px } }
+.section-head{ max-width:640px; margin-bottom:52px }
+.section-head h2{ font-size:clamp(32px,4.4vw,54px); letter-spacing:-.02em; margin-top:16px }
+.section-head h2 em{ font-style:italic; color:var(--sand) }
+.section-head p{ margin-top:18px; color:var(--paper-dim); font-size:16px }
+
+/* ── Unit explorer ── */
+.explorer{ display:grid; grid-template-columns:.85fr 1.15fr; gap:44px; align-items:start }
+@media(max-width:1040px){ .explorer{ grid-template-columns:1fr } }
+
+.unit-list{ display:flex; flex-direction:column; gap:12px }
+.unit{
+  display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:16px;
+  padding:20px 22px; border-radius:14px; cursor:pointer; text-align:left;
+  background:var(--ink-2); border:1px solid var(--line-soft);
+  transition:border-color .3s, background .3s, transform .3s;
+  font-family:var(--f-sans); color:inherit; width:100%;
+}
+.unit:hover{ border-color:var(--line); transform:translateY(-2px) }
+.unit.active{ border-color:var(--sand); background:var(--ink-3) }
+.unit-mark{
+  width:38px; height:38px; border-radius:10px; display:grid; place-items:center;
+  background:rgba(200,168,126,.12); color:var(--sand);
+  font-family:var(--f-mono); font-size:11px; letter-spacing:.04em;
+}
+.unit.active .unit-mark{ background:var(--sand); color:var(--ink) }
+.unit-name{ font-family:var(--f-display); font-size:19px; line-height:1.2 }
+.unit-sub{ font-size:12.5px; color:var(--muted); margin-top:3px }
+.unit-price{ font-family:var(--f-display); font-size:19px; color:var(--sand); white-space:nowrap }
+
+.plan-stage{
+  position:relative; aspect-ratio:16/12; width:100%;
+  border-radius:16px; overflow:hidden;
+  background:linear-gradient(160deg, var(--ink-2), var(--ink));
+  border:1px solid var(--line-soft);
+}
+#planCanvas{ position:absolute; inset:0; width:100%; height:100%; touch-action:pan-y }
+.plan-fallback{ position:absolute; inset:0; display:grid; place-items:center; padding:22px }
+.plan-fallback svg{ width:100%; height:auto; max-height:100% }
+.plan-badge{
+  position:absolute; top:14px; left:14px; z-index:3;
+  font-family:var(--f-mono); font-size:9.5px; letter-spacing:.16em; text-transform:uppercase;
+  padding:7px 13px; border-radius:99px; background:rgba(11,14,19,.82);
+  border:1px solid var(--line); color:var(--sand); backdrop-filter:blur(8px);
+}
+.plan-legend{
+  position:absolute; bottom:14px; left:14px; right:14px; z-index:3;
+  display:flex; flex-wrap:wrap; gap:8px 14px;
+  font-family:var(--f-mono); font-size:9px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--paper-dim);
+}
+.plan-legend span{ display:inline-flex; align-items:center; gap:6px }
+.plan-legend i{ width:9px; height:9px; border-radius:2px; display:block }
+
+.spec-row{
+  display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+  background:var(--line-soft); border:1px solid var(--line-soft);
+  border-radius:12px; overflow:hidden; margin-top:18px;
+}
+@media(max-width:640px){ .spec-row{ grid-template-columns:repeat(2,1fr) } }
+.spec{ background:var(--ink-2); padding:18px 16px }
+.spec-k{ font-family:var(--f-mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted) }
+.spec-v{ font-family:var(--f-display); font-size:22px; color:var(--paper); margin-top:6px; line-height:1 }
+
+/* ── Floor picker ── */
+.floors{ margin-top:26px }
+.floors-head{
+  display:flex; justify-content:space-between; align-items:baseline;
+  font-family:var(--f-mono); font-size:10px; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--muted); margin-bottom:12px;
+}
+.floors-head strong{ color:var(--sand); font-size:13px; font-family:var(--f-display); letter-spacing:0 }
+.floor-track{ display:flex; gap:5px; flex-wrap:wrap }
+.floor-pip{
+  flex:1 1 auto; min-width:26px; height:34px; border-radius:7px; cursor:pointer;
+  background:var(--ink-3); border:1px solid var(--line-soft); color:var(--muted);
+  font-family:var(--f-mono); font-size:10px; transition:all .25s;
+}
+.floor-pip:hover{ border-color:var(--line); color:var(--paper) }
+.floor-pip.on{ background:var(--sand); border-color:var(--sand); color:var(--ink); font-weight:600 }
+.floor-pip.sold{ opacity:.32; cursor:not-allowed }
+
+/* ── Split feature ── */
+.split{ display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center }
+@media(max-width:940px){ .split{ grid-template-columns:1fr; gap:32px } }
+.split h3{ font-size:clamp(26px,3.2vw,38px); letter-spacing:-.02em }
+.split h3 em{ font-style:italic; color:var(--sand) }
+.split p{ margin-top:16px; color:var(--paper-dim) }
+.tick{ list-style:none; margin-top:24px; display:flex; flex-direction:column; gap:12px }
+.tick li{ display:flex; gap:12px; align-items:flex-start; font-size:15px; color:var(--paper-dim) }
+.tick i{ color:var(--sand); font-size:12px; margin-top:5px }
+
+.figure{
+  border-radius:16px; overflow:hidden; border:1px solid var(--line-soft);
+  background:var(--ink-2); aspect-ratio:4/3;
+}
+.figure img{ width:100%; height:100%; object-fit:cover }
+
+/* ── Trust ── */
+.trust{
+  display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+  background:var(--line-soft); border-block:1px solid var(--line-soft);
+}
+@media(max-width:760px){ .trust{ grid-template-columns:repeat(2,1fr) } }
+.trust div{ background:var(--ink); padding:34px 26px; text-align:center }
+.trust .n{ font-family:var(--f-display); font-size:34px; color:var(--sand); line-height:1 }
+.trust .l{ font-size:12.5px; color:var(--muted); margin-top:8px }
+
+/* ── Enquiry ── */
+.enquire{ display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:start }
+@media(max-width:940px){ .enquire{ grid-template-columns:1fr; gap:34px } }
+.field{ display:flex; flex-direction:column; gap:7px; margin-bottom:16px }
+.field label{ font-family:var(--f-mono); font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted) }
+.field input,.field select,.field textarea{
+  background:var(--ink-2); border:1px solid var(--line-soft); border-radius:10px;
+  padding:14px 16px; color:var(--paper); font-family:var(--f-sans); font-size:15px;
+  transition:border-color .3s; outline:none;
+}
+.field input:focus,.field select:focus,.field textarea:focus{ border-color:var(--sand) }
+/* Chrome paints its own pale background over autofilled controls and ignores
+   background-color. A very long inset shadow transition is the standard way to
+   keep a dark field dark. */
+.field input:-webkit-autofill,
+.field input:-webkit-autofill:hover,
+.field input:-webkit-autofill:focus{
+  -webkit-text-fill-color:var(--paper);
+  -webkit-box-shadow:0 0 0 1000px var(--ink-2) inset;
+  -webkit-transition:background-color 100000s ease-in-out 0s;
+          transition:background-color 100000s ease-in-out 0s;
+}
+.form-note{ font-size:12.5px; color:var(--muted); margin-top:12px }
+.form-ok{
+  margin-top:16px; padding:14px 18px; border-radius:10px;
+  background:rgba(200,168,126,.1); border:1px solid var(--line);
+  color:var(--sand); font-size:14px; display:none;
+}
+.form-ok.show{ display:block }
+
+/* ── Footer ── */
+.footer{ border-top:1px solid var(--line-soft); background:var(--ink-2); padding:64px 40px 34px }
+@media(max-width:940px){ .footer{ padding:52px 22px 28px } }
+.footer-inner{ max-width:1240px; margin:0 auto; display:grid; grid-template-columns:1.6fr 1fr 1fr; gap:44px }
+@media(max-width:860px){ .footer-inner{ grid-template-columns:1fr; gap:30px } }
+.footer h4{ font-family:var(--f-mono); font-size:9.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); margin-bottom:16px }
+.footer ul{ list-style:none; display:flex; flex-direction:column; gap:10px }
+.footer a{ color:var(--paper-dim); font-size:14px; transition:color .3s }
+.footer a:hover{ color:var(--sand) }
+.footer-brand{ font-family:var(--f-display); font-size:27px }
+.footer-brand em{ color:var(--sand); font-style:normal }
+.footer-note{ margin-top:14px; color:var(--muted); font-size:13.5px; max-width:40ch }
+.footer-bottom{
+  max-width:1240px; margin:44px auto 0; padding-top:22px; border-top:1px solid var(--line-soft);
+  display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  font-size:12.5px; color:var(--muted);
+}
+
+/* ── Reveal ── */
+.rv{ opacity:0; transform:translateY(20px); transition:opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1) }
+.rv.in{ opacity:1; transform:none }
+.rv[data-d="1"]{ transition-delay:.08s } .rv[data-d="2"]{ transition-delay:.16s }
+.rv[data-d="3"]{ transition-delay:.24s } .rv[data-d="4"]{ transition-delay:.32s }
+@media (prefers-reduced-motion: reduce){ .rv{ opacity:1; transform:none; transition:none } }
+
+/* ── WhatsApp ── */
+.wa{
+  position:fixed; right:22px; bottom:22px; z-index:900;
+  width:52px; height:52px; border-radius:50%; background:#25D366; color:#fff;
+  display:grid; place-items:center; font-size:23px;
+  box-shadow:0 10px 30px -8px rgba(37,211,102,.6); transition:transform .3s;
+}
+.wa:hover{ transform:scale(1.08) }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to main content</a>
+
+<div class="preview-bar">
+  <span class="pb-badge">Flagship demo</span>
+  <span class="pb-tagline">Built by <a href="../index.html">Netloom</a></span>
+  <span class="pb-spacer"></span>
+  <a class="pb-cta" href="../index.html#contact"><i class="fa-solid fa-bolt" style="font-size:9px"></i> Get mine</a>
+</div>
+
+<!-- ══════════ NAV ══════════ -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#top" class="nav-logo" id="navLogo">Anvaya<em>.</em></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#residences">Residences</a></li>
+      <li><a href="#location">Location</a></li>
+      <li><a href="#build">The Build</a></li>
+      <li><a href="#enquire">Enquire</a></li>
+      <li><a href="#enquire" class="nav-cta">Book a site visit</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<main id="main">
+
+<!-- ══════════ HERO ══════════ -->
+<header class="hero" id="top">
+  <div class="hero-copy">
+    <div class="eyebrow rv">Rajarhat · New Town, Kolkata</div>
+    <h1 class="rv" data-d="1">Pick your floor<br>before the <em>lift</em><br>is even built.</h1>
+    <p class="hero-sub rv" data-d="2">
+      Fourteen storeys, three layouts, ninety-six homes. Turn the tower, choose a
+      floor, and walk the plan of the exact flat you would be buying — at
+      midnight, from your sofa, without a broker in the room.
+    </p>
+    <div class="hero-ctas rv" data-d="3">
+      <a href="#residences" class="btn btn-primary">Explore the residences</a>
+      <a href="#enquire" class="btn btn-ghost">Book a site visit</a>
+    </div>
+    <div class="hero-meta rv" data-d="3">
+      <span>RERA registered</span><span class="dot"></span>
+      <span>Possession Dec 2027</span><span class="dot"></span>
+      <span>96 homes</span>
+    </div>
+  </div>
+
+  <div class="hero-stage" id="heroStage">
+    <div class="hero-glow"></div>
+    <!-- Stands on its own for reduced-motion, no-WebGL and save-data visitors -->
+    <div class="tower-fallback" id="towerFallback">
+      <svg viewBox="0 0 360 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Line drawing of the Anvaya tower">
+        <defs>
+          <linearGradient id="fg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#C8A87E" stop-opacity=".85"/>
+            <stop offset="100%" stop-color="#8FB4C9" stop-opacity=".35"/>
+          </linearGradient>
+        </defs>
+        <g fill="none" stroke="url(#fg)" stroke-width="1.6" stroke-linejoin="round">
+          <path d="M92 384 V150 L180 96 L268 150 V384"/>
+          <path d="M108 384 V162 L180 118 L252 162 V384"/>
+          <path d="M92 384 H268"/>
+          <path d="M70 384 H290"/>
+        </g>
+        <g stroke="#C8A87E" stroke-opacity=".30" stroke-width="1">
+          <path d="M108 200 H252 M108 224 H252 M108 248 H252 M108 272 H252 M108 296 H252 M108 320 H252 M108 344 H252 M108 176 H252"/>
+          <path d="M144 162 V384 M180 118 V384 M216 162 V384"/>
+        </g>
+        <rect x="108" y="248" width="144" height="24" fill="#C8A87E" fill-opacity=".22"/>
+        <g fill="#8FB4C9" fill-opacity=".16">
+          <rect x="112" y="204" width="28" height="16"/><rect x="148" y="228" width="28" height="16"/>
+          <rect x="184" y="204" width="28" height="16"/><rect x="220" y="276" width="28" height="16"/>
+          <rect x="112" y="300" width="28" height="16"/><rect x="184" y="324" width="28" height="16"/>
+        </g>
+        <path d="M180 96 V70" stroke="#C8A87E" stroke-opacity=".5" stroke-width="1.4"/>
+        <circle cx="180" cy="64" r="4" fill="#C8A87E" fill-opacity=".7"/>
+      </svg>
+    </div>
+    <canvas id="towerCanvas" aria-label="Interactive 3D model of the tower. Drag to rotate." role="img" hidden></canvas>
+    <div class="stage-hint" id="towerHint"><i class="fa-solid fa-arrows-left-right"></i> Drag to orbit the tower</div>
+  </div>
+</header>
+
+<!-- ══════════ STRIP ══════════ -->
+<div class="strip" aria-hidden="true">
+  <div class="strip-track">
+    <span class="strip-item"><i class="fa-solid fa-ruler-combined"></i> 1,180 – 2,450 sq ft</span>
+    <span class="strip-item"><i class="fa-solid fa-elevator"></i> Three lifts per core</span>
+    <span class="strip-item"><i class="fa-solid fa-car"></i> Covered parking</span>
+    <span class="strip-item"><i class="fa-solid fa-tree"></i> 0.6 acre podium garden</span>
+    <span class="strip-item"><i class="fa-solid fa-bolt"></i> 100% power backup</span>
+    <span class="strip-item"><i class="fa-solid fa-shield-halved"></i> RERA registered</span>
+    <span class="strip-item"><i class="fa-solid fa-ruler-combined"></i> 1,180 – 2,450 sq ft</span>
+    <span class="strip-item"><i class="fa-solid fa-elevator"></i> Three lifts per core</span>
+    <span class="strip-item"><i class="fa-solid fa-car"></i> Covered parking</span>
+    <span class="strip-item"><i class="fa-solid fa-tree"></i> 0.6 acre podium garden</span>
+    <span class="strip-item"><i class="fa-solid fa-bolt"></i> 100% power backup</span>
+    <span class="strip-item"><i class="fa-solid fa-shield-halved"></i> RERA registered</span>
+  </div>
+</div>
+
+<!-- ══════════ RESIDENCES ══════════ -->
+<section class="section" id="residences">
+  <div class="section-head rv">
+    <div class="eyebrow">The residences</div>
+    <h2>Three layouts. <em>Walk each one.</em></h2>
+    <p>
+      This is the actual plan, not a brochure render — the same wall positions the
+      contractor is working from. Pick a layout, then pick a floor.
+    </p>
+  </div>
+
+  <div class="explorer">
+    <div>
+      <div class="unit-list rv" id="unitList" role="tablist" aria-label="Choose a residence layout"></div>
+
+      <div class="floors rv" data-d="1">
+        <div class="floors-head">
+          <span>Choose a floor</span>
+          <strong id="floorLabel">Floor 7</strong>
+        </div>
+        <div class="floor-track" id="floorTrack"></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="plan-stage rv" data-d="1" id="planStage">
+        <div class="plan-badge" id="planBadge">2 BHK · 1,180 sq ft</div>
+        <!-- Same contract as the hero: this is what a gated visitor keeps -->
+        <div class="plan-fallback" id="planFallback">
+          <svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Floor plan drawing">
+            <g id="planSvg" fill="none" stroke="#C8A87E" stroke-opacity=".55" stroke-width="2"></g>
+          </svg>
+        </div>
+        <canvas id="planCanvas" aria-label="Interactive 3D floor plan. Drag to rotate." role="img" hidden></canvas>
+        <div class="plan-legend">
+          <span><i style="background:#C8A87E"></i> Living</span>
+          <span><i style="background:#8FB4C9"></i> Bedroom</span>
+          <span><i style="background:#7C8595"></i> Kitchen &amp; utility</span>
+        </div>
+      </div>
+
+      <div class="spec-row rv" data-d="2">
+        <div class="spec"><div class="spec-k">Carpet area</div><div class="spec-v" id="sArea">1,180</div></div>
+        <div class="spec"><div class="spec-k">Bedrooms</div><div class="spec-v" id="sBeds">2</div></div>
+        <div class="spec"><div class="spec-k">Bathrooms</div><div class="spec-v" id="sBaths">2</div></div>
+        <div class="spec"><div class="spec-k">Facing</div><div class="spec-v" id="sFace">East</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ LOCATION ══════════ -->
+<section class="section" id="location" style="padding-top:0">
+  <div class="split">
+    <div class="rv">
+      <div class="eyebrow">Location</div>
+      <h3 style="margin-top:14px">Rajarhat, and the <em>ten minutes</em> that matter.</h3>
+      <p>
+        The sales pitch for New Town is usually a list of distances to places you
+        will never go. These are the ones a family actually uses on a Tuesday.
+      </p>
+      <ul class="tick">
+        <li><i class="fa-solid fa-check"></i> DPS Newtown — 6 minutes</li>
+        <li><i class="fa-solid fa-check"></i> Tata Medical Centre — 9 minutes</li>
+        <li><i class="fa-solid fa-check"></i> City Centre 2 — 8 minutes</li>
+        <li><i class="fa-solid fa-check"></i> Sector V offices — 14 minutes</li>
+        <li><i class="fa-solid fa-check"></i> NSCBI Airport — 22 minutes</li>
+      </ul>
+    </div>
+    <div class="figure rv" data-d="1">
+      <img src="../assets/photos/md/realestate-02.webp" alt="The tower exterior from the approach road" loading="lazy" decoding="async">
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ BUILD ══════════ -->
+<section class="section" id="build" style="padding-top:0">
+  <div class="split">
+    <div class="figure rv" style="order:2">
+      <img src="../assets/photos/md/realestate-21.webp" alt="A finished living room in the show flat" loading="lazy" decoding="async">
+    </div>
+    <div class="rv" data-d="1" style="order:1">
+      <div class="eyebrow">The build</div>
+      <h3 style="margin-top:14px">What is actually <em>behind</em> the wall.</h3>
+      <p>
+        Specification is where a brochure usually goes vague. Ours does not,
+        because the people who ask these questions are the people who buy.
+      </p>
+      <ul class="tick">
+        <li><i class="fa-solid fa-check"></i> RCC frame, seismic Zone III compliant</li>
+        <li><i class="fa-solid fa-check"></i> AAC block walls — cooler, lighter, quieter</li>
+        <li><i class="fa-solid fa-check"></i> Vitrified flooring, anti-skid in wet areas</li>
+        <li><i class="fa-solid fa-check"></i> Modular switches, concealed copper wiring</li>
+        <li><i class="fa-solid fa-check"></i> Two-stage water treatment, underground reservoir</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ TRUST ══════════ -->
+<div class="trust">
+  <div><div class="n">14</div><div class="l">Storeys</div></div>
+  <div><div class="n">96</div><div class="l">Homes</div></div>
+  <div><div class="n">0.6</div><div class="l">Acre podium garden</div></div>
+  <div><div class="n">2027</div><div class="l">Possession</div></div>
+</div>
+
+<!-- ══════════ ENQUIRE ══════════ -->
+<section class="section" id="enquire">
+  <div class="enquire">
+    <div class="rv">
+      <div class="eyebrow">Book a site visit</div>
+      <h2 style="font-size:clamp(30px,4vw,46px); letter-spacing:-.02em; margin-top:16px">
+        Come and stand <em>in it</em>.
+      </h2>
+      <p style="margin-top:18px; color:var(--paper-dim)">
+        The show flat is open Tuesday to Sunday. Tell us which layout you are
+        looking at and we will have that floor's drawings ready when you arrive.
+      </p>
+      <div class="hero-meta" style="margin-top:32px">
+        <span>Rajarhat Main Arterial Road</span><span class="dot"></span>
+        <span>New Town, Kolkata 700156</span>
+      </div>
+    </div>
+
+    <form class="rv" data-d="1" id="visitForm" novalidate>
+      <div class="field">
+        <label for="vName">Your name</label>
+        <input id="vName" name="name" type="text" autocomplete="name" required>
+      </div>
+      <div class="field">
+        <label for="vPhone">Phone</label>
+        <input id="vPhone" name="phone" type="tel" autocomplete="tel" required>
+      </div>
+      <div class="field">
+        <label for="vUnit">Layout of interest</label>
+        <select id="vUnit" name="unit">
+          <option>2 BHK · 1,180 sq ft</option>
+          <option>3 BHK · 1,640 sq ft</option>
+          <option>4 BHK Penthouse · 2,450 sq ft</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="vNote">Anything we should know</label>
+        <textarea id="vNote" name="note" rows="3"></textarea>
+      </div>
+      <button class="btn btn-primary" type="submit">Request a visit</button>
+      <div class="form-note">Demo form — nothing is sent and nothing is stored.</div>
+      <div class="form-ok" id="formOk">Thank you. On the live site this would reach the sales desk instantly.</div>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Anvaya<em>.</em></div>
+      <p class="footer-note">
+        Ninety-six homes on the Rajarhat arterial. A demonstration property built by
+        Netloom to show what a developer's site can be.
+      </p>
+    </div>
+    <div>
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="#residences">Residences</a></li>
+        <li><a href="#location">Location</a></li>
+        <li><a href="#build">The build</a></li>
+        <li><a href="#enquire">Book a visit</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Built by</h4>
+      <ul>
+        <li><a href="../index.html">Netloom</a></li>
+        <li><a href="../jewellery-lux/index.html">Jewellery flagship</a></li>
+        <li><a href="../realestate/index.html">Standard property template</a></li>
+        <li><a href="../index.html#contact">Get one like this</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>Fictional development. Built by Netloom as a demonstration.</span>
+    <span>Kolkata, India</span>
+  </div>
+</footer>
+
+<a class="wa" href="https://wa.me/918249992869?text=Hi%20Netloom%20%E2%80%94%20I%20saw%20the%20Anvaya%20property%20flagship" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<script src="../flagship/3d-core.js"></script>
+<script>
+/* ============================================================================
+   ANVAYA — page behaviour
+   The 3D gate, renderer, drag controller and auto-framing all come from
+   flagship/3d-core.js. What lives here is the architecture: the tower massing,
+   the floor-plan extrusion, and the wiring between the two.
+   ============================================================================ */
+(function(){
+  'use strict';
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── Nav ── */
+  var nav = document.getElementById('nav');
+  function onScroll(){ nav.classList.toggle('scrolled', window.scrollY > 30); }
+  window.addEventListener('scroll', onScroll, { passive:true });
+  onScroll();
+
+  var toggle = document.getElementById('navToggle');
+  var links  = document.getElementById('navLinks');
+  toggle.addEventListener('click', function(){
+    var open = !links.classList.contains('open');
+    links.classList.toggle('open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+  });
+  links.addEventListener('click', function(e){
+    if (e.target.tagName === 'A') { links.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); }
+  });
+
+  /* ── Reveal ── */
+  var rv = document.querySelectorAll('.rv');
+  if (reduced || !('IntersectionObserver' in window)) {
+    rv.forEach(function(el){ el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, { threshold:.12, rootMargin:'0px 0px -40px 0px' });
+    rv.forEach(function(el){ io.observe(el); });
+  }
+
+  /* ── Demo form ── */
+  var vf = document.getElementById('visitForm');
+  vf.addEventListener('submit', function(e){
+    e.preventDefault();
+    document.getElementById('formOk').classList.add('show');
+    vf.reset();
+  });
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     THE RESIDENCES
+     Rooms are rectangles on a metre grid. Walls are DERIVED from those
+     rectangles rather than listed separately: every room contributes its four
+     edges, and an edge that shows up twice is a shared partition between two
+     rooms. That keeps the data to one shape per room and makes it impossible
+     for the walls and the floors to disagree with each other.
+     ══════════════════════════════════════════════════════════════════════════ */
+  var LIVING = 0, BED = 1, WET = 2;
+
+  var UNITS = [
+    {
+      code:'2B', name:'2 BHK', sub:'Tower A · east face', price:'₹1.42 Cr',
+      area:'1,180', beds:'2', baths:'2', face:'East',
+      w:12, d:9,
+      rooms:[
+        { x:0, z:0, w:6, d:5, k:LIVING, label:'Living / dining',
+          f:[[0.8,0.7,3.2,1.1,0.42],[4.2,1.0,1.2,2.2,0.40]] },
+        { x:6, z:0, w:3, d:3, k:WET,    label:'Kitchen', f:[[0.3,0.3,2.4,0.6,0.9]] },
+        { x:9, z:0, w:3, d:3, k:WET,    label:'Bath' },
+        { x:6, z:3, w:6, d:2, k:LIVING, label:'Passage' },
+        { x:0, z:5, w:6, d:4, k:BED,    label:'Bedroom 1', f:[[1.4,1.0,3.0,2.1,0.46]] },
+        { x:6, z:5, w:6, d:4, k:BED,    label:'Bedroom 2', f:[[1.6,1.1,2.8,2.0,0.46]] }
+      ]
+    },
+    {
+      code:'3B', name:'3 BHK', sub:'Tower A · corner, dual aspect', price:'₹2.05 Cr',
+      area:'1,640', beds:'3', baths:'3', face:'North-east',
+      w:14, d:10,
+      rooms:[
+        { x:0,  z:0, w:7, d:6, k:LIVING, label:'Living',
+          f:[[1.0,0.8,3.6,1.2,0.42],[5.0,1.4,1.3,2.4,0.40]] },
+        { x:7,  z:0, w:4, d:3, k:WET,    label:'Kitchen', f:[[0.3,0.3,3.4,0.6,0.9]] },
+        { x:11, z:0, w:3, d:3, k:WET,    label:'Utility' },
+        { x:7,  z:3, w:7, d:3, k:LIVING, label:'Dining', f:[[2.2,0.7,2.6,1.5,0.42]] },
+        { x:0,  z:6, w:5, d:4, k:BED,    label:'Bedroom 1', f:[[1.0,1.0,2.8,2.0,0.46]] },
+        { x:5,  z:6, w:5, d:4, k:BED,    label:'Bedroom 2', f:[[1.1,1.1,2.6,1.9,0.46]] },
+        { x:10, z:6, w:4, d:4, k:BED,    label:'Bedroom 3', f:[[0.8,1.0,2.3,1.9,0.46]] }
+      ]
+    },
+    {
+      code:'4P', name:'4 BHK Penthouse', sub:'13th & 14th · private terrace', price:'₹3.90 Cr',
+      area:'2,450', beds:'4', baths:'4', face:'South-east',
+      w:16, d:11,
+      rooms:[
+        { x:0,  z:0, w:9, d:7, k:LIVING, label:'Great room',
+          f:[[1.2,1.0,4.6,1.4,0.42],[6.4,1.8,1.5,2.8,0.40],[2.0,4.6,3.0,1.2,0.40]] },
+        { x:9,  z:0, w:4, d:4, k:WET,    label:'Kitchen', f:[[0.3,0.4,3.4,0.7,0.9]] },
+        { x:13, z:0, w:3, d:4, k:WET,    label:'Pantry' },
+        { x:9,  z:4, w:7, d:3, k:LIVING, label:'Study', f:[[1.8,0.8,3.0,1.4,0.44]] },
+        { x:0,  z:7, w:6, d:4, k:BED,    label:'Master', f:[[1.4,1.0,3.4,2.2,0.48]] },
+        { x:6,  z:7, w:5, d:4, k:BED,    label:'Bedroom 2', f:[[1.1,1.1,2.7,1.9,0.46]] },
+        { x:11, z:7, w:5, d:4, k:BED,    label:'Bedroom 3', f:[[1.1,1.1,2.7,1.9,0.46]] }
+      ]
+    }
+  ];
+
+  var FLOORS = 14;
+  /* A real project never has every flat free. Marking some sold is what makes
+     a picker feel like inventory rather than decoration. */
+  var SOLD = { 2:1, 3:1, 6:1, 9:1, 11:1 };
+  var currentUnit = 0, currentFloor = 7;
+
+  /* ── Unit list ── */
+  var unitList = document.getElementById('unitList');
+  UNITS.forEach(function(u, i){
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'unit' + (i === 0 ? ' active' : '');
+    b.setAttribute('role','tab');
+    b.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+    b.innerHTML =
+      '<span class="unit-mark">' + u.code + '</span>' +
+      '<span><span class="unit-name">' + u.name + '</span>' +
+      '<span class="unit-sub">' + u.sub + ' · ' + u.area + ' sq ft</span></span>' +
+      '<span class="unit-price">' + u.price + '</span>';
+    b.addEventListener('click', function(){ selectUnit(i); });
+    unitList.appendChild(b);
+  });
+
+  /* ── Floor pips ── */
+  var floorTrack = document.getElementById('floorTrack');
+  for (var f = 1; f <= FLOORS; f++){
+    (function(n){
+      var p = document.createElement('button');
+      p.type = 'button';
+      p.className = 'floor-pip' + (n === currentFloor ? ' on' : '') + (SOLD[n] ? ' sold' : '');
+      p.textContent = n;
+      p.setAttribute('aria-label', 'Floor ' + n + (SOLD[n] ? ' — sold' : ''));
+      if (SOLD[n]) p.disabled = true;
+      else p.addEventListener('click', function(){ selectFloor(n); });
+      floorTrack.appendChild(p);
+    })(f);
+  }
+
+  function selectFloor(n){
+    currentFloor = n;
+    document.getElementById('floorLabel').textContent = 'Floor ' + n;
+    [].forEach.call(floorTrack.children, function(el, i){ el.classList.toggle('on', i + 1 === n); });
+    if (window.__anvayaHighlight) window.__anvayaHighlight(n);
+  }
+
+  function selectUnit(i){
+    currentUnit = i;
+    var u = UNITS[i];
+    [].forEach.call(unitList.children, function(el, n){
+      el.classList.toggle('active', n === i);
+      el.setAttribute('aria-selected', n === i ? 'true' : 'false');
+    });
+    document.getElementById('planBadge').textContent = u.name + ' · ' + u.area + ' sq ft';
+    document.getElementById('sArea').textContent  = u.area;
+    document.getElementById('sBeds').textContent  = u.beds;
+    document.getElementById('sBaths').textContent = u.baths;
+    document.getElementById('sFace').textContent  = u.face;
+    drawPlanSvg(u);
+    if (window.__anvayaShowPlan) window.__anvayaShowPlan(i);
+  }
+
+  /* The SVG plan is not a placeholder — it is what a gated visitor keeps, and
+     it is drawn from the same room rectangles the 3D uses, so the two can
+     never disagree. */
+  function drawPlanSvg(u){
+    var g = document.getElementById('planSvg');
+    if (!g) return;
+    var pad = 26, W = 480 - pad * 2, H = 360 - pad * 2;
+    var s = Math.min(W / u.w, H / u.d);
+    var ox = pad + (W - u.w * s) / 2, oy = pad + (H - u.d * s) / 2;
+    var out = '';
+    u.rooms.forEach(function(r){
+      out += '<rect x="' + (ox + r.x * s).toFixed(1) + '" y="' + (oy + r.z * s).toFixed(1) +
+             '" width="' + (r.w * s).toFixed(1) + '" height="' + (r.d * s).toFixed(1) + '"/>';
+    });
+    out += '<rect x="' + ox.toFixed(1) + '" y="' + oy.toFixed(1) + '" width="' + (u.w * s).toFixed(1) +
+           '" height="' + (u.d * s).toFixed(1) + '" stroke-width="3"/>';
+    g.innerHTML = out;
+  }
+  drawPlanSvg(UNITS[0]);
+
+  /* ── ?biz= personalisation, same contract as every other demo ── */
+  (function(){
+    var biz = '', embed = false;
+    try {
+      var qs = new URLSearchParams(location.search);
+      biz = (qs.get('biz') || '').trim().slice(0, 40);
+      embed = qs.get('embed') === '1';
+    } catch (e) { return; }
+    if (embed){
+      document.documentElement.classList.add('is-embedded');
+      document.documentElement.style.setProperty('--preview-h', '0px');
+      var pb = document.querySelector('.preview-bar');
+      if (pb) pb.remove();
+    }
+    if (!biz) return;
+    // Text only, never innerHTML — a crafted ?biz= cannot inject markup.
+    ['navLogo'].forEach(function(id){
+      var el = document.getElementById(id);
+      if (!el) return;
+      var em = el.querySelector('em');
+      el.textContent = biz;
+      if (em) el.appendChild(em);
+    });
+    document.title = biz + ' — property preview by Netloom';
+    var tag = document.querySelector('.pb-tagline');
+    if (tag && tag.parentNode){
+      var pill = document.createElement('span');
+      pill.className = 'pb-biz';
+      pill.textContent = 'Previewing as ' + biz;
+      tag.parentNode.insertBefore(pill, tag.nextSibling);
+    }
+  })();
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     3D — the gate, the renderer and the framing come from the shared core.
+     ══════════════════════════════════════════════════════════════════════════ */
+  window.Netloom3D.boot(boot);
+
+  function boot(T, N3){
+
+    /* Architecture wants a sky, not a jewellery studio: a bright band across
+       the top for the sky, a hard horizon, and a dark ground. Same painted
+       equirect machinery, different palette. */
+    var SKY_ENV = {
+      base: [[0.00, '#dfe9f2'], [0.42, '#9fb6c8'], [0.52, '#2a3340'], [1.00, '#0a0d12']],
+      bands: [[40, 34, '#f4f8fb'], [96, 12, '#cfe0ec'], [190, 6, '#7d93a6']],
+      flares: [[300, 70, 96], [780, 120, 64]],
+      bounce: ['rgba(120,140,160,0)', 'rgba(90,104,120,.45)']
+    };
+    /* A fifth of the jewellery flagship's values, and deliberately so. Those
+       numbers were tuned against a near-black env map; this page uses a bright
+       sky, and scene.environment lights everything through it before a single
+       discrete light is added. Left at the original values, ACES tone mapping
+       clipped every surface to white. */
+    var LIGHTS = { ambient: 0.16, key: 1.05, keyColor: 0xfff4e6, rim: 0.42, rimColor: 0x8FB4C9, fill: 0.26 };
+
+    function concrete(env, tone){
+      return new T.MeshStandardMaterial({
+        color: tone || 0x9aa0a9, metalness: 0.04, roughness: 0.88,
+        envMap: env, envMapIntensity: 0.38
+      });
+    }
+    /* Glass without transmission, for the reason recorded in 3d-core: there is
+       nothing behind these panes to refract, so real transmission would render
+       them black. A low-roughness metal with partial opacity reads correctly. */
+    function glass(env){
+      return new T.MeshStandardMaterial({
+        color: 0x22384a, metalness: 0.82, roughness: 0.14,
+        envMap: env, envMapIntensity: 1.25,
+        transparent: true, opacity: 0.92
+      });
+    }
+    /* A handful of lit flats. Nothing makes a massing model read as a building
+       occupied by people faster than a few windows being on. */
+    function litWindow(){
+      return new T.MeshStandardMaterial({
+        color: 0x2a2418, emissive: 0xffd9a0, emissiveIntensity: 1.15,
+        metalness: 0, roughness: 0.6
+      });
+    }
+
+    /* ── Tower massing ────────────────────────────────────────────────────── */
+    var tower = N3.makeStage(
+      document.getElementById('towerCanvas'),
+      document.getElementById('towerFallback'),
+      { dist: 15, fov: 34, envOpts: SKY_ENV, lights: LIGHTS, exposure: 0.82,
+        idleSpin: 0.00028, tiltLimit: 0.55 }
+    );
+
+    var floorSlabs = [];
+    (function buildTower(){
+      var g = tower.group, env = tower.env;
+      var conc = concrete(env), gl = glass(env);
+      var trim = N3.metalMaterial(env, { color: 0xC8A87E, roughness: 0.34, envMapIntensity: 1.5 });
+
+      /* Storey pitch, and the slab thickness inside it. The glazing fills
+         PITCH - SLAB exactly, so consecutive floors touch and the tower reads
+         as one mass banded by floor lines. Leaving a gap — which the first
+         version did — makes it a stack of separated shelves. */
+      var PITCH = 0.62, SLAB = 0.10;
+
+      // Podium: two wide storeys the tower sits on. Its top is where the
+      // tower starts, rather than floating above it.
+      var pod = new T.Mesh(new T.BoxGeometry(7.4, 1.5, 5.6), concrete(env, 0x7d838c));
+      pod.position.y = -0.1;
+      g.add(pod);
+      var podTop = new T.Mesh(new T.BoxGeometry(7.9, 0.14, 6.1), trim);
+      podTop.position.y = 0.72;
+      g.add(podTop);
+      var BASE = 0.86;
+
+      var lit = litWindow();
+      for (var i = 0; i < FLOORS; i++){
+        var set = i >= 10 ? (i - 9) * 0.26 : 0;
+        var w = 4.6 - set, d = 3.4 - set * 0.7;
+        var y = BASE + i * PITCH;
+
+        var slab = new T.Mesh(new T.BoxGeometry(w + 0.28, SLAB, d + 0.28), conc);
+        slab.position.y = y;
+        slab.userData.floor = i + 1;
+        g.add(slab);
+        floorSlabs.push(slab);
+
+        // Glazing fills the storey between this slab and the next.
+        var vol = new T.Mesh(new T.BoxGeometry(w, PITCH - SLAB, d), gl);
+        vol.position.y = y + PITCH / 2;
+        g.add(vol);
+
+        /* A deterministic scatter of lit flats — same every load, so the
+           model does not flicker between reloads, but irregular enough that
+           it does not read as a pattern. */
+        for (var k = 0; k < 3; k++){
+          if (((i * 7 + k * 13) % 5) > 2) continue;
+          var lw = new T.Mesh(new T.BoxGeometry(0.5, PITCH - SLAB - 0.16, 0.02), lit);
+          lw.position.set(-w / 2 + 0.55 + k * (w - 1.1) / 2, y + PITCH / 2, d / 2 + 0.012);
+          g.add(lw);
+        }
+
+        // Balcony on the east face, so the mass is not a plain extrusion.
+        var bal = new T.Mesh(new T.BoxGeometry(1.5, 0.07, 0.72), trim);
+        bal.position.set(w / 2 - 0.5, y + 0.06, d / 2 + 0.35);
+        g.add(bal);
+      }
+
+      var TOP = BASE + (FLOORS - 1) * PITCH + PITCH;
+
+      // Service core, run past the roof line as a lift overrun.
+      var coreH = TOP - BASE + 1.1;
+      var core = new T.Mesh(new T.BoxGeometry(1.55, coreH, 1.55), concrete(env, 0x6f757e));
+      core.position.set(-1.35, BASE + coreH / 2 - 0.2, -0.85);
+      g.add(core);
+
+      var crown = new T.Mesh(new T.BoxGeometry(3.4, 0.12, 2.4), trim);
+      crown.position.y = TOP + 0.06;
+      g.add(crown);
+
+      g.rotation.set(0.14, -0.62, 0);
+      N3.frame(tower, g, 1.16);
+      tower.__refit = function(){ N3.frame(tower, g, 1.16); };
+    })();
+
+    /* Highlight the chosen floor by swapping that slab's material. Cheap, and
+       it survives the group being re-framed. */
+    var hotSlab = null;
+    var hotMat = new T.MeshStandardMaterial({
+      color: 0xC8A87E, metalness: 0.35, roughness: 0.32,
+      envMap: tower.env, envMapIntensity: 1.1,
+      emissive: 0xC8A87E, emissiveIntensity: 0.85
+    });
+    var coldMat = floorSlabs.length ? floorSlabs[0].material : null;
+
+    window.__anvayaHighlight = function(n){
+      if (hotSlab) hotSlab.material = coldMat;
+      hotSlab = floorSlabs[n - 1] || null;
+      if (hotSlab) hotSlab.material = hotMat;
+    };
+    window.__anvayaHighlight(currentFloor);
+
+    /* ── Floor plan ───────────────────────────────────────────────────────── */
+    var plan = N3.makeStage(
+      document.getElementById('planCanvas'),
+      document.getElementById('planFallback'),
+      { dist: 20, fov: 32, env: tower.env, lights: LIGHTS, exposure: 0.9,
+        idleSpin: 0.00016, tiltLimit: 1.25 }
+    );
+
+    /* Saturated well past what looks right in a swatch, because the env map
+       and tone mapping both wash them out. The first set came out white. */
+    var TONES = [0xB07A42, 0x4E7A9B, 0x4A525E];
+
+    function buildPlan(u){
+      var g = plan.group, env = plan.env;
+      N3.clearGroup(g);
+
+      var wallMat = concrete(env, 0xb9bfc8);
+      var partMat = concrete(env, 0x8d939c);
+      var furnMat = concrete(env, 0x59606b);
+      var cx = u.w / 2, cz = u.d / 2;
+
+      // Floor plates, one per room, tinted by what the room is for.
+      u.rooms.forEach(function(r){
+        var m = new T.Mesh(
+          new T.BoxGeometry(r.w - 0.06, 0.08, r.d - 0.06),
+          new T.MeshStandardMaterial({
+            color: TONES[r.k], metalness: 0.0, roughness: 0.95,
+            envMap: env, envMapIntensity: 0.22
+          })
+        );
+        m.position.set(r.x + r.w / 2 - cx, 0, r.z + r.d / 2 - cz);
+        g.add(m);
+
+        (r.f || []).forEach(function(b){
+          var fm = new T.Mesh(new T.BoxGeometry(b[2], b[4], b[3]), furnMat);
+          fm.position.set(r.x + b[0] + b[2] / 2 - cx, 0.04 + b[4] / 2, r.z + b[1] + b[3] / 2 - cz);
+          g.add(fm);
+        });
+      });
+
+      /* Derive the walls. Each room contributes four edges; an edge that turns
+         up twice is shared between two rooms, so it is an interior partition
+         and gets built lower. Anything appearing once is on the boundary and
+         gets full height. Deriving rather than listing is what stops the walls
+         and the floor plates drifting apart when a layout is edited. */
+      var edges = {};
+      u.rooms.forEach(function(r){
+        var x0 = r.x, z0 = r.z, x1 = r.x + r.w, z1 = r.z + r.d;
+        [[x0,z0,x1,z0],[x1,z0,x1,z1],[x0,z1,x1,z1],[x0,z0,x0,z1]].forEach(function(s){
+          var ax = Math.min(s[0], s[2]), az = Math.min(s[1], s[3]);
+          var bx = Math.max(s[0], s[2]), bz = Math.max(s[1], s[3]);
+          var key = [ax, az, bx, bz].map(function(n){ return n.toFixed(2); }).join('|');
+          edges[key] = (edges[key] || 0) + 1;
+        });
+      });
+
+      Object.keys(edges).forEach(function(key){
+        var p = key.split('|').map(Number);
+        var shared = edges[key] > 1;
+        /* Dollhouse proportions: the outer shell full height, partitions low
+           enough to see over from a raised camera. The first pass used 1.55
+           against a 12-metre footprint, a ratio of 0.13, which is why it read
+           as a shallow tray rather than a set of rooms. */
+        var shared_h = shared ? 1.55 : 2.35;
+        var h = shared_h;
+        var t = shared ? 0.11 : 0.17;
+        var len, geo;
+        if (Math.abs(p[3] - p[1]) < 0.001){        // runs along X
+          len = p[2] - p[0];
+          geo = new T.BoxGeometry(len, h, t);
+        } else {                                    // runs along Z
+          len = p[3] - p[1];
+          geo = new T.BoxGeometry(t, h, len);
+        }
+        var m = new T.Mesh(geo, shared ? partMat : wallMat);
+        m.position.set((p[0] + p[2]) / 2 - cx, 0.04 + h / 2, (p[1] + p[3]) / 2 - cz);
+        g.add(m);
+      });
+
+      // Tipped forward so it reads as a dollhouse plan rather than an elevation.
+      g.rotation.set(0.92, -0.42, 0);
+      N3.frame(plan, g, 1.24);
+      plan.__refit = function(){ N3.frame(plan, g, 1.24); };
+    }
+
+    window.__anvayaShowPlan = function(i){ buildPlan(UNITS[i]); };
+    window.__anvayaShowPlan(currentUnit);
+
+    var hint = document.getElementById('towerHint');
+    if (hint) setTimeout(function(){ hint.classList.add('show'); }, 1200);
+  }
+})();
+</script>
+</body>
+</html>

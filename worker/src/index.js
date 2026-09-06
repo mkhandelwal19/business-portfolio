@@ -27,6 +27,8 @@ import {
   enquiryHtml, enquiryText, ackHtml, ackText
 } from './templates.js';
 
+import { handleOrder, handleVerify, handleWebhook } from './commerce.js';
+
 /* ── minimal SMTP client ─────────────────────────────────────────────────── */
 
 class Smtp {
@@ -170,16 +172,32 @@ export default {
     const allowed = (env.ALLOWED_ORIGINS || '').split(',').map(s => s.trim());
     const origin = request.headers.get('Origin') || '';
     const head = cors(origin, allowed);
+    const path = new URL(request.url).pathname;
 
     if (request.method === 'OPTIONS') {
       return new Response(null, { status: 204, headers: head });
     }
+
+    /* Razorpay's webhook is server-to-server: it carries no Origin header and
+       would be rejected by the browser-origin check below. It authenticates by
+       HMAC over the raw body instead, which is strictly stronger than an
+       Origin header a caller controls anyway. So it is routed first. */
+    if (path === '/commerce/webhook') {
+      if (request.method !== 'POST') return json({ error: 'method not allowed' }, 405, head);
+      return handleWebhook(request, env);
+    }
+
     if (request.method !== 'POST') {
       return json({ error: 'method not allowed' }, 405, head);
     }
     if (!allowed.includes(origin)) {
       return json({ error: 'forbidden' }, 403, head);
     }
+
+    /* Storefront routes. Everything else falls through to the enquiry form,
+       which is what this Worker did before commerce existed. */
+    if (path === '/commerce/order')  return handleOrder(request, env, head);
+    if (path === '/commerce/verify') return handleVerify(request, env, head);
 
     let f;
     try {

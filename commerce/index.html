@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Demo store: fictional business. Must not be indexed as a real entity. -->
+<meta name="robots" content="noindex, nofollow">
+<title>Kaarigar — Bengal handicraft, from the maker</title>
+<meta name="description" content="Kaarigar — a working demonstration store by Netloom. Real cart, real search, real checkout flow.">
+<meta name="theme-color" content="#FBF8F3">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=DM+Sans:opsz,wght@9..40,300..700&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="store.css">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23B4552F'/><path d='M28 72 V34 h10 v14 l16-14 h14 L64 52 l18 20 H68 L54 56 l-16 16 z' fill='%23FBF8F3'/></svg>">
+</head>
+<body data-page="index.html">
+<div id="chrome-top"></div>
+
+<main id="main">
+
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="mono">Kolkata · ships across India</div>
+        <h1>Bought from the <em>maker</em>. Sent from Kolkata.</h1>
+        <p>
+          Fourteen crafts, six districts, no middle warehouse. Everything here was
+          made by someone we buy from directly, and the tag tells you who and where.
+        </p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="shop.html">Shop everything</a>
+          <a class="btn btn-ghost" href="#crafts">Browse by craft</a>
+        </div>
+        <div class="mono" style="margin-top:26px">
+          Free delivery over ₹2,500 · 7-day returns · GST invoice on every order
+        </div>
+      </div>
+      <div class="hero-art">
+        <img src="../assets/photos/md/ecommerce-18.webp" alt="An artisan at work among finished pieces" loading="eager" decoding="async" fetchpriority="high">
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="crafts">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Shop by craft</h2>
+        <a href="shop.html">All fourteen pieces →</a>
+      </div>
+      <div class="chips" id="catChips"></div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:8px">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>New in</h2>
+        <a href="shop.html?sort=rating">Best rated →</a>
+      </div>
+      <div class="grid" id="featured"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="panel" style="display:grid; grid-template-columns:repeat(3,1fr); gap:28px">
+        <div>
+          <div class="mono">Direct</div>
+          <h3 style="font-size:19px; margin:8px 0 6px">Paid before it is made</h3>
+          <p style="font-size:14px; color:var(--ink-2)">Every maker is paid per piece, agreed before work starts. Nobody here is waiting on a sale.</p>
+        </div>
+        <div>
+          <div class="mono">Documented</div>
+          <h3 style="font-size:19px; margin:8px 0 6px">The tag names the village</h3>
+          <p style="font-size:14px; color:var(--ink-2)">Craft, district and maker on every label. If we cannot name them, we do not sell it.</p>
+        </div>
+        <div>
+          <div class="mono">Repaired</div>
+          <h3 style="font-size:19px; margin:8px 0 6px">Broken things come back</h3>
+          <p style="font-size:14px; color:var(--ink-2)">Terracotta chips and brass tarnishes. Send it back and we will put it right.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="chrome-foot"></div>
+
+<script src="catalog.js"></script>
+<script src="store.js"></script>
+<script src="chrome.js"></script>
+<script src="card.js"></script>
+<script>
+(function(){
+  'use strict';
+  var chips = document.getElementById('catChips');
+  CATALOG.categories.filter(function(c){ return c.id !== 'all'; }).forEach(function(c){
+    var n = CATALOG.products.filter(function(p){ return p.cat === c.id; }).length;
+    var a = document.createElement('a');
+    a.className = 'chip';
+    a.href = 'shop.html?cat=' + c.id;
+    a.textContent = c.label + ' · ' + n;
+    chips.appendChild(a);
+  });
+
+  /* Highest rated first — a storefront's job is to lead with the things that
+     are actually working, not with whatever the array order happens to be. */
+  var featured = Store.search({ sort: 'rating' }).slice(0, 8);
+  document.getElementById('featured').innerHTML = featured.map(window.cardHtml).join('');
+})();
+</script>
+</body>
+</html>
