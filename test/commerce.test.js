@@ -239,6 +239,22 @@ module.exports = async function run() {
   s.check(!/rzp_live_|rzp_test_[A-Za-z0-9]{10}|KEY_SECRET\s*[:=]\s*['"][^'"]{8}/.test(clientFiles),
     'no Razorpay key or secret is hard-coded into anything the browser downloads');
 
+  /* The price row on a product card.
+        On a two-up mobile grid there is not room for price + struck MRP +
+        discount on one line. Without flex-wrap the browser breaks "11% off"
+        mid-phrase, and .card{overflow:hidden} clips the orphaned half — a
+        defect invisible to every check here except a human looking at a
+        phone, which is how it was found. These assert the rule, not the
+        pixels: the row may wrap, and none of the three parts may be split. */
+  const css = fs.readFileSync(path.join(ROOT, 'commerce', 'store.css'), 'utf8');
+  const footRule = css.slice(css.indexOf('.card-foot{'), css.indexOf('.card-price,'));
+  s.check(/flex-wrap:s*wrap/.test(footRule),
+    'card price row is allowed to wrap rather than overflow');
+  s.check(/.card-price,s*.card-mrp,s*.card-off{[^}]*white-space:s*nowrap/.test(css),
+    'price, MRP and discount are each unbreakable');
+  s.check(/.pdp-price{[^}]*flex-wrap:s*wrap/.test(css),
+    'product-page price row wraps too');
+
   /* Legal pages are a launch blocker — Razorpay will not activate without
      them, so their absence is a deployment failure, not a nicety. */
   ['shipping.html', 'refunds.html', 'terms.html', 'privacy.html'].forEach(f => {
