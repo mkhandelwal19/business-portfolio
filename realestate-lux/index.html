@@ -167,6 +167,12 @@ h1,h2,h3,h4{ font-family:var(--f-display); font-weight:400; line-height:1.08 }
 }
 .hero-meta .dot{ width:3px; height:3px; border-radius:50%; background:var(--sand-deep) }
 
+/* Tint for the on-canvas 3D controls, which the shared core injects. It reads
+   these from whatever ancestor it finds them on, so a page never has to know
+   the control markup exists. */
+.hero-stage,.plan-stage{
+  --n3-bg:rgba(11,14,19,.72); --n3-line:rgba(200,168,126,.26); --n3-ink:rgba(232,236,240,.72); --n3-hot:var(--sand);
+}
 .hero-stage{ position:relative; aspect-ratio:1/1.06; width:100%; display:grid; place-items:center }
 @media(max-width:940px){ .hero-stage{ aspect-ratio:4/3.4; margin-top:26px } }
 #towerCanvas{ position:absolute; inset:0; width:100%; height:100%; touch-action:pan-y }
@@ -491,7 +497,7 @@ h1,h2,h3,h4{ font-family:var(--f-display); font-weight:400; line-height:1.08 }
         <circle cx="180" cy="64" r="4" fill="#C8A87E" fill-opacity=".7"/>
       </svg>
     </div>
-    <canvas id="towerCanvas" aria-label="Interactive 3D model of the tower. Drag to rotate." role="img" hidden></canvas>
+    <canvas id="towerCanvas" aria-label="Interactive 3D model of the tower. Drag to orbit it; pinch or scroll to zoom." role="img" hidden></canvas>
     <div class="stage-hint" id="towerHint"><i class="fa-solid fa-arrows-left-right"></i> Drag to orbit the tower</div>
   </div>
 </header>
@@ -547,7 +553,7 @@ h1,h2,h3,h4{ font-family:var(--f-display); font-weight:400; line-height:1.08 }
             <g id="planSvg" fill="none" stroke="#C8A87E" stroke-opacity=".55" stroke-width="2"></g>
           </svg>
         </div>
-        <canvas id="planCanvas" aria-label="Interactive 3D floor plan. Drag to rotate." role="img" hidden></canvas>
+        <canvas id="planCanvas" aria-label="Interactive 3D floor plan. Drag to turn it; pinch or scroll to zoom." role="img" hidden></canvas>
         <div class="plan-legend">
           <span><i style="background:#C8A87E"></i> Living</span>
           <span><i style="background:#8FB4C9"></i> Bedroom</span>
@@ -984,34 +990,58 @@ h1,h2,h3,h4{ font-family:var(--f-display); font-weight:400; line-height:1.08 }
 
     /* Architecture wants a sky, not a jewellery studio: a bright band across
        the top for the sky, a hard horizon, and a dark ground. Same painted
-       equirect machinery, different palette. */
+       equirect machinery, different palette. The softboxes are the windows of
+       the buildings you cannot see, which is what glass on a real tower is
+       mostly reflecting. */
     var SKY_ENV = {
-      base: [[0.00, '#dfe9f2'], [0.42, '#9fb6c8'], [0.52, '#2a3340'], [1.00, '#0a0d12']],
-      bands: [[40, 34, '#f4f8fb'], [96, 12, '#cfe0ec'], [190, 6, '#7d93a6']],
+      /* Dusk, not noon. The page is a dark luxury palette and a bright sky
+         lights every concrete surface on the model to a pale grey — the whole
+         thing came back looking like an architect's clay render sitting on a
+         black website. Keeping the sky dim also lets the lit flats carry the
+         image, which is what actually sells a residential tower. */
+      base: [[0.00, '#93a9bb'], [0.40, '#4d5f6f'], [0.52, '#161c23'], [1.00, '#05080b']],
+      bands: [[40, 26, '#c3d5e2'], [96, 10, '#8ea6b8'], [190, 6, '#4d5f6f']],
+      softboxes: [
+        [120, 150, 190, 44, '#b9cdda', 0.30, 0.45],
+        [520, 168, 150, 36, '#a8bccb', 0.30, 0.38],
+        [810, 142, 170, 40, '#c4d6e2', 0.30, 0.40]
+      ],
       flares: [[300, 70, 96], [780, 120, 64]],
-      bounce: ['rgba(120,140,160,0)', 'rgba(90,104,120,.45)']
+      bounce: ['rgba(120,140,160,0)', 'rgba(90,104,120,.45)'],
+      grain: 0.04
     };
     /* A fifth of the jewellery flagship's values, and deliberately so. Those
        numbers were tuned against a near-black env map; this page uses a bright
        sky, and scene.environment lights everything through it before a single
        discrete light is added. Left at the original values, ACES tone mapping
        clipped every surface to white. */
-    var LIGHTS = { ambient: 0.16, key: 1.05, keyColor: 0xfff4e6, rim: 0.42, rimColor: 0x8FB4C9, fill: 0.26 };
+    var LIGHTS = { ambient: 0.09, key: 1.75, keyColor: 0xffe9cc, rim: 0.34, rimColor: 0x7fa6bd, fill: 0.16 };
 
-    function concrete(env, tone){
-      return new T.MeshStandardMaterial({
-        color: tone || 0x9aa0a9, metalness: 0.04, roughness: 0.88,
-        envMap: env, envMapIntensity: 0.38
+    var noise = N3.textureFrom(N3.noiseCanvas(256, { lo: 120, hi: 205, blobs: 70 }), [3, 3]);
+    var grain = N3.normalFrom(N3.noiseCanvas(256, { lo: 90, hi: 170, blobs: 120 }), 0.7, [4, 4]);
+
+    /* Concrete is never one flat value — it is cast in panels, it streaks, and
+       it is the variation that tells you it is a material rather than a fill
+       colour. One shared noise map does that for every surface on the page. */
+    function concrete(env, tone, rough){
+      var m = new T.MeshStandardMaterial({
+        color: tone || 0x6d737c, metalness: 0.04,
+        roughness: rough === undefined ? 0.88 : rough,
+        envMap: env, envMapIntensity: 0.24
       });
+      m.roughnessMap = noise;
+      m.normalMap = grain;
+      m.normalScale = new T.Vector2(0.35, 0.35);
+      return m;
     }
     /* Glass without transmission, for the reason recorded in 3d-core: there is
        nothing behind these panes to refract, so real transmission would render
        them black. A low-roughness metal with partial opacity reads correctly. */
-    function glass(env){
+    function glass(env, tint){
       return new T.MeshStandardMaterial({
-        color: 0x22384a, metalness: 0.82, roughness: 0.14,
+        color: tint || 0x22384a, metalness: 0.82, roughness: 0.14,
         envMap: env, envMapIntensity: 1.25,
-        transparent: true, opacity: 0.92
+        transparent: true, opacity: 0.9
       });
     }
     /* A handful of lit flats. Nothing makes a massing model read as a building
@@ -1027,80 +1057,275 @@ h1,h2,h3,h4{ font-family:var(--f-display); font-weight:400; line-height:1.08 }
     var tower = N3.makeStage(
       document.getElementById('towerCanvas'),
       document.getElementById('towerFallback'),
-      { dist: 15, fov: 34, envOpts: SKY_ENV, lights: LIGHTS, exposure: 0.82,
-        idleSpin: 0.00028, tiltLimit: 0.55 }
+      { dist: 15, fov: 34, envOpts: SKY_ENV, lights: LIGHTS, exposure: 0.60,
+        idleSpin: 0.00028, tiltLimit: 0.45, minZoom: 0.7, maxZoom: 6,
+        shadows: true, shadowReach: 17, far: 220,
+        /* The fog has to close before the ground plate runs out, or the edge
+           of the site shows as a hard rectangle and the whole thing reads as a
+           model on a tray rather than a building on a street. */
+        fog: { color: 0x0B0E13, near: 15, far: 42 },
+        hint: document.getElementById('towerHint'),
+        controlsLabel: 'Tower view controls' }
     );
 
+    /* Rake the key light down and round. The core's default is high and
+       frontal, which is right for a piece of jewellery on a turntable and
+       useless for a building: a high sun puts the shadow under the podium
+       where nobody sees it, and it is the long shadow across the site that
+       tells you how tall the thing is. */
+    tower.key.position.set(9, 5.5, 5);
+
+    var PITCH = 0.62, SLAB = 0.10, BASE = 0.86;
     var floorSlabs = [];
+
+    /* The floor plate at storey i. Derived once and asked for everywhere else,
+       so the glazing, the mullions, the balconies and the setback can never
+       disagree about where the edge of the building is. */
+    function plate(i){
+      var set = i >= 10 ? (i - 9) * 0.26 : 0;
+      return { w: 4.6 - set, d: 3.4 - set * 0.7, y: BASE + i * PITCH };
+    }
+
+    /* Vertical fins around a floor plate, at roughly even spacing on each
+       face. A curtain wall reads as a curtain wall because of these: without
+       them a glazed tower is a smooth block, and no amount of reflection
+       makes a smooth block look like a building. Returned as geometry so a
+       few hundred of them merge into one draw call. */
+    function mullions(w, d, y, h, spacing, out){
+      var nx = Math.max(2, Math.round(w / spacing));
+      var nz = Math.max(2, Math.round(d / spacing));
+      var i, g;
+      for (i = 0; i <= nx; i++){
+        var x = -w / 2 + w * i / nx;
+        [1, -1].forEach(function(s){
+          g = new T.BoxGeometry(0.05, h, 0.10);
+          g.translate(x, y + h / 2, s * (d / 2 + 0.03));
+          out.push(g);
+        });
+      }
+      for (i = 1; i < nz; i++){
+        var z = -d / 2 + d * i / nz;
+        [1, -1].forEach(function(s){
+          g = new T.BoxGeometry(0.10, h, 0.05);
+          g.translate(s * (w / 2 + 0.03), y + h / 2, z);
+          out.push(g);
+        });
+      }
+    }
+
     (function buildTower(){
       var g = tower.group, env = tower.env;
       var conc = concrete(env), gl = glass(env);
-      var trim = N3.metalMaterial(env, { color: 0xC8A87E, roughness: 0.34, envMapIntensity: 1.5 });
+      var trim = N3.metalMaterial(env, { color: 0x9c8a66, roughness: 0.40, envMapIntensity: 0.85 });
+      var dark = N3.metalMaterial(env, { color: 0x3a4048, roughness: 0.42, envMapIntensity: 0.9 });
 
-      /* Storey pitch, and the slab thickness inside it. The glazing fills
-         PITCH - SLAB exactly, so consecutive floors touch and the tower reads
-         as one mass banded by floor lines. Leaving a gap — which the first
-         version did — makes it a stack of separated shelves. */
-      var PITCH = 0.62, SLAB = 0.10;
+      var building = new T.Group();
 
-      // Podium: two wide storeys the tower sits on. Its top is where the
-      // tower starts, rather than floating above it.
-      var pod = new T.Mesh(new T.BoxGeometry(7.4, 1.5, 5.6), concrete(env, 0x7d838c));
+      /* Podium: two wide storeys the tower sits on, with its edges broken.
+         A filleted arris catches a line of light along its whole length, which
+         a BoxGeometry cannot do at any polygon count — see roundedBox. */
+      var pod = new T.Mesh(N3.roundedBox(7.4, 1.5, 5.6, 0.09), concrete(env, 0x4f545c));
       pod.position.y = -0.1;
-      g.add(pod);
-      var podTop = new T.Mesh(new T.BoxGeometry(7.9, 0.14, 6.1), trim);
+      building.add(pod);
+      var podTop = new T.Mesh(N3.roundedBox(7.9, 0.14, 6.1, 0.05), trim);
       podTop.position.y = 0.72;
-      g.add(podTop);
-      var BASE = 0.86;
+      building.add(podTop);
+
+      // Entrance canopy and the glazed lobby under it.
+      var lobby = new T.Mesh(new T.BoxGeometry(4.4, 1.16, 0.12), glass(env, 0x2c4759));
+      lobby.position.set(0, -0.06, 2.82);
+      building.add(lobby);
+      var canopy = new T.Mesh(N3.roundedBox(5.0, 0.10, 1.5, 0.045), trim);
+      canopy.position.set(0, 0.60, 3.4);
+      building.add(canopy);
+      [-2.2, 2.2].forEach(function(x){
+        var col = new T.Mesh(new T.CylinderGeometry(0.07, 0.07, 1.5, 10), dark);
+        col.position.set(x, -0.14, 3.9);
+        building.add(col);
+      });
 
       var lit = litWindow();
+      var fins = [], litPanes = [], rails = [];
+
       for (var i = 0; i < FLOORS; i++){
-        var set = i >= 10 ? (i - 9) * 0.26 : 0;
-        var w = 4.6 - set, d = 3.4 - set * 0.7;
-        var y = BASE + i * PITCH;
+        var p = plate(i), w = p.w, d = p.d, y = p.y;
 
         var slab = new T.Mesh(new T.BoxGeometry(w + 0.28, SLAB, d + 0.28), conc);
         slab.position.y = y;
         slab.userData.floor = i + 1;
-        g.add(slab);
+        building.add(slab);
         floorSlabs.push(slab);
 
-        // Glazing fills the storey between this slab and the next.
-        var vol = new T.Mesh(new T.BoxGeometry(w, PITCH - SLAB, d), gl);
-        vol.position.y = y + PITCH / 2;
-        g.add(vol);
+        /* A storey is a spandrel band above the slab and a vision panel above
+           that — not one undivided sheet of glass. The band is what hides the
+           floor structure on a real building, and it is why a tower has
+           horizontal lines you can count from the street. */
+        var band = new T.Mesh(new T.BoxGeometry(w + 0.06, 0.16, d + 0.06), concrete(env, 0x474c54, 0.7));
+        band.position.y = y + SLAB / 2 + 0.08;
+        building.add(band);
 
-        /* A deterministic scatter of lit flats — same every load, so the
-           model does not flicker between reloads, but irregular enough that
-           it does not read as a pattern. */
-        for (var k = 0; k < 3; k++){
+        var visH = PITCH - SLAB - 0.16;
+        var vol = new T.Mesh(new T.BoxGeometry(w, visH, d), gl);
+        vol.position.y = y + SLAB / 2 + 0.16 + visH / 2;
+        building.add(vol);
+
+        mullions(w, d, y + SLAB / 2, PITCH - SLAB, 0.52, fins);
+
+        /* A deterministic scatter of lit flats — same every load, so the model
+           does not flicker between reloads, but irregular enough that it does
+           not read as a pattern. */
+        for (var k = 0; k < 4; k++){
           if (((i * 7 + k * 13) % 5) > 2) continue;
-          var lw = new T.Mesh(new T.BoxGeometry(0.5, PITCH - SLAB - 0.16, 0.02), lit);
-          lw.position.set(-w / 2 + 0.55 + k * (w - 1.1) / 2, y + PITCH / 2, d / 2 + 0.012);
-          g.add(lw);
+          var lw = new T.BoxGeometry(0.44, visH - 0.08, 0.02);
+          lw.translate(-w / 2 + 0.5 + k * (w - 1.0) / 3,
+                       y + SLAB / 2 + 0.16 + visH / 2, d / 2 + 0.012);
+          litPanes.push(lw);
         }
 
-        // Balcony on the east face, so the mass is not a plain extrusion.
-        var bal = new T.Mesh(new T.BoxGeometry(1.5, 0.07, 0.72), trim);
-        bal.position.set(w / 2 - 0.5, y + 0.06, d / 2 + 0.35);
-        g.add(bal);
+        // Balcony on the east face, with a glass balustrade and a metal rail.
+        var bx = w / 2 - 0.5, bz = d / 2 + 0.35;
+        var bal = new T.Mesh(N3.roundedBox(1.5, 0.07, 0.72, 0.025), trim);
+        bal.position.set(bx, y + 0.06, bz);
+        building.add(bal);
+        var balGlass = new T.Mesh(new T.BoxGeometry(1.5, 0.30, 0.02), glass(env, 0x35566b));
+        balGlass.position.set(bx, y + 0.24, bz + 0.35);
+        building.add(balGlass);
+        var rail = new T.BoxGeometry(1.54, 0.035, 0.035);
+        rail.translate(bx, y + 0.40, bz + 0.35);
+        rails.push(rail);
       }
 
+      building.add(new T.Mesh(N3.mergeGeoms(fins), trim));
+      building.add(new T.Mesh(N3.mergeGeoms(litPanes), lit));
+      building.add(new T.Mesh(N3.mergeGeoms(rails), dark));
+
       var TOP = BASE + (FLOORS - 1) * PITCH + PITCH;
+      var topP = plate(FLOORS - 1);
 
       // Service core, run past the roof line as a lift overrun.
       var coreH = TOP - BASE + 1.1;
-      var core = new T.Mesh(new T.BoxGeometry(1.55, coreH, 1.55), concrete(env, 0x6f757e));
+      var core = new T.Mesh(new T.BoxGeometry(1.55, coreH, 1.55), concrete(env, 0x4a4f57));
       core.position.set(-1.35, BASE + coreH / 2 - 0.2, -0.85);
-      g.add(core);
+      building.add(core);
 
-      var crown = new T.Mesh(new T.BoxGeometry(3.4, 0.12, 2.4), trim);
+      /* Roof plant. A flat lid is the last thing that says "diagram" — real
+         towers carry a parapet, tanks, and a screen around the machinery, and
+         it is the first thing you see from any raised viewpoint. */
+      var parapet = new T.Mesh(new T.BoxGeometry(topP.w + 0.30, 0.34, 0.05), concrete(env, 0x545a62));
+      [1, -1].forEach(function(s){
+        var pp = parapet.clone();
+        pp.position.set(0, TOP + 0.17, s * (topP.d + 0.28) / 2);
+        building.add(pp);
+        var pe = new T.Mesh(new T.BoxGeometry(0.05, 0.34, topP.d + 0.28), parapet.material);
+        pe.position.set(s * (topP.w + 0.30) / 2, TOP + 0.17, 0);
+        building.add(pe);
+      });
+      var tanks = [];
+      [[0.8, -0.6], [1.3, 0.3]].forEach(function(p){
+        var tk = new T.CylinderGeometry(0.24, 0.24, 0.46, 12);
+        tk.translate(p[0], TOP + 0.23, p[1]);
+        tanks.push(tk);
+      });
+      building.add(new T.Mesh(N3.mergeGeoms(tanks), N3.metalMaterial(env, {
+        color: 0x9aa4ad, roughness: 0.5, envMapIntensity: 1.1
+      })));
+      var crown = new T.Mesh(N3.roundedBox(topP.w + 0.5, 0.12, topP.d + 0.5, 0.04), trim);
       crown.position.y = TOP + 0.06;
-      g.add(crown);
+      building.add(crown);
+
+      N3.castAll(building, true, true);
+      g.add(building);
+
+      /* ── Site ────────────────────────────────────────────────────────────
+         Everything below is flagged out of the framing (see frame() in the
+         core) so it can be as big as it needs to be. It is here for one
+         reason: a tower alone in a void has no size. Put a road, a footpath
+         and four neighbours next to it and the eye reads storeys, and the
+         model stops being a diagram and starts being a building. */
+      var site = new T.Group();
+      site.userData.n3ignoreFrame = true;
+
+      /* The outer ground sits almost exactly on the page background colour.
+         The canvas is a fixed box and the site runs past it, so anything
+         lighter than the page draws a hard rectangle along the edge of the
+         stage and the whole thing reads as a model on a tray. The apron around
+         the podium stays lighter, because that is where the tower's shadow
+         actually falls and it needs something to fall ON. */
+      var groundMat = concrete(env, 0x0d1014, 0.97);
+      groundMat.envMapIntensity = 0.10;
+      var ground = new T.Mesh(new T.BoxGeometry(90, 0.3, 90), groundMat);
+      ground.position.y = -0.99;
+      ground.receiveShadow = true;
+      site.add(ground);
+
+      var road = new T.Mesh(new T.BoxGeometry(90, 0.02, 4.4), concrete(env, 0x14171b, 0.98));
+      road.position.set(0, -0.83, 8.6);
+      road.receiveShadow = true;
+      site.add(road);
+      var kerb = new T.Mesh(new T.BoxGeometry(90, 0.10, 0.9), concrete(env, 0x272b31, 0.9));
+      kerb.position.set(0, -0.80, 6.0);
+      site.add(kerb);
+
+      var apron = new T.Mesh(new T.BoxGeometry(9, 0.06, 7.4), concrete(env, 0x141920, 0.94));
+      apron.position.set(0, -0.82, 2.0);
+      apron.receiveShadow = true;
+      site.add(apron);
+
+      // Neighbours: enough to give the tower a street, not enough to compete.
+      var nb = [[-9.5, -5.5, 4.4, 4.6, 3.2], [9.8, -4.0, 3.8, 5.4, 4.0],
+                [-11.0, 4.5, 5.0, 3.0, 4.2], [11.5, 5.0, 4.2, 3.6, 3.6],
+                [-6.0, -11.0, 6.0, 5.0, 5.0], [7.0, -12.0, 5.2, 4.4, 4.4]];
+      var nbMat = concrete(env, 0x2b3037, 0.9);
+      var nbWin = new T.MeshStandardMaterial({
+        color: 0x1b2026, emissive: 0xffcf92, emissiveIntensity: 0.42,
+        metalness: 0, roughness: 0.7
+      });
+      var nbPanes = [];
+      nb.forEach(function(b, bi){
+        var m = new T.Mesh(N3.roundedBox(b[2], b[4], b[3], 0.05), nbMat);
+        m.position.set(b[0], -0.84 + b[4] / 2, b[1]);
+        m.castShadow = true; m.receiveShadow = true;
+        site.add(m);
+        for (var fy = 0; fy < Math.floor(b[4] / 0.55); fy++){
+          for (var fx = 0; fx < 4; fx++){
+            if (((bi * 5 + fy * 3 + fx * 7) % 4) !== 0) continue;
+            var pane = new T.BoxGeometry(0.34, 0.30, 0.02);
+            pane.translate(b[0] - b[2] / 2 + 0.5 + fx * (b[2] - 1.0) / 3,
+                           -0.7 + fy * 0.55, b[1] + b[3] / 2 + 0.012);
+            nbPanes.push(pane);
+          }
+        }
+      });
+      site.add(new T.Mesh(N3.mergeGeoms(nbPanes), nbWin));
+
+      // Planting. Two cones and a trunk each, merged into one mesh.
+      var trunks = [], crowns = [];
+      var TREES = [[-4.6, 4.2], [-3.0, 5.0], [3.2, 4.6], [4.8, 5.2], [-5.4, 1.0],
+                   [5.6, 1.4], [-5.2, -2.6], [5.4, -2.2], [-2.0, 6.4], [2.2, 6.6]];
+      TREES.forEach(function(p, ti){
+        /* A storey is 0.62 here, so a tree has to come out around one — at
+           the first size they were two and a half storeys tall and quietly
+           halved the apparent height of the tower. */
+        var h = 0.54 + ((ti * 37) % 5) * 0.07;
+        var tr = new T.CylinderGeometry(0.026, 0.034, h * 0.5, 6);
+        tr.translate(p[0], -0.84 + h * 0.25, p[1]);
+        trunks.push(tr);
+        for (var c = 0; c < 2; c++){
+          var cr = new T.ConeGeometry(0.24 - c * 0.07, 0.38, 8);
+          cr.translate(p[0], -0.84 + h * 0.5 + 0.14 + c * 0.19, p[1]);
+          crowns.push(cr);
+        }
+      });
+      site.add(new T.Mesh(N3.mergeGeoms(trunks), concrete(env, 0x241f19, 0.95)));
+      var foliage = new T.Mesh(N3.mergeGeoms(crowns), concrete(env, 0x1d2c23, 0.95));
+      foliage.castShadow = true;
+      site.add(foliage);
+
+      g.add(site);
 
       g.rotation.set(0.14, -0.62, 0);
-      N3.frame(tower, g, 1.16);
-      tower.__refit = function(){ N3.frame(tower, g, 1.16); };
+      N3.frame(tower, g, 1.10);
+      tower.__refit = function(){ N3.frame(tower, g, 1.10); };
     })();
 
     /* Highlight the chosen floor by swapping that slab's material. Cheap, and
@@ -1124,22 +1349,65 @@ h1,h2,h3,h4{ font-family:var(--f-display); font-weight:400; line-height:1.08 }
     var plan = N3.makeStage(
       document.getElementById('planCanvas'),
       document.getElementById('planFallback'),
-      { dist: 20, fov: 32, env: tower.env, lights: LIGHTS, exposure: 0.9,
-        idleSpin: 0.00016, tiltLimit: 1.25 }
+      { dist: 20, fov: 32, env: tower.env, lights: LIGHTS, exposure: 0.92,
+        idleSpin: 0.00016, tiltLimit: 0.85, minZoom: 0.7, maxZoom: 6,
+        shadows: true, shadowReach: 12,
+        controlsLabel: 'Floor plan view controls' }
     );
 
     /* Saturated well past what looks right in a swatch, because the env map
        and tone mapping both wash them out. The first set came out white. */
     var TONES = [0xB07A42, 0x4E7A9B, 0x4A525E];
 
+    /* Furniture, styled by what the room is for. The plan data gives a box per
+       item; drawing it literally gives a room full of crates. A sofa with a
+       back and arms, a bed with a headboard and pillows, and a counter with a
+       splashback are the same boxes plus two or three more, and they are what
+       lets someone read the plan as a home rather than as a diagram of one. */
+    function furnish(kind, b, ox, oz, mats, out){
+      var w = b[2], d = b[3], h = b[4];
+      var cx = ox + b[0] + w / 2, cz = oz + b[1] + d / 2;
+      var body = new T.BoxGeometry(w, h, d);
+      body.translate(cx, 0.04 + h / 2, cz);
+      out.soft.push(body);
+
+      if (kind === BED && w > 1.6 && d > 1.6){
+        var head = new T.BoxGeometry(w, h * 1.9, 0.14);
+        head.translate(cx, 0.04 + h * 0.95, cz - d / 2 + 0.07);
+        out.hard.push(head);
+        [-1, 1].forEach(function(s){
+          var pw = Math.min(w * 0.30, 0.62);
+          var pil = new T.BoxGeometry(pw, 0.09, 0.30);
+          pil.translate(cx + s * (pw / 2 + 0.05), 0.04 + h + 0.045, cz - d / 2 + 0.30);
+          out.light.push(pil);
+        });
+      } else if (kind === LIVING && w > 1.8 && h < 0.5){
+        var back = new T.BoxGeometry(w, h * 1.4, 0.16);
+        back.translate(cx, 0.04 + h * 0.7, cz - d / 2 + 0.08);
+        out.hard.push(back);
+        [-1, 1].forEach(function(s){
+          var arm = new T.BoxGeometry(0.16, h * 1.15, d);
+          arm.translate(cx + s * (w / 2 - 0.08), 0.04 + h * 0.58, cz);
+          out.hard.push(arm);
+        });
+      } else if (kind === WET && h > 0.7){
+        var splash = new T.BoxGeometry(w, 0.34, 0.06);
+        splash.translate(cx, 0.04 + h + 0.17, cz - d / 2 + 0.03);
+        out.hard.push(splash);
+      }
+    }
+
     function buildPlan(u){
       var g = plan.group, env = plan.env;
       N3.clearGroup(g);
 
-      var wallMat = concrete(env, 0xb9bfc8);
-      var partMat = concrete(env, 0x8d939c);
-      var furnMat = concrete(env, 0x59606b);
+      var wallMat = concrete(env, 0xb9bfc8, 0.82);
+      var partMat = concrete(env, 0x8d939c, 0.86);
+      var furnMat = concrete(env, 0x59606b, 0.8);
+      var softMat = concrete(env, 0x6d6459, 0.95);
+      var lightMat = concrete(env, 0xb4ada2, 0.9);
       var cx = u.w / 2, cz = u.d / 2;
+      var bins = { soft: [], hard: [], light: [] };
 
       // Floor plates, one per room, tinted by what the room is for.
       u.rooms.forEach(function(r){
@@ -1147,18 +1415,21 @@ h1,h2,h3,h4{ font-family:var(--f-display); font-weight:400; line-height:1.08 }
           new T.BoxGeometry(r.w - 0.06, 0.08, r.d - 0.06),
           new T.MeshStandardMaterial({
             color: TONES[r.k], metalness: 0.0, roughness: 0.95,
-            envMap: env, envMapIntensity: 0.22
+            envMap: env, envMapIntensity: 0.22, roughnessMap: noise
           })
         );
         m.position.set(r.x + r.w / 2 - cx, 0, r.z + r.d / 2 - cz);
+        m.receiveShadow = true;
         g.add(m);
 
         (r.f || []).forEach(function(b){
-          var fm = new T.Mesh(new T.BoxGeometry(b[2], b[4], b[3]), furnMat);
-          fm.position.set(r.x + b[0] + b[2] / 2 - cx, 0.04 + b[4] / 2, r.z + b[1] + b[3] / 2 - cz);
-          g.add(fm);
+          furnish(r.k, b, r.x - cx, r.z - cz, null, bins);
         });
       });
+
+      if (bins.soft.length)  g.add(new T.Mesh(N3.mergeGeoms(bins.soft), softMat));
+      if (bins.hard.length)  g.add(new T.Mesh(N3.mergeGeoms(bins.hard), furnMat));
+      if (bins.light.length) g.add(new T.Mesh(N3.mergeGeoms(bins.light), lightMat));
 
       /* Derive the walls. Each room contributes four edges; an edge that turns
          up twice is shared between two rooms, so it is an interior partition
@@ -1176,6 +1447,7 @@ h1,h2,h3,h4{ font-family:var(--f-display); font-weight:400; line-height:1.08 }
         });
       });
 
+      var walls = [], parts = [];
       Object.keys(edges).forEach(function(key){
         var p = key.split('|').map(Number);
         var shared = edges[key] > 1;
@@ -1183,33 +1455,41 @@ h1,h2,h3,h4{ font-family:var(--f-display); font-weight:400; line-height:1.08 }
            enough to see over from a raised camera. The first pass used 1.55
            against a 12-metre footprint, a ratio of 0.13, which is why it read
            as a shallow tray rather than a set of rooms. */
-        var shared_h = shared ? 1.55 : 2.35;
-        var h = shared_h;
+        var h = shared ? 1.55 : 2.35;
         var t = shared ? 0.11 : 0.17;
-        var len, geo;
-        if (Math.abs(p[3] - p[1]) < 0.001){        // runs along X
-          len = p[2] - p[0];
-          geo = new T.BoxGeometry(len, h, t);
-        } else {                                    // runs along Z
-          len = p[3] - p[1];
-          geo = new T.BoxGeometry(t, h, len);
-        }
-        var m = new T.Mesh(geo, shared ? partMat : wallMat);
-        m.position.set((p[0] + p[2]) / 2 - cx, 0.04 + h / 2, (p[1] + p[3]) / 2 - cz);
-        g.add(m);
+        var alongX = Math.abs(p[3] - p[1]) < 0.001;
+        var len = alongX ? p[2] - p[0] : p[3] - p[1];
+        var mx = (p[0] + p[2]) / 2 - cx, mz = (p[1] + p[3]) / 2 - cz;
+
+        /* An interior wall long enough to hold one gets a doorway. A plan made
+           of sealed boxes is the tell that nobody thought about circulation,
+           and a doorway is two shorter walls rather than one long one. */
+        var DOOR = 0.95;
+        var segs = (shared && len > DOOR + 1.0)
+          ? [[-(len / 2), -(DOOR / 2)], [DOOR / 2, len / 2]]
+          : [[-(len / 2), len / 2]];
+
+        segs.forEach(function(s){
+          var sl = s[1] - s[0], mid = (s[0] + s[1]) / 2;
+          var geo = alongX ? new T.BoxGeometry(sl, h, t) : new T.BoxGeometry(t, h, sl);
+          geo.translate(alongX ? mx + mid : mx, 0.04 + h / 2, alongX ? mz : mz + mid);
+          (shared ? parts : walls).push(geo);
+        });
       });
+
+      var wm = new T.Mesh(N3.mergeGeoms(walls), wallMat);
+      var pm = new T.Mesh(N3.mergeGeoms(parts), partMat);
+      g.add(wm); g.add(pm);
+      N3.castAll(g, true, true);
 
       // Tipped forward so it reads as a dollhouse plan rather than an elevation.
       g.rotation.set(0.92, -0.42, 0);
-      N3.frame(plan, g, 1.24);
-      plan.__refit = function(){ N3.frame(plan, g, 1.24); };
+      N3.frame(plan, g, 1.06);
+      plan.__refit = function(){ N3.frame(plan, g, 1.06); };
     }
 
     window.__anvayaShowPlan = function(i){ buildPlan(UNITS[i]); };
     window.__anvayaShowPlan(currentUnit);
-
-    var hint = document.getElementById('towerHint');
-    if (hint) setTimeout(function(){ hint.classList.add('show'); }, 1200);
   }
 })();
 </script>

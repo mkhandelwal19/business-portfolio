@@ -220,6 +220,13 @@ p{ color:var(--cream-dim) }
 }
 .hero-meta .dot{ width:3px; height:3px; border-radius:50%; background:var(--gold-deep) }
 
+/* Tint for the on-canvas 3D controls, which the shared core injects. It reads
+   these from whatever ancestor it finds them on, so a page never has to know
+   the control markup exists. */
+.hero-stage,.viewer-stage{
+  --n3-bg:rgba(11,9,6,.70); --n3-line:rgba(217,182,95,.28); --n3-ink:rgba(240,232,214,.72); --n3-hot:var(--gold);
+}
+
 /* Stage that the WebGL canvas (or its fallback) lives in */
 .hero-stage{
   position:relative; aspect-ratio:1/1; width:100%;
@@ -603,7 +610,7 @@ footer{ padding:64px 0 34px; border-top:1px solid var(--line-soft) }
         </g>
       </svg>
     </div>
-    <canvas id="gemCanvas" aria-label="Interactive 3D diamond. Drag to rotate." role="img" hidden></canvas>
+    <canvas id="gemCanvas" aria-label="Interactive 3D diamond. Drag to turn it; pinch or scroll to zoom." role="img" hidden></canvas>
     <div class="stage-hint" id="stageHint"><i class="fa-solid fa-arrows-left-right"></i> Drag to rotate</div>
   </div>
 </header>
@@ -652,7 +659,7 @@ footer{ padding:64px 0 34px; border-top:1px solid var(--line-soft) }
             </g>
           </svg>
         </div>
-        <canvas id="pieceCanvas" aria-label="Interactive 3D jewellery viewer. Drag to rotate." role="img" hidden></canvas>
+        <canvas id="pieceCanvas" aria-label="Interactive 3D jewellery viewer. Drag to turn the piece; pinch or scroll to zoom." role="img" hidden></canvas>
       </div>
 
       <div>
@@ -1158,59 +1165,34 @@ footer{ padding:64px 0 34px; border-top:1px solid var(--line-soft) }
      fallback simply stays, which is what it was designed for. */
   window.Netloom3D.boot(boot);
 
-  function boot(){
-    var T = window.THREE;
-    if (!T) return;
+  function boot(T, N3){
 
-    /* The renderer, the painted studio environment, the drag controller and
-       the auto-framing all come from the shared core. They are aliased to
-       their old local names so every call site below reads unchanged — the
-       only things still defined in this file are the ones that are actually
-       about jewellery. */
-    var N3        = window.Netloom3D;
-    var brilliant = N3.brilliant;
-    var makeStage = N3.makeStage;
-    var frame     = N3.frame;
-    var clearGroup= N3.clearGroup;
-    function goldMaterial(env, tone){
-      return N3.metalMaterial(env, { color: tone || 0xd9b65f });
-    }
-
-
-    // r128 ships BufferGeometryUtils separately, so merge by hand.
-    /* ── Gem looks ──────────────────────────────────────────────────────────
-       Change GEM_LOOK to one of the keys below. That is the only edit needed.
+    /* ── The stone ───────────────────────────────────────────────────────────
+       GEM_LOOK picks the tint. That is the only edit needed.
 
          'champagne'  warm gold-white brilliant   (default — sits in the palette)
-         'ice'        cool colourless brilliant   (classic white diamond, done right)
+         'ice'        cool colourless brilliant   (classic white diamond)
          'noir'       black diamond, gold fire    (most dramatic on this page)
 
-       Why metalness is 1 on a diamond, which is obviously not a metal:
-       a physically-correct dielectric reflects only ~4% of its surroundings
-       head-on, so the remaining 96% is flat diffuse colour — that is exactly
-       what made the first attempt look like white plastic. Driving the surface
-       entirely from the environment is the standard way to fake a gem, and it
-       is what actually reads as one. Real refraction needs transmission plus
-       something behind the stone to refract; here there is only page
-       background, so it would just make the stone dark. */
+       The cut itself, the material and the environment all live in the shared
+       core now, along with the reasoning: a stone is metalness 1 because a
+       physically-correct dielectric reflects only ~4% of the room head-on, and
+       its fire is environment contrast rather than anything about the surface.
+       See flagship/3d-core.js. */
     var GEM_LOOK = 'champagne';
-
     var GEM_PRESETS = {
-      champagne: { color: 0xFFF1D2, rough: 0.035, env: 3.1, core: 0xC9A24C, coreOp: 0.30 },
-      ice:       { color: 0xFFFFFF, rough: 0.015, env: 3.4, core: 0x9FC4E8, coreOp: 0.22 },
-      noir:      { color: 0x6E5A34, rough: 0.060, env: 3.6, core: 0xD9B65F, coreOp: 0.38 }
+      champagne: { color: 0xFFF2D8, roughness: 0.030, envMapIntensity: 3.4, core: 0xC9A24C, coreOp: 0.26 },
+      ice:       { color: 0xFFFFFF, roughness: 0.014, envMapIntensity: 3.8, core: 0x9FC4E8, coreOp: 0.20 },
+      noir:      { color: 0x6E5A34, roughness: 0.055, envMapIntensity: 3.9, core: 0xD9B65F, coreOp: 0.34 }
     };
     var GEM = GEM_PRESETS[GEM_LOOK] || GEM_PRESETS.champagne;
+    var CUT = N3.CUT;
 
     function gemMaterial(env, tint){
-      return new T.MeshPhysicalMaterial({
+      return N3.gemMaterial(env, {
         color: tint || GEM.color,
-        metalness: 1.0,
-        roughness: GEM.rough,
-        envMap: env,
-        envMapIntensity: GEM.env,
-        flatShading: true,       // one normal per facet — no smoothing across edges
-        side: T.DoubleSide
+        roughness: GEM.roughness,
+        envMapIntensity: GEM.envMapIntensity
       });
     }
 
@@ -1218,109 +1200,263 @@ footer{ padding:64px 0 34px; border-top:1px solid var(--line-soft) }
        back-facing, it reads as light bouncing around inside rather than a
        solid lump, which is the other half of why a real gem looks deep. */
     function gemCore(env, radius){
-      var m = new T.Mesh(
-        brilliant(radius * 0.80, 12),
+      return new T.Mesh(
+        N3.brilliant(radius * 0.82, 10),
         new T.MeshBasicMaterial({
-          color: GEM.core,
-          envMap: env,
-          transparent: true,
-          opacity: GEM.coreOp,
-          blending: T.AdditiveBlending,
-          side: T.BackSide,
-          depthWrite: false
+          color: GEM.core, envMap: env, transparent: true, opacity: GEM.coreOp,
+          blending: T.AdditiveBlending, side: T.BackSide, depthWrite: false
         })
       );
-      return m;
     }
-    /* ── Hero: a single stone, slowly turning ── */
-    var heroCanvas = document.getElementById('gemCanvas');
-    var hero = makeStage(heroCanvas, document.getElementById('heroFallback'), { dist: 6.4 });
-    (function buildHero(){
-      var gem = new T.Mesh(brilliant(1.5, 18), gemMaterial(hero.env));
-      gem.rotation.x = 0.12;
-      hero.group.add(gem);
 
-      var core = gemCore(hero.env, 1.5);
-      core.rotation.x = 0.12;
-      hero.group.add(core);
+    /* Three golds. Indian jewellery is not one alloy: 22K for the traditional
+       pieces, 18K for anything that has to hold a stone, and rhodium-plated
+       white gold for the modern settings. They differ enough in colour that
+       using one for everything is visible. */
+    var GOLD_18 = 0xD9B65F, GOLD_22 = 0xE9C468, WHITE = 0xE4E6EC;
+    function gold(env, tone, rough){
+      return N3.metalMaterial(env, {
+        color: tone || GOLD_18,
+        roughness: rough === undefined ? 0.20 : rough,
+        envMapIntensity: 2.0
+      });
+    }
 
-      // A faint halo of sparks, which is what sells "diamond" more than the
-      // geometry does.
-      var N = 90, pos = new Float32Array(N * 3);
-      for (var i = 0; i < N; i++){
-        var a = Math.random() * Math.PI * 2;
-        var b = Math.acos(2 * Math.random() - 1);
-        var r = 2.4 + Math.random() * 1.9;
-        pos[i*3]   = r * Math.sin(b) * Math.cos(a);
-        pos[i*3+1] = r * Math.cos(b) * 0.7;
-        pos[i*3+2] = r * Math.sin(b) * Math.sin(a);
+    function sgn(v){ return v < 0 ? -1 : 1; }
+
+    /* Put a geometry whose local +Y is its own "up" at a point, aimed along a
+       direction, by composing a matrix from a quaternion rather than stacking
+       Euler rotations by hand. Doing it by hand is how the bangle studs ended
+       up clustered on one side of the hoop and the chased domes on the jhumka
+       came out lying flat against the cone: a rotateX and a rotateY that do
+       not commute, applied in the order they happened to be typed. */
+    var _up = new T.Vector3(0, 1, 0), _one = new T.Vector3(1, 1, 1);
+    function placeGeom(geo, x, y, z, dx, dy, dz){
+      var q = new T.Quaternion().setFromUnitVectors(
+        _up, new T.Vector3(dx, dy, dz).normalize());
+      geo.applyMatrix4(new T.Matrix4().compose(new T.Vector3(x, y, z), q, _one));
+      return geo;
+    }
+
+    /* ── A lofted band ───────────────────────────────────────────────────────
+       A ring shank is not a torus. It is a band with a D-shaped section —
+       rounded outside, flatter against the finger — and it tapers, deep under
+       the finger and thin at the shoulders where it climbs to the head. A
+       TorusGeometry can express none of that, and a doughnut is what the first
+       version looked like.
+
+       Built closed and indexed so computeVertexNormals averages across every
+       shared vertex: a polished band has to be smooth, and a non-indexed
+       geometry would come back faceted. */
+    function loftBand(R, opts){
+      var seg = N3.detail(140, 96, 60);
+      var sec = N3.detail(14, 12, 8);
+      var pos = [], idx = [];
+      var i, j, a, b;
+      for (i = 0; i < seg; i++){
+        a = (i / seg) * Math.PI * 2;
+        var t = opts.taper ? opts.taper(a) : 1;
+        var depth = opts.depth * t, width = opts.width * t;
+        for (j = 0; j < sec; j++){
+          b = (j / sec) * Math.PI * 2;
+          var cx = Math.cos(b), cy = Math.sin(b);
+          // Superellipse: p above 2 squares the section off toward a D.
+          var p = opts.section === undefined ? 2.7 : opts.section;
+          var sx = sgn(cx) * Math.pow(Math.abs(cx), 2 / p);
+          var sy = sgn(cy) * Math.pow(Math.abs(cy), 2 / p);
+          // Flatten the inside face — the part that sits against the finger.
+          var rad = R + (sx > 0 ? sx : sx * 0.72) * depth / 2;
+          pos.push(Math.cos(a) * rad, Math.sin(a) * rad, sy * width / 2);
+        }
       }
-      var pg = new T.BufferGeometry();
-      pg.setAttribute('position', new T.Float32BufferAttribute(pos, 3));
-      hero.group.add(new T.Points(pg, new T.PointsMaterial({
-        color: 0xf6f1e6, size: 0.045, transparent: true,
-        opacity: 0.75, blending: T.AdditiveBlending, depthWrite: false
-      })));
-    })();
+      for (i = 0; i < seg; i++){
+        var i2 = (i + 1) % seg;
+        for (j = 0; j < sec; j++){
+          var j2 = (j + 1) % sec;
+          var v00 = i * sec + j, v01 = i * sec + j2;
+          var v10 = i2 * sec + j, v11 = i2 * sec + j2;
+          idx.push(v00, v10, v11, v00, v11, v01);
+        }
+      }
+      var g = new T.BufferGeometry();
+      g.setAttribute('position', new T.Float32BufferAttribute(pos, 3));
+      g.setIndex(idx);
+      g.computeVertexNormals();
+      return g;
+    }
 
-    var hint = document.getElementById('stageHint');
-    setTimeout(function(){ hint.classList.add('show'); }, 900);
-    heroCanvas.addEventListener('pointerdown', function(){ hint.classList.remove('show'); }, { once:true });
+    /* ── Pavé ────────────────────────────────────────────────────────────────
+       A line of small stones bead-set along the shoulders. Returns geometry
+       rather than meshes so the whole run merges into one draw call — sixty
+       separate little meshes would cost more than the rest of the ring put
+       together. */
+    function paveRun(from, to, count, R, size, z){
+      var stones = [], beads = [];
+      for (var i = 0; i < count; i++){
+        var a = from + (to - from) * (count === 1 ? 0.5 : i / (count - 1));
+        var cx = Math.cos(a), cy = Math.sin(a);
+        /* Each stone sits with its table along the band surface, which here
+           means facing radially outward — not toward the camera. Set the wrong
+           way the tables all point at the same patch of environment and the
+           whole run reads as a line of dark specks. */
+        stones.push(placeGeom(N3.brilliant(size, 8),
+          cx * R, cy * R, z || 0, cx, cy, 0));
+        // The four grains of metal that actually hold each stone down.
+        for (var k = 0; k < 4; k++){
+          var ang = k * Math.PI / 2 + Math.PI / 4;
+          var off = size * 1.12;
+          beads.push(placeGeom(new T.SphereGeometry(size * 0.30, 6, 5),
+            cx * R - Math.sin(a) * Math.cos(ang) * off,
+            cy * R + Math.cos(a) * Math.cos(ang) * off,
+            (z || 0) + Math.sin(ang) * off,
+            cx, cy, 0));
+        }
+      }
+      return { stones: N3.mergeGeoms(stones), beads: N3.mergeGeoms(beads) };
+    }
 
-    /* ── Collection viewer: four pieces, rebuilt on switch ── */
-    var pieceCanvas = document.getElementById('pieceCanvas');
-    var view = makeStage(pieceCanvas, document.getElementById('pieceFallback'), { dist: 6.0 });
+    /* Milgrain — the row of tiny beads along a bezel edge that says "made by
+       hand" faster than any amount of polish. Merged, for the same reason. */
+    function milgrain(R, count, bead, y, axis){
+      var list = [];
+      for (var i = 0; i < count; i++){
+        var a = (i / count) * Math.PI * 2;
+        var s = new T.SphereGeometry(bead, 6, 5);
+        if (axis === 'y') s.translate(Math.cos(a) * R, y || 0, Math.sin(a) * R);
+        else s.translate(Math.cos(a) * R, Math.sin(a) * R, y || 0);
+        list.push(s);
+      }
+      return N3.mergeGeoms(list);
+    }
 
-    /* brilliant(r) spans y from -1.32r (pavilion tip) to +0.42r (table), with
-       the girdle at y = 0. Every seat height below is derived from that rather
-       than guessed, which is where the first version came apart: the stone was
-       parked at a height with no relation to the band, and the prongs sat both
-       inside the girdle radius and below it, so they gripped nothing. */
-    var GIRDLE_TO_TIP   = 1.32;
-    var GIRDLE_TO_TABLE = 0.42;
-
-    // Four prongs, tilted so their tips lean in over the girdle.
+    /* Four prongs, tilted so their tips lean in over the girdle. */
     function prongs(g, env, count, ringR, baseY, topY, tilt){
+      var mat = gold(env);
       for (var i = 0; i < count; i++){
         var holder = new T.Group();
         holder.rotation.y = (i / count) * Math.PI * 2 + Math.PI / 4;
         var len = topY - baseY;
-        var pr = new T.Mesh(new T.CylinderGeometry(0.048, 0.062, len, 10), goldMaterial(env));
+        var pr = new T.Mesh(new T.CylinderGeometry(0.042, 0.058, len, 10), mat);
         pr.position.set(ringR, (baseY + topY) / 2, 0);
         pr.rotation.z = tilt;                 // +z tips the top toward the axis
         holder.add(pr);
-        var tipBall = new T.Mesh(new T.SphereGeometry(0.062, 10, 10), goldMaterial(env));
-        tipBall.position.set(ringR - Math.sin(tilt) * len / 2, topY, 0);
-        holder.add(tipBall);
+        var tip = new T.Mesh(new T.SphereGeometry(0.056, 10, 8), mat);
+        tip.position.set(ringR - Math.sin(tilt) * len / 2, topY, 0);
+        holder.add(tip);
         g.add(holder);
       }
     }
 
-    var BUILDERS = [
-      // 01 — Solitaire: shank, basket, four prongs, one stone
-      function(g, env){
-        var R = 1.15, tube = 0.145;
-        var rg = 0.56;                                   // gem girdle radius
-        var bandTop = R + tube;                          // 1.295
-        var girdleY = bandTop + 0.30 + rg * GIRDLE_TO_TIP;
+    /* ── Hero: a single stone, slowly turning ── */
+    var heroCanvas = document.getElementById('gemCanvas');
+    var hero = N3.makeStage(heroCanvas, document.getElementById('heroFallback'), {
+      dist: 6.4, envOpts: N3.GEM_ENV, exposure: 1.30,
+      tiltLimit: 0.55, minZoom: 0.7, maxZoom: 6,
+      hint: document.getElementById('stageHint'),
+      controlsLabel: 'Diamond view controls'
+    });
 
-        // Shank sits in the XY plane so it reads as a ring facing you; a small
-        // tilt gives the three-quarter view. The old PI/2.35 laid it flat.
-        var shank = new T.Mesh(new T.TorusGeometry(R, tube, 22, 110), goldMaterial(env));
+    (function buildHero(){
+      var R = 1.72;
+      var gem = new T.Mesh(N3.brilliant(R), gemMaterial(hero.env));
+      gem.rotation.x = 0.10;
+      hero.group.add(gem);
+
+      var core = gemCore(hero.env, R);
+      core.rotation.x = 0.10;
+      hero.group.add(core);
+
+      /* A faint halo of sparks. Sells "diamond" harder than the geometry does,
+         and the only part of this scene that is not a physical object. */
+      var N = N3.detail(120, 90, 50), pos = new Float32Array(N * 3);
+      for (var i = 0; i < N; i++){
+        var a = Math.random() * Math.PI * 2;
+        var b = Math.acos(2 * Math.random() - 1);
+        var r = 2.6 + Math.random() * 2.0;
+        pos[i * 3]     = r * Math.sin(b) * Math.cos(a);
+        pos[i * 3 + 1] = r * Math.cos(b) * 0.7;
+        pos[i * 3 + 2] = r * Math.sin(b) * Math.sin(a);
+      }
+      var pg = new T.BufferGeometry();
+      pg.setAttribute('position', new T.Float32BufferAttribute(pos, 3));
+      var sparks = new T.Points(pg, new T.PointsMaterial({
+        color: 0xf6f1e6, size: 0.038, transparent: true,
+        opacity: 0.7, blending: T.AdditiveBlending, depthWrite: false
+      }));
+      /* The halo reaches nearly three times the radius of the stone, so left
+         in the fit it is what gets framed and the diamond ends up a chip in
+         the middle of a lot of empty space. Frame the subject; let the sparks
+         fall where they may. */
+      sparks.userData.n3ignoreFrame = true;
+      hero.group.add(sparks);
+      N3.frame(hero, hero.group, 1.02);
+      hero.__refit = function(){ N3.frame(hero, hero.group, 1.02); };
+    })();
+
+    /* ── Collection viewer: four pieces, rebuilt on switch ── */
+    var pieceCanvas = document.getElementById('pieceCanvas');
+    var view = N3.makeStage(pieceCanvas, document.getElementById('pieceFallback'), {
+      dist: 6.0, env: hero.env, exposure: 1.26,
+      tiltLimit: 0.6, minZoom: 0.7, maxZoom: 7,
+      controlsLabel: 'Jewellery view controls'
+    });
+
+    /* brilliant(r) spans -0.894r (culet) to +0.320r (table) about the girdle,
+       and those two numbers are N3.CUT.pav and N3.CUT.crown. Every seat height
+       below is derived from them rather than guessed, which is where the first
+       version came apart: the stone sat at a height with no relation to the
+       band, and the prongs were both inside the girdle radius and below it, so
+       they gripped nothing. */
+
+    var BUILDERS = [
+      /* 01 — Solitaire: lofted cathedral shank, pavé shoulders, basket, four
+         prongs, one stone. */
+      function(g, env){
+        var mat18 = gold(env, GOLD_18, 0.18);
+        var R = 1.16, rg = 0.72;
+
+        /* Deep under the finger, thin at the shoulders. sin(a) is +1 at the
+           top of the ring, which is where the head sits. */
+        var shank = new T.Mesh(loftBand(R, {
+          depth: 0.235, width: 0.30,
+          taper: function(a){ return 1 - 0.34 * Math.max(0, Math.sin(a)); }
+        }), mat18);
         g.add(shank);
 
-        // Basket between the shank and the stone, so the gem is carried.
-        var basket = new T.Mesh(
-          new T.CylinderGeometry(rg * 0.82, 0.24, girdleY - bandTop, 14, 1, true),
-          goldMaterial(env));
-        basket.position.y = (girdleY + bandTop) / 2;
-        g.add(basket);
-        var rail = new T.Mesh(new T.TorusGeometry(rg * 0.80, 0.045, 10, 40), goldMaterial(env));
-        rail.rotation.x = Math.PI / 2;
-        rail.position.y = girdleY - 0.20;
-        g.add(rail);
+        var bandTop = R + 0.235 * 0.66 / 2;
+        var girdleY = bandTop + 0.30 + rg * CUT.pav;
+        var tableY  = girdleY + rg * CUT.crown;
 
-        var gem = new T.Mesh(brilliant(rg, 16), gemMaterial(env));
+        // Pavé climbing both shoulders, stopping short of the head.
+        [[0.62, 1.24], [Math.PI - 0.62, Math.PI - 1.24]].forEach(function(arc){
+          var run = paveRun(arc[0], arc[1], 7, R + 0.085, 0.068, 0);
+          g.add(new T.Mesh(run.stones, gemMaterial(env)));
+          g.add(new T.Mesh(run.beads, mat18));
+        });
+
+        /* The gallery is PIERCED, not a funnel. A solid cone under the stone
+           is the single thing that makes a solitaire read as cast rather than
+           made: the whole purpose of the setting is to let light reach the
+           pavilion from underneath. Four struts and a rail is what a real one
+           is, and it is also what lets you see the stone is a stone. */
+        var struts = [], railY = bandTop + (girdleY - bandTop) * 0.42;
+        for (var s = 0; s < 4; s++){
+          var sa = s * Math.PI / 2 + Math.PI / 4;
+          var st = new T.CylinderGeometry(0.052, 0.062, girdleY - bandTop, 8);
+          placeGeom(st,
+            Math.cos(sa) * rg * 0.60, (girdleY + bandTop) / 2, Math.sin(sa) * rg * 0.60,
+            Math.cos(sa) * 0.16, 1, Math.sin(sa) * 0.16);
+          struts.push(st);
+        }
+        g.add(new T.Mesh(N3.mergeGeoms(struts), mat18));
+
+        var rail = new T.Mesh(new T.TorusGeometry(rg * 0.66, 0.038, 8, 36), mat18);
+        rail.rotation.x = Math.PI / 2;
+        rail.position.y = railY;
+        g.add(rail);
+        g.add(new T.Mesh(milgrain(rg * 0.66, 26, 0.021, railY, 'y'), mat18));
+
+        var gem = new T.Mesh(N3.brilliant(rg), gemMaterial(env));
         gem.position.y = girdleY;
         g.add(gem);
         var core = gemCore(env, rg);
@@ -1328,139 +1464,231 @@ footer{ padding:64px 0 34px; border-top:1px solid var(--line-soft) }
         g.add(core);
 
         // Tips reach just past the girdle, which is what a prong actually does.
-        prongs(g, env, 4, rg * 0.94, girdleY - 0.34,
-               girdleY + rg * GIRDLE_TO_TABLE * 0.55, 0.17);
+        prongs(g, env, 4, rg * 0.96, girdleY - 0.30, girdleY + (tableY - girdleY) * 0.55, 0.19);
       },
 
-      // 02 — Bangle: heavy 22K hoop, outer rail, studs riding the rim
+      /* 02 — Bangle: heavy 22K hoop, beaded rims, a repoussé run of domes. */
       function(g, env){
-        var gold  = goldMaterial(env, 0xE0BE68);
-        var R = 1.55, tube = 0.30;
+        var mat22 = gold(env, GOLD_22, 0.22);
+        var bright = gold(env, 0xF3DFA4, 0.15);
+        var R = 1.52, tube = 0.29;
 
-        // One sub-group holds hoop AND studs, so a single rotation moves them
-        // together. Previously the studs were positioned with their own
-        // half-applied rotation maths and drifted off the ring.
+        /* One sub-group holds the hoop AND everything riding on it, so a single
+           rotation moves them together. Previously the studs carried their own
+           half-applied rotation maths and drifted off the ring. */
         var hoop = new T.Group();
-        hoop.add(new T.Mesh(new T.TorusGeometry(R, tube, 24, 120), gold));
+        hoop.add(new T.Mesh(loftBand(R, {
+          depth: tube * 2, width: tube * 1.9, section: 3.1
+        }), mat22));
 
         var outerR = R + tube;
-        hoop.add(new T.Mesh(new T.TorusGeometry(outerR - 0.02, 0.055, 12, 130),
-                            goldMaterial(env, 0xF6E4B0)));
-
         [-1, 1].forEach(function(sgn){
-          var band = new T.Mesh(new T.TorusGeometry(R, 0.075, 12, 130),
-                                goldMaterial(env, 0xF0DCA2));
-          band.position.z = sgn * (tube * 0.78);
-          hoop.add(band);
+          var rim = new T.Mesh(new T.TorusGeometry(R + tube * 0.62, 0.048, 10, 130), bright);
+          rim.position.z = sgn * (tube * 0.72);
+          hoop.add(rim);
+          hoop.add(new T.Mesh(milgrain(R + tube * 0.62, 74, 0.031, sgn * tube * 0.72), bright));
         });
 
-        for (var i = 0; i < 16; i++){
-          var a = (i / 16) * Math.PI * 2;
-          var stud = new T.Mesh(new T.SphereGeometry(0.075, 12, 12),
-                                goldMaterial(env, 0xFFF0C8));
-          stud.position.set(Math.cos(a) * (outerR - 0.01), Math.sin(a) * (outerR - 0.01), 0);
-          hoop.add(stud);
+        // Repoussé: a run of raised domes, each with a polki set into it.
+        var COUNT = 20, domes = [], polki = [];
+        for (var i = 0; i < COUNT; i++){
+          var a = (i / COUNT) * Math.PI * 2;
+          var cx = Math.cos(a), cy = Math.sin(a);
+          /* A hemisphere's origin is the centre of its flat face, so placing
+             that ON the band surface is what makes it sit proud of it. Set at
+             0.96 of the radius, as the first pass had it, the whole run is
+             buried inside the metal and invisible. */
+          var dome = 0.115;
+          domes.push(placeGeom(
+            new T.SphereGeometry(dome, 12, 9, 0, Math.PI * 2, 0, Math.PI / 2),
+            cx * (outerR - 0.02), cy * (outerR - 0.02), 0, cx, cy, 0));
+          polki.push(placeGeom(N3.roseCut(0.062, 6),
+            cx * (outerR + dome - 0.03), cy * (outerR + dome - 0.03), 0, cx, cy, 0));
         }
+        hoop.add(new T.Mesh(N3.mergeGeoms(domes), bright));
+        hoop.add(new T.Mesh(N3.mergeGeoms(polki), gemMaterial(env, 0xFFF8EC)));
 
-        hoop.rotation.x = 0.42;
-        hoop.rotation.y = 0.26;
+        hoop.rotation.x = 0.40;
+        hoop.rotation.y = 0.24;
         g.add(hoop);
       },
 
-      // 03 — Pendant: chain hanging in a U with the stone at the low point
+      /* 03 — Pendant: an emerald-cut stone in a milgrained bezel, a halo of
+         brilliants, hung on a chain that actually interlocks. */
       function(g, env){
-        var white = goldMaterial(env, 0xE9E9F0);
-        white.roughness = 0.14;
+        var white = gold(env, WHITE, 0.13);
 
-        // The chain has to sag downward. The old arc ran over the top, so the
-        // necklace was upside down and the pendant hung off nothing.
-        var spanX = 1.85, sag = 1.30, topY = 1.30;
-        var N = 40;
+        /* The chain has to sag downward. The old arc ran over the top, so the
+           necklace was upside down and the pendant hung off nothing.
+
+           Links alternate 90 degrees and overlap by a third of their length,
+           which is what makes a chain read as a chain rather than as beads on
+           a string. */
+        var spanX = 1.72, sag = 1.30, topY = 1.30;
+        var N = N3.detail(64, 52, 36);
+        var links = [];
         for (var i = 0; i <= N; i++){
           var t = i / N;
-          var link = new T.Mesh(new T.TorusGeometry(0.078, 0.026, 8, 16), white);
-          link.position.set(
-            -spanX + 2 * spanX * t,
-            topY - Math.sin(Math.PI * t) * sag,
-            0
-          );
-          // Alternate the links so the chain reads as woven, not as beads.
-          link.rotation.y = Math.PI / 2;
-          link.rotation.x = (i % 2) ? Math.PI / 2 : 0;
-          g.add(link);
+          var lk = new T.TorusGeometry(0.082, 0.024, 6, 16);
+          if (i % 2) lk.rotateX(Math.PI / 2);
+          lk.rotateY(Math.PI / 2);
+          // Tangent of the sag curve, so links follow the hang instead of
+          // standing upright at the ends.
+          lk.rotateZ(Math.atan2(-Math.cos(Math.PI * t) * Math.PI * sag, 2 * spanX));
+          lk.translate(-spanX + 2 * spanX * t, topY - Math.sin(Math.PI * t) * sag, 0);
+          links.push(lk);
         }
+        g.add(new T.Mesh(N3.mergeGeoms(links), white));
 
         var lowY = topY - sag;
-        var bail = new T.Mesh(new T.TorusGeometry(0.15, 0.042, 10, 24), white);
-        bail.position.y = lowY - 0.16;
+        var bail = new T.Mesh(new T.TorusGeometry(0.135, 0.038, 8, 22), white);
+        bail.position.y = lowY - 0.13;
         g.add(bail);
 
-        var rg = 0.58;
-        var girdleY = lowY - 0.30 - rg * GIRDLE_TO_TABLE;
-        var gem = new T.Mesh(brilliant(rg, 16), gemMaterial(env));
-        gem.position.y = girdleY;
-        g.add(gem);
-        var core = gemCore(env, rg);
-        core.position.y = girdleY;
-        g.add(core);
+        /* A step cut, so the two stone pieces on this page are not the same
+           stone twice. It flashes in broad planes where the brilliant
+           scintillates — a different optical character entirely. */
+        /* The head is built lying flat — stone axis up the +Y of its own group
+           — and then tipped a quarter turn so the table faces the viewer.
 
-        prongs(g, env, 4, rg * 0.94, girdleY - 0.30,
-               girdleY + rg * GIRDLE_TO_TABLE * 0.55, 0.17);
+           That is how a pendant is worn, and it is not a cosmetic choice. Left
+           axis-up, the stone is seen edge-on: the bezel reads as a belt
+           buckled across the middle of the gem, the halo reads as spikes
+           sticking out sideways, and the step cut shows none of the broad
+           parallel flashes that are the whole reason for choosing it. */
+        var head = new T.Group();
+        var rg = 0.54;
+
+        head.add(new T.Mesh(N3.stepCut(rg, { ratio: 1 }), gemMaterial(env)));
+
+        /* The bezel grips the girdle: a narrow collar at the widest point of
+           the stone, not a deep cylinder centred on it. stepCut puts the
+           girdle at +/-0.03r, so the collar is barely taller than that. */
+        var bezel = new T.Mesh(
+          new T.CylinderGeometry(rg * 1.06, rg * 1.02, 0.10, 8, 1, true), white);
+        bezel.rotation.y = Math.PI / 8;
+        head.add(bezel);
+        head.add(new T.Mesh(milgrain(rg * 1.07, 24, 0.018, 0.05, 'y'), white));
+
+        // Halo — the small stones that make a modest centre look larger.
+        var halo = [], grains = [], HN = 18, hr = rg * 1.40;
+        for (var k = 0; k < HN; k++){
+          var a = (k / HN) * Math.PI * 2;
+          halo.push(placeGeom(N3.brilliant(0.064, 8),
+            Math.cos(a) * hr, 0.02, Math.sin(a) * hr, 0, 1, 0));
+          var ga = a + Math.PI / HN;
+          grains.push(placeGeom(new T.SphereGeometry(0.019, 6, 5),
+            Math.cos(ga) * hr, 0.045, Math.sin(ga) * hr, 0, 1, 0));
+        }
+        head.add(new T.Mesh(N3.mergeGeoms(halo), gemMaterial(env, 0xFFFAF0)));
+        head.add(new T.Mesh(N3.mergeGeoms(grains), white));
+
+        head.rotation.x = -Math.PI / 2;
+        head.position.y = lowY - 0.34 - rg * 1.40;
+        g.add(head);
       },
 
-      // 04 — Jhumka: dome, bell and a fringe of polki drops
+      /* 04 — Jhumka: dome, bell, and a fringe of polki drops and pearls.
+         The fringe is rose cut on purpose — polki IS a rose cut, and a modern
+         brilliant on a jhumka would be wrong for the piece. */
       function(g, env){
-        var gold = goldMaterial(env, 0xE0BE68);
-        var bellR = 1.02, bellH = 1.00, bellY = 0.34;
-        var bellBottom = bellY - bellH / 2;              // -0.16
-        var bellTop    = bellY + bellH / 2;              //  0.84
+        var mat22 = gold(env, GOLD_22, 0.22);
+        var bright = gold(env, 0xF3DFA4, 0.15);
+        var bellR = 1.00, bellH = 0.98, bellY = 0.34;
+        var bellBottom = bellY - bellH / 2;
+        var bellTop    = bellY + bellH / 2;
 
-        var bell = new T.Mesh(new T.ConeGeometry(bellR, bellH, 26, 1, true), gold);
+        var bell = new T.Mesh(new T.ConeGeometry(bellR, bellH, 28, 1, true), mat22);
         bell.position.y = bellY;
         g.add(bell);
 
         // Dome caps the bell, so its base has to meet the cone's top.
-        var domeR = 0.46;
+        var domeR = 0.45;
         var dome = new T.Mesh(
-          new T.SphereGeometry(domeR, 22, 14, 0, Math.PI * 2, 0, Math.PI / 2), gold);
+          new T.SphereGeometry(domeR, 22, 14, 0, Math.PI * 2, 0, Math.PI / 2), mat22);
         dome.position.y = bellTop;
         g.add(dome);
 
-        var rim = new T.Mesh(new T.TorusGeometry(bellR, 0.062, 12, 60),
-                             goldMaterial(env, 0xF0DCA2));
+        var rim = new T.Mesh(new T.TorusGeometry(bellR, 0.058, 10, 60), bright);
         rim.rotation.x = Math.PI / 2;
         rim.position.y = bellBottom;
         g.add(rim);
+        g.add(new T.Mesh(milgrain(bellR, 52, 0.030, bellBottom + 0.06, 'y'), bright));
 
-        for (var i = 0; i < 14; i++){
-          var a = (i / 14) * Math.PI * 2;
+        // A band of raised work around the bell, the way a chased jhumka has.
+        /* Two chased bands of raised domes. The radius of each band is DERIVED
+           from the cone at that height rather than picked — the same lesson as
+           the stone seats. Guessed at, the upper band sat at four times the
+           radius the cone actually has there and hung in mid-air beside it. */
+        var chase = [], nUp = bellR / bellH;
+        [[0.28, 22], [0.56, 15]].forEach(function(band){
+          var t = band[0];
+          var y = bellBottom + t * bellH;
+          var rad = bellR * (1 - t) * 0.99;
+          for (var c = 0; c < band[1]; c++){
+            var ca = (c / band[1]) * Math.PI * 2;
+            chase.push(placeGeom(
+              new T.SphereGeometry(0.052, 8, 6, 0, Math.PI * 2, 0, Math.PI / 2),
+              Math.cos(ca) * rad, y, Math.sin(ca) * rad,
+              Math.cos(ca), nUp, Math.sin(ca)));
+          }
+        });
+        g.add(new T.Mesh(N3.mergeGeoms(chase), bright));
+
+        // The fringe: alternating polki drops and pearls on gold wires.
+        var COUNT = 16, wires = [], drops = [], pearls = [];
+        for (var i = 0; i < COUNT; i++){
+          var a = (i / COUNT) * Math.PI * 2;
           var x = Math.cos(a) * bellR, z = Math.sin(a) * bellR;
-          var wire = new T.Mesh(new T.CylinderGeometry(0.017, 0.017, 0.24, 6), gold);
-          wire.position.set(x, bellBottom - 0.12, z);
-          g.add(wire);
-          var drop = new T.Mesh(brilliant(0.155, 10), gemMaterial(env, 0xFFF6E2));
-          drop.position.set(x, bellBottom - 0.24 - 0.155 * GIRDLE_TO_TABLE, z);
-          g.add(drop);
+          var long = (i % 2) === 0;
+          var len = long ? 0.30 : 0.20;
+          var w = new T.CylinderGeometry(0.014, 0.014, len, 6);
+          w.translate(x, bellBottom - len / 2 - 0.02, z);
+          wires.push(w);
+          var tipY = bellBottom - len - 0.04;
+          if (long){
+            var d = N3.roseCut(0.135, 6);
+            d.translate(x, tipY - 0.06, z);
+            drops.push(d);
+          } else {
+            var p = new T.SphereGeometry(0.105, 12, 10);
+            p.translate(x, tipY - 0.09, z);
+            pearls.push(p);
+          }
         }
+        g.add(new T.Mesh(N3.mergeGeoms(wires), mat22));
+        g.add(new T.Mesh(N3.mergeGeoms(drops), gemMaterial(env, 0xFFF6E2)));
+
+        /* Pearl is the one surface on this page that is NOT driven by the
+           environment: it is a dielectric with real subsurface scatter, so it
+           wants a diffuse body with a tight clearcoat over it. Rendered as a
+           metal it looks like a ball bearing. */
+        var pearlMat = new T.MeshPhysicalMaterial({
+          color: 0xF6EFE2, metalness: 0.0, roughness: 0.28,
+          envMap: env, envMapIntensity: 0.9
+        });
+        if ('clearcoat' in pearlMat){ pearlMat.clearcoat = 1.0; pearlMat.clearcoatRoughness = 0.10; }
+        if ('iridescence' in pearlMat){ pearlMat.iridescence = 0.5; pearlMat.iridescenceIOR = 1.4; }
+        g.add(new T.Mesh(N3.mergeGeoms(pearls), pearlMat));
 
         // Ear wire, seated on the dome instead of floating above it.
-        var post = new T.Mesh(new T.CylinderGeometry(0.035, 0.035, 0.30, 8), gold);
+        var post = new T.Mesh(new T.CylinderGeometry(0.032, 0.032, 0.30, 8), mat22);
         post.position.y = bellTop + domeR + 0.15;
         g.add(post);
-        var hook = new T.Mesh(
-          new T.TorusGeometry(0.30, 0.042, 10, 30, Math.PI * 1.35), gold);
-        hook.position.y = bellTop + domeR + 0.58;
+        var hook = new T.Mesh(new T.TorusGeometry(0.21, 0.032, 8, 28, Math.PI * 1.4), mat22);
+        hook.position.y = bellTop + domeR + 0.46;
         hook.rotation.z = Math.PI * 0.15;
         g.add(hook);
       }
     ];
 
     window.__vairaShowPiece = function(i){
-      clearGroup(view.group);
+      N3.clearGroup(view.group);
       BUILDERS[i](view.group, view.env);
-      view.group.rotation.set(0.18, 0.55, 0);
-      frame(view, view.group, 1.32);
-      view.__refit = function(){ frame(view, view.group, 1.32); };
+      view.group.rotation.set(0.16, 0.55, 0);
+      view.reset();
+      N3.frame(view, view.group, 1.06);
+      view.__refit = function(){ N3.frame(view, view.group, 1.06); };
     };
     window.__vairaShowPiece(currentPiece);
   }

@@ -168,6 +168,12 @@ h1,h2,h3,h4{ font-family:var(--f-display); font-weight:400; line-height:1.08 }
 }
 .hero-meta .dot{ width:3px; height:3px; border-radius:50%; background:var(--madder-deep) }
 
+/* Tint for the on-canvas 3D controls, which the shared core injects. It reads
+   these from whatever ancestor it finds them on, so a page never has to know
+   the control markup exists. */
+.hero-stage,.look-stage{
+  --n3-bg:rgba(13,10,12,.72); --n3-line:rgba(196,103,90,.28); --n3-ink:rgba(240,232,226,.74); --n3-hot:var(--madder-soft);
+}
 .hero-stage{ position:relative; aspect-ratio:1/1.12; width:100%; display:grid; place-items:center }
 @media(max-width:940px){ .hero-stage{ aspect-ratio:4/3.6; margin-top:26px } }
 #drapeCanvas{ position:absolute; inset:0; width:100%; height:100%; touch-action:pan-y }
@@ -439,7 +445,7 @@ h1,h2,h3,h4{ font-family:var(--f-display); font-weight:400; line-height:1.08 }
         <path d="M52 32 H 300" stroke="#C4675A" stroke-opacity=".6" stroke-width="3" stroke-linecap="round"/>
       </svg>
     </div>
-    <canvas id="drapeCanvas" aria-label="Interactive 3D draped cloth. Drag to rotate." role="img" hidden></canvas>
+    <canvas id="drapeCanvas" aria-label="Interactive 3D draped cloth. Drag to turn it; pinch or scroll to zoom." role="img" hidden></canvas>
     <div class="stage-hint" id="drapeHint"><i class="fa-solid fa-arrows-left-right"></i> Drag to turn the cloth</div>
   </div>
 </header>
@@ -479,7 +485,7 @@ h1,h2,h3,h4{ font-family:var(--f-display); font-weight:400; line-height:1.08 }
             <g id="loomSvg"></g>
           </svg>
         </div>
-        <canvas id="loomCanvas" aria-label="Interactive 3D lookbook carousel. Drag to spin." role="img" hidden></canvas>
+        <canvas id="loomCanvas" aria-label="Interactive 3D lookbook carousel. Drag to spin it; pinch or scroll to zoom." role="img" hidden></canvas>
       </div>
 
       <div class="weave-row rv" data-d="2">
@@ -736,22 +742,27 @@ h1,h2,h3,h4{ font-family:var(--f-display); font-weight:400; line-height:1.08 }
     { name:'Tussar silk',  sub:'Bhagalpur slub · natural gold', price:'₹6,800',
       hex:0xC9A26B, chip:'#C9A26B', warp:'#e0bd8b', weft:'#8a6a3e',
       weave:'Plain, slub', fall:'Crisp', use:'Day, office',
+      border:'#7a5a30', zari:'#C9A24C',
       fold:1.00, sag:0.55, sheen:0.55, rough:0.42 },
     { name:'Jamdani',      sub:'Fine cotton · woven motif',     price:'₹9,400',
       hex:0xE7DCC8, chip:'#E7DCC8', warp:'#f3ece0', weft:'#b9ab92',
       weave:'Discontinuous weft', fall:'Airy', use:'Summer, daytime',
+      border:'#a89878', zari:'#d9cfa8',
       fold:1.35, sag:0.40, sheen:0.30, rough:0.62 },
     { name:'Baluchari',    sub:'Bishnupur · figured pallu',     price:'₹18,500',
       hex:0x8E2F36, chip:'#8E2F36', warp:'#b5474d', weft:'#5a1c22',
       weave:'Figured silk', fall:'Heavy, deep folds', use:'Wedding, evening',
+      border:'#4c161c', zari:'#C9A24C',
       fold:0.72, sag:0.95, sheen:0.85, rough:0.26 },
     { name:'Kantha stitch',sub:'Running stitch on tussar',      price:'₹12,200',
       hex:0xB4653F, chip:'#B4653F', warp:'#d08a5f', weft:'#7a4128',
       weave:'Embroidered', fall:'Soft, textured', use:'Festive, gifting',
+      border:'#6a3722', zari:'#e8b489',
       fold:1.10, sag:0.70, sheen:0.40, rough:0.55 },
     { name:'Garad',        sub:'Undyed silk · red border',      price:'₹8,900',
       hex:0xF0E9DC, chip:'#F0E9DC', warp:'#fbf6ec', weft:'#c9bfa9',
       weave:'Plain silk', fall:'Smooth, fluid', use:'Puja, ritual',
+      border:'#9E2B2B', zari:'#C9A24C',
       fold:0.88, sag:0.80, sheen:0.70, rough:0.30 }
   ];
   var current = 0;
@@ -858,42 +869,199 @@ h1,h2,h3,h4{ font-family:var(--f-display); font-weight:400; line-height:1.08 }
     var CLOTH_ENV = {
       base: [[0.00, '#241a1c'], [0.38, '#4a3a38'], [0.58, '#1a1315'], [1.00, '#0d0a0c']],
       bands: [[70, 54, '#f3e6de'], [150, 26, '#c9a99c'], [250, 16, '#6b4f49']],
+      softboxes: [
+        [ 40,  36, 300, 150, '#fbeee6', 0.62, 0.85],
+        [520,  70, 220, 110, '#e8cfc4', 0.60, 0.55],
+        [800, 120, 190,  90, '#c08d80', 0.58, 0.45]
+      ],
       flares: [[260, 96, 130], [760, 140, 96]],
-      bounce: ['rgba(122, 70, 60, 0)', 'rgba(150, 92, 80, .5)']
+      bounce: ['rgba(122, 70, 60, 0)', 'rgba(150, 92, 80, .5)'],
+      grain: 0.05
     };
-    var LIGHTS = { ambient: 0.5, key: 1.7, keyColor: 0xfff0e6, rim: 1.1, rimColor: 0xC4675A, fill: 0.8 };
+    /* Cloth is metalness 0, so scene.environment lights it as DIFFUSE image
+       based light — the whole bright cloth env map lands on every surface
+       before a single discrete light is added. At the values these started at
+       a deep maroon Baluchari came back pale pink and every weave read a
+       couple of stops lighter than its own swatch. */
+    var LIGHTS = { ambient: 0.15, key: 0.95, keyColor: 0xfff0e6, rim: 0.55, rimColor: 0xC4675A, fill: 0.3 };
 
-    /* A woven surface, painted. Warp and weft as alternating one-pixel runs
-       give a real cloth grain at almost no cost, and it tiles seamlessly. */
-    function weaveTexture(warp, weft, repeat){
-      var c = document.createElement('canvas');
-      c.width = c.height = 64;
-      var g = c.getContext('2d');
-      g.fillStyle = warp; g.fillRect(0, 0, 64, 64);
-      g.strokeStyle = weft; g.globalAlpha = 0.5; g.lineWidth = 1;
-      for (var i = 0; i < 64; i += 3){
-        g.beginPath(); g.moveTo(0, i + .5); g.lineTo(64, i + .5); g.stroke();
-      }
-      g.globalAlpha = 0.28;
-      for (var j = 0; j < 64; j += 3){
-        g.beginPath(); g.moveTo(j + .5, 0); g.lineTo(j + .5, 64); g.stroke();
-      }
-      var tex = new T.CanvasTexture(c);
-      tex.wrapS = tex.wrapT = T.RepeatWrapping;
-      tex.repeat.set(repeat || 8, (repeat || 8) * 2);
-      return tex;
+    /* ── The cloth itself ────────────────────────────────────────────────────
+       A woven surface, painted, and painted ONCE across the whole piece rather
+       than tiled.
+
+       That is the important part. Every textile on this page is a Bengali
+       handloom, and every one of them has a contrasting border down the
+       selvedge and a worked end-piece — the paar and the pallu. They are not
+       decoration: they are how you tell a Baluchari from a Garad across a
+       room, and they are the first thing any of these weavers would point at.
+       A tiled field with no edges reads as fabric in the abstract; the moment
+       there is a border running down the hem it reads as a specific cloth
+       someone made.
+
+       So the colour map is one canvas mapped 1:1 onto the sheet, and the weave
+       is carried separately as a normal map, which is what it physically is —
+       a texture you feel rather than see. */
+    function clothCanvas(w){
+      var W = 512, H = 768;
+      return (function(){
+        var c = document.createElement('canvas');
+        c.width = W; c.height = H;
+        var g = c.getContext('2d');
+
+        /* The field is the CLOTH colour, not the warp thread. warp is the
+           lighter of the two yarns and only ever shows as highlight; filling
+           with it put every weave a shade off its own swatch and, once lit and
+           tone-mapped, turned a natural-gold tussar into cream. w.hex is the
+           colour the chip in the swatch list uses, so the 3D and the UI now
+           agree by construction. */
+        g.fillStyle = '#' + ('00000' + w.hex.toString(16)).slice(-6);
+        g.fillRect(0, 0, W, H);
+
+        // The ground weave: warp and weft as fine alternating runs.
+        g.globalAlpha = 0.34; g.strokeStyle = w.warp; g.lineWidth = 1;
+        var i;
+        for (i = 0; i < H; i += 3){
+          g.beginPath(); g.moveTo(0, i + 0.5); g.lineTo(W, i + 0.5); g.stroke();
+        }
+        g.globalAlpha = 0.20; g.strokeStyle = w.weft;
+        for (i = 0; i < W; i += 3){
+          g.beginPath(); g.moveTo(i + 0.5, 0); g.lineTo(i + 0.5, H); g.stroke();
+        }
+        g.globalAlpha = 1;
+
+        var bw = W * 0.10;                     // border width
+        function motifRow(y, h, count, colour){
+          g.fillStyle = colour;
+          for (var m = 0; m < count; m++){
+            var cx = (m + 0.5) * (W / count);
+            g.beginPath();
+            g.moveTo(cx, y);
+            g.lineTo(cx + h * 0.42, y + h / 2);
+            g.lineTo(cx, y + h);
+            g.lineTo(cx - h * 0.42, y + h / 2);
+            g.closePath(); g.fill();
+          }
+        }
+
+        // Paar — the border down both selvedges, with a zari pinstripe inside.
+        [0, W - bw].forEach(function(x){
+          g.fillStyle = w.border;
+          g.fillRect(x, 0, bw, H);
+          g.fillStyle = w.zari;
+          g.globalAlpha = 0.75;
+          g.fillRect(x + (x ? 2 : bw - 5), 0, 3, H);
+          g.globalAlpha = 0.4;
+          g.fillRect(x + (x ? 9 : bw - 12), 0, 1.5, H);
+          g.globalAlpha = 1;
+        });
+
+        // Pallu — the worked end. Deeper than the border, and the only part of
+        // a sari that carries figure work.
+        var py = H * 0.80;
+        g.fillStyle = w.border;
+        g.fillRect(0, py, W, H - py);
+        g.fillStyle = w.zari;
+        g.globalAlpha = 0.8;
+        g.fillRect(0, py + 4, W, 3);
+        g.fillRect(0, H - 14, W, 2.5);
+        g.globalAlpha = 1;
+        motifRow(py + 22, 30, 7, w.zari);
+        g.globalAlpha = 0.55;
+        motifRow(py + 74, 20, 11, w.zari);
+        g.globalAlpha = 1;
+
+        return c;
+      })();
     }
 
+    /* ── Relief ──────────────────────────────────────────────────────────────
+       Painted at the SAME scale as the colour map, and deliberately not tiled.
+
+       In three.js 0.147 only `map` carries its own UV transform into the
+       shader. normalMap, roughnessMap and the rest sample vUv directly and
+       silently ignore their own `repeat` — so a weave tile set to repeat 14x20
+       does not tile at all. It gets stretched once across the whole cloth, and
+       what should be thread-scale relief comes out as a quilted eiderdown a
+       foot across. That is exactly what the first pass rendered.
+
+       Painting it full size fixes that and buys something better: the border
+       and the pallu can be physically RAISED, which is what they are on a real
+       handloom — the extra weft is thicker than the ground.
+
+       Computed once and shared by all five weaves. Only the colours differ
+       between them; the border geometry is identical, and a Sobel over a
+       393k-pixel canvas five times over would be a visible stall. */
+    var weaveNormal = N3.normalFrom((function(){
+      var W = 512, H = 768, bw = W * 0.10, py = H * 0.80;
+      var c = document.createElement('canvas');
+      c.width = W; c.height = H;
+      var g = c.getContext('2d');
+      g.fillStyle = '#808080'; g.fillRect(0, 0, W, H);
+
+      // Ground weave: warp and weft as fine alternating threads.
+      var i;
+      g.globalAlpha = 0.5;
+      for (i = 0; i < H; i += 3){
+        g.fillStyle = (i % 6) ? '#909090' : '#6e6e6e';
+        g.fillRect(0, i, W, 1.5);
+      }
+      g.globalAlpha = 0.32;
+      for (i = 0; i < W; i += 3){
+        g.fillStyle = (i % 6) ? '#8e8e8e' : '#707070';
+        g.fillRect(i, 0, 1.5, H);
+      }
+      g.globalAlpha = 1;
+
+      // The borders and the pallu stand proud of the ground cloth.
+      g.fillStyle = '#989898';
+      g.fillRect(0, 0, bw, H); g.fillRect(W - bw, 0, bw, H);
+      g.fillRect(0, py, W, H - py);
+      g.fillStyle = '#c4c4c4';
+      [2, bw - 5].forEach(function(o){ g.fillRect(o, 0, 3, H); });
+      [W - bw + 2, W - 5].forEach(function(o){ g.fillRect(o, 0, 3, H); });
+      g.fillRect(0, py + 4, W, 3);
+
+      function motifRow(y, h, count){
+        for (var m = 0; m < count; m++){
+          var cx = (m + 0.5) * (W / count);
+          g.beginPath();
+          g.moveTo(cx, y); g.lineTo(cx + h * 0.42, y + h / 2);
+          g.lineTo(cx, y + h); g.lineTo(cx - h * 0.42, y + h / 2);
+          g.closePath(); g.fill();
+        }
+      }
+      g.fillStyle = '#d2d2d2';
+      motifRow(py + 22, 30, 7);
+      g.fillStyle = '#b8b8b8';
+      motifRow(py + 74, 20, 11);
+
+      // A rolled hem along the bottom edge.
+      g.fillStyle = '#cccccc';
+      g.fillRect(0, H - 9, W, 7);
+      return c;
+    })(), 1.9);
+    weaveNormal.wrapS = weaveNormal.wrapT = T.ClampToEdgeWrapping;
+
     function clothMaterial(env, w){
+      var tex = N3.textureFrom(clothCanvas(w));
+      // Clamped, not repeated: the border has to land on the selvedge exactly
+      // once. Tiled, it would march across the middle of the cloth.
+      tex.wrapS = tex.wrapT = T.ClampToEdgeWrapping;
+      tex.repeat.set(1, 1);
+
       var m = new T.MeshPhysicalMaterial({
-        color: w.hex,
-        map: weaveTexture(w.warp, w.weft, 7),
+        color: 0xffffff,          // the map carries the colour now
+        map: tex,
+        normalMap: weaveNormal,
         metalness: 0.0,
+        roughnessMap: weaveNormal,
         roughness: w.rough,
         envMap: env,
-        envMapIntensity: 1.15,
+        envMapIntensity: 0.5,
         side: T.DoubleSide
       });
+      m.normalScale = new T.Vector2(0.75, 0.75);
+      m.shadowSide = T.DoubleSide;      // so a fold can shade the fold behind it
       // Sheen is what separates silk from paper. Present from r129, and this
       // page is pinned to 0.147, but guard anyway so a future bump degrades to
       // a matte cloth rather than throwing.
@@ -913,8 +1081,8 @@ h1,h2,h3,h4{ font-family:var(--f-display); font-weight:400; line-height:1.08 }
 
        The flat grid is kept as a separate copy and the displacement is written
        into the live buffer from it each time. Rebuilding a PlaneGeometry per
-       frame would allocate ~6,000 vertices twenty times a second and hand the
-       lot straight to the garbage collector. */
+       frame would allocate thousands of vertices twenty times a second and
+       hand the lot straight to the garbage collector. */
     function makeDrape(w, h, segX, segY){
       var geo = new T.PlaneGeometry(w, h, segX, segY);
       var flat = geo.attributes.position.array.slice();
@@ -933,9 +1101,14 @@ h1,h2,h3,h4{ font-family:var(--f-display); font-weight:400; line-height:1.08 }
         var down = (h / 2 - y) / h;               // 0 at the rod, 1 at the hem
         var grip = Math.pow(down, 0.72);          // gathered at the top
         var z =
-          Math.sin(x * 3.1 * fold + phase) * 0.20 * grip +
-          Math.sin(x * 6.7 * fold + phase * 1.3 + 1.1) * 0.085 * grip +
-          Math.sin(x * 1.7 * fold - phase * 0.6) * 0.11 * grip;
+          Math.sin(x * 3.1 * fold + phase) * 0.30 * grip +
+          Math.sin(x * 6.7 * fold + phase * 1.3 + 1.1) * 0.115 * grip +
+          Math.sin(x * 1.7 * fold - phase * 0.6) * 0.17 * grip;
+        /* A second wave running DOWN the cloth as well as across it. A pure
+           vertical corrugation is the tell of a simulated drape — real cloth
+           hanging under its own weight also buckles horizontally where the
+           fabric runs out of room. */
+        z += Math.sin(y * 2.4 * fold + phase * 0.8) * 0.045 * grip;
         z += -Math.pow(down, 1.7) * sag * 0.55;   // the hang itself
         // a little lateral drift so the hem is not a straight line
         var xo = Math.sin(y * 2.2 + phase * 0.4) * 0.05 * down;
@@ -950,35 +1123,49 @@ h1,h2,h3,h4{ font-family:var(--f-display); font-weight:400; line-height:1.08 }
       return shapeDrape(makeDrape(w, h, segX, segY), opts);
     }
 
+    function rodMaterial(env){
+      return N3.metalMaterial(env, { color: 0x8a6a52, roughness: 0.4, envMapIntensity: 1.2 });
+    }
+
     /* ── Hero cloth ── */
     var drape = N3.makeStage(
       document.getElementById('drapeCanvas'),
       document.getElementById('drapeFallback'),
-      { dist: 8, fov: 34, envOpts: CLOTH_ENV, lights: LIGHTS, exposure: 1.16,
-        idleSpin: 0.00022, tiltLimit: 0.42 }
+      { dist: 8, fov: 34, envOpts: CLOTH_ENV, lights: LIGHTS, exposure: 0.80,
+        idleSpin: 0.00022, tiltLimit: 0.36, minZoom: 0.7, maxZoom: 6,
+        shadows: true, shadowReach: 7,
+        hint: document.getElementById('drapeHint'),
+        controlsLabel: 'Fabric view controls' }
     );
+    drape.key.position.set(3.4, 5.2, 4.4);
 
-    var heroMesh = null, heroRod = null, phase = 0;
+    var heroMesh = null, phase = 0;
+    var SEGX = N3.detail(88, 64, 40), SEGY = N3.detail(120, 90, 56);
 
     function buildHero(w){
       var g = drape.group;
       N3.clearGroup(g);
 
-      heroMesh = new T.Mesh(drapeGeometry(3.0, 4.4, 64, 90, w), clothMaterial(drape.env, w));
+      heroMesh = new T.Mesh(drapeGeometry(3.0, 4.4, SEGX, SEGY, w), clothMaterial(drape.env, w));
+      heroMesh.castShadow = true;
+      heroMesh.receiveShadow = true;
       g.add(heroMesh);
 
       // The rod it hangs from — without it the cloth floats and reads as a flag.
-      heroRod = new T.Mesh(
-        new T.CylinderGeometry(0.055, 0.055, 3.5, 14),
-        N3.metalMaterial(drape.env, { color: 0x8a6a52, roughness: 0.4, envMapIntensity: 1.2 })
-      );
-      heroRod.rotation.z = Math.PI / 2;
-      heroRod.position.y = 2.24;
-      g.add(heroRod);
+      var rod = new T.Mesh(new T.CylinderGeometry(0.055, 0.055, 3.5, 14), rodMaterial(drape.env));
+      rod.rotation.z = Math.PI / 2;
+      rod.position.y = 2.24;
+      rod.castShadow = true;
+      g.add(rod);
+      [-1, 1].forEach(function(s){
+        var cap = new T.Mesh(new T.SphereGeometry(0.09, 12, 10), rodMaterial(drape.env));
+        cap.position.set(s * 1.78, 2.24, 0);
+        g.add(cap);
+      });
 
       g.rotation.set(0.05, -0.28, 0);
-      N3.frame(drape, g, 1.14);
-      drape.__refit = function(){ N3.frame(drape, g, 1.14); };
+      N3.frame(drape, g, 1.10);
+      drape.__refit = function(){ N3.frame(drape, g, 1.10); };
     }
 
     /* Breathe the folds — the cloth settles and shifts as if there were air in
@@ -1001,17 +1188,19 @@ h1,h2,h3,h4{ font-family:var(--f-display); font-weight:400; line-height:1.08 }
       /* idleSpin is 0 here on purpose. The ring is driven toward whichever
          weave is selected (see onFrame below), and a drifting idle spin would
          pull against that easing forever — the carousel would never settle. */
-      { dist: 12, fov: 36, env: drape.env, lights: LIGHTS, exposure: 1.12,
-        idleSpin: 0, tiltLimit: 0.34 }
+      { dist: 12, fov: 36, env: drape.env, lights: LIGHTS, exposure: 0.82,
+        idleSpin: 0, tiltLimit: 0.30, minZoom: 0.75, maxZoom: 5,
+        controlsLabel: 'Lookbook view controls' }
     );
 
     var panels = [];
     (function buildRing(){
       var g = loom.group, R = 3.05;
+      var pSegX = N3.detail(44, 34, 22), pSegY = N3.detail(68, 52, 34);
       WEAVES.forEach(function(w, i){
         var a = (i / WEAVES.length) * Math.PI * 2;
         var m = new T.Mesh(
-          drapeGeometry(1.5, 2.6, 34, 52, { fold: w.fold, sag: w.sag * 0.7, phase: i * 1.4 }),
+          drapeGeometry(1.5, 2.6, pSegX, pSegY, { fold: w.fold, sag: w.sag * 0.7, phase: i * 1.4 }),
           clothMaterial(loom.env, w)
         );
         m.position.set(Math.sin(a) * R, 0, Math.cos(a) * R);
@@ -1020,18 +1209,15 @@ h1,h2,h3,h4{ font-family:var(--f-display); font-weight:400; line-height:1.08 }
         g.add(m);
         panels.push(m);
 
-        var rod = new T.Mesh(
-          new T.CylinderGeometry(0.035, 0.035, 1.7, 10),
-          N3.metalMaterial(loom.env, { color: 0x8a6a52, roughness: 0.42, envMapIntensity: 1.1 })
-        );
+        var rod = new T.Mesh(new T.CylinderGeometry(0.035, 0.035, 1.7, 10), rodMaterial(loom.env));
         rod.rotation.z = Math.PI / 2;
         rod.position.set(Math.sin(a) * R, 1.36, Math.cos(a) * R);
         rod.rotation.y = a;
         g.add(rod);
       });
       g.rotation.set(0.10, 0, 0);
-      N3.frame(loom, g, 1.30);
-      loom.__refit = function(){ N3.frame(loom, g, 1.30); };
+      N3.frame(loom, g, 1.10);
+      loom.__refit = function(){ N3.frame(loom, g, 1.10); };
     })();
 
     /* Spin the ring so the chosen weave faces front, and lift it slightly out
@@ -1060,9 +1246,6 @@ h1,h2,h3,h4{ font-family:var(--f-display); font-weight:400; line-height:1.08 }
 
     buildHero(WEAVES[current]);
     window.__sutraShowWeave(current);
-
-    var hint = document.getElementById('drapeHint');
-    if (hint) setTimeout(function(){ hint.classList.add('show'); }, 1200);
   }
 })();
 </script>

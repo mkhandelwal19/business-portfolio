@@ -42,6 +42,30 @@ Five things that will cost you an hour each if you learn them the hard way.
    mockup — all real bugs from this build that only a screenshot caught. For any
    visual work, look at it.
 
+   **You can look at it. Headless Chrome renders WebGL here.** This is worth
+   the two minutes to set up, and it is how every 3D bug listed below was
+   found:
+
+   ```bash
+   # serve the repo (any static server), then:
+   chrome --headless=new --enable-unsafe-swiftshader --use-angle=swiftshader \
+          --hide-scrollbars --window-size=1280,860 --virtual-time-budget=26000 \
+          --screenshot=out.png "http://localhost:8124/jewellery-lux/"
+   ```
+
+   Two traps, both of which will waste an hour:
+
+   - **`--virtual-time-budget` does not advance while a rAF loop is running**,
+     and every one of these pages runs one forever. So a `setTimeout` in a
+     debug snippet never fires. Do not drive a screenshot harness off timers:
+     write a temporary copy of the page with the state you want already set in
+     the source (`selectPiece(2)`, `var currentUnit = 1`), and inject CSS to
+     blow the stage up to `position:fixed; inset:0` so you get a full-viewport
+     render of just the model.
+   - **three.js comes from a CDN, so a run can fail transiently** and leave you
+     looking at the SVG fallback. That is the gate working, not a bug. Retry
+     before you go hunting.
+
 ### Repo shape
 
 ```
@@ -149,6 +173,57 @@ site. A flagship's job is to win the meeting, not to be a complete website.
 - **Auto-frame every piece.** `frame()` recentres on the bounding box and fits the
   camera, so composition never depends on hand-tuned offsets.
 
+- **An environment map belongs to ONE renderer.** A PMREM env is a
+  `WebGLRenderTarget` texture, and a render target belongs to the GL context
+  that made it. Every stage has its own `WebGLRenderer`, so passing
+  `env: firstStage.env` to a second stage hands it a texture from a foreign
+  context and it samples as nothing — silently. Both `realestate-lux` and
+  `boutique-lux` shipped with a dead environment on their second canvas this
+  way. **What it looks like is not obviously an environment problem:** metal
+  keeps its highlights, because those come from the discrete lights, so a gold
+  band still reads as lit metal, just dark. A near-mirror surface has almost no
+  analytic specular and goes PURE BLACK. `makeStage` now rebuilds the env from
+  the recipe when it sees one from another renderer, so `opts.env` means "the
+  same look", not "that texture".
+
+- **In three.js 0.147 only `map` gets a UV transform.** `normalMap`,
+  `roughnessMap` and the rest sample `vUv` directly and silently ignore their
+  own `repeat`. A weave tile set to `repeat(14, 20)` does not tile — it is
+  stretched once across the whole surface, and thread-scale relief comes out as
+  a quilted eiderdown a foot across. Either bake detail at the same scale as
+  the colour map, or accept 1:1.
+
+- **Facet count is not the point; the ENVIRONMENT is.** The stone was cut as
+  two cones and no material tuning could rescue it, because a cone has one
+  continuous surface per side and therefore one continuous highlight. But the
+  57-facet cut alone did not fix it either: with a smooth warm gradient for an
+  env map, neighbouring facets differ by a few degrees and reflect nearly the
+  same value, so the crown still read as one surface. Fire is environment
+  CONTRAST and FREQUENCY. `GEM_ENV` is three rings of strip lights at even
+  azimuths over near-black: whichever way a facet turns there is something to
+  catch, and the gaps between them are what makes it sparkle rather than glow.
+
+- **A lit zenith is not optional.** In an equirectangular map the top edge is
+  the ceiling, and the table — the big flat facet on top of every cut stone —
+  points almost straight at it. Left black, every small stone renders as a
+  black hole with a gold outline while the big hero gem looks fine.
+
+- **Derive, never guess — this keeps costing.** The chased bands on the jhumka
+  were placed at a hand-picked radius and hung in mid-air beside the bell,
+  because the cone's radius at that height is a quarter of what was guessed.
+  Ask the geometry: `radius = bellR * (1 - t)`.
+
+- **Compose placement from a quaternion, not stacked Euler rotations.**
+  `rotateX` then `rotateY` do not commute, and applying them in the order they
+  were typed is how the bangle studs ended up clustered on one side of the hoop
+  and the repoussé domes ended up buried inside the metal. There is a
+  `placeGeom(geo, x,y,z, dx,dy,dz)` in `jewellery-lux` that does it properly.
+
+- **Nothing reads as real while it floats.** The tower was a diagram until it
+  got a ground plane, a road, six neighbours and some trees. Site context is
+  flagged `userData.n3ignoreFrame` so it can be as big as it needs to be
+  without the camera pulling back to fit it.
+
 ---
 
 ## 3. The ₹44,999 tier — `commerce/`, a store that actually takes money
@@ -201,8 +276,10 @@ client-side "payment succeeded" check is trivially forged.
   Console and add an HTTP-referrer restriction.** Scrubbing git history is
   pointless while the old key still works. Then move it to an untracked `.env`
   (`.gitignore` already covers `**/.env`).
-- **Consider a visual test.** Playwright would catch the class of bug jsdom
-  structurally cannot see. Worth it before Track B adds two more 3D pages.
+- **Consider a visual test.** Headless Chrome now demonstrably renders these
+  pages (recipe in §0.5), so the remaining work is only to commit a script and
+  a set of reference images. Worth it: every 3D bug in §2b was invisible to
+  `npm test` and obvious in a screenshot.
 
 ---
 
