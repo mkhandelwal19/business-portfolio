@@ -38,7 +38,7 @@ Four reasons, in order of how much they matter.
 
 `jewellery-lux` exists to justify a higher tier. If every demo is 3D, there is
 nothing to move a client *up* to, and the flagship becomes the baseline you are
-expected to deliver for ₹12,999. The 3D is only worth money while it is scarce.
+expected to deliver for ₹14,999. The 3D is only worth money while it is scarce.
 
 ### 3D does not sell every category
 
@@ -120,7 +120,7 @@ flagship's job is to win the meeting, not to be a complete website.
 
 | Tier | Price | Demo shown | What sells it |
 |------|-------|-----------|---------------|
-| Starter | ₹12,999 | The eight standard demos, **with Track A applied** | Fast, modern, complete, live in 10 days |
+| Starter | ₹14,999 | The eight standard demos, **with Track A applied** | Fast, modern, complete, live in 10 days |
 | Business | ₹24,999 | `jewellery-lux` + one new flagship | One signature 3D moment on the homepage |
 | Premium | ₹44,999 | **`commerce/` — a store that actually takes money** | It sells, rather than just describes |
 

@@ -36,7 +36,7 @@ const ROUTES = [
   {
     view: 'pricing',
     title: 'Pricing — Netloom',
-    desc: 'Honest, fixed pricing: Starter ₹12,999, Business ₹24,999, Premium ₹44,999. No hidden charges, and a full refund if the design is not right.'
+    desc: 'Honest, fixed pricing: Starter ₹14,999, Business ₹24,999, Premium ₹44,999. No hidden charges, and a full refund if the design is not right.'
   },
   {
     view: 'contact',

@@ -74,7 +74,7 @@ function firstName(full) {
 }
 
 const PACKAGES = {
-  starter:  'Starter — ₹12,999',
+  starter:  'Starter — ₹14,999',
   business: 'Business — ₹24,999',
   premium:  'Premium — ₹44,999'
 };
