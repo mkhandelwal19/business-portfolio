@@ -1,164 +1,166 @@
-# Demo Sites — Pricing & Navigation Reference
+# Demo sites — page inventory and navigation reference
 
-## Tier Summary
+Accurate as of 8 September 2026. For the business procedure around these
+templates — intake, pricing, mockups, go-live — see `NETLOOM_PLAYBOOK.md`.
+
+## Tier summary
 
 | Tier | Pages | Price | What's included |
 |------|-------|-------|-----------------|
-| Starter  | 4 pages | ₹12,999 | Home, core service page, About, Contact |
+| Starter  | 4 pages | ₹14,999 | Home, core page, About, Contact |
 | Business | 7 pages | ₹24,999 | Starter + Gallery, Reviews, FAQ |
-| Premium | 10 pages | ₹44,999 | Business + 3 category-specific power pages |
+| Premium | 9+ pages | ₹44,999 | Business + Booking and Blog — or a full store, or a 3D flagship |
 
 ---
 
-## Category Overview
+## What exists
 
-| Category | Business Name | Theme | Starter (₹12,999) | Business (₹24,999) | Premium (₹44,999) | URL |
-|----------|--------------|-------|---------------------|---------------------|-------------------|-----|
-| Restaurant | Aangan Thali House | theme-ember | Home, Menu, About, Contact | + Gallery, Reviews, FAQ | + Booking, Team, Blog | /restaurant |
-| Healthcare | Basu Family Clinic | theme-mint | Home, Services, About, Contact | + Gallery, Reviews, FAQ | + Appointments, Doctors, Health Tips | /healthcare |
-| Salon | Lumière Salon & Spa | theme-plum | Home, Services, About, Contact | + Gallery, Reviews, FAQ | + Booking, Team, Blog | /salon |
-| Boutique | Riyaaz Boutique | theme-pearl | Home, Collections, About, Contact | + Gallery, Reviews, FAQ | + Shop, Lookbook, Blog | /boutique |
-| Yoga | Praana Yoga Studio | theme-sage | Home, Classes, About, Contact | + Gallery, Reviews, FAQ | + Booking, Teachers, Blog | /yoga |
-| Jewellery | Mallika Jewels | theme-gold | Home, Collections, About, Contact | + Gallery, Reviews, FAQ | + Bridal, Custom Orders, Care Guide | /jewellery |
-| Ecommerce | Kolkata Craft Co. | theme-saffron | Home, Categories, About, Contact | + All Products, Gallery, Reviews | + FAQ, Blog, Cart | /ecommerce |
-| Real Estate | Saha Properties | theme-cocoa | Home, Properties, About, Contact | + Gallery, Reviews, FAQ | + Blog, Team, EMI Calculator | /realestate |
+Eight verticals, three template families.
 
----
+| Vertical | Business name | Template | Family | Theme | Pages |
+|---|---|---|---|---|---|
+| Restaurant & cafe | Aangan Thali House | `/restaurant` | standard | `theme-ember` | 9 |
+| Clinic & healthcare | Basu Family Clinic | `/healthcare` | standard | `theme-mint` | 9 |
+| Salon & spa | Lumière Salon & Spa | `/salon` | standard | `theme-plum` | 9 |
+| Yoga & fitness | Praana Yoga Studio | `/yoga` | standard | `theme-sage` | 9 |
+| Online store | Kolkata Craft Co. | `/commerce` | commerce | own light system | 12 |
+| Jewellery | Mallika Jewels | `/jewellery-lux` | 3D flagship | own dark system | 1 |
+| Boutique | Riyaaz Boutique | `/boutique-lux` | 3D flagship | own dark system | 1 |
+| Real estate | Saha Properties | `/realestate-lux` | 3D flagship | own dark system | 1 |
 
-## Page Inventory by Category
+### Retired, 6 September 2026
 
-### Restaurant — /restaurant
-| # | Page | File | Tier |
-|---|------|------|------|
-| 1 | Home | index.html | Starter |
-| 2 | Menu | menu.html | Starter |
-| 3 | About | about.html | Starter |
-| 4 | Contact | contact.html | Starter |
-| 5 | Gallery | gallery.html | Business |
-| 6 | Reviews | testimonials.html | Business |
-| 7 | FAQ | faq.html | Business |
-| 8 | Booking | booking.html | Premium |
-| 9 | Team | team.html | Premium |
-| 10 | Blog | blog.html | Premium |
+`boutique/`, `jewellery/`, `ecommerce/` and `realestate/` — the standard
+9-page demos for those four verticals — were deleted in favour of their
+premium replacements:
 
-### Healthcare — /healthcare
-| # | Page | File | Tier |
-|---|------|------|------|
-| 1 | Home | index.html | Starter |
-| 2 | Services | services.html | Starter |
-| 3 | About | about.html | Starter |
-| 4 | Contact | contact.html | Starter |
-| 5 | Gallery | gallery.html | Business |
-| 6 | Reviews | testimonials.html | Business |
-| 7 | FAQ | faq.html | Business |
-| 8 | Appointments | appointments.html | Premium |
-| 9 | Doctors | doctors.html | Premium |
-| 10 | Health Tips | blog.html | Premium |
+```
+ecommerce  →  commerce/          a store that actually transacts
+jewellery  →  jewellery-lux/
+realestate →  realestate-lux/
+boutique   →  boutique-lux/
+```
 
-### Salon — /salon
-| # | Page | File | Tier |
-|---|------|------|------|
-| 1 | Home | index.html | Starter |
-| 2 | Services | services.html | Starter |
-| 3 | About | about.html | Starter |
-| 4 | Contact | contact.html | Starter |
-| 5 | Gallery | gallery.html | Business |
-| 6 | Reviews | testimonials.html | Business |
-| 7 | FAQ | faq.html | Business |
-| 8 | Booking | booking.html | Premium |
-| 9 | Team | team.html | Premium |
-| 10 | Blog | blog.html | Premium |
+All eight verticals still answer to their own words in the industry switcher
+and the hero preview; four of them now open the premium page instead.
+`restaurant`, `healthcare`, `salon` and `yoga` were untouched, because they
+have no premium version and deleting them would have left those verticals
+with nothing at all.
 
-### Boutique — /boutique
-| # | Page | File | Tier |
-|---|------|------|------|
-| 1 | Home | index.html | Starter |
-| 2 | Collections | collections.html | Starter |
-| 3 | About | about.html | Starter |
-| 4 | Contact | contact.html | Starter |
-| 5 | Gallery | gallery.html | Business |
-| 6 | Reviews | testimonials.html | Business |
-| 7 | FAQ | faq.html | Business |
-| 8 | Shop | shop.html | Premium |
-| 9 | Lookbook | lookbook.html | Premium |
-| 10 | Blog | blog.html | Premium |
+### No team pages
 
-### Yoga — /yoga
-| # | Page | File | Tier |
-|---|------|------|------|
-| 1 | Home | index.html | Starter |
-| 2 | Classes | classes.html | Starter |
-| 3 | About | about.html | Starter |
-| 4 | Contact | contact.html | Starter |
-| 5 | Gallery | gallery.html | Business |
-| 6 | Reviews | testimonials.html | Business |
-| 7 | FAQ | faq.html | Business |
-| 8 | Booking | booking.html | Premium |
-| 9 | Teachers | teachers.html | Premium |
-| 10 | Blog | blog.html | Premium |
+`restaurant/team.html`, `salon/team.html`, `realestate/team.html`,
+`healthcare/doctors.html` and `yoga/teachers.html` were deleted on
+6 September 2026, along with their 88 inbound links and all 18 portrait
+images. They presented stock portraits as specific named employees, which
+asserts a professional relationship that does not exist. See `LICENCES.md` §2.
 
-### Jewellery — /jewellery
-| # | Page | File | Tier |
-|---|------|------|------|
-| 1 | Home | index.html | Starter |
-| 2 | Collections | collections.html | Starter |
-| 3 | About | about.html | Starter |
-| 4 | Contact | contact.html | Starter |
-| 5 | Gallery | gallery.html | Business |
-| 6 | Reviews | testimonials.html | Business |
-| 7 | FAQ | faq.html | Business |
-| 8 | Bridal | bridal.html | Premium |
-| 9 | Custom Orders | custom.html | Premium |
-| 10 | Care Guide | care.html | Premium |
-
-### Ecommerce — /ecommerce
-| # | Page | File | Tier |
-|---|------|------|------|
-| 1 | Home | index.html | Starter |
-| 2 | Categories | categories.html | Starter |
-| 3 | About | about.html | Starter |
-| 4 | Contact | contact.html | Starter |
-| 5 | All Products | products.html | Business |
-| 6 | Gallery | gallery.html | Business |
-| 7 | Reviews | testimonials.html | Business |
-| 8 | FAQ | faq.html | Premium |
-| 9 | Blog | blog.html | Premium |
-| 10 | Cart | cart.html | Premium |
-
-### Real Estate — /realestate
-| # | Page | File | Tier |
-|---|------|------|------|
-| 1 | Home | index.html | Starter |
-| 2 | Properties | properties.html | Starter |
-| 3 | About | about.html | Starter |
-| 4 | Contact | contact.html | Starter |
-| 5 | Gallery | gallery.html | Business |
-| 6 | Reviews | testimonials.html | Business |
-| 7 | FAQ | faq.html | Business |
-| 8 | Blog | blog.html | Premium |
-| 9 | Team | team.html | Premium |
-| 10 | EMI Calculator | calculator.html | Premium |
+If a client wants a team page, it needs real photographs of real staff who
+have agreed to appear. Build it then.
 
 ---
 
-## Technical Notes
+## Page inventory — the four standard templates
 
-- **Total files**: 80 HTML pages + `demo.css` + `demo.js` = 82 files
-- **Stack**: Vanilla HTML / CSS / JS — no frameworks, no build step
-- **Hosting**: Static, compatible with GitHub Pages
-- **Visuals**: All inline SVG — no external images required
-- **Fonts**: Playfair Display (headings), DM Sans (body), JetBrains Mono (data labels) via Google Fonts
-- **Icons**: Font Awesome 6.5.1 CDN
-- **Themes**: 8 CSS theme classes in `demo.css` — one per category
-- **Interactive**: EMI calculator in `/realestate/calculator.html` runs live JS computation
+Each has 9 pages. The tier decides which ship.
 
-| Theme class | Category |
-|-------------|----------|
-| theme-ember | Restaurant |
-| theme-mint | Healthcare |
-| theme-plum | Salon |
-| theme-pearl | Boutique |
-| theme-sage | Yoga |
-| theme-gold | Jewellery |
-| theme-saffron | Ecommerce |
-| theme-cocoa | Real Estate |
+| Page | restaurant | healthcare | salon | yoga | Tier |
+|---|---|---|---|---|---|
+| Home | `index.html` | `index.html` | `index.html` | `index.html` | Starter |
+| Core | `menu.html` | `services.html` | `services.html` | `classes.html` | Starter |
+| About | `about.html` | `about.html` | `about.html` | `about.html` | Starter |
+| Contact | `contact.html` | `contact.html` | `contact.html` | `contact.html` | Starter |
+| Gallery | `gallery.html` | `gallery.html` | `gallery.html` | `gallery.html` | Business |
+| Reviews | `testimonials.html` | `testimonials.html` | `testimonials.html` | `testimonials.html` | Business |
+| FAQ | `faq.html` | `faq.html` | `faq.html` | `faq.html` | Business |
+| Booking | `booking.html` | `appointments.html` | `booking.html` | `booking.html` | Premium |
+| Blog | `blog.html` | `health-tips.html` | `blog.html` | `blog.html` | Premium |
+
+## Page inventory — the store
+
+`commerce/` — twelve pages, none of them optional.
+
+| Page | File | What it is |
+|---|---|---|
+| Storefront | `index.html` | |
+| Catalogue | `shop.html` | Search, filter, sort |
+| Product | `product.html` | Variants, add to cart |
+| Cart | `cart.html` | Survives a reload |
+| Checkout | `checkout.html` | Validates, payment handshake |
+| Order | `order.html` | Confirmation + GST invoice |
+| Account | `account.html` | Order history |
+| Admin | `admin.html` | Owner view |
+| Shipping | `shipping.html` | **Legal — launch blocker** |
+| Refunds | `refunds.html` | **Legal — launch blocker** |
+| Terms | `terms.html` | **Legal — launch blocker** |
+| Privacy | `privacy.html` | **Legal — launch blocker** |
+
+Razorpay reads the four legal pages during account activation and rejects
+placeholder text.
+
+## The 3D flagships
+
+One self-contained page each. They do **not** use `demo.css` / `demo.js`.
+3D comes from `flagship/3d-core.js` plus three.js 0.147.0 from cdnjs.
+
+A flagship's job is to win the meeting, not to be a complete website.
+
+---
+
+## Technical notes
+
+- **Total**: 36 standard demo pages + 12 store pages + 3 flagships = 51
+- **Stack**: vanilla HTML / CSS / JS. No framework, no bundler.
+- **Hosting**: static, GitHub Pages, `netloom.in`
+- **Photography**: `assets/photos/` — 216 WebP originals plus `xs`/`sm`/`md`
+  derivatives. **Provenance unrecorded — see `LICENCES.md` §1, open risk.**
+- **Fonts**: Playfair Display, DM Sans, JetBrains Mono via Google Fonts.
+  The flagships use Cormorant Garamond.
+- **Icons**: Font Awesome 6.5.1 via cdnjs
+- **Tests**: `npm test` — 209 assertions across 7 suites
+
+### Themes
+
+Eight category accent classes in `demo.css`, set on `<body>`:
+
+| Class | Accent | Category |
+|---|---|---|
+| `theme-ember` | `#D9823C` | Restaurant |
+| `theme-mint` | `#4DA99A` | Healthcare |
+| `theme-plum` | `#9B59B6` | Salon |
+| `theme-pearl` | `#C9A07A` | Boutique |
+| `theme-sage` | `#6B9E7A` | Yoga |
+| `theme-gold` | `#C9A84C` | Jewellery |
+| `theme-saffron` | `#E8A13E` | Ecommerce |
+| `theme-cocoa` | `#B8895A` | Real estate |
+
+The last four have no standard demo any more but the classes remain, because
+a client build in any of those verticals starts from a standard template.
+
+### Light and dark
+
+The four standard templates ship **both palettes**. Selected by
+`data-theme="light"` on `<html>`; the control is in the preview bar and
+`demo.js` remembers the choice across pages.
+
+- Dark is the default and stays the default.
+- `?theme=light` or `?theme=dark` on any demo URL forces one, and it sticks
+  as the visitor clicks through — useful for sending a client one specific
+  register.
+- `?embed=1` (the homepage hero preview iframe) ignores the stored
+  preference, so the homepage's own choice is never overridden.
+- **Accent used as text must go through `--accent-ink`, never `--accent`**,
+  and text on an accent fill through `--on-accent`, never `--bg`. `npm test`
+  asserts both — the raw accent on paper is about 2.2:1 and unreadable.
+- The flagships are dark only, deliberately: the gem and material rendering
+  depends on a near-black environment map.
+
+### Interactive
+
+- `demo.js` drives the industry switcher, mobile nav, FAQ accordions, gallery
+  filters, listing sort, jump-nav scroll spy, the live open/closed state, the
+  `?biz=` personalisation, the theme control and the cookie banner.
+- Booking calendars and time-slot grids are **demonstrations**. They do not
+  reserve anything.
+- `commerce/` is genuinely clickable end to end. Only the payment is
+  simulated, and the page says so.

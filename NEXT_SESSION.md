@@ -297,3 +297,61 @@ Live and verified on netloom.in at commit `adfeb76`:
 - Copy rewritten to studio voice; four unsupportable claims removed
 - Section label numbers removed
 - Autofilled form fields stay dark; mobile hero badge anchored to its mockup
+
+### 8 September 2026
+
+**Starter price is now ₹14,999** (was ₹12,999). Changed in `index.html`
+(7 places including the ROI calculator constant and the static "4 months"
+payback default), `build-routes.js`, `worker/src/templates.js`,
+`outreach/lead-scanner/dashboard.html`, `outreach/targeting-guide.md` and
+`DEMO_SITES.md`; route pages and email previews regenerated.
+
+**Light theme on all four standard demos.** `demo.css` now carries two full
+palettes. The dark values are byte-for-byte what they were; what changed is
+that every hardcoded neutral became a token, so a single
+`:root[data-theme="light"]` block can redefine them.
+
+- The control is a two-state segmented button injected by `demo.js` into the
+  preview bar — no markup added to 36 pages, and it stays out of the client's
+  own site chrome.
+- Each page's `<head>` carries a four-line pre-paint script. That part cannot
+  live in `demo.js`: it runs after first paint, so a stored light preference
+  applied from there flashes dark on every navigation.
+- **Dark stays the default.** `prefers-color-scheme` is deliberately not
+  followed — it would open the demo in light for anyone whose laptop is set
+  that way, and they would never see the register the site is selling.
+- `?theme=light` / `?theme=dark` forces one and persists it, so a client can
+  be sent a specific register. `?embed=1` honours an explicit param but
+  ignores stored preference, so the homepage preview iframe keeps its own
+  choice.
+
+Two rules the light palette rests on, both asserted by `npm test`:
+
+- **Accent as text goes through `--accent-ink`, never `--accent`.** Raw
+  `#C9A84C` on `#FBF8F3` is about 2.2:1. Each of the eight category themes
+  has its own darkened ink.
+- **Text on an accent fill goes through `--on-accent`, never `--bg`.**
+  `--bg` as a foreground is near-black in dark and near-white in light, so
+  the same rule gives white text on gold the moment someone switches.
+
+Two things the screenshots caught that nothing else would have: the preview
+bar's Netloom mark draws its two uprights with a hardcoded `fill="#E8E2D6"`
+in all 36 pages (invisible on paper — now retinted by a CSS rule, since an
+author rule outranks a presentation attribute), and the photo scrims needed
+their own token because a 55% black wash that seats a photo on near-black
+reads as a bruise on paper.
+
+New suite `test/theme.test.js`, 30 assertions. Total is now 209 across 7.
+
+**Skills for the whole client pipeline**, in `.claude/skills/`:
+`netloom-build` (the master SOP, with seven reference files including the
+51-question intake call script) plus one per vertical — `netloom-restaurant`,
+`-clinic`, `-salon`, `-yoga`, `-store`, `-jewellery`, `-boutique`,
+`-realestate`. `NETLOOM_PLAYBOOK.md` at the root is the human-readable index.
+`DEMO_SITES.md` rewritten — it still described 8 standard demos, 10 pages
+each, and team pages, all of which were retired on 6 September.
+
+**Not done, and needed before the first client:** the one-time
+`mockups.netloom.in` setup — a `netloom-mockups` repo, a `CNAME` file, and a
+single GoDaddy DNS record. Eight ticks at the top of
+`.claude/skills/netloom-build/references/deploy.md`.
