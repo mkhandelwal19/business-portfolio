@@ -352,6 +352,6 @@ New suite `test/theme.test.js`, 30 assertions. Total is now 209 across 7.
 each, and team pages, all of which were retired on 6 September.
 
 **Not done, and needed before the first client:** the one-time
-`mockups.netloom.in` setup — a `netloom-mockups` repo, a `CNAME` file, and a
+`preview.netloom.in` setup — a `netloom-preview` repo, a `CNAME` file, and a
 single GoDaddy DNS record. Eight ticks at the top of
 `.claude/skills/netloom-build/references/deploy.md`.

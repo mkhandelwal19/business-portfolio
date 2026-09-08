@@ -1,9 +1,9 @@
-# Deploy — private mockup, then live
+# Deploy — private preview, then live
 
 Two hops. A client site is **never** built directly on their domain.
 
 ```
-   client folder            mockups.netloom.in/<slug>/        their-domain.in
+   client folder            preview.netloom.in/<slug>/        their-domain.in
    (local, in progress) ──► private review link          ──►  live, their repo
                             noindex, unguessable slug         their DNS
 ```
@@ -15,15 +15,15 @@ Two hops. A client site is **never** built directly on their domain.
 This has **not been done yet** as of 8 September 2026. Whoever does it first,
 tick the boxes here and commit.
 
-- [ ] **Create the repo.** New public GitHub repo `netloom-mockups` under
+- [ ] **Create the repo.** New public GitHub repo `netloom-preview` under
       `mkhandelwal19`. Public is required for GitHub Pages on a free account;
       the protection is the unguessable slug plus `noindex`, not secrecy of
-      the repo. If mockups must be genuinely private, that needs GitHub Pro —
+      the repo. If previews must be genuinely private, that needs GitHub Pro —
       note it and decide, do not assume.
 - [ ] **Claim the hostname.** In the repo root, a file called `CNAME`
       containing exactly one line:
       ```
-      mockups.netloom.in
+      preview.netloom.in
       ```
 - [ ] **Add `.nojekyll`** (empty file) in the repo root, so GitHub Pages
       serves directories beginning with an underscore and does not try to
@@ -41,18 +41,18 @@ tick the boxes here and commit.
 
       | Type | Name | Value | TTL |
       |---|---|---|---|
-      | CNAME | `mockups` | `mkhandelwal19.github.io` | 1 hour |
+      | CNAME | `preview` | `mkhandelwal19.github.io` | 1 hour |
 
 - [ ] **Wait, then enforce HTTPS.** DNS takes 10 minutes to a few hours.
       Once GitHub stops showing a DNS-check error, tick "Enforce HTTPS" in
       Settings → Pages. The certificate can take another hour. **Do not send a
       client a link before the padlock works** — a browser warning on the
       first thing they ever see from us is not recoverable.
-- [ ] Verify: `https://mockups.netloom.in/` loads the placeholder over HTTPS.
+- [ ] Verify: `https://preview.netloom.in/` loads the placeholder over HTTPS.
 
 ---
 
-## Part 2 — Publishing a mockup (per client, ~10 minutes)
+## Part 2 — Publishing a preview (per client, ~10 minutes)
 
 ### Slug
 
@@ -66,7 +66,7 @@ The random suffix is the access control. Rules:
 
 - Never reuse a slug, even for the same client on a second project.
 - Never use a guessable slug (`test`, `demo`, `client1`).
-- Never link to a mockup from any public page.
+- Never link to a preview from any public page.
 
 Generate one:
 
@@ -77,9 +77,9 @@ python -c "import random,string; print(''.join(random.choices(string.ascii_lower
 ### Steps
 
 ```bash
-# 1. clone the mockups repo once, then reuse it
-git clone https://github.com/mkhandelwal19/netloom-mockups.git
-cd netloom-mockups
+# 1. clone the preview repo once, then reuse it
+git clone https://github.com/mkhandelwal19/netloom-preview.git
+cd netloom-preview
 
 # 2. drop the client build in under its slug
 cp -r ../aangan-thali-build ./aangan-thali-k4x9
@@ -89,21 +89,21 @@ python check-noindex.py aangan-thali-k4x9
 
 # 4. ship it
 git add aangan-thali-k4x9
-git commit -m "Mockup: Aangan Thali House"
+git commit -m "Preview: Aangan Thali House"
 git push
 ```
 
-Live at `https://mockups.netloom.in/aangan-thali-k4x9/` within a minute or two.
+Live at `https://preview.netloom.in/aangan-thali-k4x9/` within a minute or two.
 
 ### `check-noindex.py`
 
-Keep this in the `netloom-mockups` repo root. A mockup that gets indexed is a
+Keep this in the `netloom-preview` repo root. A preview that gets indexed is a
 duplicate-content problem for the client's real site later, and it lets
 anyone find every client we are talking to.
 
 ```python
 #!/usr/bin/env python3
-"""Refuse to publish a mockup folder whose pages are not noindexed."""
+"""Refuse to publish a preview folder whose pages are not noindexed."""
 import io, os, sys
 
 TAG = 'name="robots"'
@@ -137,7 +137,7 @@ Add to every page's `<head>` if it is missing:
 WhatsApp, not email. Something close to this:
 
 > Hi <name> — your site is ready to look at:
-> https://mockups.netloom.in/aangan-thali-k4x9/
+> https://preview.netloom.in/aangan-thali-k4x9/
 >
 > It's a private link, not live and not on Google yet. Open it on your phone
 > — that's how most of your customers will see it.
@@ -158,7 +158,7 @@ to the URL. The choice sticks as they click through the site.
 
 ### After go-live
 
-Delete the mockup folder from `netloom-mockups` and push. It has served its
+Delete the preview folder from `netloom-preview` and push. It has served its
 purpose and it is now a stale duplicate of a live site.
 
 ---
@@ -256,11 +256,11 @@ If the domain currently serves an old site:
 - [ ] Map shows the right place
 - [ ] Google Business Profile updated with the new URL
 - [ ] `robots.txt` allows indexing, and there is **no leftover `noindex`**
-      from the mockup — this is the single most common launch-day mistake
+      from the preview — this is the single most common launch-day mistake
 - [ ] Submit the sitemap in Google Search Console
 - [ ] Both themes still correct on the live domain
 
-> **The `noindex` trap.** Every mockup page carries `noindex, nofollow`. If it
+> **The `noindex` trap.** Every preview page carries `noindex, nofollow`. If it
 > survives to the live site, the site will never appear on Google and the
 > client will conclude, reasonably, that they paid for nothing. Sweep for it:
 > `grep -rl noindex .` should return nothing on a live build.

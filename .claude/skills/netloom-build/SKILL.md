@@ -1,6 +1,6 @@
 ---
 name: netloom-build
-description: Run a Netloom client website end to end — intake call, tier and template choice, content and image sourcing, build, private mockup on mockups.netloom.in, then go-live on the client's own domain. Use this whenever a real client project starts, when someone asks what to ask a customer, or when a mockup needs deploying or taking live. Delegates the vertical-specific detail to netloom-restaurant / -clinic / -salon / -yoga / -store / -jewellery / -boutique / -realestate.
+description: Run a Netloom client website end to end — intake call, tier and template choice, content and image sourcing, build, a private client preview on preview.netloom.in, then go-live on the client's own domain. Use this whenever a real client project starts, when someone asks what to ask a customer, or when a client preview needs deploying or taking live. Delegates the vertical-specific detail to netloom-restaurant / -clinic / -salon / -yoga / -store / -jewellery / -boutique / -realestate.
 ---
 
 # Netloom — building a client site
@@ -24,12 +24,12 @@ Each of those has a step below that prevents it.
 | 2 | Intake | Completed intake sheet, all questions answered | Sales call |
 | 3 | Assets | Photos and copy in hand, **every one with a recorded source** | Client, or us |
 | 4 | Build | The site, from the matching template | Intern + Claude |
-| 5 | Mockup | Private link on `mockups.netloom.in` | Intern |
+| 5 | Preview | Private link on `preview.netloom.in` | Intern |
 | 6 | Review | Client sees it, two rounds of changes | Sales call |
 | 7 | Go live | Their domain, their repo, their ownership | Intern |
 
 Do not skip stage 5. A client who first sees the site on their own domain has
-no safe way to say "I hate the green". A client who sees it on a mockup link
+no safe way to say "I hate the green". A client who sees it on a preview link
 has permission to.
 
 ---
@@ -149,16 +149,16 @@ image. The summary:
 
 ---
 
-## Stage 5 — Mockup
+## Stage 5 — Preview
 
 `references/deploy.md` has the full runbook. In brief: the client's folder
-goes into the `netloom-mockups` repo under an unguessable slug and appears at
+goes into the `netloom-preview` repo under an unguessable slug and appears at
 
 ```
-https://mockups.netloom.in/<client-slug-with-random-suffix>/
+https://preview.netloom.in/<client-slug-with-random-suffix>/
 ```
 
-Every mockup page carries `<meta name="robots" content="noindex, nofollow">`.
+Every preview page carries `<meta name="robots" content="noindex, nofollow">`.
 The slug is the only access control, so make it unguessable and never reuse
 one. Send the link on WhatsApp with the review script in `references/deploy.md`.
 
@@ -199,6 +199,6 @@ feedback is a list, spoken feedback is a mood.
 | `references/tiers.md` | Deciding scope or price, or pushing back on scope creep |
 | `references/assets.md` | Before downloading any image, ever |
 | `references/content-slots.md` | While writing the actual page copy |
-| `references/deploy.md` | Publishing a mockup, or taking a site live |
+| `references/deploy.md` | Publishing a preview, or taking a site live |
 | `references/qa.md` | Before the client sees anything |
 | `references/handover.md` | On the day of go-live |

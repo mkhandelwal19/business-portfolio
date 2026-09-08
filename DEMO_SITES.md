@@ -1,7 +1,7 @@
 # Demo sites — page inventory and navigation reference
 
 Accurate as of 8 September 2026. For the business procedure around these
-templates — intake, pricing, mockups, go-live — see `NETLOOM_PLAYBOOK.md`.
+templates — intake, pricing, previews, go-live — see `NETLOOM_PLAYBOOK.md`.
 
 ## Tier summary
 

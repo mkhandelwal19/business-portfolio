@@ -165,7 +165,7 @@ Then look at:
 
 ---
 
-## 6. Pre-mockup
+## 6. Before the preview goes up
 
 - [ ] `<meta name="robots" content="noindex, nofollow">` on **every** page
 - [ ] `LICENCES.md` complete — every image has a source
@@ -178,7 +178,7 @@ Then look at:
       invisible on Google.
 - [ ] `robots.txt` allows crawling
 - [ ] `sitemap.xml` present and listing the real hostname
-- [ ] Canonical URLs point at the live domain, not the mockup
+- [ ] Canonical URLs point at the live domain, not the preview
 - [ ] Favicon in place
 - [ ] Open Graph image set — check how the URL looks pasted into WhatsApp,
       because that is how it will be shared

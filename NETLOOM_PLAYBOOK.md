@@ -14,7 +14,7 @@ and Claude loads the procedure.
 
 | Command | What it does |
 |---|---|
-| **`/netloom-build`** | **The master procedure.** Intake → tier → build → mockup → live. Start here for every project. |
+| **`/netloom-build`** | **The master procedure.** Intake → tier → build → preview → live. Start here for every project. |
 | `/netloom-restaurant` | Restaurants, cafes, thali houses, sweet shops, bakeries, caterers |
 | `/netloom-clinic` | Clinics, doctors, dentists, physio, diagnostics, vets |
 | `/netloom-salon` | Salons, spas, beauty parlours, barbers, nails, makeup |
@@ -38,7 +38,7 @@ if you prefer.
 | `tiers.md` | Prices, page maps, add-ons, care plans, and the four sentences that hold the line on scope |
 | `assets.md` | Image sourcing, the three permitted stock sources, provenance recording, the derivative script |
 | `content-slots.md` | Every text slot in every template, with the length that actually fits |
-| `deploy.md` | Mockup subdomain setup and runbook, then the go-live DNS runbook |
+| `deploy.md` | Preview subdomain setup and runbook, then the go-live DNS runbook |
 | `qa.md` | The checklist before anyone outside sees it |
 | `handover.md` | What the client owns and how they get it |
 
@@ -109,11 +109,11 @@ theme for them and there should not be one.
 
 ---
 
-## Client mockups
+## Client previews
 
-`https://mockups.netloom.in/<client-slug-with-random-suffix>/`
+`https://preview.netloom.in/<client-slug-with-random-suffix>/`
 
-One repo (`netloom-mockups`), one DNS record, ever. Each client is a folder.
+One repo (`netloom-preview`), one DNS record, ever. Each client is a folder.
 Every page carries `noindex, nofollow`; the unguessable slug is the access
 control.
 
