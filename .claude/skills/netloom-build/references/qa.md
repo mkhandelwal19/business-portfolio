@@ -100,7 +100,23 @@ foreach ($page in @("index","about","contact","gallery")) {
 }
 ```
 
-Two traps that will each cost an hour:
+Three traps, each of which will cost an hour:
+
+- **`--window-size` below about 500px does not give you a 390px viewport.**
+  Chrome on Windows enforces an OS minimum window width, so the page lays out
+  wider and the screenshot is simply cropped — which looks exactly like
+  horizontal overflow and sends you hunting a layout bug that is not there.
+  `--headless=old` does not help. To test a real phone width, load the page in
+  a 390px iframe from a wider window:
+
+  ```html
+  <!-- _mobtest.html in the site root; delete it when you are done -->
+  <style>html,body{margin:0;background:#555}iframe{width:390px;height:844px;border:0}</style>
+  <iframe src="/index.html?theme=light"></iframe>
+  ```
+
+  The inner document gets a genuine 390px layout viewport and the media
+  queries fire correctly.
 
 - **`--virtual-time-budget` does not advance while a `requestAnimationFrame`
   loop is running.** A `setTimeout` in a debug snippet never fires on a page
