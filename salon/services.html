@@ -21,6 +21,13 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Services & Pricing — Lumière Salon & Spa">
 <meta name="twitter:description" content="Explore Lumière Salon & Spa's full menu — haircuts, colour, keratin, facials, nail care and bridal packages with transparent pricing.">
+<!-- Theme, applied before first paint. demo.js runs at the end of the document, so
+     reading the stored choice there would flash dark on every navigation.
+     ?theme= wins over the stored value; the homepage preview iframe
+     (?embed=1) ignores the stored value so its own choice is not overridden. -->
+<script>(function(){try{var q=new URLSearchParams(location.search),t=q.get('theme');
+if(!t&&q.get('embed')!=='1')t=localStorage.getItem('ntl-demo-theme');
+document.documentElement.setAttribute('data-theme',t==='light'?'light':'dark');}catch(e){}})();</script>
 </head>
 <body class="theme-plum">
 

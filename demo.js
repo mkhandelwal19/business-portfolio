@@ -518,6 +518,109 @@
     window.addEventListener('blur', clearTilt);
   }
 
+  /* ── Light / dark ────────────────────────────────────────────────────────
+     Two palettes live in demo.css; this picks one. Dark is the default and
+     stays the default on purpose -- it is the register the site is selling,
+     and following prefers-color-scheme would open the demo in light for
+     anyone whose laptop is set that way, who would then never see it.
+
+     The attribute itself is set by a small pre-paint script in every page's
+     <head>, not here: demo.js runs after first paint, so doing it here would
+     flash dark before turning light on every single navigation. This module
+     owns the control, the persistence and the ?theme= link.
+
+     Every storage call is wrapped. localStorage throws outright in some
+     privacy modes, and an unguarded throw at this depth would silently kill
+     the cookie banner below it -- the failure mode this file is full of
+     warnings about. */
+  (function netloomTheme(){
+    var root  = document.documentElement;
+    var KEY   = 'ntl-demo-theme';
+    var VALID = { light:1, dark:1 };
+
+    function get(){ try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+    function put(v){ try { localStorage.setItem(KEY, v); } catch (e) {} }
+    function current(){ return root.getAttribute('data-theme') === 'light' ? 'light' : 'dark'; }
+
+    var embedded = root.classList.contains('is-embedded');
+    var param    = null;
+    try { param = new URLSearchParams(location.search).get('theme'); } catch (e) {}
+
+    /* A shared ?theme=light link has to survive the visitor clicking through
+       to page two, or the demo appears to break on the first click. Remember
+       it -- unless this is the homepage preview iframe, whose choice is the
+       homepage's to make and must not leak into the standalone demos. */
+    if (param && VALID[param] && !embedded) put(param);
+
+    function apply(next){
+      if (!VALID[next]) return;
+      /* Repaint every surface in one frame. Letting each element ease to its
+         new value independently reads as a smear, so demo.css kills
+         transitions while .ntl-theming is on. */
+      root.classList.add('ntl-theming');
+      root.setAttribute('data-theme', next);
+      put(next);
+      reflect();
+      requestAnimationFrame(function(){
+        requestAnimationFrame(function(){ root.classList.remove('ntl-theming'); });
+      });
+    }
+
+    var btns = [];
+    function reflect(){
+      var now = current();
+      for (var i = 0; i < btns.length; i++) {
+        btns[i].setAttribute('aria-pressed', String(btns[i].getAttribute('data-set-theme') === now));
+      }
+    }
+
+    /* The pre-paint script may have left the attribute off entirely (no stored
+       choice, no param). Normalise it so the control has something to read and
+       so a stylesheet can rely on the attribute always being present. */
+    if (!VALID[root.getAttribute('data-theme')]) root.setAttribute('data-theme', 'dark');
+
+    var bar = document.querySelector('.preview-bar');
+    if (!bar || embedded) return;
+
+    var wrap = document.createElement('div');
+    wrap.className = 'pb-theme';
+    wrap.setAttribute('role', 'group');
+    wrap.setAttribute('aria-label', 'Theme');
+    wrap.innerHTML =
+      '<span class="pb-theme-lbl">Theme</span>' +
+      '<button type="button" class="pb-theme-btn" data-set-theme="dark" aria-pressed="true"' +
+      ' title="Dark" aria-label="Dark theme"><i class="fa-solid fa-moon" aria-hidden="true"></i></button>' +
+      '<button type="button" class="pb-theme-btn" data-set-theme="light" aria-pressed="false"' +
+      ' title="Light" aria-label="Light theme"><i class="fa-solid fa-sun" aria-hidden="true"></i></button>';
+
+    /* Sits to the left of the industry switcher, which is the right-hand end
+       of the bar on every page. Falls back to appending, so a page whose
+       preview bar is laid out differently still gets the control. */
+    var before = bar.querySelector('#pbSwitch') || bar.querySelector('.pb-cta');
+    if (before) bar.insertBefore(wrap, before); else bar.appendChild(wrap);
+
+    btns = [].slice.call(wrap.querySelectorAll('.pb-theme-btn'));
+    btns.forEach(function (b) {
+      b.addEventListener('click', function () { apply(b.getAttribute('data-set-theme')); });
+    });
+    reflect();
+
+    /* Two tabs of the same demo should not disagree about the theme. */
+    window.addEventListener('storage', function (e) {
+      if (e.key === KEY && VALID[e.newValue] && e.newValue !== current()) {
+        root.classList.add('ntl-theming');
+        root.setAttribute('data-theme', e.newValue);
+        reflect();
+        requestAnimationFrame(function(){
+          requestAnimationFrame(function(){ root.classList.remove('ntl-theming'); });
+        });
+      }
+    });
+
+    /* Lets the test suite and a screenshot harness drive it without a click. */
+    window.__netloomSetTheme = apply;
+  })();
+
   // ── Cookie consent banner ──
   if (!localStorage.getItem('cookie_consent') &&
       !document.documentElement.classList.contains('is-embedded')) {

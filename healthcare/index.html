@@ -12,6 +12,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400&family=DM+Sans:opsz,wght@9..40,400..700&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="../demo.css">
+<!-- Theme, applied before first paint. demo.js runs at the end of the document, so
+     reading the stored choice there would flash dark on every navigation.
+     ?theme= wins over the stored value; the homepage preview iframe
+     (?embed=1) ignores the stored value so its own choice is not overridden. -->
+<script>(function(){try{var q=new URLSearchParams(location.search),t=q.get('theme');
+if(!t&&q.get('embed')!=='1')t=localStorage.getItem('ntl-demo-theme');
+document.documentElement.setAttribute('data-theme',t==='light'?'light':'dark');}catch(e){}})();</script>
 </head>
 <body class="theme-mint">
 
