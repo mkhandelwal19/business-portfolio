@@ -51,10 +51,11 @@
 <script>
 /* Own script element: a throw here must not reach the main inline script. */
 (function () {
-  var TOKEN = ''; /* <-- Cloudflare Web Analytics token goes here */
+  var TOKEN = '21490c8441f148d092cc15ebe8d7c48e'; /* Cloudflare Web Analytics. Public by design, not a secret. */
   if (!TOKEN) return;
   var s = document.createElement('script');
-  s.defer = true;
+  /* Cloudflare ships the beacon as a module; module scripts defer by default. */
+  s.type = 'module';
   s.src = 'https://static.cloudflareinsights.com/beacon.min.js';
   s.setAttribute('data-cf-beacon', JSON.stringify({ token: TOKEN }));
   document.head.appendChild(s);

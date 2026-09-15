@@ -36,15 +36,15 @@ including GitHub Pages.
 1. Cloudflare dashboard → **Analytics & Logs → Web Analytics → Add a site**
 2. Hostname: `netloom.in`
 3. Copy the token out of the snippet it shows
-4. Paste it into `index.html`, in the `SEARCH & ANALYTICS` block:
-
-   ```js
-   var TOKEN = 'paste-it-here';
-   ```
-
+4. Paste it into `index.html`, in the `SEARCH & ANALYTICS` block
 5. `node build-routes.js` — the five route pages carry the head, so they need
    regenerating or only the home page reports
 6. `npm test`, then commit
+
+**Done 15 Sep 2026.** Token `21490c8441f148d092cc15ebe8d7c48e` is live on all
+six pages. The beacon loads as `type="module"`, which is what Cloudflare's
+own snippet does — a classic script tag is the older form. The token is public
+by design; it sits in the page source of every site using Web Analytics.
 
 **Careful:** the token is not a secret, but the loader is a no-op while the
 string is empty. If the dashboard shows nothing after a day, check that you
