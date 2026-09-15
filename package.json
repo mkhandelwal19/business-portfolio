@@ -4,7 +4,7 @@
   "private": true,
   "description": "netloom.in — static site for GitHub Pages, plus its build and test tooling.",
   "scripts": {
-    "build": "node build-routes.js",
+    "build": "node build-routes.js && node build-verticals.js",
     "indexnow": "node indexnow.js",
     "test": "node test/run.js"
   },

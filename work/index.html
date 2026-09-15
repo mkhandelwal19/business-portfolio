@@ -1806,6 +1806,27 @@ footer::before{
   border-color: var(--gold); color: var(--gold);
   transform: translateY(-2px);
 }
+/* The industry pages live outside the SPA, so the footer is how every route
+   links to them. Orphaned pages rank badly no matter how good they are. */
+.foot-industries{
+  max-width: 1280px; margin: 36px auto 0;
+  padding-top: 26px;
+  border-top: 1px solid var(--line-soft);
+}
+.foot-industries h5{
+  font-family: var(--f-mono);
+  font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 14px; font-weight: 500;
+}
+.foot-industries ul{ display:flex; flex-wrap:wrap; gap:8px; list-style:none }
+.foot-industries a{
+  display:inline-block;
+  font-size: 13.5px; color: var(--ivory-dim);
+  border: 1px solid var(--line-soft); border-radius: 999px;
+  padding: 7px 15px;
+  transition: border-color .2s, color .2s;
+}
+.foot-industries a:hover{ border-color: var(--gold); color: var(--gold) }
 .foot-bottom{
   max-width: 1280px; margin: 40px auto 0;
   padding-top: 24px;
@@ -3187,6 +3208,19 @@ window.SITE_CONFIG = {
       </a>
       <p class="foot-reply">Replies within a few hours, 7 days a week.</p>
     </div>
+  </div>
+  <div class="foot-industries">
+    <h5>Websites by trade</h5>
+    <ul>
+        <li><a href="/website-design-for-restaurants/">Restaurants & cafes</a></li>
+        <li><a href="/website-design-for-clinics/">Clinics & dentists</a></li>
+        <li><a href="/website-design-for-salons/">Salons & spas</a></li>
+        <li><a href="/website-design-for-yoga-studios/">Yoga & fitness</a></li>
+        <li><a href="/website-design-for-boutiques/">Boutiques & labels</a></li>
+        <li><a href="/website-design-for-jewellers/">Jewellers</a></li>
+        <li><a href="/website-design-for-real-estate/">Real estate</a></li>
+        <li><a href="/ecommerce-website-development/">Online stores</a></li>
+    </ul>
   </div>
   <div class="foot-bottom">
     <div>© <span id="footYear">2026</span> Netloom · India</div>
