@@ -98,6 +98,39 @@ an estimate.
 
 ---
 
+### Trap: "Couldn't fetch" on a freshly submitted sitemap
+
+Hit on 15 Sep 2026, twice. It almost always means **Google has not fetched it
+yet**, not that it cannot. On a property verified the same day the status can
+sit red for hours or days while the green "submitted successfully" dialog is
+the part telling the truth.
+
+Before believing the red text, check the things that would actually break it:
+
+```sh
+curl -sI https://netloom.in/sitemap.xml                    # 200? application/xml?
+curl -s -o /dev/null -w "%{http_code} %{num_redirects}
+"   -A "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"   https://netloom.in/sitemap.xml                           # 200 and 0 redirects?
+curl -s https://netloom.in/sitemap.xml | head -c 6 | od -c # no BOM before <?xml
+```
+
+All of those passed, so the sitemap was never the problem.
+
+**Do not delete and resubmit.** Each resubmission resets the processing queue
+and pushes the fetch further out. Leave the entry alone.
+
+Two paths that do not depend on the sitemap at all:
+
+- **URL Inspection > TEST LIVE URL** on `https://netloom.in/`. "URL is available
+  to Google" settles the question definitively.
+- **Request Indexing** per URL. A separate pipeline from sitemaps, and how new
+  pages get crawled first anyway.
+
+`robots.txt` also carries a `Sitemap:` line, so Google finds it independently of
+that report. Escalate only if the status is unchanged after 72 hours.
+
+---
+
 ## 4. Bing Webmaster Tools
 
 1. <https://www.bing.com/webmasters> → sign in
