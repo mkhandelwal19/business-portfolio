@@ -205,6 +205,43 @@ and a real test mail over the badge.
 
 ---
 
+## Signature
+
+The signature lives in `email-signature.html` at the repo root: logo, name,
+title, `netloom.in`, `hello@netloom.in`, WhatsApp number, tagline. Same fonts,
+colours and hosted logo as the enquiry mails in `worker/preview/`, so a reply
+from the inbox and an automated mail look like one company.
+
+Setting it up in Zoho Mail (web, `mail.zoho.in`):
+
+1. Settings (gear, top right) → **Signatures** → **+**. Name it `Netloom`.
+2. In the editor toolbar use **Insert HTML** (the `</>` icon; it may sit under
+   the overflow menu at the right end of the toolbar). Paste everything from
+   the `<table>` down — not the HTML comment above it. Insert, then Save.
+3. Under **Associated From address(es) for new emails** pick
+   `hello@netloom.in`. Repeat for `mayank@`, `info@` and `contact@` — each
+   alias has to be linked separately or mails from it go out bare.
+4. Back on the Signatures page, under **Signature for replies**, tick
+   **Add signature to all my email replies** and choose the placement *above
+   the quoted text*.
+5. Send a test to the Gmail address and check it on Gmail web and the Gmail
+   phone app. The first mail from a new sender may show a "display images"
+   prompt — that is Gmail, not a broken link.
+
+Traps:
+
+- Paste the HTML, do not type it into the rich-text editor — Zoho rewrites
+  typed formatting into its own markup and Outlook then breaks the layout.
+- The logo is fetched from `https://netloom.in/assets/email-logo.png` on every
+  open, so the file must never move. Regenerate it with
+  `node build-email-logo.js`; never rename it.
+- The Zoho mobile app keeps its own signature (app Settings → account →
+  Signature). Set a plain-text version there; it does not read the web one.
+- Do not let the signature grow. Four lines and a 56px mark is the ceiling;
+  anything taller than a one-line reply reads as spam.
+
+---
+
 ## Still outside this repo
 
 - Google Business Profile, Instagram bio, and any outreach templates in

@@ -1,0 +1,35 @@
+<!--
+  email-signature.html — the Zoho Mail signature for hello@netloom.in and its
+  aliases. Paste the <table> below into Zoho's signature editor through its
+  "Insert HTML" option (see ZOHO_EMAIL_SETUP.md, "Signature").
+
+  Rules, because email clients are not browsers:
+  - Table layout, every style inline, no <style> block, no classes. Gmail,
+    Outlook and the Zoho app all keep inline styles and drop everything else.
+  - The logo is the hosted raster at https://netloom.in/assets/email-logo.png,
+    the same file the enquiry mails use. Regenerate it with
+    `node build-email-logo.js`; every past and future mail then updates.
+    It is 240px square and drawn at 56px, so it stays sharp on phones.
+  - Fonts, colours and the tagline match worker/preview/*.html so a signature
+    and an enquiry mail in the same inbox look like the same company.
+  - Keep it short. A signature taller than the reply it sits under is noise.
+-->
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,Roboto,'Helvetica Neue',Arial,sans-serif">
+  <tr>
+    <td width="56" style="padding:2px 16px 0 0;vertical-align:top">
+      <a href="https://netloom.in" style="text-decoration:none"><img src="https://netloom.in/assets/email-logo.png" width="56" height="56" alt="Netloom" style="display:block;border:0;border-radius:12px;width:56px;height:56px"></a>
+    </td>
+    <td style="padding:0 0 0 16px;border-left:2px solid #C9A84C;vertical-align:top">
+      <div style="font-size:15px;line-height:22px;font-weight:700;color:#1A1D26">Mayank Khandelwal</div>
+      <div style="font-size:13px;line-height:20px;color:#5A6070">Founder, Netloom<span style="color:#C9A84C">.</span></div>
+      <div style="font-size:13px;line-height:20px;color:#5A6070;padding-top:6px">
+        <a href="https://netloom.in" style="color:#0A0F1E;font-weight:700;text-decoration:none">netloom.in</a>
+        &nbsp;&middot;&nbsp;
+        <a href="mailto:hello@netloom.in" style="color:#5A6070;text-decoration:none">hello@netloom.in</a>
+        &nbsp;&middot;&nbsp;
+        <a href="https://wa.me/918249992869" style="color:#5A6070;text-decoration:none">+91 82499 92869</a>
+      </div>
+      <div style="font-size:12px;line-height:18px;color:#8A8F9C;padding-top:4px">Websites for Indian local businesses &nbsp;&middot;&nbsp; Kolkata</div>
+    </td>
+  </tr>
+</table>
