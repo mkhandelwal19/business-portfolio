@@ -144,6 +144,30 @@ and that share grows every month.
 
 ---
 
+## 4b. IndexNow
+
+**Done 15 Sep 2026.** Bing confirmed the sitemap on the same day, 14 URLs
+discovered, while Google still showed "Couldn't fetch" for the identical file -
+which is the clearest proof that the red status there was never ours to fix.
+
+IndexNow pushes changed URLs to Bing, Yandex, Seznam and Naver instead of
+waiting to be re-crawled. Google does not participate. It earns its place here
+because Bing's index feeds ChatGPT search.
+
+- Key: `7d174953d83cc5147f2533a3dbd6273e`
+- Key file: `https://netloom.in/7d174953d83cc5147f2533a3dbd6273e.txt`, served at
+  the site root, containing the key and nothing else - no newline, no BOM
+- Submitter: `npm run indexnow`, which reads every `<loc>` out of `sitemap.xml`
+
+**Run it after a deploy is actually live**, never before. Submitting a URL that
+still serves the old bytes spends the ping on stale content. HTTP 200 or 202 are
+both success - 202 means the key is still being verified.
+
+If the key file and the key inside `indexnow.js` ever drift apart, every
+submission is rejected. Change them together or not at all.
+
+---
+
 ## 5. Bing Places — blocked, and it needs a decision
 
 Bing Places imports wholesale from a **Google Business Profile**. There is no
