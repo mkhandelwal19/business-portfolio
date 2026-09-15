@@ -552,6 +552,7 @@ ${v.faqs.map(f => `      <details>
     <h2>Other trades we build for</h2>
     <div class="related">
 ${others.map(o => `      <a href="/${o.slug}/">${esc(o.nav)}</a>`).join('\n')}
+      <a href="/website-cost-in-india/">What a website costs in India</a>
     </div>
   </section>
 

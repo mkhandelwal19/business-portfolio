@@ -12,6 +12,7 @@ const fs   = require('fs');
 const path = require('path');
 const { loadPage, suite, ROOT } = require('./lib');
 const { VERTICALS } = require('../build-verticals');
+const { GUIDES }    = require('../build-guides');
 
 /* Enough prose that the page says something. Tuned under what the thinnest
    page currently carries, so ordinary editing does not trip it, but well above
@@ -101,6 +102,65 @@ module.exports = function run(){
     h1s.add(hs[0] && hs[0].textContent.trim());
     descs.add(descTxt);
     insights.add(v.insight.h);
+  });
+
+  // ── the guides ──
+  GUIDES.forEach(g => {
+    const rel  = path.join(g.slug, 'index.html');
+    const file = path.join(ROOT, rel);
+    if (!fs.existsSync(file)) { s.check(false, g.slug + ': generated'); return; }
+
+    const raw = fs.readFileSync(file, 'utf8');
+    const { document: d, errors } = loadPage(rel, { url: 'https://netloom.in/' + g.slug + '/' });
+    allErrors.push(...errors.map(e => g.slug + ': ' + e));
+
+    const canon = d.querySelector('link[rel="canonical"]');
+    s.check(canon && canon.getAttribute('href') === 'https://netloom.in/' + g.slug + '/',
+      g.slug + ': canonical is its own URL');
+    s.check(d.querySelectorAll('h1').length === 1, g.slug + ': exactly one h1');
+
+    // A guide earns its ranking by being long enough to actually answer the
+    // question. Thin "cost" pages are a dime a dozen and rank accordingly.
+    s.check(visibleWords(raw) >= 900, g.slug + ': long enough to be useful (>= 900 words)');
+
+    let types = [];
+    [...d.querySelectorAll('script[type="application/ld+json"]')].forEach(el => {
+      try { types.push(JSON.parse(el.textContent)['@type']); } catch (e) { types.push('BROKEN'); }
+    });
+    s.check(types.includes('Article') && types.includes('FAQPage'),
+      g.slug + ': carries Article and FAQPage schema');
+
+    s.check(sitemap.includes('https://netloom.in/' + g.slug + '/'), g.slug + ': in sitemap.xml');
+    s.check(home.includes('href="/' + g.slug + '/"'), g.slug + ': linked from the footer');
+
+    // Every price on the page must match the three published tiers, or the
+    // site contradicts itself - which it has done before.
+    ['14,999', '24,999', '44,999'].forEach(v => {
+      s.check(raw.includes(v), g.slug + ': quotes the real tier price ' + v);
+    });
+
+    // A cell holding one character means a row shape was indexed as a string:
+    // r[1][0] on '<rupee>800 ...' is '<rupee>', which is how a cost table once
+    // rendered the currency symbol above the digit that followed it.
+    const cells = [...d.querySelectorAll('td')];
+    const stunted = cells.filter(td => td.textContent.trim().length === 1);
+    s.check(stunted.length === 0,
+      g.slug + ': no table cell collapsed to a single character'
+      + (stunted.length ? ' (found ' + stunted.length + ')' : ''));
+
+    // And every row must have as many cells as its own header declares -
+    // counted per table, since the page carries more than one.
+    const tables = [...d.querySelectorAll('table')];
+    let ragged = 0;
+    tables.forEach(tbl => {
+      const headCount = tbl.querySelectorAll('thead th').length;
+      tbl.querySelectorAll('tbody tr').forEach(tr => {
+        if (tr.children.length !== headCount) ragged++;
+      });
+    });
+    s.check(tables.length > 0 && ragged === 0,
+      g.slug + ': every row matches its table header column count'
+      + (ragged ? ' (' + ragged + ' ragged)' : ''));
   });
 
   // ── the stylesheet actually defines its tokens ──

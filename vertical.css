@@ -220,3 +220,38 @@ footer a:hover{color:var(--gold)}
   html{scroll-behavior:auto}
   *{transition:none!important;animation:none!important}
 }
+
+/* ---------- guides: cost tables and price bands ---------- */
+.answer{
+  background:var(--bg-2);
+  border:1px solid var(--gold);
+  border-radius:6px;
+  padding:clamp(24px,4vw,34px);
+  text-align:center;
+}
+.answer .big{
+  font-family:var(--f-serif);font-size:clamp(1.9rem,5vw,2.7rem);font-weight:600;
+  color:var(--gold-soft);line-height:1.12;margin-bottom:12px;letter-spacing:-.02em;
+}
+.answer p{color:var(--ivory-dim);max-width:60ch;margin:0 auto}
+
+.scroller{overflow-x:auto;margin-top:22px}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14.6px}
+caption{
+  caption-side:bottom;text-align:left;padding-top:12px;
+  color:var(--muted);font-size:13px;
+}
+th,td{text-align:left;padding:13px 16px 13px 0;border-bottom:1px solid var(--line-soft);vertical-align:top}
+thead th{
+  font-family:var(--f-mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--gold);font-weight:500;border-bottom-color:var(--line);
+}
+td.amt{font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ivory);font-weight:500}
+td strong{display:block;color:var(--ivory);font-weight:500;margin-bottom:3px}
+td span.note{color:var(--muted);font-size:13.4px}
+
+.traps{list-style:none;display:grid;gap:2px;margin-top:20px}
+.trap{padding-block:16px;border-bottom:1px solid var(--line-soft)}
+.trap:last-child{border-bottom:none}
+.trap h3{color:var(--gold-soft);margin-bottom:5px}
+.trap p{color:var(--ivory-dim);font-size:15px;margin:0}
