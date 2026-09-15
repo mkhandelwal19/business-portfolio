@@ -26,7 +26,7 @@ const ROUTES = [
   {
     view: 'about',
     title: 'About — Netloom',
-    desc: 'Netloom is Mayank Khandelwal’s studio in Kolkata, building websites for Indian local businesses. No payment until you have seen your homepage.'
+    desc: 'Netloom is Mayank Khandelwal’s studio, building websites for local businesses across India — Mumbai, Delhi NCR, Bengaluru, Hyderabad, Pune and beyond. No payment until you have seen your homepage.'
   },
   {
     view: 'services',
@@ -62,11 +62,46 @@ function escapeAttr (s) {
   return s.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
 }
 
+/* Views are top-level siblings inside <main>, each introduced by its own banner
+   comment. Keeping only one of them is what makes a route page genuinely about
+   one thing: before this, /pricing carried the whole site's text and Google saw
+   five near-identical documents. */
+function keepOnlyView (html, view) {
+  const OPEN  = '<main id="main">';
+  const CLOSE = '</main>';
+  const openAt  = html.indexOf(OPEN);
+  const closeAt = html.indexOf(CLOSE, openAt);
+  if (openAt === -1 || closeAt === -1) {
+    throw new Error('Could not find <main> — did the markup change?');
+  }
+
+  const inner   = html.slice(openAt + OPEN.length, closeAt);
+  const marker  = /<!-- =+ VIEW: ([A-Z]+) =+ -->/g;
+  const blocks  = [];
+  let m;
+  while ((m = marker.exec(inner)) !== null) {
+    blocks.push({ name: m[1].toLowerCase(), at: m.index });
+  }
+  if (blocks.length !== ROUTES.length + 1) {
+    throw new Error('Expected ' + (ROUTES.length + 1) + ' view blocks, found ' + blocks.length);
+  }
+
+  const i = blocks.findIndex(b => b.name === view);
+  if (i === -1) throw new Error('No view block for "' + view + '".');
+
+  const to   = i + 1 < blocks.length ? blocks[i + 1].at : inner.length;
+  const kept = inner.slice(blocks[i].at, to).replace(/\s+$/, '');
+
+  return html.slice(0, openAt + OPEN.length) + '\n' + kept + '\n' + html.slice(closeAt);
+}
+
 function buildRoute (src, route) {
   let out = src;
   const title = escapeAttr(route.title);
   const desc  = escapeAttr(route.desc);
-  const url   = 'https://netloom.in/' + route.view;
+  // GitHub Pages 301-redirects /work to /work/, so the canonical and og:url
+  // have to carry the trailing slash or they point at a redirect.
+  const url   = 'https://netloom.in/' + route.view + '/';
 
   // ── Head meta ──
   out = out.replace(
@@ -94,11 +129,9 @@ function buildRoute (src, route) {
     `<meta property="og:url" content="${url}" />`
   );
 
-  // ── Which view starts active ──
-  out = out.replace(
-    '<div class="view is-active" id="view-home" data-view="home" role="region" aria-label="Home">',
-    '<div class="view" id="view-home" data-view="home" role="region" aria-label="Home" hidden>'
-  );
+  // ── Keep only this route's view, then make it the active one ──
+  out = keepOnlyView(out, route.view);
+
   const label = route.view.charAt(0).toUpperCase() + route.view.slice(1);
   const from  = `<div class="view" id="view-${route.view}" data-view="${route.view}" role="region" aria-label="${label}" hidden>`;
   const to    = `<div class="view is-active" id="view-${route.view}" data-view="${route.view}" role="region" aria-label="${label}">`;

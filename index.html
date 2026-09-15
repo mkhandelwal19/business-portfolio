@@ -32,6 +32,35 @@
 <meta name="twitter:description" content="Fast, beautiful, affordable websites for Indian local businesses. WhatsApp-ready, Google-ready, live in 7 days." />
 <meta name="twitter:image" content="https://netloom.in/og-cover.png" />
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230A0F1E'/><path d='M31 24 L69 76' stroke='%23E0A94A' stroke-width='15'/><rect x='17' y='18' width='15' height='64' fill='%23F5F2EC'/><rect x='68' y='18' width='15' height='64' fill='%23F5F2EC'/><path d='M31 24 L45 43' stroke='%23E0A94A' stroke-width='15'/></svg>" />
+<!-- ==================== SEARCH & ANALYTICS ====================
+     Three values, pasted once each. Every one is inert while empty, so this
+     ships safely before the accounts exist. Full steps: SEO_SETUP.md
+
+     1. Google Search Console — prefer DNS TXT verification on Cloudflare.
+        It covers preview.netloom.in too and survives a hosting change, and
+        it needs no tag here at all. Use the meta tag below only if you pick
+        the "HTML tag" method instead.
+     2. Bing Webmaster Tools — import from Search Console; no tag needed.
+        The meta below is the manual fallback.
+     3. Cloudflare Web Analytics — cookieless, so no consent banner is
+        required under the DPDP Act 2023. Token from the Cloudflare
+        dashboard: Analytics & Logs > Web Analytics > netloom.in.
+-->
+<!-- <meta name="google-site-verification" content="PASTE_GOOGLE_TOKEN_HERE" /> -->
+<!-- <meta name="msvalidate.01" content="PASTE_BING_TOKEN_HERE" /> -->
+<script>
+/* Own script element: a throw here must not reach the main inline script. */
+(function () {
+  var TOKEN = ''; /* <-- Cloudflare Web Analytics token goes here */
+  if (!TOKEN) return;
+  var s = document.createElement('script');
+  s.defer = true;
+  s.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+  s.setAttribute('data-cf-beacon', JSON.stringify({ token: TOKEN }));
+  document.head.appendChild(s);
+})();
+</script>
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -49,13 +78,108 @@
   },
   "address": {
     "@type": "PostalAddress",
-    "addressLocality": "Kolkata",
-    "addressRegion": "West Bengal",
     "addressCountry": "IN"
   },
-  "knowsAbout": ["Web Design", "Local SEO", "E-Commerce", "WhatsApp Business", "Small Business Websites", "Razorpay Integration", "Google Business Profile"],
-  "areaServed": ["Mumbai", "Bengaluru", "Delhi", "Hyderabad", "Chennai", "Pune", "Jaipur", "Ahmedabad", "Kolkata", "Gurugram", "Kochi", "Surat"],
-  "priceRange": "₹14999-₹44999"
+  "knowsAbout": ["Web Design", "Website Development", "Local SEO", "E-Commerce Development", "WhatsApp Business", "Small Business Websites", "Razorpay Integration", "Google Business Profile"],
+  "areaServed": [
+    { "@type": "Country", "name": "India" },
+    { "@type": "City", "name": "Mumbai" },
+    { "@type": "City", "name": "Delhi" },
+    { "@type": "City", "name": "Gurugram" },
+    { "@type": "City", "name": "Noida" },
+    { "@type": "City", "name": "Bengaluru" },
+    { "@type": "City", "name": "Hyderabad" },
+    { "@type": "City", "name": "Pune" },
+    { "@type": "City", "name": "Chennai" },
+    { "@type": "City", "name": "Kolkata" },
+    { "@type": "City", "name": "Ahmedabad" },
+    { "@type": "City", "name": "Jaipur" },
+    { "@type": "City", "name": "Surat" },
+    { "@type": "City", "name": "Lucknow" },
+    { "@type": "City", "name": "Chandigarh" },
+    { "@type": "City", "name": "Kochi" },
+    { "@type": "City", "name": "Indore" }
+  ],
+  "telephone": "+91-82499-92869",
+  "email": "hello@netloom.in",
+  "priceRange": "₹14999-₹44999",
+  "currenciesAccepted": "INR",
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Website packages",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "name": "Starter website",
+        "price": "14999",
+        "priceCurrency": "INR",
+        "itemOffered": { "@type": "Service", "name": "Starter website", "serviceType": "Website design and development" }
+      },
+      {
+        "@type": "Offer",
+        "name": "Business website",
+        "price": "24999",
+        "priceCurrency": "INR",
+        "itemOffered": { "@type": "Service", "name": "Business website", "serviceType": "Website design and development" }
+      },
+      {
+        "@type": "Offer",
+        "name": "Premium website",
+        "price": "44999",
+        "priceCurrency": "INR",
+        "itemOffered": { "@type": "Service", "name": "Premium website", "serviceType": "E-commerce website design and development" }
+      }
+    ]
+  }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do I own the website after I pay?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes, entirely. Once the project is complete and final payment clears, the domain, hosting account and all website files are yours. Nothing is held hostage, and nothing is registered in our name." }
+    },
+    {
+      "@type": "Question",
+      "name": "What about domain and hosting costs — are they extra?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Our prices cover design and development only. Domain registration runs roughly ₹800–₹1,200 per year and basic hosting ₹350–₹700 per month. We set it all up, recommend the right provider for your budget, and walk you through renewals so you are never dependent on us." }
+    },
+    {
+      "@type": "Question",
+      "name": "How many design revisions do I get?",
+      "acceptedAnswer": { "@type": "Answer", "text": "As many as it takes to get it right, within the agreed scope. Once the initial design is approved, structural changes — new pages, a rethought layout — are treated as new work and quoted separately. Two rounds are budgeted into every project as standard." }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need to provide photos and content?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes — your photos, your words, your story. Most owners already have good photos on their phone, and we will tell you exactly which ones work. We can write the copy for you if needed, at a small extra charge. Real photos always outperform stock: customers trust what looks like the actual place." }
+    },
+    {
+      "@type": "Question",
+      "name": "What if I am not happy with the final result?",
+      "acceptedAnswer": { "@type": "Answer", "text": "We iterate until it is right. If after two full revision rounds the design still is not working, we refund the full amount — no questions, no awkwardness. It is written into the agreement before any work starts, so you never have to argue for it." }
+    },
+    {
+      "@type": "Question",
+      "name": "Will my website rank on Google?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Every site ships with on-page SEO as standard — meta titles, descriptions, schema markup, image alt text — and we set up your Google Business Profile so you appear on Maps. Organic rankings typically take 4–12 weeks depending on city and competition. We will tell you plainly what to expect in your niche rather than over-promise." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I update the website myself after launch?",
+      "acceptedAnswer": { "@type": "Answer", "text": "For most updates — new photos, changed hours, festival offers — just send them on WhatsApp. It is faster than any CMS. If you want full editorial control, we can build on a simple CMS instead. During the support period all changes are free; after that, updates are billed at a small flat rate." }
+    },
+    {
+      "@type": "Question",
+      "name": "Which cities do you work in?",
+      "acceptedAnswer": { "@type": "Answer", "text": "All of it. Netloom works remotely with businesses anywhere in India — Mumbai, Delhi NCR, Bengaluru, Hyderabad, Pune, Chennai, Kolkata, Ahmedabad, Jaipur and the smaller towns just the same. The first call is on Google Meet or WhatsApp video; everything after that runs through screen shares and chat. Nothing about the process needs us in the same room, and nothing about the price changes with your postcode." }
+    }
+  ]
 }
 </script>
 
@@ -4042,11 +4166,11 @@ window.SITE_CONFIG = {
 
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false">
-          I'm in [city] — do you work with businesses outside Kolkata?
+          Which cities do you work in?
           <span class="faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-body" role="region">
-          <p>Entirely remote, and we work with businesses anywhere in India. The initial call is on Google Meet or WhatsApp video; everything after that runs through screen shares and chat. Nothing about the process needs us in the same room.</p>
+          <p>All of it. Netloom works remotely with businesses anywhere in India — Mumbai, Delhi NCR, Bengaluru, Hyderabad, Pune, Chennai, Kolkata, Ahmedabad, Jaipur and the smaller towns just the same. The first call is on Google Meet or WhatsApp video; everything after that runs through screen shares and chat. Nothing about the process needs us in the same room, and nothing about the price changes with your postcode.</p>
         </div>
       </div>
 
@@ -4066,7 +4190,7 @@ window.SITE_CONFIG = {
         <span>Netloom<em>.</em></span>
       </a>
       <p>Helping local Indian businesses shine online. Website design, e-commerce, and ongoing care — working remotely across India.</p>
-      <p class="foot-founder">Founded by <strong>Mayank Khandelwal</strong> · Kolkata</p>
+      <p class="foot-founder">Founded by <strong>Mayank Khandelwal</strong> · Working across India</p>
       <div class="foot-social">
         <a href="#" data-social="instagram" data-social-keep aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
         <a href="#" data-social="linkedin" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
@@ -4110,7 +4234,7 @@ window.SITE_CONFIG = {
     </div>
   </div>
   <div class="foot-bottom">
-    <div>© <span id="footYear">2026</span> Netloom · Kolkata, India</div>
+    <div>© <span id="footYear">2026</span> Netloom · India</div>
     <div>Designed &amp; built with pride · for every Indian business</div>
   </div>
 </footer>
@@ -4224,6 +4348,9 @@ if (menuButton){
   function show(view, opts){
     opts = opts || {};
     if (VIEWS.indexOf(view) === -1) view = 'home';
+    /* A route page carries only its own view. Hiding every .view because the
+       target is absent would leave a blank page. */
+    if (!document.getElementById('view-' + view)) return;
 
     document.querySelectorAll('.view').forEach(function(v){
       var on = v.dataset.view === view;
@@ -4241,7 +4368,7 @@ if (menuButton){
 
     document.title = TITLES[view] || TITLES.home;
     var canon = document.querySelector('link[rel="canonical"]');
-    if (canon) canon.setAttribute('href','https://netloom.in/' + (view === 'home' ? '' : view));
+    if (canon) canon.setAttribute('href','https://netloom.in/' + (view === 'home' ? '' : view + '/'));
 
     if (!opts.keepScroll) window.scrollTo({ top: 0, behavior: opts.instant ? 'auto' : 'smooth' });
 
@@ -4258,8 +4385,17 @@ if (menuButton){
   }
 
   function navigate(view, push){
+    if (VIEWS.indexOf(view) === -1) view = 'home';
+    var href = view === 'home' ? '/' : '/' + view + '/';
+    /* Client-side routing only works between views that are in this
+       document. On a route page the others were stripped at build time, so
+       hand off to the browser instead of showing nothing. */
+    if (!document.getElementById('view-' + view)){
+      location.href = href;
+      return;
+    }
     if (push !== false){
-      history.pushState({ view: view }, '', view === 'home' ? '/' : '/' + view);
+      history.pushState({ view: view }, '', href);
     }
     show(view);
   }
@@ -4293,7 +4429,7 @@ if (menuButton){
 
   var start = pathToView(location.pathname);
   // Normalise /index.html and /work/index.html to / and /work in the address bar.
-  var clean = start === 'home' ? '/' : '/' + start;
+  var clean = start === 'home' ? '/' : '/' + start + '/';
   history.replaceState({ view: start }, '',
     /index\.html$/.test(location.pathname) ? clean : location.pathname);
   show(start, { instant:true, silent:true, keepScroll:true });
@@ -4490,7 +4626,10 @@ document.querySelectorAll('.city-chip').forEach(chip => {
    ============================================ */
 const ENQUIRY_ENDPOINT = 'https://netloom-enquiry.netloom.workers.dev';
 const form = document.getElementById('contactForm');
-form.addEventListener('submit', async (e) => {
+/* Only / and /contact/ carry this view — the build strips the rest so each
+   route page is about one thing. An unguarded listener here would throw and
+   take every IIFE below it down with it. */
+if (form) form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const btn = document.getElementById('formBtn');
   const success = document.getElementById('formSuccess');

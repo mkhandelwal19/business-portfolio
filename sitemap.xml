@@ -7,27 +7,27 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://netloom.in/work</loc>
+    <loc>https://netloom.in/work/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://netloom.in/services</loc>
+    <loc>https://netloom.in/services/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://netloom.in/pricing</loc>
+    <loc>https://netloom.in/pricing/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://netloom.in/about</loc>
+    <loc>https://netloom.in/about/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://netloom.in/contact</loc>
+    <loc>https://netloom.in/contact/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
