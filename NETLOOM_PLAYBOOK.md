@@ -154,7 +154,7 @@ These are the reason we win against shops that will say anything.
 | `commerce/` | The store. `README.md` there is the authoritative technical doc. |
 | `flagship/3d-core.js` | Shared WebGL core for the three flagships |
 | `worker/` | Cloudflare Worker — enquiry mail over Zoho SMTP |
-| `test/` | `npm test` — 209 jsdom assertions across 7 suites |
+| `test/` | `npm test` — 386 jsdom assertions across 8 suites |
 | `LICENCES.md` | Asset provenance. Section 1 is an open risk. |
 | `NEXT_SESSION.md` | Engineering handoff: current state and traps |
 | `DEMO_SITES.md` | Page inventory per template |

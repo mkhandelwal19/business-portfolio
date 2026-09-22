@@ -621,29 +621,23 @@
     window.__netloomSetTheme = apply;
   })();
 
-  // ── Cookie consent banner ──
-  if (!localStorage.getItem('cookie_consent') &&
-      !document.documentElement.classList.contains('is-embedded')) {
-    const banner = document.createElement('div');
-    banner.className = 'cookie-banner';
-    banner.innerHTML = `
-      <p>We use cookies to improve your experience. By continuing you agree to our <a href="/privacy.html">privacy policy</a>.</p>
-      <div class="cookie-banner-actions">
-        <button class="btn-cookie-decline">Decline</button>
-        <button class="btn-cookie-accept">Accept</button>
-      </div>`;
-    document.body.appendChild(banner);
-    requestAnimationFrame(() => banner.classList.add('visible'));
-    banner.querySelector('.btn-cookie-accept').addEventListener('click', () => {
-      localStorage.setItem('cookie_consent', 'accepted');
-      banner.classList.remove('visible');
-      setTimeout(() => banner.remove(), 300);
-    });
-    banner.querySelector('.btn-cookie-decline').addEventListener('click', () => {
-      localStorage.setItem('cookie_consent', 'declined');
-      banner.classList.remove('visible');
-      setTimeout(() => banner.remove(), 300);
-    });
-  }
+  /* ── No cookie banner ──
+     There was one here, on all 36 demo pages, and it was wrong three ways.
+
+     These pages set no cookies. The only thing stored is the light/dark
+     choice in localStorage, which is a functional preference the visitor
+     asked for by clicking the control — neither the DPDP Act 2023 nor the
+     ePrivacy consent rules require a banner for that.
+
+     Its wording ("by continuing you agree") is the pattern regulators single
+     out, because continuing to read is not consent. And its privacy link
+     pointed at /privacy.html, which from /restaurant/ or /salon/ is a 404 on
+     every one of these pages.
+
+     SEO_SETUP.md turned down GA4 specifically so that no banner would be
+     needed. A demo that opens with a consent dialog it does not need is the
+     first impression of a studio selling restraint. If a real client site
+     ever loads analytics or ad pixels, that site gets a real banner with real
+     choices, built then. */
 
 })();

@@ -34,7 +34,7 @@ Five things that will cost you an hour each if you learn them the hard way.
    both passed while the button did nothing. `npm test` asserts
    `window.__netloomOpenPreview` is defined specifically to catch this.
 
-4. **`npm test` before every commit.** 33 jsdom assertions across the preview
+4. **`npm test` before every commit.** 386 jsdom assertions across the preview
    modal and the `?biz=` / `?embed=1` demo path. Takes about a second.
 
 5. **DOM tests cannot see rendering.** They will not catch a gem that renders as
@@ -341,7 +341,7 @@ author rule outranks a presentation attribute), and the photo scrims needed
 their own token because a 55% black wash that seats a photo on near-black
 reads as a bruise on paper.
 
-New suite `test/theme.test.js`, 30 assertions. Total is now 209 across 7.
+New suite `test/theme.test.js`, 30 assertions. Total is now 386 across 8.
 
 **Skills for the whole client pipeline**, in `.claude/skills/`:
 `netloom-build` (the master SOP, with seven reference files including the

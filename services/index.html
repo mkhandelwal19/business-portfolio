@@ -49,6 +49,12 @@
 <!-- <meta name="google-site-verification" content="PASTE_GOOGLE_TOKEN_HERE" /> -->
 <!-- <meta name="msvalidate.01" content="PASTE_BING_TOKEN_HERE" /> -->
 <script>
+/* Pre-paint, own element. Everything that fades in is hidden by `html.js`
+   rules, so a visitor whose JavaScript never arrives gets the whole page as
+   static text instead of a blank screen. Must stay above the stylesheet. */
+document.documentElement.classList.add('js');
+</script>
+<script>
 /* Own script element: a throw here must not reach the main inline script. */
 (function () {
   var TOKEN = '21490c8441f148d092cc15ebe8d7c48e'; /* Cloudflare Web Analytics. Public by design, not a secret. */
@@ -569,6 +575,15 @@ body::after{
 .hv-hs-s{ width: 70px; height: 7px; background: rgba(244,239,230,0.35); border-radius: 2px; margin-bottom: 10px; }
 .hv-hs-b{ width: 60px; height: 22px; background: var(--gold); border-radius: 12px; }
 /* Nav bar */
+.hv-shot{
+  display:block; width:100%; height:auto;
+  border-top: 1px solid var(--line-soft);
+  /* The capture is 1100x752, so the box is reserved before it loads and the
+     hero does not jump when it arrives. */
+  aspect-ratio: 1100 / 752;
+  object-fit: cover; object-position: top center;
+  background: var(--bg-3);
+}
 .hv-nav{
   display: flex; align-items: center; gap: 12px;
   padding: 10px 16px;
@@ -830,19 +845,135 @@ section{
   line-height: 1.65;
 }
 
-/* Reveal */
-.reveal{
+/* ============================================
+   HOME — demos, terms and prices above the fold-and-a-half
+   ============================================
+   The home page used to be hero, four numbers, a ticker and the footer: a
+   visitor saw no product and no terms without first choosing a nav item.
+   These three sections put the thing itself, the guarantees and the prices
+   on the page a stranger actually lands on. They live inside the home view,
+   so build-routes.js strips them from the five route pages and /work,
+   /about and /pricing keep the full versions. */
+
+.home-demos{ padding-top: 120px }
+.hd-head{
+  display:flex; flex-wrap:wrap; gap:24px;
+  align-items:flex-end; justify-content:space-between;
+  margin-bottom: 48px;
+}
+.hd-head h2{
+  font-family: var(--f-serif); font-weight:500;
+  font-size: clamp(30px, 3.4vw, 46px); line-height:1.1;
+  letter-spacing:-0.01em; max-width: 18ch;
+}
+.hd-head h2 em{ font-style:italic; color:var(--gold); font-weight:400 }
+.hd-head p{ color:var(--ivory-dim); font-size:16px; max-width:44ch }
+.hd-grid{
+  display:grid; grid-template-columns: repeat(4, 1fr); gap:16px;
+}
+.hd-card{
+  display:flex; flex-direction:column; gap:10px;
+  padding:24px; border-radius:16px;
+  background: linear-gradient(160deg, rgba(20,28,52,.7), rgba(10,15,30,.7));
+  border:1px solid var(--line-soft);
+  color:inherit; text-decoration:none;
+  transition: border-color .35s, transform .35s, background .35s;
+}
+.hd-card:hover{
+  border-color: var(--line); transform: translateY(-4px);
+  background: linear-gradient(160deg, rgba(28,38,68,.8), rgba(14,21,39,.8));
+}
+.hd-card i{ font-size:18px; color:var(--gold) }
+.hd-name{ font-family:var(--f-serif); font-size:19px; font-weight:500 }
+.hd-what{ font-size:13px; color:var(--ivory-dim); line-height:1.5; flex:1 }
+.hd-open{
+  font-family:var(--f-mono); font-size:10px; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--gold);
+  display:inline-flex; align-items:center; gap:7px;
+}
+.hd-card:hover .hd-open i{ transform: translateX(3px) }
+.hd-open i{ font-size:10px; transition: transform .3s }
+.hd-note{
+  margin-top:28px; font-size:14px; color:var(--muted);
+  display:flex; flex-wrap:wrap; gap:8px 18px; align-items:center;
+}
+
+.home-terms{ padding-top: 40px }
+.ht-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:20px }
+.ht-card{
+  padding:32px; border-radius:18px;
+  background: var(--glass); border:1px solid var(--line-soft);
+  backdrop-filter: blur(8px);
+}
+.ht-card i{ font-size:20px; color:var(--gold); margin-bottom:18px; display:block }
+.ht-card h3{
+  font-family:var(--f-serif); font-weight:500; font-size:21px;
+  line-height:1.25; margin-bottom:10px;
+}
+.ht-card p{ color:var(--ivory-dim); font-size:15px; line-height:1.6 }
+
+.home-prices{ padding-top: 40px }
+.hp-bar{
+  display:grid; grid-template-columns: repeat(3, 1fr);
+  gap:2px; background: var(--line-soft);
+  border:1px solid var(--line-soft); border-radius:20px; overflow:hidden;
+}
+.hp-cell{ background: var(--bg-2); padding:34px 30px }
+.hp-tier{
+  font-family:var(--f-mono); font-size:10px; letter-spacing:.24em;
+  text-transform:uppercase; color:var(--muted); margin-bottom:12px;
+}
+.hp-amt{ font-family:var(--f-serif); font-size:34px; font-weight:500; color:var(--gold) }
+.hp-for{ font-size:14px; color:var(--ivory-dim); margin-top:10px; line-height:1.55 }
+.hp-foot{
+  margin-top:26px; display:flex; flex-wrap:wrap;
+  gap:16px 24px; align-items:center;
+}
+.hp-foot span{ font-size:14px; color:var(--muted) }
+
+@media (max-width: 1100px){
+  .hd-grid{ grid-template-columns: repeat(2, 1fr) }
+  .ht-grid{ grid-template-columns: 1fr }
+  .hp-bar{ grid-template-columns: 1fr }
+}
+@media (max-width: 560px){
+  .hd-grid{ grid-template-columns: 1fr }
+  .home-demos{ padding-top: 80px }
+}
+
+/* Reveal
+   ----------------------------------------------------------------------------
+   Hidden only under `html.js`: without JavaScript nothing is ever un-hidden,
+   and a blank page is a worse failure than a page that does not animate.
+
+   The hero is exempt from the observer entirely. It is above the fold on every
+   single visit, so waiting for a 200 KB inline script to parse before it has
+   any content is the largest contentful paint being spent on nothing. It runs
+   its entrance as a CSS animation at first paint instead; the observer still
+   drives everything below the fold. */
+html.js .reveal{
   opacity: 0;
   transform: translateY(40px);
-  transition: opacity 1s cubic-bezier(.2,.8,.2,1), transform 1s cubic-bezier(.2,.8,.2,1);
+  transition: opacity .8s cubic-bezier(.2,.8,.2,1), transform .8s cubic-bezier(.2,.8,.2,1);
 }
-.reveal.in{ opacity: 1; transform: none }
-.reveal[data-delay="1"]{ transition-delay: .08s }
-.reveal[data-delay="2"]{ transition-delay: .16s }
-.reveal[data-delay="3"]{ transition-delay: .24s }
-.reveal[data-delay="4"]{ transition-delay: .32s }
-.reveal[data-delay="5"]{ transition-delay: .40s }
-.reveal[data-delay="6"]{ transition-delay: .48s }
+html.js .reveal.in{ opacity: 1; transform: none }
+
+@keyframes heroIn{
+  from{ opacity:0; transform: translateY(26px) }
+  to  { opacity:1; transform: none }
+}
+html.js .hero .reveal{ animation: heroIn .7s cubic-bezier(.2,.8,.2,1) both }
+html.js .hero .reveal[data-delay="1"]{ animation-delay: .06s }
+html.js .hero .reveal[data-delay="2"]{ animation-delay: .12s }
+html.js .hero .reveal[data-delay="3"]{ animation-delay: .18s }
+html.js .hero .reveal[data-delay="4"]{ animation-delay: .24s }
+html.js .hero .reveal[data-delay="5"]{ animation-delay: .30s }
+html.js .reveal[data-delay="1"]{ transition-delay: .08s }
+html.js .reveal[data-delay="2"]{ transition-delay: .16s }
+html.js .reveal[data-delay="3"]{ transition-delay: .24s }
+html.js .reveal[data-delay="4"]{ transition-delay: .32s }
+html.js .reveal[data-delay="5"]{ transition-delay: .40s }
+html.js .reveal[data-delay="6"]{ transition-delay: .48s }
 
 /* ==================== MISSION/VISION ==================== */
 .mv-grid{
@@ -2698,6 +2829,7 @@ body.bizmodal-open{ overflow:hidden }
   html{ scroll-behavior:auto }
   .marquee-track{ animation:none !important; transform:none !important }
   .reveal{ opacity:1 !important; transform:none !important }
+  .hero .reveal{ animation:none !important }
   #hero-canvas{ display:none }
   .cursor-dot,.cursor-ring{ display:none !important }
 }
@@ -3105,10 +3237,10 @@ window.SITE_CONFIG = {
         <li><a href="/healthcare/index.html" data-demo="/healthcare/index.html">Clinic</a></li>
         <li><a href="/salon/index.html" data-demo="/salon/index.html">Salon</a></li>
         <li><a href="/yoga/index.html" data-demo="/yoga/index.html">Yoga</a></li>
-        <li><a href="commerce/index.html" data-demo="commerce/index.html">Online Store</a></li>
+        <li><a href="/commerce/index.html" data-demo="/commerce/index.html">Online Store</a></li>
         <li><a href="/jewellery-lux/index.html" data-demo="/jewellery-lux/index.html">Jewellery · 3D</a></li>
-        <li><a href="boutique-lux/index.html" data-demo="boutique-lux/index.html">Boutique · 3D</a></li>
-        <li><a href="realestate-lux/index.html" data-demo="realestate-lux/index.html">Real Estate · 3D</a></li>
+        <li><a href="/boutique-lux/index.html" data-demo="/boutique-lux/index.html">Boutique · 3D</a></li>
+        <li><a href="/realestate-lux/index.html" data-demo="/realestate-lux/index.html">Real Estate · 3D</a></li>
       </ul>
       <p class="foot-note">3D demos build the product in your browser. Drag, pinch, zoom.</p>
     </div>
@@ -3883,15 +4015,34 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 (function(){ var y=document.getElementById('footYear'); if(y) y.textContent=new Date().getFullYear(); })();
 
 /* ============================================
-   SCARCITY BADGE — auto month
-   ============================================ */
-(function slotsBadge(){
+   AVAILABILITY BADGE
+   ============================================
+   This used to print "Only 3 project slots open for <this month>" on a timer,
+   which made it a permanent claim and never a fact. It is now one number that
+   somebody has to mean: set OPEN_SLOTS to how many projects are actually
+   being taken on, and the badge appears. Leave it at 0 and both badges are
+   removed — a site that refuses to show testimonials it cannot verify cannot
+   run a countdown it made up. */
+(function availabilityBadge(){
+  const OPEN_SLOTS = 0;   // <- set this by hand, or leave 0 to show nothing
+
   const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  const now = new Date();
-  const el = document.getElementById('slotsText');
-  if (el) el.textContent = `Only 3 project slots open for ${months[now.getMonth()]}`;
-  const hero = document.getElementById('heroSlots');
-  if (hero) hero.textContent = `Open for 3 projects · ${months[now.getMonth()]} ${now.getFullYear()}`;
+  const now   = new Date();
+  const when  = months[now.getMonth()] + " " + now.getFullYear();
+  const hero  = document.getElementById('heroSlots');
+  const price = document.getElementById('slotsText');
+
+  if (!OPEN_SLOTS){
+    const heroBadge = hero && hero.closest('.hero-eyebrow');
+    const priceBadge = document.getElementById('slotsBadge');
+    if (heroBadge) heroBadge.remove();
+    if (priceBadge) priceBadge.remove();
+    return;
+  }
+
+  const noun = OPEN_SLOTS === 1 ? 'project' : 'projects';
+  if (hero)  hero.textContent  = `Taking on ${OPEN_SLOTS} ${noun} · ${when}`;
+  if (price) price.textContent = `${OPEN_SLOTS} ${noun} open for ${when}`;
 })();
 
 /* ============================================

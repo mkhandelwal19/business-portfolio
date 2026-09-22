@@ -23,10 +23,10 @@ Eight verticals, three template families.
 | Clinic & healthcare | Basu Family Clinic | `/healthcare` | standard | `theme-mint` | 9 |
 | Salon & spa | Lumière Salon & Spa | `/salon` | standard | `theme-plum` | 9 |
 | Yoga & fitness | Praana Yoga Studio | `/yoga` | standard | `theme-sage` | 9 |
-| Online store | Kolkata Craft Co. | `/commerce` | commerce | own light system | 12 |
-| Jewellery | Mallika Jewels | `/jewellery-lux` | 3D flagship | own dark system | 1 |
-| Boutique | Riyaaz Boutique | `/boutique-lux` | 3D flagship | own dark system | 1 |
-| Real estate | Saha Properties | `/realestate-lux` | 3D flagship | own dark system | 1 |
+| Online store | Kaarigar | `/commerce` | commerce | own light system | 12 |
+| Jewellery | Vaira | `/jewellery-lux` | 3D flagship | own dark system | 1 |
+| Boutique | Sutra | `/boutique-lux` | 3D flagship | own dark system | 1 |
+| Real estate | Anvaya Residences | `/realestate-lux` | 3D flagship | own dark system | 1 |
 
 ### Retired, 6 September 2026
 
@@ -117,7 +117,7 @@ A flagship's job is to win the meeting, not to be a complete website.
 - **Fonts**: Playfair Display, DM Sans, JetBrains Mono via Google Fonts.
   The flagships use Cormorant Garamond.
 - **Icons**: Font Awesome 6.5.1 via cdnjs
-- **Tests**: `npm test` — 209 assertions across 7 suites
+- **Tests**: `npm test` — 386 assertions across 8 suites
 
 ### Themes
 

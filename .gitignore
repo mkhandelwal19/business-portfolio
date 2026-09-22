@@ -17,3 +17,14 @@ worker/preview/
 
 # Root tooling deps (test harness)
 /node_modules/
+
+# Local Claude Code permissions — held a Google Places API key in a public repo.
+# Keep it out of the repo; secrets belong in an untracked .env.
+.claude/settings.json
+
+# Superseded 2026 portfolio drafts. Kept on disk, unpublished — they carry the
+# old personal-portfolio identity the studio voice replaced.
+/v1.html
+/v2.html
+/uplift.html
+/Mayank Portfolio.html

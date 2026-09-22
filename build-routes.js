@@ -52,10 +52,16 @@ const HOME_TITLE = 'Netloom — Websites for Indian Small Businesses';
    served from a subdirectory and "restaurant/index.html" there would resolve to
    /about/restaurant/index.html. Every relative link the SPA markup carries has
    to be listed here. */
+/* A folder missing from this list is a 404 from every route page but the
+   home page, and nothing in the build or the tests will say so — the link
+   simply resolves to /work/<folder>/. Add a demo folder here the day it is
+   created. `npm test` now asserts the list covers every data-demo href. */
 const RELATIVE_PREFIXES = [
-  'projects/', 'jewellery-lux/',
-  'restaurant/', 'healthcare/', 'salon/', 'boutique/',
-  'yoga/', 'jewellery/', 'ecommerce/', 'realestate/'
+  'projects/',
+  'restaurant/', 'healthcare/', 'salon/', 'yoga/',
+  'commerce/',
+  'jewellery-lux/', 'boutique-lux/', 'realestate-lux/',
+  'boutique/', 'jewellery/', 'ecommerce/', 'realestate/'
 ];
 
 function escapeAttr (s) {

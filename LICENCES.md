@@ -168,3 +168,21 @@ The wordmark, site copy, `demo.css`, `demo.js`, `flagship/3d-core.js`, the
 hand-drawn SVG fallbacks and all procedural 3D geometry are original work and
 belong to Netloom. The 3D in the flagships is generated in code from primitives
 — there are no downloaded models, and nothing to license.
+
+---
+
+## 4. Hero screenshot — `assets/hero/template-restaurant*.webp`
+
+Added 22 September 2026. Generated, not sourced: a headless-Chrome capture of
+`/restaurant/index.html?embed=1` as this repo serves it, re-encoded to WebP at
+1100 px and 600 px. The recipe is in `NEXT_SESSION.md` §0.5 and the markup that
+uses it names the source page in a comment, so it can be regenerated at any
+time.
+
+**It inherits section 1's open question.** The page it captures includes
+`assets/photos/restaurant-18.webp`, one of the 216 photographs whose provenance
+is unrecorded. Nothing new is published by this file that was not already
+published at `/restaurant/` — but it now also appears on the home page, which
+is the most-seen page on the domain. Whatever answer closes section 1 covers
+this file too; if a photograph has to be withdrawn, regenerate the capture
+after the replacement lands rather than editing the WebP.

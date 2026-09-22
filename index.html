@@ -49,6 +49,12 @@
 <!-- <meta name="google-site-verification" content="PASTE_GOOGLE_TOKEN_HERE" /> -->
 <!-- <meta name="msvalidate.01" content="PASTE_BING_TOKEN_HERE" /> -->
 <script>
+/* Pre-paint, own element. Everything that fades in is hidden by `html.js`
+   rules, so a visitor whose JavaScript never arrives gets the whole page as
+   static text instead of a blank screen. Must stay above the stylesheet. */
+document.documentElement.classList.add('js');
+</script>
+<script>
 /* Own script element: a throw here must not reach the main inline script. */
 (function () {
   var TOKEN = '21490c8441f148d092cc15ebe8d7c48e'; /* Cloudflare Web Analytics. Public by design, not a secret. */
@@ -569,6 +575,15 @@ body::after{
 .hv-hs-s{ width: 70px; height: 7px; background: rgba(244,239,230,0.35); border-radius: 2px; margin-bottom: 10px; }
 .hv-hs-b{ width: 60px; height: 22px; background: var(--gold); border-radius: 12px; }
 /* Nav bar */
+.hv-shot{
+  display:block; width:100%; height:auto;
+  border-top: 1px solid var(--line-soft);
+  /* The capture is 1100x752, so the box is reserved before it loads and the
+     hero does not jump when it arrives. */
+  aspect-ratio: 1100 / 752;
+  object-fit: cover; object-position: top center;
+  background: var(--bg-3);
+}
 .hv-nav{
   display: flex; align-items: center; gap: 12px;
   padding: 10px 16px;
@@ -830,19 +845,135 @@ section{
   line-height: 1.65;
 }
 
-/* Reveal */
-.reveal{
+/* ============================================
+   HOME — demos, terms and prices above the fold-and-a-half
+   ============================================
+   The home page used to be hero, four numbers, a ticker and the footer: a
+   visitor saw no product and no terms without first choosing a nav item.
+   These three sections put the thing itself, the guarantees and the prices
+   on the page a stranger actually lands on. They live inside the home view,
+   so build-routes.js strips them from the five route pages and /work,
+   /about and /pricing keep the full versions. */
+
+.home-demos{ padding-top: 120px }
+.hd-head{
+  display:flex; flex-wrap:wrap; gap:24px;
+  align-items:flex-end; justify-content:space-between;
+  margin-bottom: 48px;
+}
+.hd-head h2{
+  font-family: var(--f-serif); font-weight:500;
+  font-size: clamp(30px, 3.4vw, 46px); line-height:1.1;
+  letter-spacing:-0.01em; max-width: 18ch;
+}
+.hd-head h2 em{ font-style:italic; color:var(--gold); font-weight:400 }
+.hd-head p{ color:var(--ivory-dim); font-size:16px; max-width:44ch }
+.hd-grid{
+  display:grid; grid-template-columns: repeat(4, 1fr); gap:16px;
+}
+.hd-card{
+  display:flex; flex-direction:column; gap:10px;
+  padding:24px; border-radius:16px;
+  background: linear-gradient(160deg, rgba(20,28,52,.7), rgba(10,15,30,.7));
+  border:1px solid var(--line-soft);
+  color:inherit; text-decoration:none;
+  transition: border-color .35s, transform .35s, background .35s;
+}
+.hd-card:hover{
+  border-color: var(--line); transform: translateY(-4px);
+  background: linear-gradient(160deg, rgba(28,38,68,.8), rgba(14,21,39,.8));
+}
+.hd-card i{ font-size:18px; color:var(--gold) }
+.hd-name{ font-family:var(--f-serif); font-size:19px; font-weight:500 }
+.hd-what{ font-size:13px; color:var(--ivory-dim); line-height:1.5; flex:1 }
+.hd-open{
+  font-family:var(--f-mono); font-size:10px; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--gold);
+  display:inline-flex; align-items:center; gap:7px;
+}
+.hd-card:hover .hd-open i{ transform: translateX(3px) }
+.hd-open i{ font-size:10px; transition: transform .3s }
+.hd-note{
+  margin-top:28px; font-size:14px; color:var(--muted);
+  display:flex; flex-wrap:wrap; gap:8px 18px; align-items:center;
+}
+
+.home-terms{ padding-top: 40px }
+.ht-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:20px }
+.ht-card{
+  padding:32px; border-radius:18px;
+  background: var(--glass); border:1px solid var(--line-soft);
+  backdrop-filter: blur(8px);
+}
+.ht-card i{ font-size:20px; color:var(--gold); margin-bottom:18px; display:block }
+.ht-card h3{
+  font-family:var(--f-serif); font-weight:500; font-size:21px;
+  line-height:1.25; margin-bottom:10px;
+}
+.ht-card p{ color:var(--ivory-dim); font-size:15px; line-height:1.6 }
+
+.home-prices{ padding-top: 40px }
+.hp-bar{
+  display:grid; grid-template-columns: repeat(3, 1fr);
+  gap:2px; background: var(--line-soft);
+  border:1px solid var(--line-soft); border-radius:20px; overflow:hidden;
+}
+.hp-cell{ background: var(--bg-2); padding:34px 30px }
+.hp-tier{
+  font-family:var(--f-mono); font-size:10px; letter-spacing:.24em;
+  text-transform:uppercase; color:var(--muted); margin-bottom:12px;
+}
+.hp-amt{ font-family:var(--f-serif); font-size:34px; font-weight:500; color:var(--gold) }
+.hp-for{ font-size:14px; color:var(--ivory-dim); margin-top:10px; line-height:1.55 }
+.hp-foot{
+  margin-top:26px; display:flex; flex-wrap:wrap;
+  gap:16px 24px; align-items:center;
+}
+.hp-foot span{ font-size:14px; color:var(--muted) }
+
+@media (max-width: 1100px){
+  .hd-grid{ grid-template-columns: repeat(2, 1fr) }
+  .ht-grid{ grid-template-columns: 1fr }
+  .hp-bar{ grid-template-columns: 1fr }
+}
+@media (max-width: 560px){
+  .hd-grid{ grid-template-columns: 1fr }
+  .home-demos{ padding-top: 80px }
+}
+
+/* Reveal
+   ----------------------------------------------------------------------------
+   Hidden only under `html.js`: without JavaScript nothing is ever un-hidden,
+   and a blank page is a worse failure than a page that does not animate.
+
+   The hero is exempt from the observer entirely. It is above the fold on every
+   single visit, so waiting for a 200 KB inline script to parse before it has
+   any content is the largest contentful paint being spent on nothing. It runs
+   its entrance as a CSS animation at first paint instead; the observer still
+   drives everything below the fold. */
+html.js .reveal{
   opacity: 0;
   transform: translateY(40px);
-  transition: opacity 1s cubic-bezier(.2,.8,.2,1), transform 1s cubic-bezier(.2,.8,.2,1);
+  transition: opacity .8s cubic-bezier(.2,.8,.2,1), transform .8s cubic-bezier(.2,.8,.2,1);
 }
-.reveal.in{ opacity: 1; transform: none }
-.reveal[data-delay="1"]{ transition-delay: .08s }
-.reveal[data-delay="2"]{ transition-delay: .16s }
-.reveal[data-delay="3"]{ transition-delay: .24s }
-.reveal[data-delay="4"]{ transition-delay: .32s }
-.reveal[data-delay="5"]{ transition-delay: .40s }
-.reveal[data-delay="6"]{ transition-delay: .48s }
+html.js .reveal.in{ opacity: 1; transform: none }
+
+@keyframes heroIn{
+  from{ opacity:0; transform: translateY(26px) }
+  to  { opacity:1; transform: none }
+}
+html.js .hero .reveal{ animation: heroIn .7s cubic-bezier(.2,.8,.2,1) both }
+html.js .hero .reveal[data-delay="1"]{ animation-delay: .06s }
+html.js .hero .reveal[data-delay="2"]{ animation-delay: .12s }
+html.js .hero .reveal[data-delay="3"]{ animation-delay: .18s }
+html.js .hero .reveal[data-delay="4"]{ animation-delay: .24s }
+html.js .hero .reveal[data-delay="5"]{ animation-delay: .30s }
+html.js .reveal[data-delay="1"]{ transition-delay: .08s }
+html.js .reveal[data-delay="2"]{ transition-delay: .16s }
+html.js .reveal[data-delay="3"]{ transition-delay: .24s }
+html.js .reveal[data-delay="4"]{ transition-delay: .32s }
+html.js .reveal[data-delay="5"]{ transition-delay: .40s }
+html.js .reveal[data-delay="6"]{ transition-delay: .48s }
 
 /* ==================== MISSION/VISION ==================== */
 .mv-grid{
@@ -2698,6 +2829,7 @@ body.bizmodal-open{ overflow:hidden }
   html{ scroll-behavior:auto }
   .marquee-track{ animation:none !important; transform:none !important }
   .reveal{ opacity:1 !important; transform:none !important }
+  .hero .reveal{ animation:none !important }
   #hero-canvas{ display:none }
   .cursor-dot,.cursor-ring{ display:none !important }
 }
@@ -2792,7 +2924,7 @@ window.SITE_CONFIG = {
     <div class="hero-inner">
       <div class="hero-eyebrow reveal">
         <span class="dot"></span>
-        <span id="heroSlots">Open for 3 projects this month</span>
+        <span id="heroSlots">Open for new projects</span>
       </div>
       <h1 class="reveal" data-delay="1">
         We build websites that make<br/>
@@ -2801,7 +2933,7 @@ window.SITE_CONFIG = {
       <p class="hero-sub reveal" data-delay="2">
         <strong style="font-weight:600">Netloom</strong> builds websites for Indian businesses that need to be
         found, trusted and contacted. Mobile-first, <em style="font-style:normal;color:var(--gold)">WhatsApp-native</em>
-        and Google-ready — engineered to a 95+ performance standard and delivered in ten days.
+        and Google-ready — engineered to a 95+ performance standard and delivered in 7 to 14 days.
         You see your homepage before you pay anything.
       </p>
       <div class="hero-ctas reveal" data-delay="3">
@@ -2821,9 +2953,9 @@ window.SITE_CONFIG = {
       <div class="hero-meta reveal" data-delay="5">
         <span><i class="fa-solid fa-location-dot" style="color:var(--gold)"></i> India-wide · Remote-friendly</span>
         <span class="dash"></span>
-        <span>8 industry templates, live</span>
+        <span>8 industry templates, all clickable</span>
         <span class="dash"></span>
-        <span>10-day delivery</span>
+        <span>7&ndash;14 day delivery</span>
       </div>
     </div>
 
@@ -2843,36 +2975,16 @@ window.SITE_CONFIG = {
           <span class="hv-dot" style="background:#64C267"></span>
           <span class="hv-url" id="heroUrl">nizami-biryani.in</span>
         </div>
-        <!-- Nav bar mock -->
-        <div class="hv-nav">
-          <div class="hv-nav-logo"></div>
-          <div class="hv-nav-links">
-            <div class="hv-nav-link" style="width:36px"></div>
-            <div class="hv-nav-link" style="width:28px"></div>
-            <div class="hv-nav-link" style="width:32px"></div>
-            <div class="hv-nav-link" style="width:24px"></div>
-          </div>
-        </div>
-        <!-- Hero image strip -->
-        <div class="hv-hero-strip">
-          <div class="hv-hs-text">
-            <div class="hv-hs-h"></div>
-            <div class="hv-hs-s"></div>
-            <div class="hv-hs-b"></div>
-          </div>
-        </div>
-        <!-- Content rows -->
-        <div class="hv-content">
-          <div class="hv-row" style="width:80%"></div>
-          <div class="hv-row" style="width:65%"></div>
-          <div class="hv-row" style="width:50%"></div>
-        </div>
-        <!-- Mini cards row -->
-        <div class="hv-cards-row">
-          <div class="hv-mini-card"><div class="hv-mc-label"></div></div>
-          <div class="hv-mini-card"><div class="hv-mc-label"></div></div>
-          <div class="hv-mini-card"><div class="hv-mc-label"></div></div>
-        </div>
+        <!-- A real page, not a wireframe of one: /restaurant/ as it is served,
+             captured with ?embed=1 so the Netloom preview bar is not in shot.
+             Regenerate with the headless-Chrome recipe in NEXT_SESSION.md. -->
+        <img class="hv-shot"
+             src="assets/hero/template-restaurant.webp"
+             srcset="assets/hero/template-restaurant-sm.webp 600w, assets/hero/template-restaurant.webp 1100w"
+             sizes="(max-width: 900px) 340px, 420px"
+             width="1100" height="752"
+             alt="The Aangan Thali House template on netloom.in — a restaurant home page with its menu, hours and a Reserve a Table button"
+             loading="eager" decoding="async" fetchpriority="high">
       </div>
 
       <!-- Lighthouse score badge -->
@@ -2896,15 +3008,15 @@ window.SITE_CONFIG = {
     </div>
     <div class="ss-item reveal" data-delay="1">
       <div class="ss-num-wrap">
-        <span class="ss-num" data-count="80">0</span>
+        <span class="ss-num" data-count="51">0</span>
       </div>
-      <div class="ss-lbl">Pages You<br/>Can Open Now</div>
+      <div class="ss-lbl">Demo Pages<br/>You Can Open Now</div>
     </div>
     <div class="ss-item reveal" data-delay="2">
       <div class="ss-num-wrap">
-        <span class="ss-num" data-count="10">0</span>
+        <span class="ss-num" data-count="7">0</span>
       </div>
-      <div class="ss-lbl">Days Avg.<br/>Delivery</div>
+      <div class="ss-lbl">Days To A<br/>Starter Site</div>
     </div>
     <div class="ss-item reveal" data-delay="3">
       <div class="ss-num-wrap">
@@ -2944,6 +3056,150 @@ window.SITE_CONFIG = {
     <span class="marquee-item"><i class="fa-solid fa-store"></i> Jaipur Kirana Store <span class="marquee-sep">·</span></span>
   </div>
 </div>
+
+<!-- ==================== HOME: OPEN A DEMO ==================== -->
+<section class="home-demos" id="home-demos">
+  <div class="container">
+    <div class="hd-head reveal">
+      <h2>Eight of them are <em>already built.</em></h2>
+      <p>
+        Not screenshots, and not a pitch deck &mdash; finished websites on this domain.
+        Open one on your phone, click through the booking, watch how fast it loads.
+        That is the standard your site is built to.
+      </p>
+    </div>
+    <div class="hd-grid">
+        <a href="restaurant/index.html" data-demo="restaurant/index.html" class="hd-card reveal">
+          <i class="fa-solid fa-utensils" aria-hidden="true"></i>
+          <div class="hd-name">Restaurant &amp; Caf&eacute;</div>
+          <div class="hd-what">Menu, table booking, gallery. Nine pages.</div>
+          <span class="hd-open">Open it <i class="fa-solid fa-arrow-right"></i></span>
+        </a>
+        <a href="healthcare/index.html" data-demo="healthcare/index.html" class="hd-card reveal" data-delay="1">
+          <i class="fa-solid fa-stethoscope" aria-hidden="true"></i>
+          <div class="hd-name">Clinic &amp; Healthcare</div>
+          <div class="hd-what">Appointments, services, health tips. Nine pages.</div>
+          <span class="hd-open">Open it <i class="fa-solid fa-arrow-right"></i></span>
+        </a>
+        <a href="salon/index.html" data-demo="salon/index.html" class="hd-card reveal" data-delay="2">
+          <i class="fa-solid fa-scissors" aria-hidden="true"></i>
+          <div class="hd-name">Salon &amp; Spa</div>
+          <div class="hd-what">Service menu, slot booking, gallery. Nine pages.</div>
+          <span class="hd-open">Open it <i class="fa-solid fa-arrow-right"></i></span>
+        </a>
+        <a href="yoga/index.html" data-demo="yoga/index.html" class="hd-card reveal" data-delay="3">
+          <i class="fa-solid fa-spa" aria-hidden="true"></i>
+          <div class="hd-name">Yoga &amp; Fitness</div>
+          <div class="hd-what">Class calendar, booking, blog. Nine pages.</div>
+          <span class="hd-open">Open it <i class="fa-solid fa-arrow-right"></i></span>
+        </a>
+        <a href="commerce/index.html" data-demo="commerce/index.html" class="hd-card reveal">
+          <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i>
+          <div class="hd-name">Online Store</div>
+          <div class="hd-what">Cart, checkout, GST invoice, owner admin. Twelve pages.</div>
+          <span class="hd-open">Open it <i class="fa-solid fa-arrow-right"></i></span>
+        </a>
+        <a href="jewellery-lux/index.html" data-demo="jewellery-lux/index.html" class="hd-card reveal" data-delay="1">
+          <i class="fa-solid fa-gem" aria-hidden="true"></i>
+          <div class="hd-name">Jewellery &middot; 3D</div>
+          <div class="hd-what">Gems rendered live in the browser. One page.</div>
+          <span class="hd-open">Open it <i class="fa-solid fa-arrow-right"></i></span>
+        </a>
+        <a href="boutique-lux/index.html" data-demo="boutique-lux/index.html" class="hd-card reveal" data-delay="2">
+          <i class="fa-solid fa-shirt" aria-hidden="true"></i>
+          <div class="hd-name">Boutique &middot; 3D</div>
+          <div class="hd-what">Fabric and drape in real time. One page.</div>
+          <span class="hd-open">Open it <i class="fa-solid fa-arrow-right"></i></span>
+        </a>
+        <a href="realestate-lux/index.html" data-demo="realestate-lux/index.html" class="hd-card reveal" data-delay="3">
+          <i class="fa-solid fa-building" aria-hidden="true"></i>
+          <div class="hd-name">Real Estate &middot; 3D</div>
+          <div class="hd-what">A building you can orbit, unit by unit. One page.</div>
+          <span class="hd-open">Open it <i class="fa-solid fa-arrow-right"></i></span>
+        </a>
+    </div>
+    <div class="hd-note reveal" data-delay="2">
+      <span>Every template ships in light and dark.</span>
+      <a href="/work" data-route="work" class="btn btn-ghost">All templates <span class="arrow">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== HOME: THE TERMS ==================== -->
+<section class="home-terms" id="home-terms">
+  <div class="container">
+    <div class="hd-head reveal">
+      <h2>We have no testimonials. <em>Here are the terms instead.</em></h2>
+      <p>
+        Netloom is a young studio with few completed projects, so there is nothing
+        honest to quote at you. What we can do is carry the risk ourselves, in writing,
+        before you pay anything.
+      </p>
+    </div>
+    <div class="ht-grid">
+      <div class="ht-card reveal">
+        <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+        <h3>You see it before you pay</h3>
+        <p>
+          We build your homepage first &mdash; your photos, your prices, your name &mdash;
+          and you look at it before a rupee moves. If it is wrong, you walk away owing
+          nothing.
+        </p>
+      </div>
+      <div class="ht-card reveal" data-delay="1">
+        <i class="fa-solid fa-key" aria-hidden="true"></i>
+        <h3>All of it is in your name</h3>
+        <p>
+          Domain, hosting, payment gateway, database &mdash; registered to you, on your
+          card. We hold access, never ownership. If we part ways your site keeps
+          running without us.
+        </p>
+      </div>
+      <div class="ht-card reveal" data-delay="2">
+        <i class="fa-solid fa-user" aria-hidden="true"></i>
+        <h3>You talk to the person building it</h3>
+        <p>
+          No account manager, no ticket queue, no handoff to a junior. The number you
+          message is the person writing the code.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== HOME: PRICES ==================== -->
+<section class="home-prices" id="home-prices">
+  <div class="container">
+    <div class="hd-head reveal">
+      <h2>Three prices. <em>All of them public.</em></h2>
+      <p>
+        One-time, and inclusive of domain setup, hosting guidance and a strategy call.
+        Two rounds of revisions, agreed in writing before the first one.
+      </p>
+    </div>
+    <div class="hp-bar reveal" data-delay="1">
+      <div class="hp-cell">
+        <div class="hp-tier">Starter &middot; 4 pages</div>
+        <div class="hp-amt">&#8377;14,999</div>
+        <div class="hp-for">Be findable and contactable. Live in 5&ndash;7 days.</div>
+      </div>
+      <div class="hp-cell">
+        <div class="hp-tier">Business &middot; 7 pages</div>
+        <div class="hp-amt">&#8377;24,999</div>
+        <div class="hp-for">Be chosen &mdash; gallery, reviews, FAQ. Live in 10&ndash;14 days.</div>
+      </div>
+      <div class="hp-cell">
+        <div class="hp-tier">Premium &middot; store or 3D</div>
+        <div class="hp-amt">&#8377;44,999</div>
+        <div class="hp-for">Take money on the site, or win the meeting with 3D. Three to four weeks.</div>
+      </div>
+    </div>
+    <div class="hp-foot reveal" data-delay="2">
+      <a href="/pricing" data-route="pricing" class="btn btn-primary">What is in each pack <span class="arrow">&rarr;</span></a>
+      <span>Care plans from &#8377;1,999/month, and required on a store &mdash; the pricing page says why.</span>
+    </div>
+  </div>
+</section>
 </div>
 
 <!-- ============ VIEW: WORK ============ -->
@@ -2973,7 +3229,7 @@ window.SITE_CONFIG = {
 
     <div class="work-grid" id="workGrid">
       <!-- Restaurant & Café -->
-      <a href="projects/restaurant.html" data-demo="projects/restaurant.html" class="work work-1 reveal tilt" data-city="hospitality" data-metric="Menu · Table booking · WhatsApp orders">
+      <a href="restaurant/index.html" data-demo="restaurant/index.html" class="work work-1 reveal tilt" data-city="hospitality" data-metric="Menu · Table booking · WhatsApp orders">
         <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">restaurant-demo.in</span></div>
         <div class="work-thumb">
           <div class="surface surf-restaurant"></div>
@@ -3003,7 +3259,7 @@ window.SITE_CONFIG = {
           <span class="work-tag"><i class="fa-solid fa-utensils"></i> Restaurant &amp; Café</span>
           <div class="work-bottom">
             <h3>Restaurant &amp; Café</h3>
-            <div class="work-meta">Menus · Bookings · Story-first hero</div>
+            <div class="work-meta">Menu · Table booking · Gallery · 9 pages</div>
             <div class="work-result">Ideal for: thali houses, cafés, bakeries, cloud kitchens</div>
             <span class="work-view">Preview Template <i class="fa-solid fa-arrow-right"></i></span>
           </div>
@@ -3011,7 +3267,7 @@ window.SITE_CONFIG = {
       </a>
 
       <!-- Healthcare -->
-      <a href="projects/healthcare.html" data-demo="projects/healthcare.html" class="work work-2 reveal tilt" data-delay="1" data-city="wellness" data-metric="Appointments · Doctor profiles · Maps">
+      <a href="healthcare/index.html" data-demo="healthcare/index.html" class="work work-2 reveal tilt" data-delay="1" data-city="wellness" data-metric="Appointments · Services · Health tips">
         <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">clinic-demo.in</span></div>
         <div class="work-thumb">
           <div class="surface surf-healthcare"></div>
@@ -3033,14 +3289,14 @@ window.SITE_CONFIG = {
           <span class="work-tag"><i class="fa-solid fa-stethoscope"></i> Healthcare</span>
           <div class="work-bottom">
             <h3>Hospitals &amp; Clinics</h3>
-            <div class="work-meta">Appointments · Doctor profiles · Patient portal</div>
+            <div class="work-meta">Appointments · Services · Health tips · 9 pages</div>
             <span class="work-view">Preview Template <i class="fa-solid fa-arrow-right"></i></span>
           </div>
         </div>
       </a>
 
       <!-- E-commerce -->
-      <a href="projects/ecommerce.html" data-demo="projects/ecommerce.html" class="work work-3 reveal tilt" data-delay="2" data-city="retail" data-metric="Catalogue · Cart · UPI checkout">
+      <a href="commerce/index.html" data-demo="commerce/index.html" class="work work-3 reveal tilt" data-delay="2" data-city="retail" data-metric="Catalogue · Cart · UPI checkout">
         <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">shop-demo.in</span></div>
         <div class="work-thumb">
           <div class="surface surf-ecommerce"></div>
@@ -3062,14 +3318,14 @@ window.SITE_CONFIG = {
           <span class="work-tag"><i class="fa-solid fa-bag-shopping"></i> E-commerce</span>
           <div class="work-bottom">
             <h3>E-commerce Store</h3>
-            <div class="work-meta">Razorpay · UPI · GST invoices · Live catalog</div>
+            <div class="work-meta">Cart · Checkout · GST invoice · Owner admin · 12 pages</div>
             <span class="work-view">Preview Template <i class="fa-solid fa-arrow-right"></i></span>
           </div>
         </div>
       </a>
 
       <!-- Boutique & Studio -->
-      <a href="projects/boutique.html" data-demo="projects/boutique.html" class="work work-4 reveal tilt" data-delay="1" data-city="lifestyle" data-metric="Lookbook · Collections · Instagram feed">
+      <a href="boutique-lux/index.html" data-demo="boutique-lux/index.html" class="work work-4 reveal tilt" data-delay="1" data-city="lifestyle" data-metric="Lookbook · Collections · Instagram feed">
         <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">boutique-demo.in</span></div>
         <div class="work-thumb">
           <div class="surface surf-boutique"></div>
@@ -3092,7 +3348,7 @@ window.SITE_CONFIG = {
           <span class="work-tag"><i class="fa-solid fa-shirt"></i> Boutique &amp; Studio</span>
           <div class="work-bottom">
             <h3>Boutique &amp; Studio</h3>
-            <div class="work-meta">Editorial lookbook · Stylist chat · IG shoppable</div>
+            <div class="work-meta">3D flagship · Fabric rendering · Lookbook carousel</div>
             <div class="work-result">Ideal for: fashion, handloom, design studios, art galleries</div>
             <span class="work-view">Preview Template <i class="fa-solid fa-arrow-right"></i></span>
           </div>
@@ -3100,7 +3356,7 @@ window.SITE_CONFIG = {
       </a>
 
       <!-- Real Estate -->
-      <a href="projects/realestate.html" data-demo="projects/realestate.html" class="work work-5 reveal tilt" data-delay="2" data-city="lifestyle" data-metric="Listings · EMI calculator · Site visits">
+      <a href="realestate-lux/index.html" data-demo="realestate-lux/index.html" class="work work-5 reveal tilt" data-delay="2" data-city="lifestyle" data-metric="Listings · EMI calculator · Site visits">
         <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">realestate-demo.in</span></div>
         <div class="work-thumb">
           <div class="surface surf-realestate"></div>
@@ -3122,7 +3378,7 @@ window.SITE_CONFIG = {
           <span class="work-tag"><i class="fa-solid fa-building"></i> Real Estate</span>
           <div class="work-bottom">
             <h3>Real Estate</h3>
-            <div class="work-meta">Property tours · EMI calculator · Site visits</div>
+            <div class="work-meta">3D flagship · Building model · Unit selector</div>
             <div class="work-result">Ideal for: builders, brokers, co-living, vacation rentals</div>
             <span class="work-view">Preview Template <i class="fa-solid fa-arrow-right"></i></span>
           </div>
@@ -3130,7 +3386,7 @@ window.SITE_CONFIG = {
       </a>
 
       <!-- Salon & Spa -->
-      <a href="projects/salon.html" data-demo="projects/salon.html" class="work work-6 reveal tilt" data-city="wellness" data-metric="Service menu · Slot booking · Team">
+      <a href="salon/index.html" data-demo="salon/index.html" class="work work-6 reveal tilt" data-city="wellness" data-metric="Service menu · Slot booking · Gallery">
         <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">salon-demo.in</span></div>
         <div class="work-thumb">
           <div class="surface surf-salon"></div>
@@ -3148,14 +3404,14 @@ window.SITE_CONFIG = {
           <span class="work-tag"><i class="fa-solid fa-scissors"></i> Salon &amp; Spa</span>
           <div class="work-bottom">
             <h3>Salon &amp; Spa</h3>
-            <div class="work-meta">Service menu · Stylist booking · Loyalty program</div>
+            <div class="work-meta">Service menu · Slot booking · Gallery · 9 pages</div>
             <span class="work-view">Preview Template <i class="fa-solid fa-arrow-right"></i></span>
           </div>
         </div>
       </a>
 
       <!-- Jewellery -->
-      <a href="projects/jewellery.html" data-demo="projects/jewellery.html" class="work work-7 reveal tilt" data-delay="1" data-city="retail" data-metric="Collections · Bridal · Custom orders">
+      <a href="jewellery-lux/index.html" data-demo="jewellery-lux/index.html" class="work work-7 reveal tilt" data-delay="1" data-city="retail" data-metric="Collections · Bridal · Custom orders">
         <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">jewellery-demo.in</span></div>
         <div class="work-thumb">
           <div class="surface surf-jewellery"></div>
@@ -3173,7 +3429,7 @@ window.SITE_CONFIG = {
           <span class="work-tag"><i class="fa-solid fa-gem"></i> Jewellery</span>
           <div class="work-bottom">
             <h3>Jewellery</h3>
-            <div class="work-meta">Museum-grade catalog · WhatsApp consults · Bridal</div>
+            <div class="work-meta">3D flagship · Real gem rendering · Bridal pieces</div>
             <div class="work-result">Ideal for: gold, pearls, diamond, bridal, bespoke</div>
             <span class="work-view">Preview Template <i class="fa-solid fa-arrow-right"></i></span>
           </div>
@@ -3181,7 +3437,7 @@ window.SITE_CONFIG = {
       </a>
 
       <!-- Yoga & Wellness -->
-      <a href="projects/yoga.html" data-demo="projects/yoga.html" class="work work-8 reveal tilt" data-delay="2" data-city="wellness" data-metric="Class calendar · Trial pass · Teachers">
+      <a href="yoga/index.html" data-demo="yoga/index.html" class="work work-8 reveal tilt" data-delay="2" data-city="wellness" data-metric="Class calendar · Trial pass · Blog">
         <div class="work-chrome"><span class="wc-dot" style="background:#E06C65"></span><span class="wc-dot" style="background:#E2B756"></span><span class="wc-dot" style="background:#64C267"></span><span class="wc-url">yoga-demo.in</span></div>
         <div class="work-thumb">
           <div class="surface surf-yoga"></div>
@@ -3201,7 +3457,7 @@ window.SITE_CONFIG = {
           <span class="work-tag"><i class="fa-solid fa-spa"></i> Yoga &amp; Wellness</span>
           <div class="work-bottom">
             <h3>Yoga &amp; Wellness</h3>
-            <div class="work-meta">Class calendar · Memberships · Teacher profiles</div>
+            <div class="work-meta">Class calendar · Booking · Blog · 9 pages</div>
             <span class="work-view">Preview Template <i class="fa-solid fa-arrow-right"></i></span>
           </div>
         </div>
@@ -3621,7 +3877,7 @@ window.SITE_CONFIG = {
       <div>
         <div class="slots-badge reveal" id="slotsBadge">
           <span class="slot-dot"></span>
-          <span id="slotsText">Only 3 project slots open for June</span>
+          <span id="slotsText">Open for new projects</span>
         </div>
         <div class="eyebrow reveal">Packages</div>
         <h2 class="reveal" data-delay="1">Simple, <em>honest pricing.</em><br/>No hidden charges.</h2>
@@ -3646,11 +3902,11 @@ window.SITE_CONFIG = {
         <div class="price-amount">₹14,999</div>
         <div class="price-sub">one-time · delivery 5–7 days</div>
         <ul class="price-list">
-          <li>1-page landing site</li>
+          <li>4 pages — Home, your main page, About, Contact</li>
           <li>Mobile-first responsive</li>
           <li>WhatsApp click-to-chat</li>
           <li>Google Maps & Hours</li>
-          <li>Basic enquiry form</li>
+          <li>Enquiry form &rarr; your email + WhatsApp</li>
           <li>1 month support</li>
         </ul>
         <div class="price-best">Best for: Salon, Coaching, Gym, Sweet Shop</div>
@@ -3671,12 +3927,12 @@ window.SITE_CONFIG = {
           <span class="pr-note">Optional</span>
         </div>
         <ul class="price-list">
-          <li>5-page full website</li>
+          <li>7 pages — Starter + Gallery, Reviews, FAQ</li>
           <li>SEO + speed optimised</li>
-          <li>Gallery / Menu / Portfolio</li>
-          <li>Online booking & enquiry</li>
+          <li>Gallery / Menu / Portfolio page</li>
+          <li>Reviews and FAQ pages</li>
           <li>Google Business setup</li>
-          <li>WhatsApp catalog</li>
+          <li>Light and dark version of your site</li>
           <li>3 months support</li>
         </ul>
         <div class="price-best">Best for: Restaurant, Boutique, Clinic, Yoga</div>
@@ -3696,12 +3952,12 @@ window.SITE_CONFIG = {
           <span class="pr-note">Included &amp; required</span>
         </div>
         <ul class="price-list">
-          <li>Unlimited pages</li>
+          <li>10 pages, a full store, or a 3D flagship</li>
           <li>E-commerce / Online ordering</li>
           <li>Razorpay / UPI / COD</li>
-          <li>Inventory management</li>
-          <li>SEO + Google Ads setup</li>
-          <li>WhatsApp Business API</li>
+          <li>Owner admin — orders, stock, prices</li>
+          <li>SEO + Google Business setup</li>
+          <li>GST invoices + the four legal pages</li>
           <li>6 months support</li>
         </ul>
         <div class="price-best">Best for: Jewellery, Real Estate, D2C Brand</div>
@@ -5015,15 +5271,34 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 (function(){ var y=document.getElementById('footYear'); if(y) y.textContent=new Date().getFullYear(); })();
 
 /* ============================================
-   SCARCITY BADGE — auto month
-   ============================================ */
-(function slotsBadge(){
+   AVAILABILITY BADGE
+   ============================================
+   This used to print "Only 3 project slots open for <this month>" on a timer,
+   which made it a permanent claim and never a fact. It is now one number that
+   somebody has to mean: set OPEN_SLOTS to how many projects are actually
+   being taken on, and the badge appears. Leave it at 0 and both badges are
+   removed — a site that refuses to show testimonials it cannot verify cannot
+   run a countdown it made up. */
+(function availabilityBadge(){
+  const OPEN_SLOTS = 0;   // <- set this by hand, or leave 0 to show nothing
+
   const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  const now = new Date();
-  const el = document.getElementById('slotsText');
-  if (el) el.textContent = `Only 3 project slots open for ${months[now.getMonth()]}`;
-  const hero = document.getElementById('heroSlots');
-  if (hero) hero.textContent = `Open for 3 projects · ${months[now.getMonth()]} ${now.getFullYear()}`;
+  const now   = new Date();
+  const when  = months[now.getMonth()] + " " + now.getFullYear();
+  const hero  = document.getElementById('heroSlots');
+  const price = document.getElementById('slotsText');
+
+  if (!OPEN_SLOTS){
+    const heroBadge = hero && hero.closest('.hero-eyebrow');
+    const priceBadge = document.getElementById('slotsBadge');
+    if (heroBadge) heroBadge.remove();
+    if (priceBadge) priceBadge.remove();
+    return;
+  }
+
+  const noun = OPEN_SLOTS === 1 ? 'project' : 'projects';
+  if (hero)  hero.textContent  = `Taking on ${OPEN_SLOTS} ${noun} · ${when}`;
+  if (price) price.textContent = `${OPEN_SLOTS} ${noun} open for ${when}`;
 })();
 
 /* ============================================
