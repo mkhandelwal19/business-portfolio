@@ -34,3 +34,10 @@ worker/preview/
 outreach/instagram-content-kit.md
 outreach/Netloom-Instagram-Content-Kit.pdf
 outreach/meta-ugc-ad-script.md
+outreach/meta-campaign-v2.md
+
+# Brand film: source + renders. Ad material, and the MP4s are far too big for a Pages repo.
+outreach/brand-film/
+
+# Shared audio library for ads (146 MB of WAV/MP3). Ad material, not website content.
+outreach/audio-library/
