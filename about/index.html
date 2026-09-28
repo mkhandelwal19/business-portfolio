@@ -67,6 +67,20 @@ document.documentElement.classList.add('js');
   document.head.appendChild(s);
 })();
 </script>
+<script>
+/* Meta Pixel — measures which ads produce enquiries. Unlike the beacon above it
+   sets a cookie (_fbp), so /privacy/ says so, and the footer links there on
+   every page that loads it. The contact form fires 'Lead' on a sent enquiry.
+   Automatic advanced matching is deliberately OFF in Events Manager: turning it
+   on would ship every enquirer's email and phone to Meta. */
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '915791838024588');
+fbq('track', 'PageView');
+</script>
 
 <script type="application/ld+json">
 {
@@ -3098,7 +3112,7 @@ window.SITE_CONFIG = {
     </ul>
   </div>
   <div class="foot-bottom">
-    <div>© <span id="footYear">2026</span> Netloom · India</div>
+    <div>© <span id="footYear">2026</span> Netloom · India · <a href="/privacy/">Privacy</a></div>
     <div>Designed &amp; built with pride · for every Indian business</div>
   </div>
 </footer>
@@ -3509,6 +3523,7 @@ if (form) form.addEventListener('submit', async (e) => {
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
     });
     if (res.ok) {
+      if (window.fbq) fbq('track', 'Lead');
       success.classList.add('show');
       btn.innerHTML = 'Sent ✓';
       setTimeout(() => { form.reset(); btn.disabled = false; btn.innerHTML = 'Send Enquiry <span class="arrow">→</span>'; }, 4000);

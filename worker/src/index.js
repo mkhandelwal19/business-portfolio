@@ -199,6 +199,18 @@ export default {
     if (path === '/commerce/order')  return handleOrder(request, env, head);
     if (path === '/commerce/verify') return handleVerify(request, env, head);
 
+    /* Three enquiries a minute per IP. Without it a script could use the
+       acknowledgement to send mail from hello@netloom.in to any address it
+       likes, and get the Zoho account flagged. Fails open if the binding is
+       missing, so a config slip never costs a real lead.
+       ponytail: per-minute and per-colo only; add a daily cap (KV) if abuse
+       ever shows up spread out over hours. */
+    if (env.ENQUIRY_LIMIT) {
+      const ip = request.headers.get('CF-Connecting-IP') || '';
+      const { success } = await env.ENQUIRY_LIMIT.limit({ key: ip });
+      if (!success) return json({ error: 'too many requests' }, 429, head);
+    }
+
     let f;
     try {
       f = await request.json();

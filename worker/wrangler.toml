@@ -19,6 +19,12 @@ SITE_URL        = "https://netloom.in"
 LOGO_URL        = "https://netloom.in/assets/email-logo.png"
 WA_NUMBER       = "918249992869"
 
+# Enquiry rate limit, read in src/index.js. Period must be 10 or 60 seconds.
+[[ratelimits]]
+name = "ENQUIRY_LIMIT"
+namespace_id = "1001"
+simple = { limit = 3, period = 60 }
+
 # Observability is off by default on the free plan; turn it on so
 # `wrangler tail` and the dashboard show the console.error lines the Worker
 # writes when a send fails.
